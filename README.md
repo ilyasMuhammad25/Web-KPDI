@@ -22,6 +22,7 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 ```
 $ git clone https://gitlab.com/hamkamannan/inlislite.git
+$ cd inlislite
 $ composer install
 $ composer update
 ```
