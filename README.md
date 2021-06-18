@@ -19,11 +19,9 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 ## Installation 
 ### Clone Repo & update via composer
-`git clone https://gitlab.com/hamkamannan/inlislite.git` then `composer install` then `composer update`
 
 ```
-$ cd inlislite
-$ git clone https://gitlab.com/hamkamannan/inlislite.git .
+$ git clone https://gitlab.com/hamkamannan/inlislite.git
 $ composer install
 $ composer update
 ```
