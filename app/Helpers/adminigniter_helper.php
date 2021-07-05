@@ -1,14 +1,4 @@
 <?php
-if (!function_exists('get_page')) {
-    function get_page($slug = null)
-    {
-        $pageModel = new \App\Adminigniter\Modules\Backend\Page\Models\PageModel();
-        $page = $pageModel->where('slug', $slug)->row();
-
-        return $page;
-    }
-}
-
 /**
  * ---------------
  * Progress Status

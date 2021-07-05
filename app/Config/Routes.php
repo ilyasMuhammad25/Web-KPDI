@@ -35,10 +35,8 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index', ['namespace' => 'App\Adminigniter\Modules\Frontend\Home\Controllers']);
-$routes->get('home', 'Home::index', ['namespace' => 'App\Adminigniter\Modules\Frontend\Home\Controllers']);
-
-
+$routes->get('/', 'Home::index', ['namespace' => 'Home\Controllers']);
+$routes->get('home', 'Home::index', ['namespace' => 'Home\Controllers']);
 
 /*
  * --------------------------------------------------------------------

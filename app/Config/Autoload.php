@@ -43,8 +43,13 @@ class Autoload extends AutoloadConfig
 		APP_NAMESPACE   => APPPATH, // For custom app namespace
 		'App'           => APPPATH,
 		'Config'        => APPPATH . 'Config',
-		'DataTables'    => APPPATH .'Libraries/DataTables',
-		'Adminigniter'    => APPPATH .'Adminigniter',
+		'DataTables'    => APPPATH . 'Libraries/DataTables',
+		'Adminigniter'  => APPPATH . 'Adminigniter',
+		'Modules'       => APPPATH . 'Modules',
+        'Home' 			=> APPPATH . 'Modules/Frontend/Home',
+        'Dashboard' 	=> APPPATH . 'Modules/Backend/Dashboard',
+        'Report' 		=> APPPATH . 'Modules/Backend/Report',
+        'Banner' 		=> APPPATH . 'Modules/Backend/Banner',
 	];
 
 	/**
