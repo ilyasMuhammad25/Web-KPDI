@@ -25,4 +25,6 @@ class Auth extends \Myth\Auth\Config\Auth
 		'Myth\Auth\Authentication\Passwords\DictionaryValidator',
 		'Myth\Auth\Authentication\Passwords\PwnedValidator',
 	];
+
+	public $personalFields = ['first_name','last_name','phone','unit','company','address'];
 }

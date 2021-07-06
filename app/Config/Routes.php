@@ -20,9 +20,6 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
-// $routes->setDefaultNamespace('Myth\Auth\Controllers');
-// $routes->setDefaultController('AuthController');
-// $routes->setDefaultMethod('login');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
