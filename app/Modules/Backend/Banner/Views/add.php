@@ -9,10 +9,22 @@ $categories = $baseModel
     ->join('c_menus','c_menus.id = c_references.menu_id', 'inner')
     ->where('c_menus.name','Banner')
     ->find_all('name', 'asc');
+
+// $abc = is_display('t_banner','name1');
+// dd($abc);
 ?>
 
 <?= $this->extend('hamkamannan\adminigniter\layout\backend\main'); ?>
 <?= $this->section('style'); ?>
+<style>
+      .show_column{
+            display: block !important;
+      }
+
+      .hide_column{
+            display: none !important;
+      }
+</style>
 <?= $this->endSection('style'); ?>
 
 <?= $this->section('page'); ?>
@@ -50,7 +62,7 @@ $categories = $baseModel
 
                   <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('banner/create'); ?>">
                         <div class="form-row">
-                              <div class="col-md-6">
+                              <div class="col-md-6 <?=(is_display('t_banner','name') ? 'show_column':'hide_column')?>">
                                     <div class="position-relative form-group">
                                           <label for="name">Judul Banner*</label>
                                           <div>
@@ -59,7 +71,7 @@ $categories = $baseModel
                                           </div>
                                     </div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 <?=(is_display('t_banner','category_id') ? 'show_column':'hide_column')?>">
                                     <div class="position-relative form-group">
                                           <label>Kategori*</label>
                                           <select class="form-control" name="category_id" id="category_id" tabindex="-1" aria-hidden="true">
@@ -69,7 +81,7 @@ $categories = $baseModel
                                           </select>
                                     </div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 <?=(is_display('t_banner','sort') ? 'show_column':'hide_column')?>">
                                     <div class="position-relative form-group">
                                           <label for="sort">Urutan</label>
                                           <div>
@@ -80,7 +92,7 @@ $categories = $baseModel
                               </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group <?=(is_display('t_banner','description') ? 'show_column':'hide_column')?>">
                               <label for="description">Deskripsi</label>
                               <div>
                                     <textarea id="frm_create_description" name="description" placeholder="Deskripsi" rows="2" class="form-control autosize-input" style="min-height: 38px;"><?= set_value('description') ?></textarea>
