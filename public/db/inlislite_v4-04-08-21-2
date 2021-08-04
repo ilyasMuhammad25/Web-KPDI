@@ -1,0 +1,1026 @@
+# ************************************************************
+# Sequel Pro SQL dump
+# Version 4541
+#
+# http://www.sequelpro.com/
+# https://github.com/sequelpro/sequelpro
+#
+# Host: 127.0.0.1 (MySQL 5.7.32)
+# Database: inlislite_v4
+# Generation Time: 2021-08-04 03:03:17 +0000
+# ************************************************************
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table auth_activation_attempts
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_activation_attempts`;
+
+CREATE TABLE `auth_activation_attempts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(255) NOT NULL,
+  `user_agent` varchar(255) NOT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table auth_groups
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_groups`;
+
+CREATE TABLE `auth_groups` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `auth_groups` WRITE;
+/*!40000 ALTER TABLE `auth_groups` DISABLE KEYS */;
+
+INSERT INTO `auth_groups` (`id`, `name`, `description`)
+VALUES
+	(1,'admin',''),
+	(2,'user',''),
+	(3,'keanggotaan','');
+
+/*!40000 ALTER TABLE `auth_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table auth_groups_permissions
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_groups_permissions`;
+
+CREATE TABLE `auth_groups_permissions` (
+  `group_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `permission_id` int(11) unsigned NOT NULL DEFAULT '0',
+  KEY `auth_groups_permissions_permission_id_foreign` (`permission_id`),
+  KEY `group_id_permission_id` (`group_id`,`permission_id`),
+  CONSTRAINT `auth_groups_permissions_group_id_foreign` FOREIGN KEY (`group_id`) REFERENCES `auth_groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `auth_groups_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `auth_permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table auth_groups_users
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_groups_users`;
+
+CREATE TABLE `auth_groups_users` (
+  `group_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  KEY `auth_groups_users_user_id_foreign` (`user_id`),
+  KEY `group_id_user_id` (`group_id`,`user_id`),
+  CONSTRAINT `auth_groups_users_group_id_foreign` FOREIGN KEY (`group_id`) REFERENCES `auth_groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `auth_groups_users_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `auth_groups_users` WRITE;
+/*!40000 ALTER TABLE `auth_groups_users` DISABLE KEYS */;
+
+INSERT INTO `auth_groups_users` (`group_id`, `user_id`)
+VALUES
+	(1,1),
+	(2,2),
+	(2,3),
+	(3,3);
+
+/*!40000 ALTER TABLE `auth_groups_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table auth_logins
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_logins`;
+
+CREATE TABLE `auth_logins` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `date` datetime NOT NULL,
+  `success` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `auth_logins` WRITE;
+/*!40000 ALTER TABLE `auth_logins` DISABLE KEYS */;
+
+INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `success`)
+VALUES
+	(1,'::1','admin@admin.com',1,'2021-07-06 09:38:07',1),
+	(2,'::1','admin@admin.com',1,'2021-07-08 16:44:55',1),
+	(3,'::1','admin@admin.com',1,'2021-07-10 16:11:47',1),
+	(4,'::1','admin@admin.com',1,'2021-07-25 16:30:37',1),
+	(5,'::1','admin@admin.com',1,'2021-07-29 07:43:21',1),
+	(6,'::1','admin@admin.com',1,'2021-07-29 07:49:07',1),
+	(7,'::1','admin@admin.com',1,'2021-08-04 07:06:36',1),
+	(8,'::1','admin@admin.com',1,'2021-08-04 08:23:53',1);
+
+/*!40000 ALTER TABLE `auth_logins` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table auth_permissions
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_permissions`;
+
+CREATE TABLE `auth_permissions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `auth_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_permissions` DISABLE KEYS */;
+
+INSERT INTO `auth_permissions` (`id`, `name`, `description`)
+VALUES
+	(1,'dashboard/access',''),
+	(2,'user/profile',''),
+	(3,'user/edit_profile',''),
+	(4,'user/change_password',''),
+	(5,'user/reset_password',''),
+	(6,'user/forgot_password','');
+
+/*!40000 ALTER TABLE `auth_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table auth_reset_attempts
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_reset_attempts`;
+
+CREATE TABLE `auth_reset_attempts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `ip_address` varchar(255) NOT NULL,
+  `user_agent` varchar(255) NOT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table auth_tokens
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_tokens`;
+
+CREATE TABLE `auth_tokens` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `selector` varchar(255) NOT NULL,
+  `hashedValidator` varchar(255) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `expires` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `auth_tokens_user_id_foreign` (`user_id`),
+  KEY `selector` (`selector`),
+  CONSTRAINT `auth_tokens_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table auth_users_permissions
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `auth_users_permissions`;
+
+CREATE TABLE `auth_users_permissions` (
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `permission_id` int(11) unsigned NOT NULL DEFAULT '0',
+  KEY `auth_users_permissions_permission_id_foreign` (`permission_id`),
+  KEY `user_id_permission_id` (`user_id`,`permission_id`),
+  CONSTRAINT `auth_users_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `auth_permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `auth_users_permissions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table c_categories
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `c_categories`;
+
+CREATE TABLE `c_categories` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `c_categories` WRITE;
+/*!40000 ALTER TABLE `c_categories` DISABLE KEYS */;
+
+INSERT INTO `c_categories` (`id`, `name`, `slug`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'Backend Menu','backend-menu',1,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(2,'Frontend Menu','frontend-menu',2,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(3,'Reference Menu','reference-menu',3,NULL,1,NULL,NULL,NULL,NULL,NULL);
+
+/*!40000 ALTER TABLE `c_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table c_logs
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `c_logs`;
+
+CREATE TABLE `c_logs` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `message` varchar(255) DEFAULT NULL,
+  `controller` varchar(50) DEFAULT NULL,
+  `operation` varchar(50) DEFAULT NULL,
+  `ref_table` varchar(50) DEFAULT NULL,
+  `ref_id` mediumint(11) unsigned DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `c_logs` WRITE;
+/*!40000 ALTER TABLE `c_logs` DISABLE KEYS */;
+
+INSERT INTO `c_logs` (`id`, `message`, `controller`, `operation`, `ref_table`, `ref_id`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'Tambah Banner','banner','create','t_banner',1,NULL,NULL,1,1,NULL,'2021-07-06 09:42:12','2021-07-06 09:42:12',NULL),
+	(2,'Tambah Banner','banner','create','t_banner',2,NULL,NULL,1,1,NULL,'2021-07-06 09:42:42','2021-07-06 09:42:42',NULL),
+	(3,'Tambah Membership','membership','create','t_membership',1,NULL,NULL,1,1,NULL,'2021-07-06 09:51:47','2021-07-06 09:51:47',NULL),
+	(4,'Tambah User','user','create','auth_users',0,NULL,NULL,1,1,NULL,'2021-07-06 10:08:08','2021-07-06 10:08:08',NULL),
+	(5,'Tambah Group','param','create','auth_groups',3,NULL,NULL,1,1,NULL,'2021-07-06 10:08:27','2021-07-06 10:08:27',NULL),
+	(6,'Tambah User','user','create','auth_users',0,NULL,NULL,1,1,NULL,'2021-07-06 10:09:03','2021-07-06 10:09:03',NULL),
+	(7,'Ubah User','user','edit','auth_users',3,NULL,NULL,1,1,NULL,'2021-07-06 10:09:17','2021-07-06 10:09:17',NULL),
+	(8,'Tambah Parameter','param','create','c_parameters',40,NULL,NULL,1,1,NULL,'2021-07-08 16:50:56','2021-07-08 16:50:56',NULL),
+	(9,'Ubah Parameter','param','edit','c_parameters',40,NULL,NULL,1,1,NULL,'2021-07-08 16:51:48','2021-07-08 16:51:48',NULL),
+	(10,'Ubah Parameter','param','edit','c_parameters',40,NULL,NULL,1,1,NULL,'2021-07-08 16:52:35','2021-07-08 16:52:35',NULL),
+	(11,'Ubah Parameter','param','edit','c_parameters',40,NULL,NULL,1,1,NULL,'2021-07-08 16:53:20','2021-07-08 16:53:20',NULL),
+	(12,'Ubah Parameter','param','edit','c_parameters',40,NULL,NULL,1,1,NULL,'2021-07-08 16:56:06','2021-07-08 16:56:06',NULL),
+	(13,'Ubah Parameter','param','edit','c_parameters',40,NULL,NULL,1,1,NULL,'2021-07-08 16:56:54','2021-07-08 16:56:54',NULL),
+	(14,'Tambah Parameter','param','create','c_parameters',41,NULL,NULL,1,1,NULL,'2021-07-25 16:31:57','2021-07-25 16:31:57',NULL),
+	(15,'Tambah KatalogRDA','katalogrda','create','t_katalogrda',1,NULL,NULL,1,1,NULL,'2021-07-25 17:18:35','2021-07-25 17:18:35',NULL),
+	(16,'Tambah Artikel','artikel','create','t_artikel',1,NULL,NULL,1,1,NULL,'2021-07-25 17:22:35','2021-07-25 17:22:35',NULL),
+	(17,'Ubah Artikel','artikel','edit','t_artikel',1,NULL,NULL,1,1,NULL,'2021-07-25 17:22:41','2021-07-25 17:22:41',NULL),
+	(18,'Ubah Parameter','param','edit','c_parameters',18,NULL,NULL,1,1,NULL,'2021-07-29 07:44:41','2021-07-29 07:44:41',NULL),
+	(19,'Tambah Parameter','param','create','c_parameters',42,NULL,NULL,1,1,NULL,'2021-07-29 07:48:02','2021-07-29 07:48:02',NULL),
+	(20,'Tambah Parameter','param','create','c_parameters',43,NULL,NULL,1,1,NULL,'2021-07-29 07:48:34','2021-07-29 07:48:34',NULL),
+	(21,'Tambah Parameter','param','create','c_parameters',44,NULL,NULL,1,1,NULL,'2021-07-29 07:48:48','2021-07-29 07:48:48',NULL),
+	(22,'Ubah Parameter','param','edit','c_parameters',44,NULL,NULL,1,1,NULL,'2021-07-29 07:50:09','2021-07-29 07:50:09',NULL),
+	(23,'Ubah Parameter','param','edit','c_parameters',43,NULL,NULL,1,1,NULL,'2021-07-29 07:50:15','2021-07-29 07:50:15',NULL),
+	(24,'Ubah Parameter','param','edit','c_parameters',42,NULL,NULL,1,1,NULL,'2021-07-29 07:50:21','2021-07-29 07:50:21',NULL),
+	(25,'Ubah Parameter','param','edit','c_parameters',41,NULL,NULL,1,1,NULL,'2021-07-29 07:50:28','2021-07-29 07:50:28',NULL),
+	(26,'Ubah Parameter','param','edit','c_parameters',43,NULL,NULL,1,1,NULL,'2021-07-29 07:51:14','2021-07-29 07:51:14',NULL),
+	(27,'Ubah Parameter','param','edit','c_parameters',44,NULL,NULL,1,1,NULL,'2021-07-29 07:51:34','2021-07-29 07:51:34',NULL),
+	(28,'Ubah Parameter','param','edit','c_parameters',42,NULL,NULL,1,1,NULL,'2021-07-29 07:51:51','2021-07-29 07:51:51',NULL),
+	(29,'Ubah Parameter','param','edit','c_parameters',2,NULL,NULL,1,1,NULL,'2021-07-29 08:27:29','2021-07-29 08:27:29',NULL),
+	(30,'Ubah Parameter','param','edit','c_parameters',44,NULL,NULL,1,1,NULL,'2021-08-04 07:11:55','2021-08-04 07:11:55',NULL),
+	(31,'Ubah Parameter','param','edit','c_parameters',44,NULL,NULL,1,1,NULL,'2021-08-04 07:15:13','2021-08-04 07:15:13',NULL),
+	(32,'Tambah Anggota','anggota','create','t_anggota',1,NULL,NULL,1,1,NULL,'2021-08-04 08:23:43','2021-08-04 08:23:43',NULL),
+	(33,'Tambah Anggota','anggota','create','t_anggota',2,NULL,NULL,1,1,NULL,'2021-08-04 08:24:02','2021-08-04 08:24:02',NULL),
+	(34,'Tambah Anggota','anggota','create','t_anggota',3,NULL,NULL,1,1,NULL,'2021-08-04 08:24:07','2021-08-04 08:24:07',NULL),
+	(35,'Tambah Anggota','anggota','create','t_anggota',4,NULL,NULL,1,1,NULL,'2021-08-04 08:24:13','2021-08-04 08:24:13',NULL),
+	(36,'Tambah Anggota','anggota','create','t_anggota',5,NULL,NULL,1,1,NULL,'2021-08-04 08:24:18','2021-08-04 08:24:18',NULL),
+	(37,'Ubah Anggota','anggota','edit','t_anggota',5,NULL,NULL,1,1,NULL,'2021-08-04 08:24:28','2021-08-04 08:24:28',NULL),
+	(38,'Ubah Anggota','anggota','edit','t_anggota',4,NULL,NULL,1,1,NULL,'2021-08-04 08:24:34','2021-08-04 08:24:34',NULL),
+	(39,'Ubah Anggota','anggota','edit','t_anggota',3,NULL,NULL,1,1,NULL,'2021-08-04 08:24:40','2021-08-04 08:24:40',NULL),
+	(40,'Ubah Anggota','anggota','edit','t_anggota',2,NULL,NULL,1,1,NULL,'2021-08-04 08:24:46','2021-08-04 08:24:46',NULL),
+	(41,'Ubah Anggota','anggota','edit','t_anggota',1,NULL,NULL,1,1,NULL,'2021-08-04 08:24:52','2021-08-04 08:24:52',NULL);
+
+/*!40000 ALTER TABLE `c_logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table c_menus
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `c_menus`;
+
+CREATE TABLE `c_menus` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `parent` mediumint(11) NOT NULL DEFAULT '0',
+  `controller` varchar(50) DEFAULT NULL,
+  `icon` varchar(100) DEFAULT NULL,
+  `permission` varchar(255) DEFAULT NULL,
+  `file_image` varchar(255) DEFAULT NULL,
+  `type` enum('menu','label','reference') NOT NULL DEFAULT 'menu',
+  `category_id` int(11) NOT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `c_menus` WRITE;
+/*!40000 ALTER TABLE `c_menus` DISABLE KEYS */;
+
+INSERT INTO `c_menus` (`id`, `name`, `parent`, `controller`, `icon`, `permission`, `file_image`, `type`, `category_id`, `slug`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(2,'Dashboard',0,'dashboard','pe-7s-display1','access',NULL,'menu',1,NULL,2,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(3,'Laporan',0,'report','pe-7s-graph2','access',NULL,'menu',1,NULL,3,'',1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(4,'Activity Logs',50,'report/logs','pe-7s-graph2','access',NULL,'menu',1,NULL,9,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(5,'Visitor Report',50,'report/visitors','pe-7s-graph2','access',NULL,'menu',1,NULL,10,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(6,'Autentikasi',0,'home','pe-7s-user','access',NULL,'menu',1,NULL,54,'',1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(7,'Users',6,'user','pe-7s-user','access|create|read|update|delete|enable|disable',NULL,'menu',1,NULL,55,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(8,'Roles',6,'group','pe-7s-users','access|create|read|update|delete|enable|disable',NULL,'menu',1,NULL,56,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(9,'Permissions',6,'permission','pe-7s-shield','access|create|read|update|delete|enable|disable',NULL,'menu',1,NULL,57,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(10,'Access',6,'access','pe-7s-unlock','access|create|read|update|delete|enable|disable',NULL,'menu',1,NULL,58,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(11,'Menu',12,'menu','pe-7s-menu','access|create|read|update|delete|enable|disable',NULL,'menu',1,NULL,60,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(12,'Setting',0,'#','pe-7s-config','access|create|read|update|delete',NULL,'menu',1,NULL,59,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(13,'Parameter',12,'parameter','','access',NULL,'menu',1,NULL,61,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(14,'Reference',12,'reference','','access',NULL,'menu',1,NULL,62,NULL,1,NULL,NULL,NULL,'2021-08-04 09:35:49',NULL),
+	(15,'Home',0,'home','','access',NULL,'menu',2,NULL,15,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(16,'Permission',0,'ref_permission','','access',NULL,'menu',3,NULL,16,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(17,'Banner',0,'ref_banner','','access',NULL,'menu',3,NULL,17,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(18,'CMS',0,'menu_cms','pe-7s-keypad','access',NULL,'menu',1,'cms',51,'',1,NULL,NULL,'2021-07-06 09:39:28','2021-08-04 09:35:49',NULL),
+	(19,'Banner',18,'banner','','access|create|read|update|delete',NULL,'menu',1,'banner',52,'',1,NULL,NULL,'2021-07-06 09:40:23','2021-08-04 09:35:49',NULL),
+	(20,'Membership',18,'membership','','access|create|read|update|delete',NULL,'menu',1,'membership',53,'',1,NULL,NULL,'2021-07-06 09:51:14','2021-08-04 09:35:49',NULL),
+	(21,'ADMIN',0,'','','access',NULL,'label',1,'admin',49,'',1,NULL,NULL,'2021-07-25 16:33:42','2021-08-04 09:35:49',NULL),
+	(24,'Katalog RDA',53,'katalog?slug=rda','','access|create|read|update|delete',NULL,'menu',1,'katalog-rda',14,'',1,NULL,NULL,'2021-07-25 16:37:21','2021-08-04 09:35:49',NULL),
+	(25,'Katalog AACR',53,'katalog?slug=aacr','','access|create|read|update|delete',NULL,'menu',1,'katalog-aacr',17,'',1,NULL,NULL,'2021-07-25 16:37:56','2021-08-04 09:35:49',NULL),
+	(26,'Eksemplar',0,'katalog-rda/eksemplar','pe-7s-albums','access|create|read|update|delete',NULL,'menu',1,'eksemplar',23,'',1,NULL,NULL,'2021-07-25 16:38:27','2021-08-04 09:35:49',NULL),
+	(27,'Artikel',0,'artikel','pe-7s-news-paper','access|create|read|update|delete',NULL,'menu',1,'artikel',27,'',1,NULL,NULL,'2021-07-25 16:38:47','2021-08-04 09:35:49',NULL),
+	(31,'Konten Digital',53,'konten-digital','','access|create|read|update|delete',NULL,'menu',1,'konten-digital',20,'',1,NULL,NULL,'2021-07-25 16:41:03','2021-08-04 09:35:49',NULL),
+	(40,'Sirkulasi',0,'menu_sirkulasi','pe-7s-refresh','access',NULL,'menu',1,'sirkulasi',28,'',1,NULL,NULL,'2021-07-25 16:47:20','2021-08-04 09:35:49',NULL),
+	(41,'Entri Peminjaman',60,'sirkulasi/entri-peminjaman','','access|create|read|update|delete',NULL,'menu',1,'entri-peminjaman',31,'',1,NULL,NULL,'2021-07-25 16:48:53','2021-08-04 09:35:49',NULL),
+	(42,'Entri Pengembalian',62,'sirkulasi/entri-pengembalian','','access|create|read|update|delete',NULL,'menu',1,'entri-pengembalian',34,'',1,NULL,NULL,'2021-07-25 16:49:15','2021-08-04 09:35:49',NULL),
+	(43,'Entri Pelanggaran',64,'sirkulasi/entri-pelanggaran','','access|create|read|update|delete',NULL,'menu',1,'entri-pelanggaran',40,'',1,NULL,NULL,'2021-07-25 16:49:46','2021-08-04 09:35:49',NULL),
+	(44,'Entri Perpanjangan',66,'sirkulasi/entri-perpanjangan','','access|create|read|update|delete',NULL,'menu',1,'entri-perpanjangan',37,'',1,NULL,NULL,'2021-07-25 16:50:29','2021-08-04 09:35:49',NULL),
+	(46,'Perkembangan Koleksi',3,'report/perkembangan-koleksi','','access',NULL,'menu',1,'perkembangan-koleksi',4,'',1,NULL,NULL,'2021-07-29 08:10:19','2021-08-04 09:35:49',NULL),
+	(47,'Pelayanan Keanggotaan',3,'report/pelayanan-keanggotaan','','access',NULL,'menu',1,'pelayanan-keanggotaan',5,'',1,NULL,NULL,'2021-07-29 08:10:58','2021-08-04 09:35:49',NULL),
+	(48,'Pelayanan Sirkulasi',3,'report/pelayanan-sirkulasi','','access',NULL,'menu',1,'pelayanan-sirkulasi',6,'',1,NULL,NULL,'2021-07-29 08:11:20','2021-08-04 09:35:49',NULL),
+	(49,'Pemanfaatan OPAC',3,'report/pemanfaatan-opac','','access',NULL,'menu',1,'pemanfaatan-opac',7,'',1,NULL,NULL,'2021-07-29 08:11:48','2021-08-04 09:35:49',NULL),
+	(50,'Admin',3,'report_admin','','access',NULL,'menu',1,'admin',8,'',0,NULL,NULL,'2021-07-29 08:12:13','2021-08-04 09:35:49',NULL),
+	(53,'Katalog',0,'katalog','pe-7s-notebook','access',NULL,'menu',1,'katalog',12,'',1,NULL,NULL,'2021-07-29 08:43:52','2021-08-04 09:35:49',NULL),
+	(54,'Semua Katalog',53,'katalog','','access',NULL,'menu',1,'semua-katalog',13,'',1,NULL,NULL,'2021-07-29 08:44:31','2021-08-04 09:35:49',NULL),
+	(55,'Karantina',53,'katalog/karantina','','access',NULL,'menu',1,'karantina',21,'',1,NULL,NULL,'2021-07-29 09:01:21','2021-08-04 09:35:49',NULL),
+	(56,'Keranjang',53,'katalog/keranjang','','access',NULL,'menu',1,'keranjang',22,'',1,NULL,NULL,'2021-07-29 09:01:41','2021-08-04 09:35:49',NULL),
+	(57,'Semua Eksemplar',26,'eksemplar','','access',NULL,'menu',1,'semua-eksemplar',24,'',1,NULL,NULL,'2021-07-29 09:02:35','2021-08-04 09:35:49',NULL),
+	(58,'Karantina',26,'eksemplar/karantina','','access',NULL,'menu',1,'karantina',25,'',1,NULL,NULL,'2021-07-29 09:02:54','2021-08-04 09:35:49',NULL),
+	(59,'Keranjang',26,'eksemplar/keranjang','','access',NULL,'menu',1,'keranjang',26,'',1,NULL,NULL,'2021-07-29 09:03:15','2021-08-04 09:35:49',NULL),
+	(60,'Peminjaman',40,'sirkulasi?slug=peminjaman','','access',NULL,'menu',1,'peminjaman',29,'',1,NULL,NULL,'2021-07-29 09:07:49','2021-08-04 09:35:49',NULL),
+	(61,'Daftar Peminjaman',60,'sirkulasi?slug=peminjaman','','access',NULL,'menu',1,'daftar-peminjaman',30,'',1,NULL,NULL,'2021-07-29 09:09:33','2021-08-04 09:35:49',NULL),
+	(62,'Pengembalian',40,'sirkulasi?slug=pengembalian','','access',NULL,'menu',1,'pengembalian',32,'',1,NULL,NULL,'2021-07-29 09:10:47','2021-08-04 09:35:49',NULL),
+	(63,'Daftar Pengembalian',62,'sirkulasi?slug=pengembalian','','access',NULL,'menu',1,'daftar-pengembalian',33,'',1,NULL,NULL,'2021-07-29 09:11:20','2021-08-04 09:35:49',NULL),
+	(64,'Pelanggaran',40,'sirkulasi?slug=pelanggaran','','access',NULL,'menu',1,'pelanggaran',38,'',1,NULL,NULL,'2021-07-29 09:11:51','2021-08-04 09:35:49',NULL),
+	(65,'Daftar Pelanggaran',64,'sirkulasi?slug=pelanggaran','','access',NULL,'menu',1,'daftar-pelanggaran',39,'',1,NULL,NULL,'2021-07-29 09:12:21','2021-08-04 09:35:49',NULL),
+	(66,'Perpanjangan',40,'sirkulasi?slug=perpanjangan','','access',NULL,'menu',1,'perpanjangan',35,'',1,NULL,NULL,'2021-07-29 09:12:56','2021-08-04 09:35:49',NULL),
+	(67,'Daftar Perpanjangan',66,'sirkulasi?slug=perpanjangan','','access',NULL,'menu',1,'daftar-perpanjangan',36,'',1,NULL,NULL,'2021-07-29 09:13:22','2021-08-04 09:35:49',NULL),
+	(68,'Daftar Katalog RDA',24,'katalog-rda','','access',NULL,'menu',1,'daftar-katalog-rda',15,'',1,NULL,NULL,'2021-07-29 09:15:18','2021-08-04 09:35:49',NULL),
+	(69,'Entri Katalog RDA',24,'katalog-rda/create','','access',NULL,'menu',1,'entri-katalog-rda',16,'',1,NULL,NULL,'2021-07-29 09:15:59','2021-08-04 09:35:49',NULL),
+	(70,'Entri Katalog AACR',25,'katalog-aacr/create','','access',NULL,'menu',1,'entri-katalog-aacr',19,'',1,NULL,NULL,'2021-07-29 09:16:13','2021-08-04 09:35:49',NULL),
+	(71,'Daftar Katalog AACR',25,'katalog-aacr','','access',NULL,'menu',1,'daftar-aacr',18,'',1,NULL,NULL,'2021-07-29 09:17:01','2021-08-04 09:35:49',NULL),
+	(72,'Koleksi',0,'label-koleksi','','access',NULL,'label',1,'koleksi',11,'',1,NULL,NULL,'2021-07-29 09:18:14','2021-08-04 09:35:49',NULL),
+	(73,'Keanggotaan',0,'label_keanggotaan','','access',NULL,'label',1,'keanggotaan',41,'',1,NULL,NULL,'2021-07-29 09:22:27','2021-08-04 09:35:49',NULL),
+	(74,'Anggota',0,'menu_anggota','pe-7s-id','access',NULL,'menu',1,'anggota',42,'',1,NULL,NULL,'2021-07-29 09:25:23','2021-08-04 09:35:49',NULL),
+	(75,'Daftar Anggota',74,'anggota','','access',NULL,'menu',1,'daftar-anggota',43,'',1,NULL,NULL,'2021-07-29 09:26:19','2021-08-04 09:35:49',NULL),
+	(76,'Entri Anggota',74,'keanggotaan/create','','access',NULL,'menu',1,'entri-anggota',44,'',1,NULL,NULL,'2021-07-29 09:26:40','2021-08-04 09:35:49',NULL),
+	(77,'Impor Data Anggota',74,'keanggotaan/import','','access',NULL,'menu',1,'impor-data-anggota',45,'',1,NULL,NULL,'2021-07-29 09:27:57','2021-08-04 09:35:49',NULL),
+	(78,'Sumbangan',0,'sumbangan','pe-7s-wallet','access',NULL,'menu',1,'sumbangan',48,'',1,NULL,NULL,'2021-07-29 09:30:13','2021-08-04 09:35:49',NULL),
+	(79,'Perpanjangan',74,'keanggotaan/extend','','access',NULL,'menu',1,'perpanjangan',46,'',1,NULL,NULL,'2021-07-29 09:31:02','2021-08-04 09:35:49',NULL),
+	(80,'Keranjang',74,'keanggotaan/keranjang','','access',NULL,'menu',1,'keranjang',47,'',1,NULL,NULL,'2021-07-29 09:34:57','2021-08-04 09:35:49',NULL),
+	(81,'Menu',0,'menu_navigasi','','access',NULL,'label',1,'menu',1,'',1,NULL,NULL,'2021-08-04 07:47:59','2021-08-04 09:35:49',NULL),
+	(82,'Master',0,'menu_master','pe-7s-server','access',NULL,'menu',1,'master',50,'',1,NULL,NULL,'2021-08-04 09:35:25','2021-08-04 09:35:49',NULL),
+	(83,'Koleksi',82,'menu_master_koleksi','','access',NULL,'menu',1,'menu-master-koleksi',0,'',1,NULL,NULL,'2021-08-04 09:36:26','2021-08-04 09:37:00',NULL),
+	(84,'Tag',83,'master-tag','','access|create|read|update|delete',NULL,'menu',1,'tag',0,'',1,NULL,NULL,'2021-08-04 09:37:22','2021-08-04 09:37:22',NULL),
+	(85,'Jenis Bahan',83,'master-jenis-bahan','','access|create|read|update|delete',NULL,'menu',1,'jenis-bahan',0,'',1,NULL,NULL,'2021-08-04 09:38:10','2021-08-04 09:38:10',NULL),
+	(86,'Kelas DDC',83,'master-kelas-ddc','','access|create|read|update|delete',NULL,'menu',1,'kelas-ddc',0,'',1,NULL,NULL,'2021-08-04 09:38:53','2021-08-04 09:38:53',NULL),
+	(87,'Format Kartu',83,'master-format-kartu','','access|create|read|update|delete',NULL,'menu',1,'format-kartu',0,'',1,NULL,NULL,'2021-08-04 09:39:57','2021-08-04 09:39:57',NULL),
+	(88,'Penomoran',83,'master-penomoran','','access|create|read|update|delete',NULL,'menu',1,'penomoran',0,'',1,NULL,NULL,'2021-08-04 09:40:48','2021-08-04 09:40:48',NULL),
+	(89,'Ruas Data',83,'master-ruas-data','','access|create|read|update|delete',NULL,'menu',1,'ruas-data-bibliografis',0,'',1,NULL,NULL,'2021-08-04 09:42:27','2021-08-04 09:43:15',NULL),
+	(90,'Keanggotan',82,'menu_master_keanggotaan','','access',NULL,'menu',1,'keanggotan',0,'',1,NULL,NULL,'2021-08-04 09:44:00','2021-08-04 09:44:00',NULL),
+	(91,'Kartu Anggota',90,'master-kartu-anggota','','access',NULL,'menu',1,'kartu-anggota',0,'',1,NULL,NULL,'2021-08-04 09:44:54','2021-08-04 09:44:54',NULL),
+	(92,'Jenis Anggota',90,'master-jenis-anggota','','access|create|read|update',NULL,'menu',1,'jenis-anggota',0,'',1,NULL,NULL,'2021-08-04 09:45:46','2021-08-04 09:45:46',NULL),
+	(93,'Keanggotaan',0,'menu-ref-keanggotaan','','access',NULL,'menu',3,'keanggotaan',0,'',1,NULL,NULL,'2021-08-04 09:46:49','2021-08-04 09:46:49',NULL),
+	(94,'Kelompok Umur',93,'ref-kelompok-umur','','access',NULL,'menu',3,'kelompok-umur',0,'',1,NULL,NULL,'2021-08-04 09:47:06','2021-08-04 09:47:06',NULL),
+	(95,'Koleksi',0,'menu-ref-koleksi','','access',NULL,'menu',3,'koleksi',0,'',1,NULL,NULL,'2021-08-04 09:54:27','2021-08-04 09:54:27',NULL),
+	(96,'Sirkulasi',0,'menu-ref-sirkulasi','','access',NULL,'menu',3,'sirkulasi',0,'',1,NULL,NULL,'2021-08-04 09:54:49','2021-08-04 09:54:49',NULL);
+
+/*!40000 ALTER TABLE `c_menus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table c_parameters
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `c_parameters`;
+
+CREATE TABLE `c_parameters` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `value` text,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `c_parameters` WRITE;
+/*!40000 ALTER TABLE `c_parameters` DISABLE KEYS */;
+
+INSERT INTO `c_parameters` (`id`, `name`, `value`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'timezone','Asia/Jakarta',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(2,'site-name','INLIS Lite 4.0',NULL,'',1,NULL,NULL,NULL,'2021-07-29 08:27:29',NULL),
+	(3,'site-description','INLIS Lite',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(4,'site-visitor-mode','1',NULL,'0 = Read from Param site-visitor | 1 = Calculate by IP',1,NULL,NULL,NULL,NULL,NULL),
+	(5,'site-visitor','50',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(6,'site-copyright','&copy; 2021 INLIS Lite',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(7,'author','Hamka Mannan',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(8,'logo','/uploads/logo.png',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(9,'logo-small','/uploads/logo-small.png',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(10,'logo-inverse','/uploads/logo-inverse.png',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(11,'favicon','/uploads/favicon.png',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(12,'sidebar-mode','auto',NULL,'auto = from database | manual = from file',1,NULL,NULL,NULL,NULL,NULL),
+	(13,'topbar-mode','auto',NULL,'auto = from database | manual = from file',1,NULL,NULL,NULL,NULL,NULL),
+	(14,'sidebar-file','hamkamannan\\adminigniter\\layout\\backend\\partial\\navigation',NULL,'file path without extention .php',1,NULL,NULL,NULL,NULL,NULL),
+	(15,'topbar-file','hamkamannan\\adminigniter\\layout\\frontend\\partial\\navigation',NULL,'file path without extention .php',1,NULL,NULL,NULL,NULL,NULL),
+	(16,'show-logo-login','1',NULL,'1 = show | 0 = hide means show site name',1,NULL,NULL,NULL,NULL,NULL),
+	(17,'show-logo-sidebar','0',NULL,'1 = show | 0 = hide means show site name',1,NULL,NULL,NULL,NULL,NULL),
+	(18,'show-top-checkbox','1',NULL,'1 = show | 0 = hide for top checkbox',1,NULL,NULL,NULL,'2021-07-29 07:44:41',NULL),
+	(19,'show-layout-setting','1',NULL,'1 = show | 0 = hide for floating bottom right icon',1,NULL,NULL,NULL,'2021-07-29 07:44:44',NULL),
+	(20,'show-banner-intro','1',NULL,'1 = show | 0 = hide for banner intro',1,NULL,NULL,NULL,NULL,NULL),
+	(21,'logo-cs-class','bg-night-sky',NULL,'bg-primary|bg-success|bg-warning|bg-danger|bg-royalbg-slick-carbon|bg-focus|bg-dark|bg-light',1,NULL,NULL,NULL,NULL,NULL),
+	(22,'header-cs-class','bg-corporate-secondary2 header-text-light',NULL,'background and text',1,NULL,NULL,NULL,'2021-08-04 07:14:48',NULL),
+	(23,'sidebar-cs-class','bg-corporate-primary sidebar-text-light',NULL,'background and text',1,NULL,NULL,NULL,'2021-08-04 07:12:19',NULL),
+	(24,'container-header-class','fixed-header',NULL,'fixed-header',1,NULL,NULL,NULL,NULL,NULL),
+	(25,'container-sidebar-class','fixed-sidebar',NULL,'fixed-sidebar',1,NULL,NULL,NULL,NULL,NULL),
+	(26,'container-footer-class','',NULL,'fixed-footer',1,NULL,NULL,NULL,NULL,NULL),
+	(27,'contact_initial','INLIS Lite',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(28,'contact-name','INLIS Lite',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(29,'contact-phone','082172766354',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(30,'contact-email','info@adminigniter.com',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(31,'contact-facebook','INLIS Lite',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(32,'contact-facebook-url','https://facebook.com/',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(33,'contact-instagram','@adminigniter',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(34,'contact-instagram-url','https://instagram.com/',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(35,'contact-youtube','adminigniter',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(36,'contact-youtube-url','https://youtube.com/',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(37,'contact-twitter','@adminigniter',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(38,'contact-twitter-url','https://twitter.com/',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(39,'limit-banner','3',NULL,'',1,NULL,NULL,NULL,NULL,NULL),
+	(40,'t_banner_columns','name, description, sort',NULL,'Only display columns',1,NULL,NULL,'2021-07-08 16:50:56','2021-07-08 16:56:54',NULL),
+	(41,'corporate-primary','#012469',NULL,'',1,NULL,NULL,'2021-07-25 16:31:57','2021-07-29 07:50:28',NULL),
+	(42,'corporate-primary2','#1E3A79',NULL,'',1,NULL,NULL,'2021-07-29 07:48:02','2021-07-29 07:51:51',NULL),
+	(43,'corporate-secondary','#067329',NULL,'',1,NULL,NULL,'2021-07-29 07:48:34','2021-07-29 07:51:14',NULL),
+	(44,'corporate-secondary2','#308041',NULL,'',1,NULL,NULL,'2021-07-29 07:48:48','2021-08-04 07:15:13',NULL);
+
+/*!40000 ALTER TABLE `c_parameters` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table c_references
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `c_references`;
+
+CREATE TABLE `c_references` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `menu_id` int(11) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `c_references` WRITE;
+/*!40000 ALTER TABLE `c_references` DISABLE KEYS */;
+
+INSERT INTO `c_references` (`id`, `name`, `slug`, `menu_id`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'access','access',16,1,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(2,'create','create',16,2,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(3,'read','read',16,3,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(4,'update','update',16,4,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(5,'delete','delete',16,5,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(6,'enable','enable',16,6,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(7,'disable','disable',16,7,NULL,1,NULL,NULL,NULL,NULL,NULL),
+	(8,'Umum','umum',17,1,'',1,NULL,NULL,NULL,'2021-07-10 16:14:41',NULL),
+	(9,'Himbauan','himbauan',17,2,'',1,NULL,NULL,'2021-07-10 16:14:24','2021-07-10 16:14:48',NULL),
+	(10,'Anak-anak','anak-anak',94,1,'{min:12,max:17}',1,NULL,NULL,'2021-08-04 09:49:35','2021-08-04 09:52:39',NULL),
+	(11,'Dewasa','dewasa',94,3,'{min:17,max:50}',1,NULL,NULL,'2021-08-04 09:50:16','2021-08-04 09:52:16',NULL),
+	(12,'Remaja','remaja',94,2,'{min:13,max:17}',1,NULL,NULL,'2021-08-04 09:51:15','2021-08-04 09:51:30',NULL),
+	(13,'Lansia','lansia',94,4,'',1,NULL,NULL,'2021-08-04 09:51:47','2021-08-04 09:51:54',NULL);
+
+/*!40000 ALTER TABLE `c_references` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table c_visitors
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `c_visitors`;
+
+CREATE TABLE `c_visitors` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(255) DEFAULT NULL,
+  `ip_country` varchar(255) DEFAULT NULL,
+  `ip_regionName` varchar(255) DEFAULT NULL,
+  `ip_city` varchar(255) DEFAULT NULL,
+  `ip_lat` varchar(255) DEFAULT NULL,
+  `ip_lon` varchar(255) DEFAULT NULL,
+  `ip_isp` varchar(255) DEFAULT NULL,
+  `timestamp` date DEFAULT NULL,
+  `hits` varchar(255) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ip_lon` (`ip_lon`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table ci_sessions
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ci_sessions`;
+
+CREATE TABLE `ci_sessions` (
+  `id` varchar(128) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `data` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `ci_sessions` WRITE;
+/*!40000 ALTER TABLE `ci_sessions` DISABLE KEYS */;
+
+INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`)
+VALUES
+	('06h1cu3t4dl1n8jnujip7juuv23r25ve','::1',0,'__ci_last_regenerate|i:1628045759;_ci_previous_url|s:41:\"http://localhost:8080/index.php/reference\";logged_in|s:1:\"1\";message|N;'),
+	('2snj5tr6o1lckcl6rturloga3q7fhkd4','::1',0,'__ci_last_regenerate|i:1628045759;_ci_previous_url|s:41:\"http://localhost:8080/index.php/reference\";logged_in|s:1:\"1\";message|N;'),
+	('4b092hrrhvm1d286kasefshq0kqgaqc6','::1',0,'__ci_last_regenerate|i:1628042530;_ci_previous_url|s:46:\"http://localhost:8080/index.php/anggota/import\";logged_in|s:1:\"1\";message|N;'),
+	('4ikottdrkol2giflvk02j8lghv92la85','::1',0,'__ci_last_regenerate|i:1628040863;_ci_previous_url|s:48:\"http://localhost:8080/index.php/sumbangan/create\";logged_in|s:1:\"1\";message|N;'),
+	('502ei6l9p72mie749bu43n5pi0299m1p','::1',0,'__ci_last_regenerate|i:1628042971;_ci_previous_url|s:46:\"http://localhost:8080/index.php/anggota/import\";logged_in|s:1:\"1\";message|N;'),
+	('5ubsmk91hr5kdh70lhiopiem5e5hfs6f','::1',0,'__ci_last_regenerate|i:1628043651;_ci_previous_url|s:46:\"http://localhost:8080/index.php/anggota/import\";logged_in|s:1:\"1\";message|N;'),
+	('76h9s88vfk2fm8huekopj6t0ollqvd00','::1',0,'__ci_last_regenerate|i:1628044797;_ci_previous_url|s:74:\"http://localhost:8080/index.php/menu/create?slug=backend-menu&parent_id=83\";logged_in|s:1:\"1\";message|N;'),
+	('9721djtn2oqokdu77nnqsmbt4ln7rc3p','::1',0,'__ci_last_regenerate|i:1628040233;redirect_url|s:41:\"http://localhost:8080/index.php/dashboard\";_ci_previous_url|s:37:\"http://localhost:8080/index.php/login\";'),
+	('b5j9l40beqhhelal8dhot355e04otmf4','::1',0,'__ci_last_regenerate|i:1628044082;_ci_previous_url|s:46:\"http://localhost:8080/index.php/anggota/import\";logged_in|s:1:\"1\";message|N;'),
+	('cmbi1au9e2e1nunng8sq50439skjgv65','::1',0,'__ci_last_regenerate|i:1628041526;_ci_previous_url|s:48:\"http://localhost:8080/index.php/sumbangan/create\";logged_in|s:1:\"1\";message|N;'),
+	('cshbap6q8dg5tuh6lo5ntnn0fne2t09m','::1',0,'__ci_last_regenerate|i:1628041165;_ci_previous_url|s:48:\"http://localhost:8080/index.php/sumbangan/create\";logged_in|s:1:\"1\";message|N;'),
+	('d1tpvm6fu24lm9pd8ljh2lsdbh3p9r3h','::1',0,'__ci_last_regenerate|i:1628043276;_ci_previous_url|s:46:\"http://localhost:8080/index.php/anggota/import\";logged_in|s:1:\"1\";message|s:233:\"<!-- DEBUG-VIEW START 1 SYSTEMPATH/Validation/Views/list.php -->\n	<div class=\"errors\" role=\"alert\">\n		<ul>\n					<li>The Nama field is required.</li>\n				</ul>\n	</div>\n\n<!-- DEBUG-VIEW ENDED 1 SYSTEMPATH/Validation/Views/list.php -->\n\";__ci_vars|a:1:{s:7:\"message\";s:3:\"old\";}'),
+	('ek4gp2eg35uq57qt0eb5bqpgeb3ar6ha','::1',0,'__ci_last_regenerate|i:1628045101;_ci_previous_url|s:54:\"http://localhost:8080/index.php/menu?slug=backend-menu\";logged_in|s:1:\"1\";message|N;toastr_msg|s:22:\"Menu berhasil disimpan\";__ci_vars|a:2:{s:10:\"toastr_msg\";s:3:\"old\";s:11:\"toastr_type\";s:3:\"old\";}toastr_type|s:7:\"success\";'),
+	('if6vd27hdi6pkqge7kds8idm143nlhk1','::1',0,'__ci_last_regenerate|i:1628040539;_ci_previous_url|s:48:\"http://localhost:8080/index.php/sumbangan/create\";logged_in|s:1:\"1\";message|N;'),
+	('l9kgnicocrr0riqleo8m44hdjjsh8n84','::1',0,'__ci_last_regenerate|i:1628042197;_ci_previous_url|s:46:\"http://localhost:8080/index.php/anggota/import\";logged_in|s:1:\"1\";message|N;'),
+	('m73j8bttocmiee97uqimar6beggkeloq','::1',0,'__ci_last_regenerate|i:1628044474;_ci_previous_url|s:51:\"http://localhost:8080/index.php/eksemplar/karantina\";logged_in|s:1:\"1\";message|N;'),
+	('pauqcc0eeehse2uvi9d24b310bphv3sk','::1',0,'__ci_last_regenerate|i:1628041850;_ci_previous_url|s:39:\"http://localhost:8080/index.php/anggota\";logged_in|s:1:\"1\";message|N;'),
+	('vbr2mpena48feaqdorqhfgg03fi75ip7','::1',0,'__ci_last_regenerate|i:1628045418;_ci_previous_url|s:52:\"http://localhost:8080/index.php/reference?menu_id=94\";logged_in|s:1:\"1\";message|N;toastr_msg|s:27:\"Referensi berhasil ditambah\";__ci_vars|a:2:{s:10:\"toastr_msg\";s:3:\"new\";s:11:\"toastr_type\";s:3:\"new\";}toastr_type|s:7:\"success\";');
+
+/*!40000 ALTER TABLE `ci_sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table migrations
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `migrations`;
+
+CREATE TABLE `migrations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `version` varchar(255) NOT NULL,
+  `class` varchar(255) NOT NULL,
+  `group` varchar(255) NOT NULL,
+  `namespace` varchar(255) NOT NULL,
+  `time` int(11) NOT NULL,
+  `batch` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+
+INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`, `batch`)
+VALUES
+	(1,'2021-01-01_000000','App\\Database\\Migrations\\Auth','default','App',1625538948,1),
+	(2,'2021-01-01_000001','App\\Database\\Migrations\\AuthAlterUsers','default','App',1625538948,1),
+	(3,'2021-01-01_000002','App\\Database\\Migrations\\Adminigniter','default','App',1625538948,1),
+	(4,'2021-01-01-000003','App\\Database\\Migrations\\CiSessions','default','App',1625538948,1),
+	(5,'2020-01-01-000000','Banner\\Database\\Migrations\\Banner','default','Banner',1625539054,2),
+	(6,'2020-01-01-000000','Membership\\Database\\Migrations\\Membership','default','Membership',1625539895,3),
+	(7,'2020-01-01-000000','Artikel\\Database\\Migrations\\Artikel','default','Artikel',1627207777,4),
+	(8,'2020-01-01-000000','KatalogRDA\\Database\\Migrations\\KatalogRDA','default','KatalogRDA',1627207822,5),
+	(9,'2020-01-01-000000','KatalogAACR\\Database\\Migrations\\KatalogAACR','default','KatalogAACR',1627207847,6),
+	(10,'2020-01-01-000000','Eksemplar\\Database\\Migrations\\Eksemplar','default','Eksemplar',1627207874,7),
+	(11,'2020-01-01-000000','SampulBuku\\Database\\Migrations\\SampulBuku','default','SampulBuku',1627207979,8),
+	(12,'2020-01-01-000000','KontenDigital\\Database\\Migrations\\KontenDigital','default','KontenDigital',1627208029,9),
+	(13,'2020-01-01-000000','KontenDigitalArtikel\\Database\\Migrations\\KontenDigitalArtikel','default','KontenDigitalArtikel',1627208036,10),
+	(18,'2021-07-25-102427','Artikel\\Database\\Migrations\\AlterAddColumnArtikel','default','Artikel',1627520377,11),
+	(19,'2020-01-01-000000','Sirkulasi\\Database\\Migrations\\Sirkulasi','default','Sirkulasi',1628037515,12),
+	(20,'2020-01-01-000000','Sumbangan\\Database\\Migrations\\Sumbangan','default','Sumbangan',1628040129,13),
+	(21,'2020-01-01-000000','Anggota\\Database\\Migrations\\Anggota','default','Anggota',1628040177,14);
+
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table t_anggota
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_anggota`;
+
+CREATE TABLE `t_anggota` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `t_anggota` WRITE;
+/*!40000 ALTER TABLE `t_anggota` DISABLE KEYS */;
+
+INSERT INTO `t_anggota` (`id`, `name`, `slug`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'Anggota 1','anggota-1',0,'ABC127',1,1,1,'2021-08-04 08:23:43','2021-08-04 08:24:52',NULL),
+	(2,'Anggota 2','anggota-2',0,'ABC126',1,1,1,'2021-08-04 08:24:02','2021-08-04 08:24:46',NULL),
+	(3,'Anggota 3','anggota-3',0,'ABC125',1,1,1,'2021-08-04 08:24:07','2021-08-04 08:24:40',NULL),
+	(4,'Anggota 4','anggota-4',0,'ABC124',1,1,1,'2021-08-04 08:24:13','2021-08-04 08:24:34',NULL),
+	(5,'Anggota 5','anggota-5',0,'ABC123',1,1,1,'2021-08-04 08:24:18','2021-08-04 08:24:28',NULL);
+
+/*!40000 ALTER TABLE `t_anggota` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table t_artikel
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_artikel`;
+
+CREATE TABLE `t_artikel` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `pengarang` varchar(100) DEFAULT NULL,
+  `tahun_terbit` varchar(4) DEFAULT NULL,
+  `bahasa` varchar(20) DEFAULT NULL,
+  `file_upload` varchar(255) DEFAULT NULL,
+  `file_uploads` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table t_banner
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_banner`;
+
+CREATE TABLE `t_banner` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `file_image` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `url_title` varchar(255) DEFAULT NULL,
+  `url_target` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `category_id` int(11) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `t_banner` WRITE;
+/*!40000 ALTER TABLE `t_banner` DISABLE KEYS */;
+
+INSERT INTO `t_banner` (`id`, `name`, `file_image`, `slug`, `sort`, `description`, `url`, `url_title`, `url_target`, `active`, `category_id`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'Banner 1','1625539332_144623b27581a1d97b20.png',NULL,1,'Test','#','',NULL,0,8,NULL,NULL,'2021-07-06 09:42:12','2021-07-10 16:12:07',NULL),
+	(2,'Banner 2','1625539362_1a0e4ca8c1da141062d8.png',NULL,2,'','#','',NULL,1,8,NULL,NULL,'2021-07-06 09:42:42','2021-07-06 09:43:58',NULL);
+
+/*!40000 ALTER TABLE `t_banner` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table t_eksemplar
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_eksemplar`;
+
+CREATE TABLE `t_eksemplar` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table t_katalog
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_katalog`;
+
+CREATE TABLE `t_katalog` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `t_katalog` WRITE;
+/*!40000 ALTER TABLE `t_katalog` DISABLE KEYS */;
+
+INSERT INTO `t_katalog` (`id`, `name`, `slug`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'Test','test',0,'',1,1,NULL,'2021-07-25 17:18:35','2021-07-25 17:18:35',NULL);
+
+/*!40000 ALTER TABLE `t_katalog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table t_kontendigital
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_kontendigital`;
+
+CREATE TABLE `t_kontendigital` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table t_kontendigitalartikel
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_kontendigitalartikel`;
+
+CREATE TABLE `t_kontendigitalartikel` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table t_membership
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_membership`;
+
+CREATE TABLE `t_membership` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `t_membership` WRITE;
+/*!40000 ALTER TABLE `t_membership` DISABLE KEYS */;
+
+INSERT INTO `t_membership` (`id`, `name`, `slug`, `sort`, `description`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'Test','test',0,'Test',1,1,NULL,'2021-07-06 09:51:47','2021-07-06 09:51:47',NULL);
+
+/*!40000 ALTER TABLE `t_membership` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table t_sampulbuku
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_sampulbuku`;
+
+CREATE TABLE `t_sampulbuku` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table t_sirkulasi
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_sirkulasi`;
+
+CREATE TABLE `t_sirkulasi` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table t_sumbangan
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `t_sumbangan`;
+
+CREATE TABLE `t_sumbangan` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `slug` varchar(150) DEFAULT NULL,
+  `sort` mediumint(8) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table users
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `username` varchar(30) DEFAULT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `reset_hash` varchar(255) DEFAULT NULL,
+  `reset_at` datetime DEFAULT NULL,
+  `reset_expires` datetime DEFAULT NULL,
+  `activate_hash` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `status_message` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `force_pass_reset` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `section` varchar(50) DEFAULT NULL,
+  `department` varchar(50) DEFAULT NULL,
+  `division` varchar(50) DEFAULT NULL,
+  `unit` varchar(50) DEFAULT NULL,
+  `company` varchar(50) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+
+INSERT INTO `users` (`id`, `email`, `username`, `password_hash`, `reset_hash`, `reset_at`, `reset_expires`, `activate_hash`, `status`, `status_message`, `active`, `force_pass_reset`, `created_at`, `updated_at`, `deleted_at`, `first_name`, `last_name`, `phone`, `section`, `department`, `division`, `unit`, `company`, `address`)
+VALUES
+	(1,'admin@admin.com','admin','$2y$10$bb4pfVQ23Fa5TWUERp5V.uiO9tP782qYD/bluLujUwtBeo2G5PQ0S',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,NULL,NULL,'Admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+	(2,'user@domain.com','user','$2y$10$4muJJBybe1xk6OEEZACzdeISdmmVJkjudWfuZS8AK7G0ToACt9/EW',NULL,NULL,NULL,NULL,NULL,NULL,1,0,'2021-07-06 10:08:08','2021-07-06 10:08:08',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+	(3,'user_keanggotaan@domain.com','anggota1','$2y$10$KslAZWtrpxBPMmuXPKWeuum0ytyQRrwyvmn6L7yg5BATtfeACrceG',NULL,NULL,NULL,NULL,NULL,NULL,1,0,'2021-07-06 10:09:03','2021-07-06 10:09:17',NULL,'','','',NULL,NULL,NULL,'','','');
+
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
