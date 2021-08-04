@@ -215,11 +215,22 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
                         $file = new File($this->uploadPath . $name);
                         
                         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
-                        dd($spreadsheet);
-
-                        // $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                        // $spreadsheet = $reader->load($file);
                         // dd($spreadsheet);
+
+                        $spreadsheet_arr = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                        $inserts = array();
+                        foreach($spreadsheet_arr as $row){
+                            $inserts[] = array(
+                                'name' => $row['A'],
+                                // 'nomor' => $row['B'],
+                                // 'bla' => $row['C'],
+                                // 'bla' => $row['D'],
+                            );
+                        }
+
+                        dd($inserts);
+
+                        // $this->db->table('t_anggota')->insertBatch($inserts);
 
                     }
                 }
