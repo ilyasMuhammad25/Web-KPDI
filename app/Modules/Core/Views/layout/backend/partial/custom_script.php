@@ -215,5 +215,58 @@
         });
 
         return file_dropzone;
+    }    
+
+    function deleteConfirm(callback){
+        Swal.fire({
+            title: 'Anda yakin ?',
+            text: "Data yang sudah dihapus tidak dapat dikembalikan lagi",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#dd6b55',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then(callback);   
+    }
+
+    function deleteInfo(success = true){
+        if(success){
+            Swal.fire({
+                title: 'Berhasil',
+                text: 'Data berhasil dihapus',
+                type: 'success',
+                showConfirmButton: false,
+                timer: 3000
+            }); 
+        } else {
+            Swal.fire({
+                title: 'Gagal',
+                text: 'Data gagal dihapus',
+                type: 'warning',
+                showConfirmButton: false,
+                timer: 2000
+            }); 
+        }
+    }
+
+    function makeAjaxCall(url, methodType, callback){
+        return $.ajax({
+            url : url,
+            method : methodType,
+            dataType : "json"
+        })
+    }
+
+    function makeAjaxCall2(url, methodType, callback){
+        $.ajax({
+            url : url,
+            method : methodType,
+            dataType : "json",
+            success : callback,
+            error : function (reason, xhr){
+                console.log("Error in processing your request", reason);
+            }
+        });
     }
 </script>

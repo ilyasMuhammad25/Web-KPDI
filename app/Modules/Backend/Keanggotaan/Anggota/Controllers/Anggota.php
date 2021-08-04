@@ -3,6 +3,9 @@
 namespace Anggota\Controllers;
 
 use \CodeIgniter\Files\File;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -188,5 +191,44 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'warning');
         }
         return redirect()->to('/anggota');
+    }
+
+    public function import()
+    {
+        if (!is_allowed('anggota/import')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+
+        $this->data['title'] = 'Import Anggota';
+
+		$this->validation->setRule('file_template', 'File Template', 'required');
+        if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
+            
+            // Logic Upload
+            $files = (array) $this->request->getPost('file_template');
+            if (count($files)) {
+                $listed_file = array();
+                foreach ($files as $uuid => $name) {
+                    if (file_exists($this->uploadPath . $name)) {
+                        $file = new File($this->uploadPath . $name);
+                        
+                        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+                        dd($spreadsheet);
+
+                        // $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                        // $spreadsheet = $reader->load($file);
+                        // dd($spreadsheet);
+
+                    }
+                }
+            }
+
+        } else {
+            $this->data['redirect'] = base_url('anggota/import');
+            set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
+            echo view('Anggota\Views\import', $this->data);
+        }
     }
 }

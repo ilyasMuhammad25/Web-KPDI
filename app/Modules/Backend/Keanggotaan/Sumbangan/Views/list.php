@@ -28,6 +28,7 @@
     <div class="main-card mb-3 card">
         <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Sumbangan.label.table') ?> <?= lang('Sumbangan.module') ?> 
             <div class="btn-actions-pane-right actions-icon-btn">
+                
                 <?php if(is_allowed('sumbangan/create')):?>
                     <a href="<?= base_url('sumbangan/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Sumbangan.action.add') ?> <?= lang('Sumbangan.module') ?> </a>
                 <?php endif;?>
