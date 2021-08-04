@@ -5,6 +5,14 @@ $request->uri->setSilent();
 
 <?= $this->extend('hamkamannan\adminigniter\layout\backend\main'); ?>
 <?= $this->section('style'); ?>
+<style>
+    .select2-container--default .select2-selection--single{
+        padding:6px;
+        height: 37px;
+        font-size: 1.1em;  
+        position: relative;
+    }
+</style>
 <?= $this->endSection('style'); ?>
 
 <?= $this->section('page'); ?>
@@ -42,7 +50,21 @@ $request->uri->setSilent();
 
                   <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('sumbangan/create'); ?>">
                         <div class="form-row">
-                              <div class="col-md-9">
+                              <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                          <label for="name">Nomor Anggota</label>
+                                          <div>
+                                                <?php $anggota = db_get_single('t_anggota', 'id = 1'); ?>
+                                                <select class="form-control select2" name="anngota_id" id="anngota_id" tabindex="-1" aria-hidden="true" style="width:100%">
+                                                      <option value="">-No Anggota-</option>
+                                                      <?php foreach(db_get_all('t_anggota','active= 1','id','asc') as $row):?>
+                                                            <option value="<?=$row->id?>">[<?=$row->description?>] <?=$row->name?></option>
+                                                      <?php endforeach;?>
+                                                </select>
+                                          </div>
+                                    </div>
+                              </div>
+                              <div class="col-md-5">
                                     <div class="position-relative form-group">
                                           <label for="name"><?= lang('Sumbangan.field.name') ?>*</label>
                                           <div>
@@ -81,5 +103,7 @@ $request->uri->setSilent();
 <?= $this->endSection('page'); ?>
 
 <?= $this->section('script'); ?>
-
+<script>
+      $('.select2').select2();
+</script>
 <?= $this->endSection('script'); ?>

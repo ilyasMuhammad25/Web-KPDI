@@ -38,6 +38,8 @@ class Sumbangan extends \hamkamannan\adminigniter\Controllers\BaseController
 			$this->session->set('redirect_url', current_url() );
 			return redirect()->route('login');
 		} 
+
+        helper('adminigniter');
     }
     public function index()
     {

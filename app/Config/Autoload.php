@@ -58,8 +58,8 @@ class Autoload extends AutoloadConfig
 					'KontenDigital' => APPPATH . 'Modules/Backend/Koleksi/KontenDigital',
 					'SampulBuku' 	=> APPPATH . 'Modules/Backend/Koleksi/SampulBuku',
 					'Sirkulasi' 	=> APPPATH . 'Modules/Backend/Sirkulasi',
-            'Anggota' => APPPATH . 'Modules/Backend/Anggota',
-            'Sumbangan' => APPPATH . 'Modules/Backend/Sumbangan',
+            		'Anggota' => APPPATH . 'Modules/Backend/Keanggotaan/Anggota',
+            		'Sumbangan' => APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
 	];
 
 	/**
