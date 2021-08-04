@@ -17,7 +17,7 @@ $request->uri->setSilent();
                 <div class="page-title-icon">
                     <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
                 </div>
-                <div><?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?>
+                <div><?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> RDA
                     <div class="page-title-subheading"><?= lang('Katalog.form.complete_the_data') ?>.</div>
                 </div>
             </div>

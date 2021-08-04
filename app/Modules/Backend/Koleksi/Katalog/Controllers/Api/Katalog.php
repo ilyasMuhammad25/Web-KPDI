@@ -19,7 +19,7 @@ class Katalog extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->katalogModel = new Katalog\Models\KatalogModel();
+		$this->katalogModel = new \Katalog\Models\KatalogModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
 		$this->modulePath = ROOTPATH . 'public/uploads/katalog/';

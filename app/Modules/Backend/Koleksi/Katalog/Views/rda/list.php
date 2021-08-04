@@ -8,9 +8,9 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-notebook icon-gradient bg-strong-bliss"></i>
                 </div>
-                <div><?= lang('Katalog.module') ?> 
+                <div><?= lang('Katalog.module') ?> RDA
                     <div class="page-title-subheading"><?= lang('Katalog.info.list_all') ?>  <?= lang('Katalog.module') ?> </div>
                 </div>
             </div>
