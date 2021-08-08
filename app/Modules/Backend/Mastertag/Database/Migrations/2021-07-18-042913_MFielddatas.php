@@ -4,7 +4,7 @@ namespace Mastertag\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Mastertag extends Migration
+class Mfielddatas extends Migration
 {
 	public function up()
 	{
