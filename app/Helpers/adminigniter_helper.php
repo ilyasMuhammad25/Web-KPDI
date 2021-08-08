@@ -248,3 +248,39 @@ if (!function_exists('logged_in')) {
         return $auth->check();
     }
 }
+
+
+if (!function_exists('get_ref')) {
+  function get_ref($ref_name = '')
+  {
+      $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+      $baseModel->setTable('c_references');
+      $results = $baseModel
+      ->select('c_references.*')
+      ->join('c_menus','c_menus.id = c_references.menu_id', 'inner')
+      ->where('c_menus.name',$ref_name)
+      ->find_all('c_references.sort', 'asc');
+      return $results;
+  }
+}
+if (!function_exists('getClientIpAddress')) {
+
+function getClientIpAddress()
+{
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //Checking IP From Shared Internet
+    {
+      $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //To Check IP is Pass From Proxy
+    {
+      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else
+    {
+      $ip = $_SERVER['REMOTE_ADDR'];
+    }
+
+    return $ip;
+}
+}
+
