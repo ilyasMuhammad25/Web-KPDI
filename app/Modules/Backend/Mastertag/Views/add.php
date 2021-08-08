@@ -48,7 +48,7 @@ $request->uri->setSilent();
                                           <div>
                                                 <select class="form-control" id="frm_create_ref_format" name="ref_format" placeholder="<?= lang('Mastertag.field.ref_format') ?> ">
                                                       <option value="" disabled selected><?= lang('Mastertag.field.ref_format') ?></option>
-                                                      <?php foreach($ref_format as $row) : ?>
+                                                      <?php foreach(get_references('ref-jenis-format') as $row) : ?>
                                                       <option value="<?=$row->id?>"><?=$row->name?></option>                                                      
                                                       <?php endforeach;?>
                                                 </select>
@@ -59,7 +59,7 @@ $request->uri->setSilent();
                                           <div>
                                                 <select class="form-control" id="frm_create_ref_group" name="ref_group" placeholder="<?= lang('Mastertag.field.ref_group') ?> ">
                                                       <option value="" disabled selected><?= lang('Mastertag.field.ref_group') ?></option>
-                                                      <?php foreach($ref_group as $row) : ?>
+                                                      <?php foreach(get_references('ref-group-field') as $row) : ?>
                                                       <option value="<?=$row->id?>"><?=$row->name?></option>                                                      
                                                       <?php endforeach;?>
                                                 </select>
