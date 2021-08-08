@@ -1,4 +1,11 @@
 <style>
+:root {
+  --sidebar-width: 320px;
+  --min-sidebar-width: -320px;
+}
+</style>
+
+<style>
     .bg-corporate-primary{
         background-color: <?=get_parameter('corporate-primary','#C21B18')?> !important;
     }

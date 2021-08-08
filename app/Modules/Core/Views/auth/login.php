@@ -54,8 +54,10 @@
                             <div class="divider"></div>
 
                             <?php if ($config->allowRegistration) : ?>
+                            <div class="divider row"></div>
                             <h6 class="mb-0">
-                                <a href="<?= route_to('register') ?>" class="text-primary"><?=lang('Auth.needAnAccount')?></a>
+                                    <?=lang('Auth.needAnAccount')?>  
+                                    <a href="<?= route_to('register') ?>" class="text-primary"><?=lang('Auth.signUp')?></a> 
                             </h6>
                             <?php endif; ?>
                         </div>

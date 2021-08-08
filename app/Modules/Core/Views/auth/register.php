@@ -18,7 +18,7 @@
                               <div class="modal-content">
                                     <div class="modal-header">
                                           <div class="h5 modal-title">
-                                                <?= lang('Auth.register') ?>
+                                                <?= lang('Auth.registerTitle') ?>
                                                 <h6 class="mt-1 mb-0 opacity-8"><span><?=get_parameter('site-name')?></span></h6>
                                           </div>
                                     </div>
@@ -69,14 +69,17 @@
                                                       <?php endif; ?>
                                                 </h6>
                                           </div>
-                                          <div class="modal-footer d-block text-center">
-                                                <button type="submit" class="btn-wide btn-pill btn-shadow btn-hover-shine btn btn-primary btn-lg"><?=lang('Auth.register')?></button>
+
+                                          <div class="modal-footer clearfix">
+                                                <div class="float-right">
+                                                      <button type="submit" class="btn btn-primary btn-lg"><?=lang('Auth.registerAction')?></button>
+                                                </div>
                                           </div>
 
                                     </form>
                               </div>
                         </div>
-                        <div class="text-center text-white opacity-8 mt-3">© 2020 AdminIgniter</div>
+                        <div class="text-center text-white opacity-8 mt-3"><?=get_parameter('site-copyright', '&copy; 2021 Adminigiter')?></div>
                   </div>
             </div>
       </div>

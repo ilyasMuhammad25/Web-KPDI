@@ -43,9 +43,10 @@ class Autoload extends AutoloadConfig
 		APP_NAMESPACE   => APPPATH, // For custom app namespace
 		'App'           => APPPATH,
 		'Config'        => APPPATH . 'Config',
-		'DataTables'    => APPPATH . 'Libraries/DataTables',
+		'DataTables'    => APPPATH .'Libraries/DataTables',
 		'Modules'       => APPPATH . 'Modules',
 		'Core'       	=> APPPATH . 'Modules/Core',
+		'Auth' 			=> APPPATH . 'Modules/Core/Auth',
 		'User' 			=> APPPATH . 'Modules/Core/User',
         'Home' 			=> APPPATH . 'Modules/Frontend/Home',
 			'Banner' 		=> APPPATH . 'Modules/Cms/Banner',
