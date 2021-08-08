@@ -9979,10 +9979,15 @@ button,
   font-size: 0.8rem;
 }
 
+:root {
+  --sidebar-width: 280px;
+  --min-sidebar-width: -280px;
+}
+
 .app-header__logo {
   padding: 0 1.5rem;
   height: 60px;
-  width: 280px;
+  width: var(--sidebar-width);
   display: flex;
   align-items: center;
   transition: width .2s;
@@ -10327,13 +10332,13 @@ button,
 }
 
 .app-sidebar {
-  width: 280px;
+  width: var(--sidebar-width);
   display: flex;
   z-index: 11;
   overflow: hidden;
-  min-width: 280px;
+  min-width: var(--sidebar-width);
   position: relative;
-  flex: 0 0 280px;
+  flex: 0 0 var(--sidebar-width);
   margin-top: -60px;
   padding-top: 60px;
   transition: all .2s;
@@ -10691,7 +10696,7 @@ button,
 
 .fixed-sidebar .app-main .app-main__outer {
   z-index: 9;
-  padding-left: 280px;
+  padding-left: var(--sidebar-width);
 }
 
 .fixed-sidebar.fixed-header .app-sidebar .app-header__logo {
@@ -10703,7 +10708,7 @@ button,
 }
 
 .fixed-sidebar:not(.fixed-header) .app-header {
-  margin-left: 280px;
+  margin-left: var(--sidebar-width);
 }
 
 .fixed-sidebar:not(.fixed-header) .app-header .app-header__logo {
@@ -10778,8 +10783,8 @@ button,
 }
 
 .closed-sidebar .app-sidebar:hover {
-  flex: 0 0 280px !important;
-  width: 280px !important;
+  flex: 0 0 var(--sidebar-width) !important;
+  width: var(--sidebar-width) !important;
 }
 
 .closed-sidebar .app-sidebar:hover .app-sidebar__inner .app-sidebar__heading {
@@ -10881,7 +10886,7 @@ button,
 }
 
 .closed-sidebar.closed-sidebar-mobile .app-sidebar:hover .app-header__logo {
-  width: 280px;
+  width: var(--sidebar-width);
 }
 
 .closed-sidebar.closed-sidebar-mobile .app-sidebar:hover .app-header__logo .logo-src {
@@ -11071,7 +11076,7 @@ button,
 }
 
 .fixed-footer .app-footer .app-footer__inner {
-  margin-left: 280px;
+  margin-left: var(--sidebar-width);
   box-shadow: 0.3rem -0.46875rem 2.1875rem rgba(4, 9, 20, 0.02), 0.3rem -0.9375rem 1.40625rem rgba(4, 9, 20, 0.02), 0.3rem -0.25rem 0.53125rem rgba(4, 9, 20, 0.04), 0.3rem -0.125rem 0.1875rem rgba(4, 9, 20, 0.02);
 }
 
@@ -42530,9 +42535,9 @@ span.multiselect-native-select select {
     display: none;
   }
   .app-sidebar {
-    flex: 0 0 280px !important;
-    width: 280px !important;
-    transform: translateX(-280px);
+    flex: 0 0 var(--sidebar-width) !important;
+    width: var(--sidebar-width) !important;
+    transform: translateX(var(--min-sidebar-width));
     position: fixed;
   }
   .app-sidebar .app-header__logo {

@@ -45,6 +45,7 @@ class Autoload extends AutoloadConfig
 		'Config'        => APPPATH . 'Config',
 		'DataTables'    => APPPATH .'Libraries/DataTables',
 		'Modules'       => APPPATH . 'Modules',
+		'Uigniter'      => APPPATH . 'Modules/Uigniter',
 		'Core'       	=> APPPATH . 'Modules/Core',
 		'Auth' 			=> APPPATH . 'Modules/Core/Auth',
 		'User' 			=> APPPATH . 'Modules/Core/User',
