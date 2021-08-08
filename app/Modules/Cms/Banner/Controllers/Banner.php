@@ -39,7 +39,7 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
 
-        helper('adminigniter');
+        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
     }
     public function index()
     {

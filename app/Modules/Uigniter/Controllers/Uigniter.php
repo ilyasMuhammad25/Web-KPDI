@@ -6,7 +6,7 @@ class Uigniter extends \App\Controllers\BaseController
 {
 	function __construct()
     {
-        helper('adminigniter');
+		helper(['form', 'url', 'auth', 'app', 'adminigniter']);
     }
 
 	public function index()

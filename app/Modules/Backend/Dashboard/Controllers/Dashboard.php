@@ -15,6 +15,7 @@ class Dashboard extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->auth = \Myth\Auth\Config\Services::authentication();
         $this->authorize = \Myth\Auth\Config\Services::authorization();
         $this->session = service('session');
+        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
     }
 
     public function index()
