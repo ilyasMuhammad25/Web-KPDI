@@ -6,12 +6,12 @@ class Auth extends \Myth\Auth\Config\Auth
 	public $defaultUserGroup = 'user';
 
 	public $views = [
-		'login'           => 'hamkamannan\adminigniter\Views\auth\login',
-		'register'        => 'hamkamannan\adminigniter\Views\auth\register',
-		'forgot'          => 'hamkamannan\adminigniter\Views\auth\forgot',
-		'reset'           => 'hamkamannan\adminigniter\Views\auth\reset',
-		'emailForgot'     => 'hamkamannan\adminigniter\Views\auth\emails\forgot',
-		'emailActivation' => 'hamkamannan\adminigniter\Views\auth\emails\activation',
+		'login'           => 'Core\Views\auth\login',
+		'register'        => 'Core\Views\auth\register',
+		'forgot'          => 'Core\Views\auth\forgot',
+		'reset'           => 'Core\Views\auth\reset',
+		'emailForgot'     => 'Core\Views\auth\emails\forgot',
+		'emailActivation' => 'Core\Views\auth\emails\activation',
 	];
 
 	public $allowRegistration = true;
@@ -25,6 +25,4 @@ class Auth extends \Myth\Auth\Config\Auth
 		'Myth\Auth\Authentication\Passwords\DictionaryValidator',
 		'Myth\Auth\Authentication\Passwords\PwnedValidator',
 	];
-
-	public $personalFields = ['first_name','last_name','phone','unit','company','address'];
 }

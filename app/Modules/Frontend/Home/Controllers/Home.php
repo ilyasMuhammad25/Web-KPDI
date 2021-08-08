@@ -8,7 +8,7 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 {
 	function __construct()
     {
-		helper('adminigniter');
+		helper(['form', 'url', 'auth', 'app', 'adminigniter']);
 	}
 	public function index()
 	{
