@@ -11,16 +11,16 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $katalogModel;
     protected $uploadPath;
     protected $modulePath;
-    
+
     function __construct()
     {
         $this->language = \Config\Services::language();
-		$this->language->setLocale('id');
-        
+        $this->language->setLocale('id');
+
         $this->katalogModel = new \Katalog\Models\KatalogModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/katalog/';
-        
+
         if (!file_exists($this->uploadPath)) {
             mkdir($this->uploadPath);
         }
@@ -33,12 +33,11 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->authorize = \Myth\Auth\Config\Services::authorization();
         $this->session = service('session');
 
-        if (! $this->auth->check() )
-		{
-			$this->session->set('redirect_url', current_url() );
-			return redirect()->route('login');
-		} 
-        
+        if (!$this->auth->check()) {
+            $this->session->set('redirect_url', current_url());
+            return redirect()->route('login');
+        }
+
         helper(['form', 'url', 'auth', 'app', 'adminigniter']);
     }
     public function index()
@@ -53,12 +52,12 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             ->select('t_katalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_katalog.created_by','left')
-            ->join('users updated','updated.id = t_katalog.updated_by','left');
-            
+            ->join('users created', 'created.id = t_katalog.created_by', 'left')
+            ->join('users updated', 'updated.id = t_katalog.updated_by', 'left');
+
         $katalogs = $query->findAll();
 
-        $this->data['title'] = 'Katalog '.strtoupper($slug);
+        $this->data['title'] = 'Katalog ' . strtoupper($slug);
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['katalogs'] = $katalogs;
         echo view('Katalog\Views\list', $this->data);
@@ -74,14 +73,14 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
         $this->data['title'] = 'Tambah Katalog';
 
-		$this->validation->setRule('name', 'Nama', 'required');
+        $this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $save_data = [
-				'name' => $this->request->getPost('name'),
+                'name' => $this->request->getPost('name'),
                 'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
+                'sort' => $this->request->getPost('sort'),
+                'description' => $this->request->getPost('description'),
                 'created_by' => user_id(),
             ];
 
@@ -115,7 +114,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         $katalog = $this->katalogModel->find($id);
         $this->data['katalog'] = $katalog;
 
-		$this->validation->setRule('name', 'Nama', 'required');
+        $this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
                 $slug = url_title($this->request->getPost('name'), '-', TRUE);
@@ -207,9 +206,9 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             ->select('t_katalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_katalog.created_by','left')
-            ->join('users updated','updated.id = t_katalog.updated_by','left');
-            
+            ->join('users created', 'created.id = t_katalog.created_by', 'left')
+            ->join('users updated', 'updated.id = t_katalog.updated_by', 'left');
+
         $katalogs = $query->findAll();
 
         $this->data['title'] = 'Katalog RDA';
@@ -228,14 +227,14 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
         $this->data['title'] = 'Tambah Katalog';
 
-		$this->validation->setRule('name', 'Nama', 'required');
+        $this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $save_data = [
-				'name' => $this->request->getPost('name'),
+                'name' => $this->request->getPost('name'),
                 'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
+                'sort' => $this->request->getPost('sort'),
+                'description' => $this->request->getPost('description'),
                 'created_by' => user_id(),
             ];
 
@@ -269,7 +268,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         $katalog = $this->katalogModel->find($id);
         $this->data['katalog'] = $katalog;
 
-		$this->validation->setRule('name', 'Nama', 'required');
+        $this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
                 $slug = url_title($this->request->getPost('name'), '-', TRUE);
@@ -317,9 +316,9 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             ->select('t_katalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_katalog.created_by','left')
-            ->join('users updated','updated.id = t_katalog.updated_by','left');
-            
+            ->join('users created', 'created.id = t_katalog.created_by', 'left')
+            ->join('users updated', 'updated.id = t_katalog.updated_by', 'left');
+
         $katalogs = $query->findAll();
 
         $this->data['title'] = 'Katalog AACR';
@@ -338,14 +337,14 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
         $this->data['title'] = 'Tambah Katalog';
 
-		$this->validation->setRule('name', 'Nama', 'required');
+        $this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $save_data = [
-				'name' => $this->request->getPost('name'),
+                'name' => $this->request->getPost('name'),
                 'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
+                'sort' => $this->request->getPost('sort'),
+                'description' => $this->request->getPost('description'),
                 'created_by' => user_id(),
             ];
 
@@ -367,6 +366,14 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
     }
 
+    public function aacr_create_action()
+    {
+        if ($this->request->isAJAX()) :
+            $query = $this->request->getPost('material-type');
+            echo json_encode($query);
+        endif;
+    }
+
     public function aacr_edit(int $id = null)
     {
         if (!is_allowed('katalog/update')) {
@@ -379,7 +386,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         $katalog = $this->katalogModel->find($id);
         $this->data['katalog'] = $katalog;
 
-		$this->validation->setRule('name', 'Nama', 'required');
+        $this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
                 $slug = url_title($this->request->getPost('name'), '-', TRUE);
