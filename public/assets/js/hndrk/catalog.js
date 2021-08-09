@@ -1647,7 +1647,7 @@ $(document).ready(function () {
                                           </td>
                                     </tr>
                                     <tr id="800_0" class="item">
-                                          <td><button class="btn btn-danger" type="button""><i class=" fa fa-trash-o"></i></button></td>
+                                          <td><button class="btn btn-danger" type="button""><i class=" fa fa-trash"></i></button></td>
                                           <td>800</td>
                                           <td><input type="hidden" value="" id="Ruasid_800_0" name="Ruasid[800][0]" size="3">Entri Tambahan Seri-Nama Orang</td>
                                           <td>
@@ -1795,32 +1795,42 @@ $(document).ready(function () {
                         </table>
 `;
 
+  let formapp = $("#form-app"),
+    ajax,
+    dataform;
+
   localStorage.setItem("simple", simple);
   localStorage.setItem("marc", marc);
 
   $("#btn-marc").click(function (e) {
     e.preventDefault();
     // $("#spinner").removeClass("d-none");
-    var form = $("#form-body");
-    var type = form.attr("data-type");
+    let form = $("#form-body");
+    let spinner = $("#spinner");
+    let type = form.attr("data-type");
 
-    switch (type) {
-      case "simple":
-        localStorage.setItem("simple", form.html());
-        form.html(localStorage.getItem("marc"));
-        form.attr("data-type", "marc");
-        $(this).text("Tampilkan Sederhana");
-        break;
-      case "marc":
-        localStorage.setItem("marc", form.html());
-        form.html(localStorage.getItem("simple"));
-        form.attr("data-type", "simple");
-        $(this).text("Tampilkan MARC");
-        break;
+    spinner.removeClass("d-none");
 
-      default:
-        break;
-    }
+    setTimeout(() => {
+      switch (type) {
+        case "simple":
+          localStorage.setItem("simple", form.html());
+          form.html(localStorage.getItem("marc"));
+          form.attr("data-type", "marc");
+          $(this).text("Tampilkan Sederhana");
+          break;
+        case "marc":
+          localStorage.setItem("marc", form.html());
+          form.html(localStorage.getItem("simple"));
+          form.attr("data-type", "simple");
+          $(this).text("Tampilkan MARC");
+          break;
+
+        default:
+          break;
+      }
+      spinner.addClass("d-none");
+    }, 1500);
   });
 
   $("#add-subject").click(function () {
@@ -1850,4 +1860,30 @@ $(document).ready(function () {
     console.log(target);
     $(target).remove();
   });
+
+  formapp.on("submit", (e) => {
+    e.preventDefault();
+
+    formData = new FormData(formapp[0]);
+    ajax = xhr({
+      url: "/katalog-aacr/create/action",
+      data: formData,
+    });
+
+    ajax.done(function (res) {
+      console.log(res);
+      console.log("submit");
+    });
+  });
+
+  function xhr(params) {
+    return $.ajax({
+      type: "POST",
+      url: window.location.origin + params.url,
+      data: params.data,
+      processData: false,
+      contentType: false,
+      dataType: "JSON",
+    });
+  }
 });
