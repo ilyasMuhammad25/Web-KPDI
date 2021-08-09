@@ -39,5 +39,6 @@ $routes->group('katalog-aacr', ['namespace' => 'Katalog\Controllers'], function 
 	$subroutes->add('index', 'Katalog::aacr_index');
 	$subroutes->add('detail/(:any)', 'Katalog::aacr_detail/$1');
 	$subroutes->add('create', 'Katalog::aacr_create');
+	$subroutes->add('create/action', 'Katalog::aacr_create_action');
 	$subroutes->add('edit/(:any)', 'Katalog::aacr_edit/$1');
 });
