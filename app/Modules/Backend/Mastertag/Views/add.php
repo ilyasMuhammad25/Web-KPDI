@@ -42,8 +42,8 @@ $request->uri->setSilent();
 
                   <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('mastertag/create'); ?>" onsubmit="return validateForm()">
                         <div class="form-row">
-                              <div class="col-md-9">
-                              <div class="position-relative form-group">
+                              <div class="col-md-6">
+                                    <div class="position-relative form-group">
                                           <label for="ref_format"><?= lang('Mastertag.field.ref_format') ?>*</label>
                                           <div>
                                                 <select class="form-control" id="frm_create_ref_format" name="ref_format" placeholder="<?= lang('Mastertag.field.ref_format') ?> ">
@@ -54,6 +54,8 @@ $request->uri->setSilent();
                                                 </select>
                                           </div>
                                     </div>
+                              </div>
+                              <div class="col-md-6">
                                     <div class="position-relative form-group">
                                           <label for="ref_group"><?= lang('Mastertag.field.ref_group') ?>*</label>
                                           <div>
@@ -65,12 +67,16 @@ $request->uri->setSilent();
                                                 </select>
                                           </div>
                                     </div>
+                              </div>
+                              <div class="col-md-6">
                                     <div class="position-relative form-group">
                                           <label for="tag"><?= lang('Mastertag.field.tag') ?>*</label>
                                           <div>
                                                 <input type="text" class="form-control" id="frm_create_tag" name="tag" placeholder="<?= lang('Mastertag.field.tag') ?> " value="<?= set_value('tag'); ?>" />
                                           </div>
                                     </div>
+                              </div>
+                              <div class="col-md-6">
                                     <div class="position-relative form-group">
                                           <label for="name"><?= lang('Mastertag.field.name') ?>*</label>
                                           <div>
@@ -90,7 +96,7 @@ $request->uri->setSilent();
                         <div class="form-group">
                               <label for="length"><?= lang('Mastertag.field.length') ?> </label>
                               <div>
-                                    <input type="text" class="form-control" id="frm_create_length" name="length" placeholder="<?= lang('Mastertag.field.length') ?> " value="<?= set_value('length'); ?>" />
+                                    <input type="number" class="form-control" id="frm_create_length" min="1" max="255" name="length" placeholder="<?= lang('Mastertag.field.length') ?> " value="<?= set_value('length', 0); ?>" />
                               </div>
                         </div>
 
@@ -129,6 +135,7 @@ $request->uri->setSilent();
                         </div>
                         <div></div>
 
+                        
                         <span class="badge badge-info">Sub Ruas</span>
                         <div id="dynamic_field">
                               <div  id="row0">
@@ -216,7 +223,6 @@ $request->uri->setSilent();
             </div>
     </div>
 </div>
-
 
 
 
