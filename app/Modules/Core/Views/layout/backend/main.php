@@ -1,3 +1,18 @@
+<?php
+$request = \Config\Services::request();
+$request->uri->setSilent();
+$sidebar_class = '';
+
+if(!empty(get_parameter('closed-sidebar-class'))){
+	$sidebar_class = get_parameter('closed-sidebar-class');
+} else {
+	$sidebar = $request->getVar('sidebar') ?? 'show';
+	if($sidebar == 'hide'){
+		$sidebar_class = 'closed-sidebar';
+	} 
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -40,7 +55,7 @@
 </head>
 
 <body>
-    <div class="app-container app-theme-white body-tabs-shadow <?= get_parameter('container-header-class') ?> <?= get_parameter('container-sidebar-class') ?> <?= get_parameter('container-footer-class') ?>">
+    <div class="app-container app-theme-white body-tabs-shadow <?=$sidebar_class?> <?= get_parameter('container-header-class') ?> <?= get_parameter('container-sidebar-class') ?> <?= get_parameter('container-footer-class') ?>">
         <?= $this->include('Core\layout\backend\partial\header'); ?>
         <?php if (is_admin()) : ?>
             <?php if (get_parameter('show-layout-setting') == '1') : ?>
