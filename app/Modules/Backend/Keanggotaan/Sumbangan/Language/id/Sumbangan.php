@@ -9,6 +9,8 @@ return [
    'field.status' => 'Status',
    'field.id' => 'ID',
    'field.name' => 'Nama',
+   'field.total' => 'Jumlah',
+   'field.MemberNo' => 'Nomor Anggota',
    'field.slug' => 'Slug',
    'field.sort' => 'Urutan',
    'field.category' => 'Kategori',

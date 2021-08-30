@@ -51,8 +51,11 @@ class KeranjangAnggota extends \hamkamannan\adminigniter\Controllers\BaseControl
             ->select('t_keranjanganggota.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
+            ->select('t_anggota_id.name as nama')
+            ->select('t_anggota_id.MemberNo as MembersNo')
             ->join('users created','created.id = t_keranjanganggota.created_by','left')
-            ->join('users updated','updated.id = t_keranjanganggota.updated_by','left');
+            ->join('users updated','updated.id = t_keranjanganggota.updated_by','left')
+            ->join('t_anggota t_anggota_id','t_anggota_id.id = t_keranjanganggota.t_anggota_id','left');
             
         $keranjanganggotas = $query->findAll();
 
@@ -70,14 +73,21 @@ class KeranjangAnggota extends \hamkamannan\adminigniter\Controllers\BaseControl
             return redirect()->to('/dashboard');
         }
 
+      
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('t_anggota');
+        $anggota = $baseModel
+            ->select('t_anggota.*')
+            ->find_all('name', 'asc');
+        $this->data['title'] = 'Tambah Sumbangan';
+        $this->data['anggota'] = $anggota;
         $this->data['title'] = 'Tambah KeranjangAnggota';
 
-		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('t_anggota_id', 't_anggota_id', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-            $slug = url_title($this->request->getPost('name'), '-', TRUE);
+           
             $save_data = [
-				'name' => $this->request->getPost('name'),
-                'slug' => $slug,
+                't_anggota_id'=>$this->request->getPost('t_anggota_id'),
 				'sort' => $this->request->getPost('sort'),
 				'description' => $this->request->getPost('description'),
                 'created_by' => user_id(),
@@ -113,13 +123,11 @@ class KeranjangAnggota extends \hamkamannan\adminigniter\Controllers\BaseControl
         $keranjanganggota = $this->keranjanganggotaModel->find($id);
         $this->data['keranjanganggota'] = $keranjanganggota;
 
-		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('t_anggota_id', 't_anggota_id', 'required');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
-                $slug = url_title($this->request->getPost('name'), '-', TRUE);
                 $update_data = [
-                    'name' => $this->request->getPost('name'),
-                    'slug' => $slug,
+                    't_anggota_id' => $this->request->getPost('t_anggota_id'),
                     'sort' => $this->request->getPost('sort'),
                     'description' => $this->request->getPost('description'),
                     'updated_by' => user_id(),

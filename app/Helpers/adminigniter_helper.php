@@ -100,3 +100,62 @@ if (!function_exists('is_display2')) {
         return $result;
     }
 }
+if (!function_exists('get_MemberNo')) {
+    function get_MemberNo()
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('t_anggota');
+        $kode = $baseModel
+        ->select ('RIGHT(MemberNo,4) as MemberNo', false)
+        ->orderBy('MemberNo','DESC')
+        ->limit(1)->get()->getRowArray();
+
+        if ($kode['MemberNo']==null){
+            $no=1;
+        }else{
+            $no=intval($kode['MemberNo']) + 1;
+        }
+        $tgl= date('Ymd');
+        $batas = str_pad($no, 4, "0", STR_PAD_LEFT);
+        $MemberNo = $tgl.$batas;
+        return $MemberNo;
+    }
+    
+}
+
+// db helper
+if (!function_exists('db_get_single')) {
+    function db_get_single($table_name = null, $where = false)
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->get_single($where);
+    }
+}
+
+if (!function_exists('db_get_all')) {
+    function db_get_all($table_name = null, $where = null, $by = "id", $order = 'desc')
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->get_all($where, $by, $order);
+    }
+}
+
+if (!function_exists('db_count_all')) {
+    function db_count_all($table_name = null)
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->count_all();
+    }
+}
+
+if (!function_exists('db_count')) {
+    function db_count($table_name = null, $where = null)
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->count($where);
+    }
+}

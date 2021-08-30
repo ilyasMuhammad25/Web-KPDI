@@ -2,19 +2,6 @@
 $request = \Config\Services::request();
 $request->uri->setSilent();
 
-// $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-// $baseModel->setTable('c_references');
-// $categories = $baseModel
-//     ->select('c_references.*')
-//     ->join('c_menus','c_menus.id = c_references.menu_id', 'inner')
-//     ->where('c_menus.name','Jenis Identitas')
-//     ->find_all('c_references.sort', 'asc');
-    
-//     $categoriesperkawinan = $baseModel
-//     ->select('c_references.*')
-//     ->join('c_menus','c_menus.id = c_references.menu_id', 'inner')
-//     ->where('c_menus.name','Status Perkawinan')
-//     ->find_all('name', 'asc');
   
 $field_to_show=array('field1,field2,field3,field4,field5');
 $display='block';
@@ -56,7 +43,7 @@ $display='block';
             <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Update</a></li>
                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ambil Foto</a></li>
-                
+
             </ul>
         </div><!-- /.card-header -->
         <div class="card-body">
@@ -341,7 +328,6 @@ $display='block';
                                                     <input type="text" class="form-control" id="frm_create_kecamatan"
                                                         name="kecamatan" placeholder="Kecamatan"
                                                         value="<?= set_value('Kecamatan'); ?>" />
-
                                                 </div>
                                             </div>
                                         </div>
@@ -395,6 +381,90 @@ $display='block';
                                                 <div>
                                                     <input type="text" class="form-control" id="frm_create_RW" name="RW"
                                                         placeholder="RW" value="<?= set_value('RW'); ?>" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-checkbox custom-control custom-control-inline">
+                                                            <input type="checkbox" id="frm_create_permission" name=""  class="custom-control-input">
+                                                            <label class="custom-control-label" for="frm_create_permission_"><h5>Alamat sama dengan alamat Identitas</h5></label>
+                                                      </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="name">Alamat Saat ini</label>
+                                                <div>
+                                                    <input type="text" class="form-control" id="frm_create_AddressNow"
+                                                        name="AddressNow" placeholder="Alamat"
+                                                        value="<?= set_value('AddressNow'); ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="name"><?=lang('Anggota.field.provinsi')?> Saat ini</label>
+                                                <div>
+                                                    <input type="text" class="form-control" id="frm_create_ProvincyNow"
+                                                        name="ProvincyNow"
+                                                        placeholder="<?=lang('Anggota.field.provinsi')?>"
+                                                        value="<?= set_value('ProvincyNow'); ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="name"><?= lang('Anggota.field.city')?>saat ini </label>
+                                                <div>
+                                                    <input type="text" class="form-control" id="frm_create_CityNow"
+                                                        name="CityNow" placeholder="<?= lang('Anggota.field.city') ?>"
+                                                        value="<?= set_value('CityNow'); ?>" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="name">Kecamatan Saat ini </label>
+                                                <div>
+                                                    <input type="text" class="form-control" id="frm_create_kecamatanNow"
+                                                        name="kecamatanNow" placeholder="Kecamatan"
+                                                        value="<?= set_value('KecamatanNow'); ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="name">RT Saat ini</label>
+                                                <div>
+                                                    <input type="text" class="form-control" id="frm_create_RTNow" name="RTNow"
+                                                        placeholder="RT" value="<?= set_value('RTNow'); ?>" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="name">RW Saat ini</label>
+                                                <div>
+                                                    <input type="text" class="form-control" id="frm_create_RWNow" name="RWNow"
+                                                        placeholder="RW" value="<?= set_value('RWNow'); ?>" />
 
                                                 </div>
                                             </div>
@@ -518,13 +588,13 @@ $display='block';
                                             </div>
                                         </div>
                                     </div>
-                                 
+
 
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary"
                                             name="submit"><?= lang('Anggota.action.save') ?></button>
                                     </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -549,11 +619,11 @@ $display='block';
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
-                
-                
+
+
                 <!-- Sekolah -->
                 <div class="tab-pane" id="settings">
                     <h1>ilyas</h1>

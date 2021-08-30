@@ -5,7 +5,7 @@ $request->uri->setSilent();
 
 <?= $this->extend('hamkamannan\adminigniter\layout\backend\main'); ?>
 <?= $this->section('style'); ?>
-<?= $this->include('Anggota\Views\add_modal'); ?>
+
 <?= $this->endSection('style'); ?>
 
 <?= $this->section('page'); ?>
@@ -41,12 +41,16 @@ $request->uri->setSilent();
         <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Update</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ambil Foto</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_pelanggaran') ?>">Data Pelanggaran</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman') ?>">Data peminjaman</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_perpanjangan') ?>">Data Perpanjangan</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_sumbangan') ?>">Data Sumbangan</a></li>
+                    <li class="nav-item"><a class="nav-link " href="#activity">Update</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline">Ambil Foto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_pelanggaran') ?>">Data
+                            Pelanggaran</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman') ?>">Data
+                            peminjaman</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_perpanjangan') ?>">Data
+                            Perpanjangan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_sumbangan') ?>">Data
+                            Sumbangan</a></li>
 
                 </ul>
             </div>
@@ -381,6 +385,91 @@ $request->uri->setSilent();
                                 <div>
                                     <input type="text" class="form-control" id="frm_create_RW" name="RW"
                                         placeholder="RW" value="<?= set_value('RW',$anggota->RW); ?>" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <div class="custom-checkbox custom-control custom-control-inline">
+                            <input type="checkbox" id="frm_create_permission" name="" class="custom-control-input">
+                            <label class="custom-control-label" for="frm_create_permission_">
+                                <h5>Alamat sama dengan alamat Identitas</h5>
+                            </label>
+                        </div>
+                        <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="name">Alamat Saat ini</label>
+                                <div>
+                                    <input type="text" class="form-control" id="frm_create_AddressNow" name="AddressNow"
+                                        placeholder="Alamat" value="<?= set_value('AddressNow',$anggota->AddressNow); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="name"><?=lang('Anggota.field.provinsi')?> Saat ini</label>
+                                <div>
+                                    <input type="text" class="form-control" id="frm_create_ProvincyNow"
+                                        name="ProvincyNow" placeholder="<?=lang('Anggota.field.provinsi')?>"
+                                        value="<?= set_value('ProvincyNow',$anggota->ProvincyNow); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="name"><?= lang('Anggota.field.city')?>saat ini </label>
+                                <div>
+                                    <input type="text" class="form-control" id="frm_create_CityNow" name="CityNow"
+                                        placeholder="<?= lang('Anggota.field.city') ?>"
+                                        value="<?= set_value('CityNow',$anggota->CityNow); ?>" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="name">Kecamatan Saat ini </label>
+                                <div>
+                                    <input type="text" class="form-control" id="frm_create_kecamatanNow"
+                                        name="kecamatanNow" placeholder="Kecamatan"
+                                        value="<?= set_value('KecamatanNow',$anggota->KecamatanNow); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="name">RT Saat ini</label>
+                                <div>
+                                    <input type="text" class="form-control" id="frm_create_RTNow" name="RTNow"
+                                        placeholder="RT" value="<?= set_value('RTNow',$anggota->RTNow); ?>" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="name">RW Saat ini</label>
+                                <div>
+                                    <input type="text" class="form-control" id="frm_create_RWNow" name="RWNow"
+                                        placeholder="RW" value="<?= set_value('RWNow',$anggota->RWNow); ?>" />
 
                                 </div>
                             </div>

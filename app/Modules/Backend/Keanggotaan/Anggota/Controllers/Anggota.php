@@ -222,6 +222,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
                     'IdentityNo'=> $this->request->getPost('IdentityNo'),
                     'PlaceOfBirth'=> $this->request->getPost('PlaceOfBirth'),
                     'DateOfBirth'=> $this->request->getPost('DateOfBirth'),
+                    'RegisterDate'=>$this->request->getPost('RegisterDate'),
                     'Address'=> $this->request->getPost('Address'),
                     'AddressNow'=> $this->request->getPost('AddressNow'),
                     'Phone'=> $this->request->getPost('Phone'),
@@ -443,7 +444,7 @@ public function D_perpanjangan()
 
 
 // Daftar data sumbangan
-public function D_sumbangan()
+public function D_sumbangan(int $id = null)
 {
     if (!is_allowed('anggota/access')) {
         set_message('toastr_msg', lang('App.permission.not.have'));
@@ -461,10 +462,12 @@ public function D_sumbangan()
         ->join('users updated','updated.id = t_anggota.updated_by','left');
         
     $anggotas = $query->findAll();
+    $anggota = $this->anggotaModel->find($id);
     // $Nomember=$this->anggotaModel->MemberNo();
     $this->data['title'] = 'Data-Pelanggaran';
     $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
     $this->data['anggotas'] = $anggotas;
+    $this->data['anggota'] = $anggota;
    
     // $this->data['MemberNo'] = $this->AnggotaModel->MemberNo();
     // $this->data['MemberNo']
@@ -472,24 +475,56 @@ public function D_sumbangan()
 }
 
 // Import Data dari EXCEL
-public function Import()
+
+public function import()
 {
-    if (!is_allowed('anggota/access')) {
+    if (!is_allowed('anggota/import')) {
         set_message('toastr_msg', lang('App.permission.not.have'));
         set_message('toastr_type', 'error');
         return redirect()->to('/dashboard');
     }
 
-   
+    $this->data['title'] = 'Import Anggota';
 
-    
-    // $Nomember=$this->anggotaModel->MemberNo();
-    $this->data['title'] = 'Import Data Excel';
-    $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-    
-    // $this->data['MemberNo'] = $this->AnggotaModel->MemberNo();
-    // $this->data['MemberNo']
-    echo view('Anggota\Views\Import-Data',$this->data);
+    $this->validation->setRule('file_template', 'File Template', 'required');
+    if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
+        
+        // Logic Upload
+        $files = (array) $this->request->getPost('file_template');
+        if (count($files)) {
+            $listed_file = array();
+            foreach ($files as $uuid => $name) {
+                if (file_exists($this->uploadPath . $name)) {
+                    $file = new File($this->uploadPath . $name);
+                    
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+                    // dd($spreadsheet);
+
+                    $spreadsheet_arr = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                    $inserts = array();
+                    foreach($spreadsheet_arr as $row){
+                        $inserts[] = array(
+                            'name' => $row['A'],
+                            // 'nomor' => $row['B'],
+                            // 'bla' => $row['C'],
+                            // 'bla' => $row['D'],
+                        );
+                    }
+
+                    dd($inserts);
+
+                    // $this->db->table('t_anggota')->insertBatch($inserts);
+
+                }
+            }
+        }
+
+    } else {
+        $this->data['redirect'] = base_url('anggota/import');
+        set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
+        echo view('Anggota\Views\Import-Data',$this->data);
+    }
+}
 }
 
-}
+

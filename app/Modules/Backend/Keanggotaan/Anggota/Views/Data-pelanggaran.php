@@ -32,15 +32,13 @@
     <div class="col-md-12 tab-pane">
         <div class="card">
             <div class="card-header p-2">
-            <?php foreach ($anggotas as $row) : ?>
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link " href="<?= base_url('anggota/edit/'. $row->id) ?>">Update</a></li>
+                    <li class="nav-item"><a class="nav-link " href="#activity" data-toggle="tab">Update</a></li>
                     <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ambil Foto</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_pelanggaran') ?>">Data Pelanggaran</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman') ?>">Data peminjaman</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman') ?>">Data peminjaman</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_perpanjangan') ?>">Data Perpanjangan</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_sumbangan') ?>">Data Sumbangan</a></li>
-                <?php endforeach; ?>
 
                 </ul>
             </div><!-- /.card-header -->
