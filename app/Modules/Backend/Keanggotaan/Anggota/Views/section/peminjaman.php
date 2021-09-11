@@ -15,7 +15,7 @@ $member_id = $request->getVar('MemberID') ?? 0;
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-id icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?= lang('Anggota.field.sumbangan') ?>
                     <div class="page-title-subheading"><?= lang('Anggota.info.list_all') ?>
@@ -42,31 +42,40 @@ $member_id = $request->getVar('MemberID') ?? 0;
             </div>
             <div class="main-card mb-3 card">
                 <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate">
-                    </i><?= lang('Anggota.label.table') ?> Sumbangan
+                    </i><?= lang('Anggota.label.table') ?> Peminjaman
                     <div class="btn-actions-pane-right actions-icon-btn">
 
                     </div>
                 </div>
                 <div class="card-body">
                     <?= get_message('message'); ?>
-                    <table style="width: 100%;" id="tbl_anggotas"
+                    <table style="width: 100%;" id="tbl_peminjamans"
                         class="table table-hover table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Jumlah Sumbangan </th>
-                                <th>jumlah koleksi</th>
-                                <th>Keterangan</th>
-                               
+                                <th>No. Peminjaman</th>
+                                <th>No. Item</th>
+                                <th>Judul</th>
+                                <th>Status</th>
+                                <th>Tgl. Pinjam</th>
+                                <th>Tgl. Harus Kembali</th>
+                                <th>Tgl. Kembali</th>
+                                <th>Hari Terlambat</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 1; foreach (get_sumbangan($member_id) as $row) : ?>
+                            <?php $no = 1; foreach (get_peminjaman($member_id) as $row) : ?>
                             <tr>
 								<td width="35"><?=$no?></td>
-								<td><?=$row->jumlah?></td>
-								<td>-</td>
-								<td><?=$row->description?></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
                             </tr>
                             <?php $no++; endforeach; ?>
                         </tbody>
@@ -80,7 +89,7 @@ $member_id = $request->getVar('MemberID') ?? 0;
     <?= $this->section('script'); ?>
 
     <script>
-    setDataTable('#tbl_anggotas', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
+    setDataTable('#tbl_peminjamans', disableOrderCols = [0], defaultOrderCols = [1, 'asc'], autoNumber = true);
 
     $("body").on("click", ".remove-data", function() {
         var url = $(this).attr('data-href');

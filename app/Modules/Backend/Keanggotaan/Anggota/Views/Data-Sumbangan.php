@@ -15,7 +15,7 @@ $member_id = $request->getVar('MemberID') ?? 0;
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-id icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?= lang('Anggota.field.sumbangan') ?>
                     <div class="page-title-subheading"><?= lang('Anggota.info.list_all') ?>

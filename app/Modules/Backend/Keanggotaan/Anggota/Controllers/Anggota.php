@@ -187,11 +187,6 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         }
     }
 
-     
-
-
-    
-
     public function edit(int $id = null)
     {
         if (!is_allowed('anggota/update')) {
@@ -200,20 +195,22 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
                 return redirect()->to('/dashboard');
         }
 
+		$anggota = $this->anggotaModel->find($id);
+
         $this->data['title'] = 'Ubah Anggota';
-        $anggota = $this->anggotaModel->find($id);
-         $this->data['ref_identitas'] = get_references('ref_identitas');
-         $this->data['ref_perkawinan'] = get_references('ref_perkawinan');
-         $this->data['ref_jeniskelamin'] = get_references('ref_jeniskelamin');
-         $this->data['ref_pendidikan'] = get_references('ref_pendidikan');
-         $this->data['ref_pekerjaan'] = get_references('ref_perkerjaan');
-         $this->data['ref_jenisanggota'] = get_references('ref_jenisanggota');
-         $this->data['ref_agama'] = get_references('ref_agama');
-         $this->data['ref_unitkerja'] = get_references('ref_unitkerja');
-         $this->data['ref_fakultas'] = get_references('ref_fakultas');
-         $this->data['ref_jurusan'] = get_references('ref_jurusan');
-         $this->data['ref_Statusanggota'] = get_references('statanggota');
-         $this->data['anggota'] = $anggota;
+
+        $this->data['anggota'] = $anggota;
+		$this->data['ref_identitas'] = get_references('ref_identitas');
+		$this->data['ref_perkawinan'] = get_references('ref_perkawinan');
+		$this->data['ref_jeniskelamin'] = get_references('ref_jeniskelamin');
+		$this->data['ref_pendidikan'] = get_references('ref_pendidikan');
+		$this->data['ref_pekerjaan'] = get_references('ref_perkerjaan');
+		$this->data['ref_jenisanggota'] = get_references('ref_jenisanggota');
+		$this->data['ref_agama'] = get_references('ref_agama');
+		$this->data['ref_unitkerja'] = get_references('ref_unitkerja');
+		$this->data['ref_fakultas'] = get_references('ref_fakultas');
+		$this->data['ref_jurusan'] = get_references('ref_jurusan');
+		$this->data['ref_Statusanggota'] = get_references('statanggota');
 
 		$this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost()) {
@@ -300,6 +297,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['redirect'] = base_url('anggota/edit/' . $id);
+
         echo view('Anggota\Views\update', $this->data);
     }
 

@@ -15,7 +15,7 @@ $member_id = $request->getVar('MemberID') ?? 0;
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-id icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?= lang('Anggota.field.sumbangan') ?>
                     <div class="page-title-subheading"><?= lang('Anggota.info.list_all') ?>
@@ -37,46 +37,43 @@ $member_id = $request->getVar('MemberID') ?? 0;
     </div>
     <div class="col-md-12 tab-pane">
         <div class="card">
-            <div class="card-header p-2">
-            
-                <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link " href="<?= base_url('anggota/edit/'. $anggotas[0]->id) ?>">Update</a></li>
-             
-                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ambil Foto</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_pelanggaran?MemberID='.$member_id) ?>">Data Pelanggaran</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman?MemberID='.$member_id) ?>">Data peminjaman</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_perpanjangan?MemberID='.$member_id) ?>">Data Perpanjangan</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_sumbangan?MemberID='.$member_id) ?>">Data Sumbangan</a></li>
-
-                </ul>
-            </div><!-- /.card-header -->
+			<div class="card-header p-2">
+				<?= $this->include('Anggota\Views\section\tab'); ?>
+            </div>
             <div class="main-card mb-3 card">
                 <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate">
-                    </i><?= lang('Anggota.label.table') ?> Perpanjangan
+                    </i><?= lang('Anggota.label.table') ?> Pelanggaran
                     <div class="btn-actions-pane-right actions-icon-btn">
 
                     </div>
                 </div>
                 <div class="card-body">
                     <?= get_message('message'); ?>
-                    <table style="width: 100%;" id="tbl_anggotas"
+                    <table style="width: 100%;" id="tbl_pelanggarans"
                         class="table table-hover table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Jumlah Sumbangan </th>
-                                <th>jumlah koleksi</th>
-                                <th>Keterangan</th>
-                               
+                                <th>No. Barcode</th>
+                                <th>Judul</th>
+                                <th>Jenis pelanggaran</th>
+                                <th>Sanksi</th>
+                                <th>Jumlah Denda</th>
+                                <th>Jumlah Suspend</th>
+                                <th>Tanggal Denda</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 1; foreach (get_sumbangan($member_id) as $row) : ?>
+                            <?php $no = 1; foreach (get_pelanggaran($member_id) as $row) : ?>
                             <tr>
 								<td width="35"><?=$no?></td>
-								<td><?=$row->jumlah?></td>
-								<td>-</td>
-								<td><?=$row->description?></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
                             </tr>
                             <?php $no++; endforeach; ?>
                         </tbody>
@@ -90,7 +87,7 @@ $member_id = $request->getVar('MemberID') ?? 0;
     <?= $this->section('script'); ?>
 
     <script>
-    setDataTable('#tbl_anggotas', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
+    setDataTable('#tbl_pelanggarans', disableOrderCols = [0], defaultOrderCols = [1, 'asc'], autoNumber = true);
 
     $("body").on("click", ".remove-data", function() {
         var url = $(this).attr('data-href');

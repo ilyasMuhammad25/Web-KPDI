@@ -17,7 +17,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-id icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?=lang('Anggota.action.add')?> <?=lang('Anggota.module')?>
                     <div class="page-title-subheading"><?=lang('Anggota.form.complete_the_data')?>.</div>
