@@ -530,7 +530,7 @@ public function import()
     } else {
         $this->data['redirect'] = base_url('anggota/import');
         set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-        echo view('Anggota\Views\Import-Data',$this->data);
+        echo view('Anggota\Views\import',$this->data);
     }
 }
 }
