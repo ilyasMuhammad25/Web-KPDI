@@ -40,19 +40,7 @@ $request->uri->setSilent();
     <div class="col-md-12 tab-pane">
         <div class="card">
             <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link " href="#activity">Update</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline">Ambil Foto</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_pelanggaran') ?>">Data
-                            Pelanggaran</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman') ?>">Data
-                            peminjaman</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_perpanjangan') ?>">Data
-                            Perpanjangan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_sumbangan') ?>">Data
-                            Sumbangan</a></li>
-
-                </ul>
+				<?= $this->include('Anggota\Views\section\tab'); ?>
             </div>
             <div class="main-card mb-3 card">
                 <div class="card-header">

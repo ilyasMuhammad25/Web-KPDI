@@ -1,31 +1,7 @@
 <style>
 :root {
-  --sidebar-width: 300px;
-  --min-sidebar-width: -300px;
-}
-
-.drawer-open {
-	/* width: calc(100% - var(--sidebar-width)) !important; */
-	width: 75% !important;
-	z-index: 1000 !important;
-}
-
-.swal2-container {
-    z-index: 2000 !important;
-}
-
-.select2-container--default .select2-selection--single{
-	padding:6px;
-	height: 37px;
-	font-size: 1.1em;  
-	position: relative;
-}
-
-.tox.tox-tinymce.tox-fullscreen {
-    z-index: 1050;
-    top: 60px!important;
-    left: 85px!important;
-    width: calc(100% - 90px) !important;
+  --sidebar-width: 320px;
+  --min-sidebar-width: -320px;
 }
 </style>
 

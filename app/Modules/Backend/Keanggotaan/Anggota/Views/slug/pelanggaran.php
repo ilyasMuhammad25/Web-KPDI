@@ -52,7 +52,7 @@ $member_id = $request->getVar('MemberID') ?? 0;
             </div><!-- /.card-header -->
             <div class="main-card mb-3 card">
                 <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate">
-                    </i><?= lang('Anggota.label.table') ?> Sumbangan
+                    </i><?= lang('Anggota.label.table') ?> Pelanggaran
                     <div class="btn-actions-pane-right actions-icon-btn">
 
                     </div>

@@ -37,19 +37,9 @@ $member_id = $request->getVar('MemberID') ?? 0;
     </div>
     <div class="col-md-12 tab-pane">
         <div class="card">
-            <div class="card-header p-2">
-            
-                <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link " href="<?= base_url('anggota/edit/'. $anggotas[0]->id) ?>">Update</a></li>
-             
-                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ambil Foto</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_pelanggaran?MemberID='.$member_id) ?>">Data Pelanggaran</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman?MemberID='.$member_id) ?>">Data peminjaman</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_perpanjangan?MemberID='.$member_id) ?>">Data Perpanjangan</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_sumbangan?MemberID='.$member_id) ?>">Data Sumbangan</a></li>
-
-                </ul>
-            </div><!-- /.card-header -->
+			<div class="card-header p-2">
+				<?= $this->include('Anggota\Views\section\tab'); ?>
+            </div>
             <div class="main-card mb-3 card">
                 <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate">
                     </i><?= lang('Anggota.label.table') ?> Sumbangan

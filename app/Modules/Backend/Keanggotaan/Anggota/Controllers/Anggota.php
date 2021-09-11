@@ -47,6 +47,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
         helper('adminigniter');
+		helper('anggota');
     }
 
     public function index()
@@ -57,7 +58,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-       
+		$slug = $this->request->getVar('slug');
 
         $query = $this->anggotaModel
             ->select('t_anggota.*')
@@ -67,17 +68,17 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             ->join('users updated','updated.id = t_anggota.updated_by','left');
             
         $anggotas = $query->findAll();
-        // $Nomember=$this->anggotaModel->MemberNo();
         $this->data['title'] = 'Anggota';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['anggotas'] = $anggotas;
        
-        // $this->data['MemberNo'] = $this->AnggotaModel->MemberNo();
-        // $this->data['MemberNo']
-        echo view('Anggota\Views\list', $this->data);
+		if(!empty($slug)){			
+			echo view("Anggota\Views\slug\\$slug", $this->data);
+		} else {
+			echo view('Anggota\Views\list', $this->data);
+		}
     }
 
-  
   
     public function create()
     {
@@ -454,8 +455,6 @@ public function D_sumbangan(int $id = null)
         return redirect()->to('/dashboard');
     }
 
-   
-
     $query = $this->anggotaModel
         ->select('t_anggota.*')
         ->select('created.username as created_name')
@@ -465,6 +464,7 @@ public function D_sumbangan(int $id = null)
         
     $anggotas = $query->findAll();
     $anggota = $this->anggotaModel->find($id);
+
     $this->data['title'] = 'Data-Pelanggaran';
     $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
     $this->data['anggotas'] = $anggotas;
@@ -477,8 +477,6 @@ public function D_sumbangan(int $id = null)
 
 public function import()
 {
-    $files =  $this->request->getPost('file_template');
-    dd($files);
     if (!is_allowed('anggota/import')) {
         set_message('toastr_msg', lang('App.permission.not.have'));
         set_message('toastr_type', 'error');
@@ -502,7 +500,7 @@ public function import()
                     // dd($spreadsheet);
 
                     $spreadsheet_arr = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-                    dd($spreadsheet_arr);
+                    // dd($spreadsheet_arr);
                     $inserts = array();
                     foreach($spreadsheet_arr as $row){
                         $inserts[] = array(
@@ -511,11 +509,21 @@ public function import()
                             'PlaceOfBirth'=>$row['C'],
                             'DateOfBirth'=>$row['D'],
                             'Address'=>$row['E'],
-                           
                         );
                     }
                     // dd($inserts);
-                    $this->db->table('t_anggota')->insertBatch($inserts);
+                    $anggotaSaved = $this->anggotaModel->insertBatch($inserts);
+					if ($anggotaSaved) {
+						add_log('Import Anggota', 'anggota', 'import', 't_anggota');
+						set_message('toastr_msg', 'Import Anggota berhasil');
+						set_message('toastr_type', 'success');
+						return redirect()->to('/anggota');
+					} else {
+						set_message('toastr_msg', 'Import Anggota gagal');
+						set_message('toastr_type', 'warning');
+						set_message('message', 'Import Anggota gagal');
+						return redirect()->to('/anggota/import');
+					}
 
                 }
             }
