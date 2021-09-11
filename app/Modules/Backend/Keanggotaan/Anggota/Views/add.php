@@ -387,9 +387,12 @@ $display='block';
                                         </div>
                                     </div>
                                     <div class="custom-checkbox custom-control custom-control-inline">
-                                                            <input type="checkbox" id="frm_create_permission" name=""  class="custom-control-input">
-                                                            <label class="custom-control-label" for="frm_create_permission_"><h5>Alamat sama dengan alamat Identitas</h5></label>
-                                                      </div>
+                                        <input type="checkbox" id="frm_create_permission" name=""
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="frm_create_permission_">
+                                            <h5>Alamat sama dengan alamat Identitas</h5>
+                                        </label>
+                                    </div>
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
@@ -443,15 +446,16 @@ $display='block';
                                                 </div>
                                             </div>
                                         </div>
-                                                    </div>
+                                    </div>
 
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="name">RT Saat ini</label>
                                                 <div>
-                                                    <input type="text" class="form-control" id="frm_create_RTNow" name="RTNow"
-                                                        placeholder="RT" value="<?= set_value('RTNow'); ?>" />
+                                                    <input type="text" class="form-control" id="frm_create_RTNow"
+                                                        name="RTNow" placeholder="RT"
+                                                        value="<?= set_value('RTNow'); ?>" />
 
                                                 </div>
                                             </div>
@@ -463,8 +467,9 @@ $display='block';
                                             <div class="position-relative form-group">
                                                 <label for="name">RW Saat ini</label>
                                                 <div>
-                                                    <input type="text" class="form-control" id="frm_create_RWNow" name="RWNow"
-                                                        placeholder="RW" value="<?= set_value('RWNow'); ?>" />
+                                                    <input type="text" class="form-control" id="frm_create_RWNow"
+                                                        name="RWNow" placeholder="RW"
+                                                        value="<?= set_value('RWNow'); ?>" />
 
                                                 </div>
                                             </div>
@@ -600,7 +605,7 @@ $display='block';
                     </div>
                 </div>
                 </form>
-                <!-- Orangtua -->
+                <!-- ambil foto -->
                 <div class="tab-pane" id="timeline">
                     <div class="form-row">
                         <div class="col-md-6">

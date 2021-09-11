@@ -41,7 +41,7 @@ $request->uri->setSilent();
                   <div id="infoMessage"><?= $message ?? ''; ?></div>
                   <?= get_message('message'); ?>
 
-                  <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('anggota/import'); ?>">
+                  <form id="frm_create" class="col-md-12 mx-auto" method="post" enctype="multipart/form-data" action="<?= base_url('anggota/import'); ?>">
                         <div class="form-row">
                               <div class="col-md-12">
                                     <div class="position-relative form-group">
@@ -55,11 +55,21 @@ $request->uri->setSilent();
                                                 </div>
                                           </div>
                                           </div>
-                                          
-                                          <div id="file_template" class="dropzone"></div>
-                                          <div id="file_template_listed"></div>
-                                          <small class="form-text text-muted">Format (XLSX). Max 10 MB.</small>
+                                          <div class="col-md-6">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label for="file_image" class="">Foto Anggota</label>
+                                        <div id="file_template" class="dropzone"></div>
+                                        <div id="file_template"></div>
+                                        <div>
+                                            <small class="info help-block text-muted">Format (JPG|PNG).
+                                                Max 10 MB</small>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
                               </div>
                         </div>
 

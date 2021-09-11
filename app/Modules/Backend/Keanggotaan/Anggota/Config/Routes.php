@@ -18,7 +18,7 @@ $routes->group('anggota', ['namespace' => 'Anggota\Controllers'], function ($sub
 	$subroutes->add('D_peminjaman', 'Anggota::D_peminjaman');
 	$subroutes->add('D_perpanjangan', 'Anggota::D_perpanjangan');
 	$subroutes->add('D_sumbangan', 'Anggota::D_sumbangan');
-	$subroutes->add('Import', 'Anggota::Import');
+	$subroutes->add('import', 'Anggota::import');
 });
 
 $routes->group('api/anggota', ['namespace' => 'Anggota\Controllers\Api'], function ($subroutes) {

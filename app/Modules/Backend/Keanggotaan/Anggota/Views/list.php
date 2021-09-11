@@ -34,7 +34,7 @@
             <div class="btn-actions-pane-right actions-icon-btn">
             
                 <?php if(is_allowed('anggota/create')):?>
-                    <a href="<?= base_url('sanggota/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Anggota.action.add') ?> <?= lang('Anggota.module') ?> </a>
+                    <a href="<?= base_url('anggota/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Anggota.action.add') ?> <?= lang('Anggota.module') ?> </a>
                 <?php endif;?>
             </div>
             

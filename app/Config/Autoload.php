@@ -62,6 +62,9 @@ class Autoload extends AutoloadConfig
 					'Sirkulasi' 		=> APPPATH . 'Modules/Backend/Sirkulasi',
             		'Anggota' 			=> APPPATH . 'Modules/Backend/Keanggotaan/Anggota',
 					'Mastertag'		 	=> APPPATH . 'Modules/Backend/Mastertag',
+					'KeranjangAnggota' 	=> APPPATH . 'Modules/Backend/Keanggotaan/KeranjangAnggota',
+					'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	       
+ 					'Sumbangan'			 => APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
 	];
 
 	/**

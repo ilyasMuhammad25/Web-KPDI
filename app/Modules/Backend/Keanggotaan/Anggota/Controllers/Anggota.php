@@ -3,6 +3,8 @@
 namespace Anggota\Controllers;
 
 use \CodeIgniter\Files\File;
+use PHPExcel;
+use PHPExcel_IOFactory;
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -463,14 +465,11 @@ public function D_sumbangan(int $id = null)
         
     $anggotas = $query->findAll();
     $anggota = $this->anggotaModel->find($id);
-    // $Nomember=$this->anggotaModel->MemberNo();
     $this->data['title'] = 'Data-Pelanggaran';
     $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
     $this->data['anggotas'] = $anggotas;
     $this->data['anggota'] = $anggota;
    
-    // $this->data['MemberNo'] = $this->AnggotaModel->MemberNo();
-    // $this->data['MemberNo']
     echo view('Anggota\Views\Data-Sumbangan',$this->data);
 }
 
@@ -478,6 +477,8 @@ public function D_sumbangan(int $id = null)
 
 public function import()
 {
+    $files =  $this->request->getPost('file_template');
+    dd($files);
     if (!is_allowed('anggota/import')) {
         set_message('toastr_msg', lang('App.permission.not.have'));
         set_message('toastr_type', 'error');
@@ -490,7 +491,7 @@ public function import()
     if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
         
         // Logic Upload
-        $files = (array) $this->request->getPost('file_template');
+        $files =  $this->request->getPost('file_template');
         if (count($files)) {
             $listed_file = array();
             foreach ($files as $uuid => $name) {
@@ -501,19 +502,20 @@ public function import()
                     // dd($spreadsheet);
 
                     $spreadsheet_arr = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                    dd($spreadsheet_arr);
                     $inserts = array();
                     foreach($spreadsheet_arr as $row){
                         $inserts[] = array(
-                            'name' => $row['A'],
-                            // 'nomor' => $row['B'],
-                            // 'bla' => $row['C'],
-                            // 'bla' => $row['D'],
+                            'MemberNo'=>$row['A'],
+                            'name' => $row['B'],
+                            'PlaceOfBirth'=>$row['C'],
+                            'DateOfBirth'=>$row['D'],
+                            'Address'=>$row['E'],
+                           
                         );
                     }
-
-                    dd($inserts);
-
-                    // $this->db->table('t_anggota')->insertBatch($inserts);
+                    // dd($inserts);
+                    $this->db->table('t_anggota')->insertBatch($inserts);
 
                 }
             }
