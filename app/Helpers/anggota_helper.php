@@ -28,12 +28,12 @@ if (!function_exists('get_sumbangan')) {
 if (!function_exists('get_perpanjangan')) {
     function get_perpanjangan($member_id = null)
     {        
-		$model = new \Anggota\Models\SumbanganModel();
+		$model = new \Sumbangan\Models\SumbanganModel();
         $query = $model
             ->select('t_sumbangan.*');
 
 		if(!empty($member_id)){
-			$query->where('member_id',$member_id);
+			$query->where('t_member_id',$member_id);
 		}
 
 		$data = $query->get()->getResult();
@@ -44,7 +44,7 @@ if (!function_exists('get_perpanjangan')) {
 if (!function_exists('get_peminjaman')) {
     function get_peminjaman($member_id = null)
     {        
-		$model = new \Anggota\Models\SumbanganModel();
+		$model = new \Sumbangan\Models\SumbanganModel();
         $query = $model
             ->select('t_sumbangan.*');
 
@@ -60,12 +60,12 @@ if (!function_exists('get_peminjaman')) {
 if (!function_exists('get_pelanggaran')) {
     function get_pelanggaran($member_id = null)
     {        
-		$model = new \Anggota\Models\SumbanganModel();
+		$model = new \Sumbangan\Models\SumbanganModel();
         $query = $model
             ->select('t_sumbangan.*');
 
 		if(!empty($member_id)){
-			$query->where('member_id',$member_id);
+			$query->where('t_member_id',$member_id);
 		}
 
 		$data = $query->get()->getResult();
