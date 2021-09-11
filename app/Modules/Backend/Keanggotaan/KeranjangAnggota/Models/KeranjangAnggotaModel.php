@@ -9,7 +9,7 @@ class KeranjangAnggotaModel extends \hamkamannan\adminigniter\Models\BaseModel
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
     protected $allowedFields = [
-        'id', 'slug', 'name', 'description', 'sort',  'active', 'created_by', 'updated_by'
+        'id', 't_anggota_id','description', 'sort',  'active', 'created_by', 'updated_by'
     ];
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

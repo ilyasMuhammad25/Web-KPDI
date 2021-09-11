@@ -32,8 +32,12 @@
         <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate">
             </i><?= lang('Anggota.label.table') ?> <?= lang('Anggota.module') ?>
             <div class="btn-actions-pane-right actions-icon-btn">
-
+            
+                <?php if(is_allowed('anggota/create')):?>
+                    <a href="<?= base_url('sanggota/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Anggota.action.add') ?> <?= lang('Anggota.module') ?> </a>
+                <?php endif;?>
             </div>
+            
         </div>
         <div class="card-body">
             <?= get_message('message'); ?>

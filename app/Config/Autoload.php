@@ -61,10 +61,7 @@ class Autoload extends AutoloadConfig
 					'SampulBuku' 		=> APPPATH . 'Modules/Backend/Koleksi/SampulBuku',
 					'Sirkulasi' 		=> APPPATH . 'Modules/Backend/Sirkulasi',
             		'Anggota' 			=> APPPATH . 'Modules/Backend/Keanggotaan/Anggota',
-            		'Sumbangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
 					'Mastertag'		 	=> APPPATH . 'Modules/Backend/Mastertag',
-					'KeranjangAnggota' 	=> APPPATH . 'Modules/Backend/Keanggotaan/KeranjangAnggota',
-					'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	
 	];
 
 	/**

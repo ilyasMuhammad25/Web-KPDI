@@ -1,7 +1,7 @@
 <?php
 
 return [
-   'module' => 'Sumbangan',
+   'module' => 'Members',
 
    'form.complete_the_data' => 'Mohon lengkapi data pada form berikut',
 
@@ -9,8 +9,10 @@ return [
    'field.status' => 'Status',
    'field.id' => 'ID',
    'field.name' => 'Nama',
-   'field.total' => 'Jumlah',
-   'field.MemberNo' => 'Nomor Anggota',
+   'field.Jenisidentitas'=>'Jenis Identitas',
+   'field.Jenisanggota'=>'Jenis Anggota',
+   'field.Statusperkawinan'=>'Status Perkawinan',
+   'field.Agama'=>'Agama',
    'field.slug' => 'Slug',
    'field.sort' => 'Urutan',
    'field.category' => 'Kategori',
@@ -32,14 +34,14 @@ return [
    'info.list_all' => 'Daftar Semua',
    'info.not_found' => 'Tidak ditemukan',
    'info.success' => 'Berhasil',
-   'info.successfully_saved' => 'Sumbangan berhasil disimpan',
-   'info.successfully_deleted' => 'Sumbangan berhasil dihapus',
-   'info.successfully_updated' => 'Sumbangan berhasil diubah',
+   'info.successfully_saved' => 'Members berhasil disimpan',
+   'info.successfully_deleted' => 'Members berhasil dihapus',
+   'info.successfully_updated' => 'Members berhasil diubah',
    'info.error' => 'Error',
    'info.failed' => 'Gagal',
-   'info.failed_to_save' => 'Sumbangan gagal disimpan',
-   'info.failed_to_delete' => 'Sumbangan gagal dihapus',
-   'info.failed_to_update' => 'Sumbangan gagal diubah',
+   'info.failed_to_save' => 'Members gagal disimpan',
+   'info.failed_to_delete' => 'Members gagal dihapus',
+   'info.failed_to_update' => 'Members gagal diubah',
    'info.warning' => 'Peringatan',
    'info.are_you_sure' => 'Anda yakin ?',
    'info.can_not_be_restored' => 'Tidak bisa dikembalikan',

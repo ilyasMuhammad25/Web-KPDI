@@ -12,8 +12,7 @@ class KeranjangAnggota extends Migration
 		$this->forge->dropTable('t_keranjanganggota', true);
 		$this->forge->addField([
 			'id' 			=> ['type' => 'MEDIUMINT','constraint' => '11','unsigned' => true,'auto_increment' => true,],
-			'name' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
-			'slug' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
+			't_anggota_id' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
 			'sort' 			=> ['type' => 'MEDIUMINT','constraint' => '8','null' => true,],
 			'description' 	=> ['type' => 'VARCHAR','constraint' => '255','null' => true,],
 			'active' 		=> ['type' => 'TINYINT','constraint' => '1','unsigned' => true,'default' => 1,],

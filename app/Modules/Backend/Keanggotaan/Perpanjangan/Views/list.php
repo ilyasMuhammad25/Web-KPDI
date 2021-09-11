@@ -36,50 +36,65 @@
         <div class="card-body">
             <?= get_message('message'); ?>
             <table style="width: 100%;" id="tbl_perpanjangans" class="table table-hover table-striped table-bordered">
-                <thead>
+            <thead>
                     <tr>
-                        <th><?= lang('Perpanjangan.field.no') ?> </th>
-                        <th><?= lang('Perpanjangan.field.name') ?></th>
-                        <th><?= lang('Perpanjangan.field.description') ?></th>
-                        <th><?= lang('Perpanjangan.field.sort') ?></th>
-                        <th><?= lang('Perpanjangan.field.active') ?></th>
-                        <th><?= lang('Perpanjangan.field.created_by') ?></th>
-                        <th><?= lang('Perpanjangan.field.updated_by') ?></th>
-                        <th><?= lang('Perpanjangan.label.action') ?></th>
+                        <th><?= lang('Anggota.field.no') ?> </th>
+                        <th><?= lang('Banner.field.photo') ?> </th>
+                        <th><?= lang('Anggota.field.name') ?></th>
+                        <th><?= lang('Anggota.field.MemberNo') ?></th>
+                        <th><?= lang('Anggota.field.Email') ?></th>
+                        <th><?= lang('Anggota.field.active') ?></th>
+                        <th><?= lang('Anggota.field.created_by') ?></th>
+                        <th><?= lang('Anggota.field.updated_by') ?></th>
+                        <th><?= lang('Anggota.label.action') ?></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($perpanjangans as $row) : ?>
-                        <tr>
-                            <td width="35"></td>
-                            <td width="200">
-                                <?= _spec($row->name); ?> <br>
-                            </td>
-                            <td><?= _spec($row->description); ?></td>
-                            <td width="35"><?= _spec($row->sort); ?></td>
-                            <td width="50">
-                                <input type="checkbox" class="apply-status" data-href="<?= base_url('perpanjangan/apply_status'); ?>" data-field="active" data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
-                            </td>
-                            <td width="100">
-                                <span class="badge badge-info"><?= _spec($row->created_at); ?></span><br>
-                                <span class="badge badge-info"><?= _spec($row->created_name); ?></span>
-                            </td>
-                            <td width="100">
-                                <span class="badge badge-info"><?= _spec($row->updated_at); ?></span><br>
-                                <span class="badge badge-info"><?= _spec($row->updated_name ?? '-'); ?></span>
-                            </td>
-                            <td width="35">
-                                <?php if(is_allowed('perpanjangan/read')):?>
-                                    <!-- <a href="<?= base_url('perpanjangan/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Perpanjangan" class="btn btn-xs btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
-                                <?php endif;?>
-                                <?php if(is_allowed('perpanjangan/update')):?>
-                                    <a href="<?= base_url('perpanjangan/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Perpanjangan" class="btn btn-xs btn-warning mb-1 show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
-                                <?php endif;?>
-                                <?php if(is_allowed('perpanjangan/delete')):?>
-                                    <a href="javascript:void(0);" data-href="<?= base_url('perpanjangan/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus  rud" class="btn btn-xs btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
-                                <?php endif;?>
-                            </td>
-                        </tr>
+                    <?php foreach ($anggotas as $row) : ?>
+                    <tr>
+                       
+                        <td width="35"></td>
+                        <td width="100">
+                        <a href="<?= base_url('uploads/anggota/' . $row->file_image) ?>" class="image-link"><img width="100" class="rounded" src="<?= base_url('uploads/anggota/' . $row->file_image) ?>" alt=""></a>
+                        </td>
+                        <td width="200">
+                            <?= _spec($row->name); ?> <br>
+                        </td>
+                        <td><?= _spec($row->MemberNo); ?></td>
+                        <td><?= _spec($row->Email); ?></td>
+                        <!-- <td width="35"><?= _spec($row->sort); ?></td> -->
+                        <td width="50">
+                            <input type="checkbox" class="apply-status"
+                                data-href="<?= base_url('anggota/apply_status'); ?>" data-field="active"
+                                data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle"
+                                data-onstyle="success">
+                        </td>
+                        <td width="100">
+                            <span class="badge badge-info"><?= _spec($row->created_at); ?></span><br>
+                            <span class="badge badge-info"><?= _spec($row->created_name); ?></span>
+                        </td>
+                        <td width="100">
+                            <span class="badge badge-info"><?= _spec($row->updated_at); ?></span><br>
+                            <span class="badge badge-info"><?= _spec($row->updated_name ?? '-'); ?></span>
+                        </td>
+                        <td width="35">
+                            <?php if(is_allowed('anggota/read')):?>
+                            <!-- <a href="<?= base_url('anggota/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Anggota" class="btn btn-xs btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
+                            <?php endif;?>
+                            <?php if(is_allowed('anggota/update')):?>
+                            <a href="<?= base_url('anggota/edit/' . $row->id) ?>" data-toggle="tooltip"
+                                data-placement="top" title="Ubah Anggota"
+                                class="btn btn-xs btn-warning mb-1 show-data"><i class="pe-7s-note font-weight-bold">
+                                </i></a>
+                            <?php endif;?>
+                            <?php if(is_allowed('anggota/delete')):?>
+                            <a href="javascript:void(0);" data-href="<?= base_url('anggota/delete/' . $row->id); ?>"
+                                data-toggle="tooltip" data-placement="top" title="Hapus  rud"
+                                class="btn btn-xs btn-danger remove-data"><i class="pe-7s-trash font-weight-bold">
+                                </i></a>
+                            <?php endif;?>
+                        </td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

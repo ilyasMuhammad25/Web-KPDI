@@ -32,15 +32,15 @@
     <div class="col-md-12 tab-pane">
         <div class="card">
             <div class="card-header p-2">
-            <?php foreach ($anggotas as $row) : ?>
+            
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link " href="<?= base_url('anggota/edit/'. $row->id) ?>">Update</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ambil Foto</a></li>
+                <li class="nav-item"><a class="nav-link " href="<?= base_url('anggota/edit/'. $anggotas[0]->id) ?>">Update</a></li>
+             
+                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ambil Foto</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_pelanggaran') ?>">Data Pelanggaran</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#settings1" data-toggle="tab">Data peminjaman</a></li>
-                <li class="nav-item"><a class="nav-link" href="#settings1" data-toggle="tab">Data Perpanjangan</a></li>
-                <li class="nav-item"><a class="nav-link" href="#settings1" data-toggle="tab">Data Sumbangan</a></li>
-                <?php endforeach; ?>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_peminjaman') ?>">Data peminjaman</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_perpanjangan') ?>">Data Perpanjangan</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= base_url('anggota/D_sumbangan') ?>">Data Sumbangan</a></li>
 
                 </ul>
             </div><!-- /.card-header -->
@@ -58,10 +58,9 @@
                         <thead>
                             <tr>
                                 <th><?= lang('Anggota.field.no') ?> </th>
-                                <th><?= lang('Anggota.field.peminjaman') ?> </th>
-                                <th>Tanggal Berakhir</th>
-                                <th>Biaya</th>
-                                <th>Lunas</th>
+                                <th>Jumlah Sumbangan </th>
+                                <th>jumlah koleksi</th>
+                                <th>Keterangan</th>
                                
                             </tr>
                         </thead>
@@ -70,12 +69,8 @@
                             <tr>
 
                                 <td width="35"></td>
-                                <td width="100">
-                                    <!-- <a href="<?= base_url('uploads/anggota/' . $row->file_image) ?>"
-                                        class="image-link"><img width="100" class="rounded"
-                                            src="<?= base_url('uploads/anggota/' . $row->file_image) ?>" alt=""></a> -->
-                                </td>
-                                <td width="100">
+                               
+                                <td width="150">
                                     <!-- <?= _spec($row->name); ?> <br> -->
                                 </td>
                                 <td></td>

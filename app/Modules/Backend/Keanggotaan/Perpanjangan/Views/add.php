@@ -1,6 +1,8 @@
 <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
+
+
 ?>
 
 <?= $this->extend('hamkamannan\adminigniter\layout\backend\main'); ?>
