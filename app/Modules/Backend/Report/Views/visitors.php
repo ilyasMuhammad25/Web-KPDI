@@ -1,9 +1,10 @@
-<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
-<?= $this->extend($layout); ?>
-<?= $this->section('style'); ?>
-<?= $this->endSection('style'); ?>
+<?php $core = config('Core');
+$layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
+<?=$this->extend($layout);?>
+<?=$this->section('style');?>
+<?=$this->endSection('style');?>
 
-<?= $this->section('page'); ?>
+<?=$this->section('page');?>
 <div class="app-main__inner">
     <div class="app-page-title">
         <div class="page-title-wrapper">
@@ -18,7 +19,7 @@
             <div class="page-title-actions">
                 <nav class="" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url('auth') ?>"><i class="fa fa-home"></i> Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('auth')?>"><i class="fa fa-home"></i> Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Laporan</a></li>
                         <li class="active breadcrumb-item" aria-current="page">Laporan Kunjungan </li>
                     </ol>
@@ -46,7 +47,7 @@
     <div class="main-card mb-3 card">
         <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i>Laporan Kunjungan
             <div class="btn-actions-pane-right actions-icon-btn">
-                <a href="<?= base_url('report/visitors_export'); ?>" class=" btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a>
+                <a href="<?=base_url('report/visitors_export');?>" class=" btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a>
             </div>
         </div>
         <div class="card-body">
@@ -63,27 +64,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($visitors as $row) : ?>
+                    <?php foreach ($visitors as $row): ?>
                         <tr>
                             <td width="35"></td>
-                            <td width="160"><?= $row->timestamp ?></td>
-                            <td width="160"><?= _spec($row->ip_address); ?></td>
-                            <td><?= _spec($row->ip_regionName); ?></td>
-                            <td><?= _spec($row->ip_country); ?></td>
-                            <td width="100"><?= _spec($row->hits); ?></td>
+                            <td width="160"><?=$row->timestamp?></td>
+                            <td width="160"><?=_spec($row->ip_address);?></td>
+                            <td><?=_spec($row->ip_regionName);?></td>
+                            <td><?=_spec($row->ip_country);?></td>
+                            <td width="100"><?=_spec($row->hits);?></td>
                             <td width="160">
-                                <span class="badge badge-warning badge-pill"><?= $row->updated_at ?></span>
+                                <span class="badge badge-warning badge-pill"><?=$row->updated_at?></span>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endforeach;?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<?= $this->endSection('page'); ?>
+<?=$this->endSection('page');?>
 
-<?= $this->section('script'); ?>
+<?=$this->section('script');?>
 
 
 <script>
@@ -133,4 +134,4 @@ $( document ).ready(function() {
 <script>
     setDataTable('#tbl_visitors', disableOrderCols = [0], defaultOrderCols = [6, 'desc'], autoNumber = true);
 </script>
-<?= $this->endSection('script'); ?>
+<?=$this->endSection('script');?>

@@ -1,9 +1,10 @@
-<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
-<?= $this->extend($layout); ?>
-<?= $this->section('style'); ?>
-<?= $this->endSection('style'); ?>
+<?php $core = config('Core');
+$layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
+<?=$this->extend($layout);?>
+<?=$this->section('style');?>
+<?=$this->endSection('style');?>
 
-<?= $this->section('page'); ?>
+<?=$this->section('page');?>
 <div class="app-main__inner">
     <div class="app-page-title">
         <div class="page-title-wrapper">
@@ -14,20 +15,16 @@
                 <div>Laporan Aktivitas
                     <div class="page-title-subheading">Daftar Semua Kunjungan</div>
                 </div>
-            </div>
-            <div class="page-title-actions">
+            </div><div class="page-title-actions">
                 <nav class="" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url('auth') ?>"><i class="fa fa-home"></i> Home</a></li>
+                    <ol class="breadcrumb"><li class="breadcrumb-item"><a href="<?=base_url('auth')?>"><i class="fa fa-home"></i> Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Laporan</a></li>
                         <li class="active breadcrumb-item" aria-current="page">Aktivitas</li>
                     </ol>
                 </nav>
             </div>
         </div>
-    </div>
-
-    <div class="row mb-3">
+    </div><div class="row mb-3">
         <div class="card-body pt-0">
             <h5 class="card-title">Periode Aktivitas</h5>
             <!-- <form action=""> -->
@@ -46,7 +43,7 @@
     <div class="main-card mb-3 card">
         <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i>Laporan Aktivitas
             <div class="btn-actions-pane-right actions-icon-btn">
-                <a href="<?= base_url('report/logs_export'); ?>" class=" btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a>
+                <a href="<?=base_url('report/logs_export');?>" class=" btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a>
             </div>
         </div>
         <div class="card-body">
@@ -62,33 +59,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($logs as $row) : ?>
+                    <?php foreach ($logs as $row): ?>
                         <tr>
                             <td width="35"></td>
-                            <td width="180"><?= $row->created_at ?></td>
+                            <td width="180"><?=$row->created_at?></td>
                             <td width="120">
-                                <span class="badge badge-info badge-pill"><?= $row->username ?></span>
+                                <span class="badge badge-info badge-pill"><?=$row->username?></span>
                             </td>
-                            <td><?= nl2br($row->message); ?></td>
+                            <td><?=nl2br($row->message);?></td>
                             <td width="200">
-                                <span class="badge badge-primary"><?= $row->controller ?></span><br>
-                                <span class="badge badge-success"><?= $row->operation ?></span>
+                                <span class="badge badge-primary"><?=$row->controller?></span><br>
+                                <span class="badge badge-success"><?=$row->operation?></span>
                             </td>
                             <td width="200">
-                                <span class="badge badge-warning"><?= $row->ref_table ?></span><br>
-                                <span class="badge badge-danger"><?= $row->ref_id ?></span>
+                                <span class="badge badge-warning"><?=$row->ref_table?></span><br>
+                                <span class="badge badge-danger"><?=$row->ref_id?></span>
 
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endforeach;?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<?= $this->endSection('page'); ?>
+<?=$this->endSection('page');?>
 
-<?= $this->section('script'); ?>
+<?=$this->section('script');?>
 
 
 <script>
@@ -130,12 +127,9 @@ $( document ).ready(function() {
     $('#btnSearch').click(function(){
         window.location.replace(url);
     });
-
-
-
 });
 </script>
 <script>
     setDataTable('#tbl_logs', disableOrderCols = [0], defaultOrderCols = [1, 'desc'], autoNumber = true);
 </script>
-<?= $this->endSection('script'); ?>
+<?=$this->endSection('script');?>
