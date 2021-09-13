@@ -144,7 +144,7 @@
         return false;
     }
 
-    /* Dropzone*/
+    /* Dropzone*/ 
     function setDropzone(domID, routePath, acceptedFiles = 'application/pdf', maxFiles = 1, maxFilesize = 10){
         Dropzone.autoDiscover = false;
 
