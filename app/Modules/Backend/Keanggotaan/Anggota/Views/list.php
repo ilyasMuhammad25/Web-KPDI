@@ -3,8 +3,7 @@ $request = \Config\Services::request();
 $request->uri->setSilent();
 ?>
 
-<?php $core = config('Core');
-$layout = (empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
+<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
 <?=$this->extend($layout);?>
 <?= $this->section('style'); ?>
 <?= $this->endSection('style'); ?>

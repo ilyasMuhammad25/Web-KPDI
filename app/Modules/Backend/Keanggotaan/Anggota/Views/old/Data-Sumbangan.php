@@ -4,7 +4,8 @@ $request->uri->setSilent();
 $member_id = $request->getVar('MemberID') ?? 0;
 ?>
 
-<?= $this->extend('hamkamannan\adminigniter\layout\backend\main'); ?>
+<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
+<?=$this->extend($layout);?>
 <?= $this->section('style'); ?>
 
 <?= $this->endSection('style'); ?>

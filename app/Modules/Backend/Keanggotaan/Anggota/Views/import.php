@@ -3,12 +3,6 @@ $request = \Config\Services::request();
 $request->uri->setSilent();
 $slug = $request->getVar('slug') ?? 'keanggotaan';
 $member_id = $request->getVar('member_id') ?? 0;
-
-	$path = WRITEPATH; 
-	chmod($path, 0755);
-
-	$path2 = WRITEPATH . '\\uploads'; 
-	chmod($path2, 0755);
 ?>
 
 
