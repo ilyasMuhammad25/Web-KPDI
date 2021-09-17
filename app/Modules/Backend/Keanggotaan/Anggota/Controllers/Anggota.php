@@ -5,7 +5,6 @@ namespace Anggota\Controllers;
 use \CodeIgniter\Files\File;
 use PHPExcel;
 use PHPExcel_IOFactory;
-use Dompdf\Dompdf;
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -555,13 +554,31 @@ public function cetakKartu(){
         return redirect()->to('/dashboard');
     }
 
-     $this->data['title'] = 'Import Anggota';
-     $kartu = $this->anggotaModel->findAll();
-     $this->data['kartu'] = $kartu;
+	$this->data['title'] = 'Import Anggota';
+	$this->data['kartu'] = array();
+
+	// 1. composer require mpdf/mpdf
+
+	// $qrCode = new \Mpdf\QrCode\QrCode('Perpusnas RI');
+	// $output = new \Mpdf\QrCode\Output\Html();
+	// $html_qr = $output->output($qrCode, 100, [255, 255, 255], [10, 10, 10]);
+
+	// 2. composer require mpdf/qrcode
+
+	// 3. composer require picqer/php-barcode-generator
+
+	// $barcode = new \Picqer\Barcode\BarcodeGeneratorHTML();
+	// $html_bar = $barcode->getBarcode('081231723897', $barcode::TYPE_CODE_39);
+	// echo $html_bar;
+
+
+    //  $this->data['title'] = 'Import Anggota';
+    //  $kartu = $this->anggotaModel->findAll();
+    //  $this->data['kartu'] = $kartu;
     
 
      // instantiate and use the dompdf class
-     $dompdf = new Dompdf();
+     $dompdf = new \Dompdf\Dompdf();
      $html= view('Anggota\Views\cetak-kartu',$this->data);
      $dompdf->loadHtml($html);
      
