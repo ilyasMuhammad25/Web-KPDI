@@ -12,7 +12,7 @@ if (!function_exists('get_references')) {
         $references = $baseModel
             ->select('c_references.*')
             ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.controller', $controller)
+            ->where('lower(c_menus.controller)', strtolower($controller))
             ->find_all('c_references.sort', 'asc');
 
         return $references;
@@ -27,7 +27,7 @@ if (!function_exists('get_references_slug')) {
         $references = $baseModel
             ->select('c_references.*')
             ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.slug', $slug)
+			->where('lower(c_menus.slug)', strtolower($slug))
             ->find_all('c_references.sort', 'asc');
 
         return $references;

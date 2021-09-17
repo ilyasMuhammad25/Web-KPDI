@@ -145,7 +145,7 @@
     }
 
     /* Dropzone*/ 
-    function setDropzone(domID, routePath, acceptedFiles = 'application/pdf', maxFiles = 1, maxFilesize = 10){
+    function setDropzone(domID, routePath, acceptedFiles = 'application/pdf', maxFiles = 1, maxFilesize = 10, writePath = false){
         Dropzone.autoDiscover = false;
 
         var baseUrl = "<?=base_url()?>" +"/"+ routePath;
@@ -198,7 +198,15 @@
                 console.log('removedfile');
                 console.log(file);
                 var name = "";
+
                 var path = "<?=WRITEPATH?>" + "/uploads/";
+
+				if(writePath){
+					var path = writePath;
+				}
+
+				//alert(path);
+
                 if (file.upload !== undefined) {
                     name = file.upload.filename;
                 } else {
