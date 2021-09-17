@@ -196,6 +196,7 @@
                 console.log(file);
                 var name = "";
                 var path = "<?=WRITEPATH?>" + "/uploads/";
+                // var path = "D:/koding/inlislite/public/uploads/"
                 if (file.upload !== undefined) {
                     name = file.upload.filename;
                 } else {

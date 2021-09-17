@@ -3,7 +3,14 @@ $request = \Config\Services::request();
 $request->uri->setSilent();
 $slug = $request->getVar('slug') ?? 'keanggotaan';
 $member_id = $request->getVar('member_id') ?? 0;
+
+	$path = WRITEPATH; 
+	chmod($path, 0755);
+
+	$path2 = WRITEPATH . '\\uploads'; 
+	chmod($path2, 0755);
 ?>
+
 
 <?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
 <?=$this->extend($layout);?>
@@ -80,5 +87,7 @@ $member_id = $request->getVar('member_id') ?? 0;
 <?=$this->section('script');?>
 <script>
       var file_template = setDropzone('file_template', 'anggota', '.xlsx,.xls', 1, 10);
+	  var path = "<?=WRITEPATH?>" + "/uploads/";
+	  
 </script>
 <?=$this->endSection('script');?>

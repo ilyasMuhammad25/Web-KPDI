@@ -5,6 +5,7 @@ namespace Anggota\Controllers;
 use \CodeIgniter\Files\File;
 use PHPExcel;
 use PHPExcel_IOFactory;
+use Dompdf\Dompdf;
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -21,6 +22,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->language->setLocale('id');
         
         $this->anggotaModel = new \Anggota\Models\AnggotaModel();
+        // $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         
 
         // $this->anggotaModel1 = new \Anggota\Models\AnggotaModel->MemberNo();
@@ -48,6 +50,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		} 
         helper('adminigniter');
 		helper('anggota');
+		helper('tgl_indo');
     }
 
     public function index()
@@ -99,22 +102,29 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     $this->data['ref_fakultas'] = get_references('ref_fakultas');
     $this->data['ref_jurusan'] = get_references('ref_jurusan');
     $this->data['ref_Statusanggota'] = get_references('statanggota');
+    
+    
+    // $this->data[' MemberNo'] =  get_MemberNo();
    
     // $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 
         $this->data['title'] = 'Tambah Anggota';
 
 		$this->validation->setRule('name', 'Nama', 'required');
+        $this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
+           
+            // $tanggal_lahir 	= $this->request->getPost('DateOfBirth');
+          
             $save_data = [
 				'name' => $this->request->getPost('name'),
                 'slug' => $slug,
                 'MemberNo'=> get_MemberNo(),
-                // 'MemberNo'=> $MemberNo,
+                // 'MemberNo'=> $this->anggotaModel->MemberNo(),
                 'IdentityNo'=> $this->request->getPost('IdentityNo'),
                 'PlaceOfBirth'=> $this->request->getPost('PlaceOfBirth'),
-                'DateOfBirth'=> $this->request->getPost('DateOfBirth'),
+                'DateOfBirth'=>  $this->request->getPost('DateOfBirth'),
                 'Address'=> $this->request->getPost('Address'),
                 'AddressNow'=> $this->request->getPost('AddressNow'),
                 'Phone'=> $this->request->getPost('Phone'),
@@ -151,6 +161,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
                 'ref_Statusanggota'=>$this->request->getPost('ref_Statusanggota'),
 				'sort' => $this->request->getPost('sort'),
 				'description' => $this->request->getPost('description'),
+				'RegisterDate' => $this->request->getPost('RegisterDate'),
                 'created_by' => user_id(),
             ];
 
@@ -213,6 +224,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_Statusanggota'] = get_references('statanggota');
 
 		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
                 $slug = url_title($this->request->getPost('name'), '-', TRUE);
@@ -259,6 +271,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
                     'ref_Statusanggota'=>$this->request->getPost('ref_Statusanggota'),
                     'sort' => $this->request->getPost('sort'),
                     'description' => $this->request->getPost('description'),
+                    'RegisterDate' => $this->request->getPost('RegisterDate'),
                     'updated_by' => user_id(),
                 ];
                   // Logic Upload
@@ -483,6 +496,7 @@ public function import()
 
     $this->data['title'] = 'Import Anggota';
 
+	
     $this->validation->setRule('file_template', 'File Template', 'required');
     if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
         
@@ -532,6 +546,33 @@ public function import()
         set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
         echo view('Anggota\Views\import',$this->data);
     }
+}
+
+public function cetakKartu(){
+    if (!is_allowed('anggota/cetakKartu')) {
+        set_message('toastr_msg', lang('App.permission.not.have'));
+        set_message('toastr_type', 'error');
+        return redirect()->to('/dashboard');
+    }
+
+     $this->data['title'] = 'Import Anggota';
+     $kartu = $this->anggotaModel->findAll();
+     $this->data['kartu'] = $kartu;
+    
+
+     // instantiate and use the dompdf class
+     $dompdf = new Dompdf();
+     $html= view('Anggota\Views\cetak-kartu',$this->data);
+     $dompdf->loadHtml($html);
+     
+     // (Optional) Setup the paper size and orientation
+     $dompdf->setPaper('A4', 'landscape');
+     
+     // Render the HTML as PDF
+     $dompdf->render();
+     
+     // Output the generated PDF to Browser
+     $dompdf->stream();
 }
 }
 
