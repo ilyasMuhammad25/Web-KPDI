@@ -110,11 +110,10 @@ if (!function_exists('get_MemberNo')) {
         ->orderBy('MemberNo','DESC')
         ->limit(1)->get()->getRowArray();
 
-        if ($kode['MemberNo']==null){
+        if (empty($kode['MemberNo'])){
             $no=1;
         }else{
-            $no=intval($kode['MemberNo']) + 1;
-        }
+            $no=intval($kode['MemberNo']) + 1; }
         $tgl= date('Ymd');
         $batas = str_pad($no, 4, "0", STR_PAD_LEFT);
         $MemberNo = $tgl.$batas;
@@ -158,4 +157,30 @@ if (!function_exists('db_count')) {
         $baseModel->setTable($table_name);
         return $baseModel->count($where);
     }
+
+    // Fungsi untuk mengubah format tanggal mejadi format tanggal Indonesia
+function tgl_indonesia($tgl){ 
+    $tanggal = substr($tgl,8,2);
+    $nama_bulan = array("Januari", "Februari", "Maret", "April", "Mei", 
+            "Juni", "Juli", "Agustus", "September", 
+            "Oktober", "November", "Desember");
+    $bulan = $nama_bulan[substr($tgl,5,2) - 1];
+    $tahun = substr($tgl,0,4);
+    return $tanggal.' '.$bulan.' '.$tahun;       
+}
+
+function ubah_tgl1($tanggal) { 
+    $pisah   = explode('/',$tanggal);
+    $larik   = array($pisah[2],$pisah[0],$pisah[1]);
+    $satukan = implode('-',$larik);
+    return $satukan;
+ }
+ 
+ // Fungsi untuk mengubah susunan format tanggal dari database ke form
+ function ubah_tgl2($tanggal) { 
+    $pisah   = explode('-',$tanggal);
+    $larik   = array($pisah[1],$pisah[2],$pisah[0]);
+    $satukan = implode('/',$larik);
+    return $satukan;
+ }
 }

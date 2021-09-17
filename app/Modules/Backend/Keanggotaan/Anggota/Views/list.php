@@ -4,10 +4,10 @@ $request->uri->setSilent();
 ?>
 
 <?php $core = config('Core');
-$layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
+$layout = (empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
 <?=$this->extend($layout);?>
-<?=$this->section('style');?>
-<?=$this->endSection('style');?>
+<?= $this->section('style'); ?>
+<?= $this->endSection('style'); ?>
 
 <?=$this->section('page');?>
 <div class="app-main__inner">
@@ -99,6 +99,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                             	<a href="javascript:void(0);" data-href="<?=base_url('anggota/delete/' . $row->id);?>" data-toggle="tooltip" data-placement="top" title="Hapus" class="btn btn-danger remove-data" style="min-width:37px"><i class="pe-7s-trash font-weight-bold"></i></a>
                             <?php endif;?>
                         </td>
+
                     </tr>
                     <?php endforeach;?>
                 </tbody>
@@ -111,25 +112,25 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 <?=$this->section('script');?>
 
 <script>
-setDataTable('#tbl_anggotas', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
+    setDataTable('#tbl_anggotas', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
 
-$("body").on("click", ".remove-data", function() {
-    var url = $(this).attr('data-href');
-    Swal.fire({
-        title: '<?=lang('App.swal.are_you_sure')?>',
-        text: "<?=lang('App.swal.can_not_be_restored')?>",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#dd6b55',
-        confirmButtonText: '<?=lang('App.btn.yes')?>',
-        cancelButtonText: '<?=lang('App.btn.no')?>'
-    }).then((result) => {
-        if (result.value) {
-            window.location.href = url;
-        }
+    $("body").on("click", ".remove-data", function() {
+        var url = $(this).attr('data-href');
+        Swal.fire({
+            title: '<?= lang('App.swal.are_you_sure') ?>',
+            text: "<?= lang('App.swal.can_not_be_restored') ?>",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#dd6b55',
+            confirmButtonText: '<?= lang('App.btn.yes') ?>',
+            cancelButtonText: '<?= lang('App.btn.no') ?>'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = url;
+            }
+        });
+        return false;
     });
-    return false;
-});
 </script>
 <?=$this->endSection('script');?>
