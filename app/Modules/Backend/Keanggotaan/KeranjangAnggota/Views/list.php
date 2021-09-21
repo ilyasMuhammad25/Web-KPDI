@@ -1,4 +1,5 @@
-<?= $this->extend('hamkamannan\adminigniter\layout\backend\main'); ?>
+<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
+<?=$this->extend($layout);?>
 <?= $this->section('style'); ?>
 <?= $this->endSection('style'); ?>
 
@@ -38,22 +39,26 @@
             <table style="width: 100%;" id="tbl_keranjanganggotas" class="table table-hover table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th><?= lang('KeranjangAnggota.field.no') ?> </th>
-                        <th><?= lang('KeranjangAnggota.field.name') ?></th>
-                        <th><?= lang('KeranjangAnggota.field.description') ?></th>
-                        <th><?= lang('KeranjangAnggota.field.sort') ?></th>
-                        <th><?= lang('KeranjangAnggota.field.active') ?></th>
-                        <th><?= lang('KeranjangAnggota.field.created_by') ?></th>
-                        <th><?= lang('KeranjangAnggota.field.updated_by') ?></th>
-                        <th><?= lang('KeranjangAnggota.label.action') ?></th>
+                    <th><?= lang('Sumbangan.field.no') ?> </th>
+                        <th><?= lang('Sumbangan.field.name') ?></th>
+                        <th><?= lang('Sumbangan.field.MemberNo') ?></th>
+                        <th><?= lang('Sumbangan.field.description') ?></th>
+                        <th><?= lang('Sumbangan.field.sort') ?></th>
+                        <th><?= lang('Sumbangan.field.active') ?></th>
+                        <th><?= lang('Sumbangan.field.created_by') ?></th>
+                        <th><?= lang('Sumbangan.field.updated_by') ?></th>
+                        <th><?= lang('Sumbangan.label.action') ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($keranjanganggotas as $row) : ?>
                         <tr>
-                            <td width="35"></td>
+                        <td width="35"></td>
                             <td width="200">
-                                <?= _spec($row->name); ?> <br>
+                                <?= _spec($row->nama); ?> <br>
+                            </td>
+                            <td width="200">
+                                <?= _spec($row->MembersNo); ?> <br>
                             </td>
                             <td><?= _spec($row->description); ?></td>
                             <td width="35"><?= _spec($row->sort); ?></td>

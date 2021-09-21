@@ -12,7 +12,7 @@ if (!function_exists('get_references')) {
         $references = $baseModel
             ->select('c_references.*')
             ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.controller', $controller)
+            ->where('lower(c_menus.controller)', strtolower($controller))
             ->find_all('c_references.sort', 'asc');
 
         return $references;
@@ -27,7 +27,7 @@ if (!function_exists('get_references_slug')) {
         $references = $baseModel
             ->select('c_references.*')
             ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.slug', $slug)
+			->where('lower(c_menus.slug)', strtolower($slug))
             ->find_all('c_references.sort', 'asc');
 
         return $references;
@@ -86,11 +86,43 @@ if (!function_exists('get_object_array')) {
     }
 }
 
-/**
- * ---------------
- * DB Helper
- * ---------------
- */
+if (!function_exists('is_display2')) {
+    function is_display2($table_name = 't_banner', $field_name = 'name')
+    {
+        $result = false;
+        $default = 'name';
+        $columns_str = str_replace(' ','',get_parameter($table_name.'_columns',$default));
+        $columns_arr = explode(',',$columns_str);
+        if(in_array($field_name, $columns_arr)){
+            $result = true;
+        }
+
+        return $result;
+    }
+}
+if (!function_exists('get_MemberNo')) {
+    function get_MemberNo()
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('t_anggota');
+        $kode = $baseModel
+        ->select ('RIGHT(MemberNo,4) as MemberNo', false)
+        ->orderBy('MemberNo','DESC')
+        ->limit(1)->get()->getRowArray();
+
+        if (empty($kode['MemberNo'])){
+            $no=1;
+        }else{
+            $no=intval($kode['MemberNo']) + 1; }
+        $tgl= date('Ymd');
+        $batas = str_pad($no, 4, "0", STR_PAD_LEFT);
+        $MemberNo = $tgl.$batas;
+        return $MemberNo;
+    }
+    
+}
+
+// db helper
 if (!function_exists('db_get_single')) {
     function db_get_single($table_name = null, $where = false)
     {
@@ -125,162 +157,30 @@ if (!function_exists('db_count')) {
         $baseModel->setTable($table_name);
         return $baseModel->count($where);
     }
+
+    // Fungsi untuk mengubah format tanggal mejadi format tanggal Indonesia
+function tgl_indonesia($tgl){ 
+    $tanggal = substr($tgl,8,2);
+    $nama_bulan = array("Januari", "Februari", "Maret", "April", "Mei", 
+            "Juni", "Juli", "Agustus", "September", 
+            "Oktober", "November", "Desember");
+    $bulan = $nama_bulan[substr($tgl,5,2) - 1];
+    $tahun = substr($tgl,0,4);
+    return $tanggal.' '.$bulan.' '.$tahun;       
 }
 
-/**
- * ---------------
- * Auth Helper
- * ---------------
- */
-
-if (!function_exists('get_users')) {
-    function get_users($group_id = null)
-    {        
-        if(!empty($group_id)){
-            $users_groups = db_get_all("auth_groups_users","group_id = {$group_id}","user_id");
-            $user_id_arr = array();
-            foreach($users_groups as $row){
-                array_push($user_id_arr, $row->user_id);
-            }
-            array_unique($user_id_arr);
-
-            $user_id_str = implode(",", $user_id_arr);
-            $users = db_get_all("users", "id in ({$user_id_str})");
-            return $users;
-        } else {
-            $users = db_get_all("users",null,"id");
-            return $users;
-        }
-    }
+function ubah_tgl1($tanggal) { 
+    $pisah   = explode('/',$tanggal);
+    $larik   = array($pisah[2],$pisah[0],$pisah[1]);
+    $satukan = implode('-',$larik);
+    return $satukan;
+ }
+ 
+ // Fungsi untuk mengubah susunan format tanggal dari database ke form
+ function ubah_tgl2($tanggal) { 
+    $pisah   = explode('-',$tanggal);
+    $larik   = array($pisah[1],$pisah[2],$pisah[0]);
+    $satukan = implode('/',$larik);
+    return $satukan;
+ }
 }
-
-if (!function_exists('get_user_group_id')) {
-    function get_user_group_id($user_id = null)
-    {
-        if(empty($user_id)){
-            $user_id = user_id();
-        }
-        
-        $group = db_get_single("auth_groups_users","user_id = {$user_id}");
-        return $group->group_id;
-    }
-}
-
-if (!function_exists('get_user_group_ids')) {
-    function get_user_group_ids($user_id = null)
-    {
-        if(empty($user_id)){
-            $user_id = user_id();
-        }
-        
-        $groups = db_get_all("auth_groups_users","user_id = {$user_id}");
-
-        return $groups;
-    }
-}
-
-if (!function_exists('get_group_id')) {
-    function get_group_id($group)
-    {
-        if (is_numeric($group))
-        {
-            return (int)$group;
-        }
-
-        $group = db_get_single("auth_groups","name = '{$group}'");
-        return $group->id;
-    }
-}
-
-if (!function_exists('get_group')) {
-    function get_group($group_id = null)
-    {
-        if(empty($group_id)){
-            $group_id = get_user_group_id();
-        }
-
-        $group = db_get_single("auth_groups","id = {$group_id}");
-        return $group;
-    }
-}
-
-if (!function_exists('get_user_id')) {
-    function get_user_id()
-    {
-        $user_id = user_id();
-        return $user_id;
-    }
-}
-
-if (!function_exists('get_user')) {
-    function get_user($user_id = null)
-    {
-        if(empty($user_id)){
-            $user = user();
-        } else {
-            $user = db_get_single('users', 'id=' . $user_id);
-        }
-
-        return $user;
-    }
-}
-
-if (!function_exists('is_admin')) {
-    function is_admin($user_id = null)
-    {
-        $auth = \Myth\Auth\Config\Services::authentication();
-
-        if ($auth->check()){
-            if (empty($user_id)) {
-                $user_id = $auth->id();
-            }
-            return is_member('admin', $user_id);
-        } 
-
-        return false;
-    }
-}
-
-if (!function_exists('logged_in')) {
-    function logged_in()
-    {
-        $auth = \Myth\Auth\Config\Services::authentication();
-        return $auth->check();
-    }
-}
-
-
-if (!function_exists('get_ref')) {
-  function get_ref($ref_name = '')
-  {
-      $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-      $baseModel->setTable('c_references');
-      $results = $baseModel
-      ->select('c_references.*')
-      ->join('c_menus','c_menus.id = c_references.menu_id', 'inner')
-      ->where('c_menus.name',$ref_name)
-      ->find_all('c_references.sort', 'asc');
-      return $results;
-  }
-}
-if (!function_exists('getClientIpAddress')) {
-
-function getClientIpAddress()
-{
-    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //Checking IP From Shared Internet
-    {
-      $ip = $_SERVER['HTTP_CLIENT_IP'];
-    }
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //To Check IP is Pass From Proxy
-    {
-      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    else
-    {
-      $ip = $_SERVER['REMOTE_ADDR'];
-    }
-
-    return $ip;
-}
-}
-

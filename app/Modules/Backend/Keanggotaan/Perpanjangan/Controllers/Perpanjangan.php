@@ -8,7 +8,8 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
 {
     protected $auth;
     protected $authorize;
-    protected $perpanjanganModel;
+    // protected $anggotaModel;
+    protected $anggotaModel;
     protected $uploadPath;
     protected $modulePath;
     
@@ -17,7 +18,8 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
         
-        $this->perpanjanganModel = new \Perpanjangan\Models\PerpanjanganModel();
+        // $this->anggotaModel = new \Perpanjangan\Models\anggotaModel();
+        $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/perpanjangan/';
         
@@ -47,18 +49,18 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-        $query = $this->perpanjanganModel
-            ->select('t_perpanjangan.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_perpanjangan.created_by','left')
-            ->join('users updated','updated.id = t_perpanjangan.updated_by','left');
-            
-        $perpanjangans = $query->findAll();
-
-        $this->data['title'] = 'Perpanjangan';
-        $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['perpanjangans'] = $perpanjangans;
+        $query = $this->anggotaModel
+        ->select('t_anggota.*')
+        ->select('created.username as created_name')
+        ->select('updated.username as updated_name')
+        ->join('users created','created.id = t_anggota.created_by','left')
+        ->join('users updated','updated.id = t_anggota.updated_by','left');
+        
+    $anggotas = $query->findAll();
+    // $Nomember=$this->anggotaModel->MemberNo();
+    $this->data['title'] = 'Daftar perpanjangan';
+    $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
+    $this->data['anggotas'] = $anggotas;
         echo view('Perpanjangan\Views\list', $this->data);
     }
 
@@ -83,10 +85,10 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
                 'created_by' => user_id(),
             ];
 
-            $newPerpanjanganId = $this->perpanjanganModel->insert($save_data);
+            $newPerpanjanganId = $this->anggotaModel->insert($save_data);
 
             if ($newPerpanjanganId) {
-                add_log('Tambah Perpanjangan', 'perpanjangan', 'create', 't_perpanjangan', $newPerpanjanganId);
+                add_log('Tambah Perpanjangan', 'perpanjangan', 'create', 't_anggota', $newPerpanjanganId);
                 set_message('toastr_msg', lang('Perpanjangan.info.successfully_saved'));
                 set_message('toastr_type', 'success');
                 return redirect()->to('/perpanjangan');
@@ -110,7 +112,7 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $this->data['title'] = 'Ubah Perpanjangan';
-        $perpanjangan = $this->perpanjanganModel->find($id);
+        $perpanjangan = $this->anggotaModel->find($id);
         $this->data['perpanjangan'] = $perpanjangan;
 
 		$this->validation->setRule('name', 'Nama', 'required');
@@ -125,10 +127,10 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
                     'updated_by' => user_id(),
                 ];
 
-                $perpanjanganUpdate = $this->perpanjanganModel->update($id, $update_data);
+                $perpanjanganUpdate = $this->anggotaModel->update($id, $update_data);
 
                 if ($perpanjanganUpdate) {
-                    add_log('Ubah Perpanjangan', 'perpanjangan', 'edit', 't_perpanjangan', $id);
+                    add_log('Ubah Perpanjangan', 'perpanjangan', 'edit', 't_anggota', $id);
                     set_message('toastr_msg', 'Perpanjangan berhasil diubah');
                     set_message('toastr_type', 'success');
                     return redirect()->to('/perpanjangan');
@@ -159,9 +161,9 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/perpanjangan');
         }
-        $perpanjanganDelete = $this->perpanjanganModel->delete($id);
+        $perpanjanganDelete = $this->anggotaModel->delete($id);
         if ($perpanjanganDelete) {
-            add_log('Hapus Perpanjangan', 'perpanjangan', 'delete', 't_perpanjangan', $id);
+            add_log('Hapus Perpanjangan', 'perpanjangan', 'delete', 't_anggota', $id);
             set_message('toastr_msg', lang('Perpanjangan.info.successfully_deleted'));
             set_message('toastr_type', 'success');
             return redirect()->to('/perpanjangan');
@@ -178,7 +180,7 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
         $field = $this->request->getVar('field');
         $value = $this->request->getVar('value');
 
-        $perpanjanganUpdate = $this->perpanjanganModel->update($id, array($field => $value));
+        $perpanjanganUpdate = $this->anggotaModel->update($id, array($field => $value));
 
         if ($perpanjanganUpdate) {
             set_message('toastr_msg', ' Perpanjangan berhasil diubah');

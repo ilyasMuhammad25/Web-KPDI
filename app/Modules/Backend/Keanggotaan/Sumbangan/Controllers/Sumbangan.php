@@ -9,6 +9,7 @@ class Sumbangan extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $auth;
     protected $authorize;
     protected $sumbanganModel;
+    protected $AnggotaModel;
     protected $uploadPath;
     protected $modulePath;
     
@@ -18,9 +19,10 @@ class Sumbangan extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->language->setLocale('id');
         
         $this->sumbanganModel = new \Sumbangan\Models\SumbanganModel();
+        $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/sumbangan/';
-        
+        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
         if (!file_exists($this->uploadPath)) {
             mkdir($this->uploadPath);
         }
@@ -38,8 +40,6 @@ class Sumbangan extends \hamkamannan\adminigniter\Controllers\BaseController
 			$this->session->set('redirect_url', current_url() );
 			return redirect()->route('login');
 		} 
-
-        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
     }
     public function index()
     {
@@ -53,8 +53,12 @@ class Sumbangan extends \hamkamannan\adminigniter\Controllers\BaseController
             ->select('t_sumbangan.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
+            ->select('t_member_id.name as nama')
+            ->select('t_member_id.MemberNo as MembersNo')
             ->join('users created','created.id = t_sumbangan.created_by','left')
-            ->join('users updated','updated.id = t_sumbangan.updated_by','left');
+            ->join('users updated','updated.id = t_sumbangan.updated_by','left')
+            ->join('t_anggota t_member_id','t_member_id.id = t_sumbangan.t_member_id','left');
+            // ->join('t_anggota t_member_id','t_member_id.id = t_sumbangan.t_member_id','left');
             
         $sumbangans = $query->findAll();
 
@@ -71,16 +75,25 @@ class Sumbangan extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
-
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('t_anggota');
+        $anggota = $baseModel
+            ->select('t_anggota.*')
+            ->find_all('name', 'asc');
         $this->data['title'] = 'Tambah Sumbangan';
+        $this->data['anggota'] = $anggota;
+        
+     
 
-		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('t_member_id','t_member_id', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-            $slug = url_title($this->request->getPost('name'), '-', TRUE);
+           
             $save_data = [
-				'name' => $this->request->getPost('name'),
-                'slug' => $slug,
+				// 'name' => $this->request->getPost('name'),
+                // 'slug' => $slug,
 				'sort' => $this->request->getPost('sort'),
+				't_member_id' => $this->request->getPost('t_member_id'),
+				'jumlah' => $this->request->getPost('jumlah'),
 				'description' => $this->request->getPost('description'),
                 'created_by' => user_id(),
             ];

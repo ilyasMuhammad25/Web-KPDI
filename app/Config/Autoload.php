@@ -51,7 +51,7 @@ class Autoload extends AutoloadConfig
 		'User' 			=> APPPATH . 'Modules/Core/User',
         'Home' 			=> APPPATH . 'Modules/Frontend/Home',
 			'Banner' 		=> APPPATH . 'Modules/Cms/Banner',
-				'Sample' 		=> APPPATH . 'Modules/Master/Sample',
+				'Tag' 		=> APPPATH . 'Modules/Master/Tag',
 					'Dashboard' 		=> APPPATH . 'Modules/Backend/Dashboard',
 					'Report' 			=> APPPATH . 'Modules/Backend/Report',
 					'Artikel' 			=> APPPATH . 'Modules/Backend/Koleksi/Artikel',
@@ -61,10 +61,10 @@ class Autoload extends AutoloadConfig
 					'SampulBuku' 		=> APPPATH . 'Modules/Backend/Koleksi/SampulBuku',
 					'Sirkulasi' 		=> APPPATH . 'Modules/Backend/Sirkulasi',
             		'Anggota' 			=> APPPATH . 'Modules/Backend/Keanggotaan/Anggota',
-            		'Sumbangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
 					'Mastertag'		 	=> APPPATH . 'Modules/Backend/Mastertag',
 					'KeranjangAnggota' 	=> APPPATH . 'Modules/Backend/Keanggotaan/KeranjangAnggota',
-					'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	
+					'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	       
+ 					'Sumbangan'			 => APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
 	];
 
 	/**
@@ -86,4 +86,5 @@ class Autoload extends AutoloadConfig
 	 * @var array<string, string>
 	 */
 	public $classmap = [];
+	
 }

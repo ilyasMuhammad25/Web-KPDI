@@ -1,5 +1,6 @@
-<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
-<?= $this->extend($layout); ?>
+
+<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
+<?=$this->extend($layout);?>
 <?= $this->section('style'); ?>
 <?= $this->endSection('style'); ?>
 
@@ -29,7 +30,6 @@
     <div class="main-card mb-3 card">
         <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Sumbangan.label.table') ?> <?= lang('Sumbangan.module') ?> 
             <div class="btn-actions-pane-right actions-icon-btn">
-                
                 <?php if(is_allowed('sumbangan/create')):?>
                     <a href="<?= base_url('sumbangan/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Sumbangan.action.add') ?> <?= lang('Sumbangan.module') ?> </a>
                 <?php endif;?>
@@ -42,6 +42,7 @@
                     <tr>
                         <th><?= lang('Sumbangan.field.no') ?> </th>
                         <th><?= lang('Sumbangan.field.name') ?></th>
+                        <th><?= lang('Sumbangan.field.MemberNo') ?></th>
                         <th><?= lang('Sumbangan.field.description') ?></th>
                         <th><?= lang('Sumbangan.field.sort') ?></th>
                         <th><?= lang('Sumbangan.field.active') ?></th>
@@ -55,7 +56,10 @@
                         <tr>
                             <td width="35"></td>
                             <td width="200">
-                                <?= _spec($row->name); ?> <br>
+                                <?= _spec($row->nama); ?> <br>
+                            </td>
+                            <td width="200">
+                                <?= _spec($row->MembersNo); ?> <br>
                             </td>
                             <td><?= _spec($row->description); ?></td>
                             <td width="35"><?= _spec($row->sort); ?></td>

@@ -1,3 +1,10 @@
+<?php helper('adminigniter');?>
+<?php 
+	$cart_ref_code = false;
+	$cart_total_items = 0;
+	$cart_total = 0;
+?>
+
 <div class="app-header-right">
     <div class="header-dots">
         <div class="dropdown">
@@ -5,11 +12,38 @@
                 <span class="icon-wrapper icon-wrapper-alt rounded-circle">
                     <span class="icon-wrapper-bg bg-danger"></span>
                     <i class="icon text-danger icon-anim-pulse ion-android-notifications"></i>
-                    <!-- <span class="badge badge-dot badge-dot-sm badge-danger">0</span> -->
+                    <span class="badge badge-dot badge-dot-sm badge-danger">0</span>
                 </span>
             </button>
         </div>
     </div>
+	<?php if($cart_ref_code):?>
+	<div class="header-btn-lg pr-0">
+        <div class="widget-content p-0">
+            <div class="widget-content-wrapper">
+				<div class="header-dots">
+					<div class="hamburger hamburger--elastic open-right-drawer">
+						<button type="button" aria-haspopup="true" aria-expanded="false" class="p-0 mr-2 btn btn-link">
+							<span class="icon-wrapper icon-wrapper-alt rounded-circle">
+								<span class="icon-wrapper-bg bg-danger"></span>
+								<i class="icon text-danger icon-anim-pulse ion-android-cart"></i>
+								<span class="badge badge-dot badge-dot-sm badge-danger">123</span>
+							</span>
+						</button>
+					</div>
+				</div>
+				<div class="widget-content-left  ml-3 header-user-info">
+					<div class="widget-heading">
+						<?=formatAmount($cart_total_items??0)?> NUP
+					</div>
+					<div class="widget-subheading">
+						<b class="text-dark"><?=formatRp($cart_total??0)?></b>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php endif;?>
     <div class="header-btn-lg pr-0">
         <div class="widget-content p-0">
             <div class="widget-content-wrapper">
