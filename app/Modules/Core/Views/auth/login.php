@@ -11,7 +11,7 @@
 <?= $this->section('page'); ?>
 <div class="app-container">
     <div class="h-100 bg-corporate-primary bg-animation">
-        <div class="d-flex h-100 justify-content-center align-items-center" style="background: url('<?=base_url('uploads/login.png')?>') no-repeat; background-attachment: fixed; background-position: 43% 105%;">
+        <div class="d-flex h-100 justify-content-center align-items-center" style="background: url('<?=base_url('uploads/login.png')?>') no-repeat; background-attachment: fixed; background-position: 40% 105%;">
             <div class="mx-auto app-login-box col-md-8" style="opacity:0.90">
                 <div class="app-logo-inverse mx-auto mb-3"></div>
                 <div class="modal-dialog w-100 mx-auto" style="box-shadow:none;">
