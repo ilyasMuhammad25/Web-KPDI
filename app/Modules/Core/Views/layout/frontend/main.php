@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<?=base_url('themes/opac')?>/assets/mcustomscrollbar/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="<?=base_url('themes/opac')?>/css/style-main.css">
     <link rel="stylesheet" href="<?=base_url('themes/opac')?>/css/responsive.css">
+	<link rel="stylesheet" href="<?= base_url('assets/vendors') ?>/fontawesome-pro-5/css/all.css">
     <title>OPAC</title>
 </head>
 
@@ -265,7 +266,12 @@
                         </li> -->
                     </ul>
                     <div class="right-nav">
-                        <a class="nav_btn" href="#">Pendaftaran Anggota</a>
+						<?php if(!logged_in()):?>
+							<a class="nav_btn" href="<?=base_url('login')?>"><i class="fa fa-lock"></i> Login</a>
+						<?php else:?>
+							<a class="nav_btn" href="<?=base_url('dashboard')?>"><i class="fa fa-desktop"></i> Dashboard</a>
+						<?php endif;?>
+
                     </div>
                 </div>
             </div>
