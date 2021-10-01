@@ -16,7 +16,7 @@
                 <div class="app-logo-inverse mx-auto mb-3"></div>
                 <div class="modal-dialog w-100 mx-auto" style="box-shadow:none;">
                     <div class="modal-content bg-corporate-secondary" style="border-radius: 60px; padding: 40px 20px; border:2px solid #225843">
-                        <form class="" action="<?= route_to('login') ?>">
+						<form class="" action="<?= route_to('login') ?>" method="post">
 							<?= csrf_field() ?>
 
 							<div class="text-center mb-3">
