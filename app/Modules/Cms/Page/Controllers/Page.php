@@ -1,26 +1,25 @@
 <?php
 
-namespace Banner\Controllers;
+namespace Page\Controllers;
 
 use \CodeIgniter\Files\File;
 
-class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
+class Page extends \hamkamannan\adminigniter\Controllers\BaseController
 {
     protected $auth;
     protected $authorize;
-    protected $bannerModel;
+    protected $pageModel;
     protected $uploadPath;
     protected $modulePath;
     
     function __construct()
     {
-		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
         
-        $this->bannerModel = new \Banner\Models\BannerModel();
+        $this->pageModel = new \Page\Models\PageModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
-        $this->modulePath = ROOTPATH . 'public/uploads/banner/';
+        $this->modulePath = ROOTPATH . 'public/uploads/page/';
         
         if (!file_exists($this->uploadPath)) {
             mkdir($this->uploadPath);
@@ -44,56 +43,56 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
     }
     public function index()
     {
-        if (!is_allowed('banner/access')) {
+        if (!is_allowed('page/access')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
 
-        $query = $this->bannerModel
-            ->select('t_banner.*')
-            ->select('c_references.name as category')
-            ->join('c_references','c_references.id = t_banner.category_id','left')
+        $query = $this->pageModel
+            ->select('t_page.*')
+			->select('c_references.name as category')
+            ->join('c_references','c_references.id = t_page.category_id','left')
 
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_banner.created_by','left')
-            ->join('users updated','updated.id = t_banner.updated_by','left');
+            ->join('users created','created.id = t_page.created_by','left')
+            ->join('users updated','updated.id = t_page.updated_by','left');
             
-        $banners = $query->findAll();
+        $pages = $query->findAll();
 
-        $this->data['title'] = 'Banner';
+        $this->data['title'] = 'Page';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['banners'] = $banners;
-        echo view('Banner\Views\list', $this->data);
+        $this->data['pages'] = $pages;
+        $this->data['redirect'] = base_url('page/index');
+        echo view('Page\Views\list', $this->data);
     }
 
     public function create()
     {
-        if (!is_allowed('banner/create')) {
+        if (!is_allowed('page/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
 
-        $this->data['title'] = 'Tambah Banner';
+        $this->data['title'] = 'Tambah Page';
 
-		$this->validation->setRule('name', 'Judul Banner', 'required');
+		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('category_id', 'Jenis Tokoh', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $save_data = [
 				'name' => $this->request->getPost('name'),
+				'category_id' => $this->request->getPost('category_id'),
                 'slug' => $slug,
-                'category_id' => $this->request->getPost('category_id'),
 				'sort' => $this->request->getPost('sort'),
 				'description' => $this->request->getPost('description'),
-				'url' => $this->request->getPost('url'),
-				'url_title' => $this->request->getPost('url_title'),
-				'url_target' => $this->request->getPost('url_target'),
+				'content' => $this->request->getPost('content'),
                 'created_by' => user_id(),
             ];
 
-            // Logic Upload
+			// Logic Upload
             $files = (array) $this->request->getPost('file_image');
             if (count($files)) {
                 $listed_file = array();
@@ -103,58 +102,70 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
                         $newFileName = $file->getRandomName();
                         $file->move($this->modulePath, $newFileName);
                         $listed_file[] = $newFileName;
-
-						create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
                     }
                 }
                 $save_data['file_image'] = implode(',', $listed_file);
             }
-            $newBannerId = $this->bannerModel->insert($save_data);
 
-            if ($newBannerId) {
-                add_log('Tambah Banner', 'banner', 'create', 't_banner', $newBannerId);
-                set_message('toastr_msg', lang('Banner.info.successfully_saved'));
+			$files = (array) $this->request->getPost('file_pdf');
+            if (count($files)) {
+                $listed_file = array();
+                foreach ($files as $uuid => $name) {
+                    if (file_exists($this->uploadPath . $name)) {
+                        $file = new File($this->uploadPath . $name);
+                        $newFileName = $file->getRandomName();
+                        $file->move($this->modulePath, $newFileName);
+                        $listed_file[] = $newFileName;
+                    }
+                }
+                $save_data['file_pdf'] = implode(',', $listed_file);
+            }
+            $newPageId = $this->pageModel->insert($save_data);
+
+            if ($newPageId) {
+                add_log('Tambah Page', 'page', 'create', 't_page', $newPageId);
+                set_message('toastr_msg', lang('Page.info.successfully_saved'));
                 set_message('toastr_type', 'success');
-                return redirect()->to('/banner');
+                return redirect()->to('/page');
             } else {
-                set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Banner.info.failed_saved'));
-                echo view('Banner\Views\add', $this->data);
+                set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Page.info.failed_saved'));
+                echo view('Page\Views\add', $this->data);
             }
         } else {
-            $this->data['redirect'] = base_url('banner/create');
+            $this->data['redirect'] = base_url('page/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-            echo view('Banner\Views\add', $this->data);
+            echo view('Page\Views\add', $this->data);
         }
     }
 
     public function edit(int $id = null)
     {
-        if (!is_allowed('banner/update')) {
+        if (!is_allowed('page/update')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
 
-        $this->data['title'] = 'Ubah Banner';
-        $banner = $this->bannerModel->find($id);
-        $this->data['banner'] = $banner;
+        $this->data['title'] = 'Ubah Page';
+        $page = $this->pageModel->find($id);
+        $this->data['page'] = $page;
 
-		$this->validation->setRule('name', 'Judul Banner', 'required');
+		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('category_id', 'Jenis Tokoh', 'required');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
                 $slug = url_title($this->request->getPost('name'), '-', TRUE);
                 $update_data = [
                     'name' => $this->request->getPost('name'),
-                    'category_id' => $this->request->getPost('category_id'),
+					'category_id' => $this->request->getPost('category_id'),
+                    'slug' => $slug,
                     'sort' => $this->request->getPost('sort'),
                     'description' => $this->request->getPost('description'),
-                    'url' => $this->request->getPost('url'),
-                    'url_title' => $this->request->getPost('url_title'),
-                    'url_target' => $this->request->getPost('url_target'),
+					'content' => $this->request->getPost('content'),
                     'updated_by' => user_id(),
                 ];
 
-                // Logic Upload
+				// Logic Upload
                 $files = (array) $this->request->getPost('file_image');
                 if (count($files)) {
                     $listed_file = array();
@@ -172,30 +183,49 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
                     }
                     $update_data['file_image'] = implode(',', $listed_file);
                 }
-                $bannerUpdate = $this->bannerModel->update($id, $update_data);
 
-                if ($bannerUpdate) {
-                    add_log('Ubah Banner', 'banner', 'edit', 't_banner', $id);
-                    set_message('toastr_msg', 'Banner berhasil diubah');
+				$files = (array) $this->request->getPost('file_pdf');
+                if (count($files)) {
+                    $listed_file = array();
+                    foreach ($files as $uuid => $name) {
+                        if (file_exists($this->modulePath . $name)) {
+                            $listed_file[] = $name;
+                        } else {
+                            if (file_exists($this->uploadPath . $name)) {
+                                $file = new File($this->uploadPath . $name);
+                                $newFileName = $file->getRandomName();
+                                $file->move($this->modulePath, $newFileName);
+                                $listed_file[] = $newFileName;
+                            }
+                        }
+                    }
+                    $update_data['file_pdf'] = implode(',', $listed_file);
+                }
+
+                $pageUpdate = $this->pageModel->update($id, $update_data);
+
+                if ($pageUpdate) {
+                    add_log('Ubah Page', 'page', 'edit', 't_page', $id);
+                    set_message('toastr_msg', 'Page berhasil diubah');
                     set_message('toastr_type', 'success');
-                    return redirect()->to('/banner');
+                    return redirect()->to('/page');
                 } else {
-                    set_message('toastr_msg', 'Banner gagal diubah');
+                    set_message('toastr_msg', 'Page gagal diubah');
                     set_message('toastr_type', 'warning');
-                    set_message('message', 'Banner gagal diubah');
-                    return redirect()->to('/banner/edit/' . $id);
+                    set_message('message', 'Page gagal diubah');
+                    return redirect()->to('/page/edit/' . $id);
                 }
             }
         }
 
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['redirect'] = base_url('banner/edit/' . $id);
-        echo view('Banner\Views\update', $this->data);
+        $this->data['redirect'] = base_url('page/edit/' . $id);
+        echo view('Page\Views\update', $this->data);
     }
 
     public function delete(int $id = 0)
     {
-        if (!is_allowed('banner/delete')) {
+        if (!is_allowed('page/delete')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
@@ -204,23 +234,24 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
         if (!$id) {
             set_message('toastr_msg', 'Sorry you have to provide parameter (id)');
             set_message('toastr_type', 'error');
-            return redirect()->to('/banner');
+            return redirect()->to('/page');
         }
-		$banner = $this->bannerModel->find($id);
-        $bannerDelete = $this->bannerModel->delete($id);
-        if ($bannerDelete) {
-			unlink_file($this->modulePath, $banner->file_image);
-			unlink_file($this->modulePath, 'thumb_'.$banner->file_image);
+		$page = $this->pageModel->find($id);
+        $pageDelete = $this->pageModel->delete($id);
+        if ($pageDelete) {
+			unlink_file($this->modulePath, $page->file_image);
+			unlink_file($this->modulePath, 'thumb_'.$page->file_image);
+			unlink_file($this->modulePath, $page->file_pdf);
 
-            add_log('Hapus Banner', 'banner', 'delete', 't_banner', $id);
-            set_message('toastr_msg', lang('Banner.info.successfully_deleted'));
+            add_log('Hapus Page', 'page', 'delete', 't_page', $id);
+            set_message('toastr_msg', lang('Page.info.successfully_deleted'));
             set_message('toastr_type', 'success');
-            return redirect()->to('/banner');
+            return redirect()->to('/page');
         } else {
-            set_message('toastr_msg', lang('Banner.info.failed_deleted'));
+            set_message('toastr_msg', lang('Page.info.failed_deleted'));
             set_message('toastr_type', 'warning');
-            set_message('message', lang('Banner.info.failed_deleted'));
-            return redirect()->to('/banner/delete/' . $id);
+            set_message('message', lang('Page.info.failed_deleted'));
+            return redirect()->to('/page/delete/' . $id);
         }
     }
 
@@ -229,16 +260,16 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
         $field = $this->request->getVar('field');
         $value = $this->request->getVar('value');
 
-        $bannerUpdate = $this->bannerModel->update($id, array($field => $value));
+        $pageUpdate = $this->pageModel->update($id, array($field => $value));
 
-        if ($bannerUpdate) {
-            set_message('toastr_msg', ' Banner berhasil diubah');
+        if ($pageUpdate) {
+            set_message('toastr_msg', ' Page berhasil diubah');
             set_message('toastr_type', 'success');
         } else {
-            set_message('toastr_msg', ' Banner gagal diubah');
+            set_message('toastr_msg', ' Page gagal diubah');
             set_message('toastr_type', 'warning');
         }
-        return redirect()->to('/banner');
+        return redirect()->to('/page');
     }
 
 	public function thumb()
@@ -247,8 +278,8 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
 		$to = $this->request->getVar('to');
 
 		for ($i=$from; $i <= $to ; $i++) { 
-			$banner= $this->bannerModel->find($i);
-			$newFileName = $banner->file_image;
+			$page= $this->pageModel->find($i);
+			$newFileName = $page->file_image;
 			if(!file_exists($this->modulePath.'/thumb_'.$newFileName)){
 				create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
 				echo "success generate thumbnail for ID: ".$i." <br>";

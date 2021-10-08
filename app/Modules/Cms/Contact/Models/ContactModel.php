@@ -1,10 +1,10 @@
 <?php
 
-namespace Banner\Models;
+namespace App\Modules\Cms\Contact\Models;
 
-class BannerModel extends \hamkamannan\adminigniter\Models\BaseModel
+class ContactModel extends \hamkamannan\adminigniter\Models\BaseModel
 {
-    protected $table      			= 't_banner';
+    protected $table      			= 't_contact';
     protected $primaryKey 			= 'id';
     protected $returnType     		= 'object';
     protected $useSoftDeletes 		= false;

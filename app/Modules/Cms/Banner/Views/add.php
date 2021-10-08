@@ -9,9 +9,6 @@ $categories = $baseModel
     ->join('c_menus','c_menus.id = c_references.menu_id', 'inner')
     ->where('c_menus.name','Banner')
     ->find_all('name', 'asc');
-
-// $abc = is_display('t_banner','name1');
-// dd($abc);
 ?>
 
 <?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
@@ -63,7 +60,7 @@ $categories = $baseModel
 
                   <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('banner/create'); ?>">
                         <div class="form-row">
-                              <div class="col-md-6 <?=(is_display('t_banner','name') ? 'show_column':'hide_column')?>">
+                              <div class="col-md-6">
                                     <div class="position-relative form-group">
                                           <label for="name">Judul Banner*</label>
                                           <div>
@@ -72,7 +69,7 @@ $categories = $baseModel
                                           </div>
                                     </div>
                               </div>
-                              <div class="col-md-3 <?=(is_display('t_banner','category_id') ? 'show_column':'hide_column')?>">
+                              <div class="col-md-3">
                                     <div class="position-relative form-group">
                                           <label>Kategori*</label>
                                           <select class="form-control" name="category_id" id="category_id" tabindex="-1" aria-hidden="true">
@@ -82,7 +79,7 @@ $categories = $baseModel
                                           </select>
                                     </div>
                               </div>
-                              <div class="col-md-3 <?=(is_display('t_banner','sort') ? 'show_column':'hide_column')?>">
+                              <div class="col-md-3">
                                     <div class="position-relative form-group">
                                           <label for="sort">Urutan</label>
                                           <div>
@@ -93,26 +90,10 @@ $categories = $baseModel
                               </div>
                         </div>
 
-                        <div class="form-group <?=(is_display('t_banner','description') ? 'show_column':'hide_column')?>">
-                              <label for="description">Deskripsi</label>
+                        <div class="form-group">
+                              <label for="description">Keterangan</label>
                               <div>
-                                    <textarea id="frm_create_description" name="description" placeholder="Deskripsi" rows="2" class="form-control autosize-input" style="min-height: 38px;"><?= set_value('description') ?></textarea>
-                              </div>
-                        </div>
-                        <div class="form-row">
-                              <div class="col-md-12">
-                                    <div class="form-row">
-                                          <div class="col-md-12">
-                                                <div class="position-relative form-group">
-                                                      <label for="file_image" class="">Foto Banner</label>
-                                                      <div id="dropzone_file_image" class="dropzone"></div>
-                                                      <div id="dropzone_file_image_listed"></div>
-                                                      <div>
-                                                            <small class="info help-block text-muted">Format (JPG|PNG). Max 10 MB</small>
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
+                                    <textarea id="frm_create_description" name="description" placeholder="Keterangan" rows="2" class="form-control autosize-input" style="min-height: 38px;"><?= set_value('description') ?></textarea>
                               </div>
                         </div>
 
@@ -137,6 +118,19 @@ $categories = $baseModel
                               </div>
                         </div>
 
+						<div class="form-row">
+                              <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                          <label for="file_image" class="">Foto</label>
+                                          <div id="file_image" class="dropzone"></div>
+                                          <div id="file_image_listed"></div>
+                                          <div>
+                                                <small class="info help-block text-muted">Format (JPG|PNG). Max 10 MB</small>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+
                         <div class="form-group">
                               <button type="submit" class="btn btn-primary" name="submit"><?= lang('App.btn.save') ?></button>
                         </div>
@@ -150,62 +144,6 @@ $categories = $baseModel
 
 <?= $this->section('script'); ?>
 <script>
-      Dropzone.autoDiscover = false;
-
-      var dropzone_file_image = new Dropzone("#dropzone_file_image", {
-            url: "<?= base_url('banner/do_upload') ?>", // /do_uploads if multiple
-            paramName: "file", // files if multiple
-            maxFiles: 1,
-            maxFilesize: 10,
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*',
-            renameFile: function(file) {
-                  return new Date().getTime() + '_' + file.name.toLowerCase().replace(' ', '_');
-            },
-            accept: function(file, done) {
-                  console.log("uploaded");
-                  done();
-            },
-            init: function() {
-                  this.on("maxfilesexceeded", function(file) {
-                        console.log("max file");
-                  });
-            },
-            success: function(file, response) {
-                  console.log(file);
-                  console.log(response);
-                  // file.previewElement.querySelector("img").src = response.files[0].url;
-                  // file.previewElement.classList.add("dz-success");
-                  // var fileuploded = file.previewElement.querySelector("[data-dz-name]");
-                  // fileuploded.innerHTML = response.files[0].name;
-                  // file.name = response.files[0].name;
-
-                  var uuid = file.upload.uuid;
-                  var name = file.upload.filename;
-
-                  $('#dropzone_file_image_listed').append('<input type="hidden" name="file_image[' + uuid + ']" value="' + name + '" />');
-            },
-            removedfile: function(file) {
-                  console.log(file);
-                  var name = "";
-                  var path = "<?= WRITEPATH . 'uploads/' ?>";
-                  if (file.upload !== undefined) {
-                        name = file.upload.filename;
-                  } else {
-                        name = file.name;
-                        path = "<?= ROOTPATH . 'public/uploads/banner/' ?>";
-                  }
-
-                  $.ajax({
-                        type: 'POST',
-                        url: "<?= base_url('banner/do_delete') ?>",
-                        data: "name=" + name + "&path=" + path,
-                        dataType: 'html'
-                  });
-                  var _ref;
-                  return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-            }
-
-      });
+	var file_image = setDropzone('file_image', 'page', '.png,.jpg,.jpeg', 1, 10);
 </script>
 <?= $this->endSection('script'); ?>

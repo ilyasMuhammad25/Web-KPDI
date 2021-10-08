@@ -1,10 +1,10 @@
 <?php
 
-namespace Banner\Models;
+namespace Page\Models;
 
-class BannerModel extends \hamkamannan\adminigniter\Models\BaseModel
+class PageModel extends \hamkamannan\adminigniter\Models\BaseModel
 {
-    protected $table      			= 't_banner';
+    protected $table      			= 't_page';
     protected $primaryKey 			= 'id';
     protected $returnType     		= 'object';
     protected $useSoftDeletes 		= false;
