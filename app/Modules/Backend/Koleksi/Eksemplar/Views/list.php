@@ -40,8 +40,11 @@
                 <thead>
                     <tr>
                         <th><?= lang('Eksemplar.field.no') ?> </th>
-                        <th><?= lang('Eksemplar.field.name') ?></th>
-                        <th><?= lang('Eksemplar.field.description') ?></th>
+                        <th><input type="checkbox" name="checkAll" id="checkAll"></th>
+                        <th><?= lang('Eksemplar.field.Barcode') ?></th>
+                        <th><?= lang('Eksemplar.field.Tanggalpengadaan') ?></th>
+                        <th><?= lang('Eksemplar.field.induk') ?></th>
+                        <th><?= lang('Eksemplar.field.bibliografis') ?></th>
                         <th><?= lang('Eksemplar.field.sort') ?></th>
                         <th><?= lang('Eksemplar.field.active') ?></th>
                         <th><?= lang('Eksemplar.field.created_by') ?></th>
@@ -54,7 +57,16 @@
                         <tr>
                             <td width="35"></td>
                             <td width="200">
-                                <?= _spec($row->name); ?> <br>
+                                <?= _spec($row->NomorBarcode); ?> <br>
+                            </td>
+                            <td width="200">
+                                <?= _spec($row->TanggalPengadaan); ?> <br>
+                            </td>
+                            <td width="200">
+                                <?= _spec($row->NoInduk); ?> <br>
+                            </td>
+                            <td width="200">
+                              
                             </td>
                             <td><?= _spec($row->description); ?></td>
                             <td width="35"><?= _spec($row->sort); ?></td>

@@ -39,7 +39,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
 
-        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
+        helper(['form', 'url', 'auth', 'app', 'adminigniter','eksemplar_helper']);
     }
     public function index()
     {
@@ -117,22 +117,62 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
-
         $this->data['title'] = 'Tambah Eksemplar';
+        // $this->data[' BarcodeNumber '] = (int)preg_replace('/[^0-9]/', '', BarcodeNumber_helper());
+        $this->data['ref_currency'] = get_references('ref_currency');
+        $this->data['ref_rules'] = get_references('ref_rules');
+        $this->data['ref_media'] = get_references('media');
+        $this->data['ref_partner'] = get_references('partner');
+        $this->data['ref_source'] = get_references('source');
+        $this->data['ref_status'] = get_references('ref_status');
+        $BarcodeNumber =  BarcodeNumber_helper();
+		$NoInduk =NoInduk_helper();
+		$RFID =RFID_helper();
+        
 
-		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('NomorBarcode', 'NomorBarcode', 'unique');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
+            $post = $this->request->getPost();
+            for ($i = 0; $i < (int)$post['jml_eksemplar']; $i++) {
             $save_data = [
-				'name' => $this->request->getPost('name'),
-                'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
+                'NomorBarcode' =>$BarcodeNumber + $i, 11, '0', STR_PAD_LEFT,
+				'NoInduk' => $NoInduk + $i, 5, '0', STR_PAD_LEFT,
+				'ref_currency' => $post['ref_currency'],
+				'RFID' => $RFID + $i, 11, '0', STR_PAD_LEFT,
+				'Price' => $post['Price'],
+				'PriceType' => $post['PriceType'],
+				'TanggalPengadaan' => $post['TanggalPengadaan'],
+				'CallNumber' => $post['CallNumber'],
+				'Branch_id' => 37,
+				'Catalog_id' => $post['Catalog_id'],
+				'ref_partner' => $post['ref_partner'],
+				'Location_id' => $post['Location_id'],
+				'ref_rules' => $post['ref_rules'],
+				'Category_id' => $post['Category_id'],
+				'ref_media' => $post['ref_media'],
+				'ref_source' => $post['ref_source'],
+				'ref_status' => $post['ref_status'],
+				'Location_Library_id' => $post['Location_Library_id'],
+				'Keterangan_Sumber' => null,
+				'CreateTerminal' => null,
+				'IsVerified' => '',
+				'IsQUARANTINE' => null,
+				'QUARANTINEDBY' => null,
+				'QUARANTINEDDATE' => null,
+				'QUARANTINEDTERMINAL' => null,
+				'ISREFERENSI' => null,
+				'EDISISERIAL' => $edisi_serial,
+				// 'NOJILID' => $post['NOJILID'],
+				'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
+				'Bahan_Sertaan' => $post['Bahan_Sertaan'],
+				'KETERANGAN_LAIN' => $post['KETERANGAN_LAIN'],
+				'ISOPAC' => $post['IsOPAC'],
                 'created_by' => user_id(),
             ];
 
             $newEksemplarId = $this->eksemplarModel->insert($save_data);
-
+        }
             if ($newEksemplarId) {
                 add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
                 set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));

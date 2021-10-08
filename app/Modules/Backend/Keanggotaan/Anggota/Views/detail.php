@@ -53,9 +53,12 @@
                 </ul>
                 <!-- View Berkas Pendaftaran -->
                 <a data-toggle="tooltip" data-placement="top" title="View">
-                    <button type="button" class="btn btn-outline-primary btn-block" type="button" data-toggle="modal" data-target="#exampleModal">
+                    <!-- <button type="button" class="btn btn-outline-primary btn-block" type="button" data-toggle="modal" data-target="#exampleModal">
                       View Berkas Pendaftaran
-                    </button>
+                    </button> -->
+                    <?php if (is_allowed('anggota/cetakKartu')): ?>
+                            	<a href="javascript:void(0);" data-href="<?=base_url('anggota/cetakKartu/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top" title="Hapus" class="btn btn-danger remove-data" style="min-width:37px"><i class="pe-7s-trash font-weight-bold"></i></a>
+                            <?php endif;?>
                 </a>
               </div>
               <!-- /.card-body -->

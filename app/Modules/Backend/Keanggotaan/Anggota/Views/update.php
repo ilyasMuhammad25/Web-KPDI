@@ -40,7 +40,9 @@ $member_id = $request->getVar('member_id') ?? 0;
 				<i class="header-icon lnr-layers icon-gradient bg-plum-plate"> </i>
 				Data Anggota
 			</div>
+        
 			<ul class="nav">
+            <button type="submit" class="btn btn-primary" name="submit"><?=lang('Anggota.action.save')?></button>
 				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=keanggotaan') ?>" class="nav-link show <?=($slug == 'keanggotaan')?'active':''?>">Keanggotaan</a></li>
 				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=pelanggaran') ?>" class="nav-link show <?=($slug == 'pelanggaran')?'active':''?>">Pelanggaran</a></li>
 				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=peminjaman') ?>" class="nav-link show <?=($slug == 'peminjaman')?'active':''?>">Peminjaman</a></li>
