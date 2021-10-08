@@ -9,6 +9,11 @@ return [
    'field.status' => 'Status',
    'field.id' => 'ID',
    'field.name' => 'Nama',
+<<<<<<< HEAD
+   'field.noanggota' => 'No Anggota',
+   'field.nobarcode' => 'No Barcode Buku',
+=======
+>>>>>>> 3446e7e961706d2b5eeb011800c255a70fa3f2f0
    'field.slug' => 'Slug',
    'field.sort' => 'Urutan',
    'field.category' => 'Kategori',
@@ -28,6 +33,13 @@ return [
    'label.search' => 'Cari',
 
    'info.list_all' => 'Daftar Semua',
+<<<<<<< HEAD
+   'peminjaman' => 'Peminjaman',
+   'datapeminjaman' => 'Data Peminjaman',
+   'pengembalian' => 'Pengembalian',
+   'datapengembalian' => 'Data Pengembalian',
+=======
+>>>>>>> 3446e7e961706d2b5eeb011800c255a70fa3f2f0
    'info.not_found' => 'Tidak ditemukan',
    'info.success' => 'Berhasil',
    'info.successfully_saved' => 'Sirkulasi berhasil disimpan',

@@ -7,6 +7,10 @@ $routes->group('sirkulasi', ['namespace' => 'Sirkulasi\Controllers'], function (
 	$subroutes->add('index', 'Sirkulasi::index');
 	$subroutes->add('detail/(:any)', 'Sirkulasi::detail/$1');
 	$subroutes->add('create', 'Sirkulasi::create');
+	$subroutes->add('createpengembalian', 'Sirkulasi::createpengembalian');
+	$subroutes->add('listpeminjaman', 'Sirkulasi::listpeminjaman');
+	$subroutes->add('listpengembalian', 'Sirkulasi::listpengembalian');
+	$subroutes->add('editpengembalian', 'Sirkulasi::editpengembalian');
 	$subroutes->add('edit/(:any)', 'Sirkulasi::edit/$1');
 	$subroutes->add('delete/(:any)', 'Sirkulasi::delete/$1');
 	$subroutes->add('apply_status/(:any)', 'Sirkulasi::apply_status/$1');
@@ -22,36 +26,4 @@ $routes->group('api/sirkulasi', ['namespace' => 'Sirkulasi\Controllers\Api'], fu
 	$subroutes->add('create', 'Sirkulasi::create');
 	$subroutes->add('edit/(:any)', 'Sirkulasi::edit/$1');
 	$subroutes->add('delete/(:any)', 'Sirkulasi::delete/$1');
-});
-
-$routes->group('sirkulasi-peminjaman', ['namespace' => 'Sirkulasi\Controllers'], function ($subroutes) {
-	/*** Route Update for Sirkulasi ***/
-	$subroutes->add('', 'Sirkulasi::peminjaman_index');
-	$subroutes->add('index', 'Sirkulasi::peminjaman_index');
-	$subroutes->add('create', 'Sirkulasi::peminjaman_create');
-	$subroutes->add('edit/(:any)', 'Sirkulasi::peminjaman_edit/$1');
-});
-
-$routes->group('sirkulasi-pengembalian', ['namespace' => 'Sirkulasi\Controllers'], function ($subroutes) {
-	/*** Route Update for Sirkulasi ***/
-	$subroutes->add('', 'Sirkulasi::pengembalian_index');
-	$subroutes->add('index', 'Sirkulasi::pengembalian_index');
-	$subroutes->add('create', 'Sirkulasi::pengembalian_create');
-	$subroutes->add('edit/(:any)', 'Sirkulasi::pengembalian_edit/$1');
-});
-
-$routes->group('sirkulasi-perpanjangan', ['namespace' => 'Sirkulasi\Controllers'], function ($subroutes) {
-	/*** Route Update for Sirkulasi ***/
-	$subroutes->add('', 'Sirkulasi::perpanjangan_index');
-	$subroutes->add('index', 'Sirkulasi::perpanjangan_index');
-	$subroutes->add('create', 'Sirkulasi::perpanjangan_create');
-	$subroutes->add('edit/(:any)', 'Sirkulasi::perpanjangan_edit/$1');
-});
-
-$routes->group('sirkulasi-pelanggaran', ['namespace' => 'Sirkulasi\Controllers'], function ($subroutes) {
-	/*** Route Update for Sirkulasi ***/
-	$subroutes->add('', 'Sirkulasi::pelanggaran_index');
-	$subroutes->add('index', 'Sirkulasi::pelanggaran_index');
-	$subroutes->add('create', 'Sirkulasi::pelanggaran_create');
-	$subroutes->add('edit/(:any)', 'Sirkulasi::pelanggaran_edit/$1');
 });

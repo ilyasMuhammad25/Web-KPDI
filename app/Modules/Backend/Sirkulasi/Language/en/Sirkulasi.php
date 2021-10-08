@@ -9,6 +9,11 @@ return [
    'field.status' => 'Status',
    'field.id' => 'ID',
    'field.name' => 'Name',
+<<<<<<< HEAD
+   'field.noanggota' => 'Member ID',
+   'field.nobarcode' => 'Barcode ID',
+=======
+>>>>>>> 3446e7e961706d2b5eeb011800c255a70fa3f2f0
    'field.slug' => 'Slug',
    'field.sort' => 'Sort',
    'field.category' => 'Category',
@@ -28,6 +33,11 @@ return [
    'label.search' => 'Search',
 
    'info.list_all' => 'List All',
+<<<<<<< HEAD
+   'peminjaman' => 'Peminjaman',
+   'datapeminjaman' => 'Data Peminjaman',
+=======
+>>>>>>> 3446e7e961706d2b5eeb011800c255a70fa3f2f0
    'info.not_found' => 'Not found',
    'info.success' => 'Success',
    'info.successfully_saved' => 'Sirkulasi successfully saved',
