@@ -180,6 +180,8 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 
 			if(!empty($save_data)){
 				$this->eksemplarModel->insertBatch($save_data);
+
+				// $catalog = $this->catalogModel->update($catalog_id,array('judul'=>$judul));
 			}
 
 			// add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);

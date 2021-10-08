@@ -78,9 +78,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 														<input type="hidden" name="catalog_id" id="catalog_id" value="">
                                                         <input type="text" class="form-control" id="frm_create_name"
                                                             name="name"
-                                                            placeholder="<?=lang('Eksemplar.field.JudulUtama')?> " />
-                                                        <!-- <small
-                                                            class="info help-block text-muted"><?=lang('Eksemplar.field.name')?></small> -->
+                                                            placeholder="<?=lang('Eksemplar.field.JudulUtama')?> " readonly/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -95,9 +93,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                     <div>
                                                         <input type="text" class="form-control" id="frm_create_name"
                                                             name="name"
-                                                            placeholder="<?=lang('Eksemplar.field.AnakJudul')?> " />
-                                                        <small
-                                                            class="info help-block text-muted"><?=lang('Eksemplar.field.name')?></small>
+                                                            placeholder="<?=lang('Eksemplar.field.AnakJudul')?> " readonly/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -107,7 +103,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                     <div>
                                                         <input type="text" class="form-control" id="frm_create_sort"
                                                             name="sort"
-                                                            placeholder="<?=lang('Eksemplar.field.sort')?> " />
+                                                            placeholder="<?=lang('Eksemplar.field.sort')?> " readonly />
 
                                                     </div>
                                                 </div>
