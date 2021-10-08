@@ -14,9 +14,8 @@ if (!function_exists('BarcodeNumber_helper')) {
             $no=1;
         }else{
             $no=intval($kode['NomorBarcode']) + 1; }
-        $Brcd= "BRCD";
         $batas = str_pad($no, 7, "0", STR_PAD_LEFT);
-        $NomorBarcode = $Brcd.$batas;
+        $NomorBarcode = $batas;
         return $NomorBarcode;
     }
     
@@ -36,9 +35,8 @@ if (!function_exists('RFID_helper')) {
             $no=1;
         }else{
             $no=intval($kode['RFID']) + 1; }
-        $Brcd= "RFID";
         $batas = str_pad($no, 7, "0", STR_PAD_LEFT);
-        $NomorBarcode = $Brcd.$batas;
+        $NomorBarcode = $batas;
         return $NomorBarcode;
     }
     

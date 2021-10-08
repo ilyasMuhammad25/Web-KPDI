@@ -130,58 +130,72 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 		$RFID =RFID_helper();
         
 
-		$this->validation->setRule('NomorBarcode', 'NomorBarcode', 'unique');
+		$this->validation->setRule('name', 'Judul Utama', 'trim');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $post = $this->request->getPost();
-            for ($i = 0; $i < (int)$post['jml_eksemplar']; $i++) {
-            $save_data = [
-                'NomorBarcode' =>$BarcodeNumber + $i, 11, '0', STR_PAD_LEFT,
-				'NoInduk' => $NoInduk + $i, 5, '0', STR_PAD_LEFT,
-				'ref_currency' => $post['ref_currency'],
-				'RFID' => $RFID + $i, 11, '0', STR_PAD_LEFT,
-				'Price' => $post['Price'],
-				'PriceType' => $post['PriceType'],
-				'TanggalPengadaan' => $post['TanggalPengadaan'],
-				'CallNumber' => $post['CallNumber'],
-				'Branch_id' => 37,
-				'Catalog_id' => $post['Catalog_id'],
-				'ref_partner' => $post['ref_partner'],
-				'Location_id' => $post['Location_id'],
-				'ref_rules' => $post['ref_rules'],
-				'Category_id' => $post['Category_id'],
-				'ref_media' => $post['ref_media'],
-				'ref_source' => $post['ref_source'],
-				'ref_status' => $post['ref_status'],
-				'Location_Library_id' => $post['Location_Library_id'],
-				'Keterangan_Sumber' => null,
-				'CreateTerminal' => null,
-				'IsVerified' => '',
-				'IsQUARANTINE' => null,
-				'QUARANTINEDBY' => null,
-				'QUARANTINEDDATE' => null,
-				'QUARANTINEDTERMINAL' => null,
-				'ISREFERENSI' => null,
-				'EDISISERIAL' => $edisi_serial,
-				// 'NOJILID' => $post['NOJILID'],
-				'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
-				'Bahan_Sertaan' => $post['Bahan_Sertaan'],
-				'KETERANGAN_LAIN' => $post['KETERANGAN_LAIN'],
-				'ISOPAC' => $post['IsOPAC'],
-                'created_by' => user_id(),
-            ];
+            $save_data = array();
 
-            $newEksemplarId = $this->eksemplarModel->insert($save_data);
-        }
-            if ($newEksemplarId) {
-                add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
-                set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
-                set_message('toastr_type', 'success');
-                return redirect()->to('/eksemplar');
-            } else {
-                set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Eksemplar.info.failed_saved'));
-                echo view('Eksemplar\Views\add', $this->data);
-            }
+			$no_barcode_arr = (array) $this->request->getPost('no_barcode');
+			$no_induk_arr = $this->request->getPost('no_induk');
+			$rfid_arr = $this->request->getPost('rfid');
+			$no_panggil_arr = $this->request->getPost('no_panggil');
+
+			foreach ($no_barcode_arr as $index => $no_barcode) {
+				$save_data[] = [
+					'NomorBarcode' => $no_barcode,
+					'NoInduk' => $no_induk_arr[$index],
+					'ref_currency' => $post['ref_currency'],
+					'Price' => $post['Price'],
+					'PriceType' => $post['PriceType'],
+					'TanggalPengadaan' => $post['TanggalPengadaan']??date('Y-m-d'),
+					'CallNumber' => $post['CallNumber'],
+					// 'Branch_id' => 37,
+					// 'Catalog_id' => $post['Catalog_id'],
+					// 'ref_partner' => $post['ref_partner'],
+					// 'Location_id' => $post['Location_id'],
+					// 'ref_rules' => $post['ref_rules'],
+					// 'Category_id' => $post['Category_id'],
+					// 'ref_media' => $post['ref_media'],
+					// 'ref_source' => $post['ref_source'],
+					// 'ref_status' => $post['ref_status'],
+					// 'Location_Library_id' => $post['Location_Library_id'],
+					// 'Keterangan_Sumber' => null,
+					// 'CreateTerminal' => null,
+					// 'IsVerified' => '',
+					// 'IsQUARANTINE' => null,
+					// 'QUARANTINEDBY' => null,
+					// 'QUARANTINEDDATE' => null,
+					// 'QUARANTINEDTERMINAL' => null,
+					// 'ISREFERENSI' => null,
+					// 'EDISISERIAL' => $edisi_serial,
+					// // 'NOJILID' => $post['NOJILID'],
+					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
+					// 'Bahan_Sertaan' => $post['Bahan_Sertaan'],
+					// 'KETERANGAN_LAIN' => $post['KETERANGAN_LAIN'],
+					// 'ISOPAC' => $post['IsOPAC'],
+					'created_by' => user_id(),
+				];
+			}
+
+			if(!empty($save_data)){
+				$this->eksemplarModel->insertBatch($save_data);
+			}
+
+			// add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
+			set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
+			set_message('toastr_type', 'success');
+			return redirect()->to('/eksemplar');
+
+            // if ($newEksemplarId) {
+            //     add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
+            //     set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
+            //     set_message('toastr_type', 'success');
+            //     return redirect()->to('/eksemplar');
+            // } else {
+            //     set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Eksemplar.info.failed_saved'));
+            //     echo view('Eksemplar\Views\add', $this->data);
+            // }
         } else {
             $this->data['redirect'] = base_url('eksemplar/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));

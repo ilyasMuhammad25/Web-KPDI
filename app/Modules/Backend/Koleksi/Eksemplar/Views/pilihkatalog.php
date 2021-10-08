@@ -25,7 +25,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                 
+					<tr>
+						<td>1</td>
+						<td colspan="6">Judul 1</td>
+						<td><button type="button" data-id="1" data-judul="Judul 1" class="btn btn-primary btn-pilih">Pilih</button></td>
+					</tr>
                 </tbody>
             </table>
         </div>
@@ -34,7 +38,7 @@
 </div>
 
 <script>
-    $('#frm_create').submit(function(event) {
+    $('#frm_create2').submit(function(event) {
         event.preventDefault();
         var data_post = $(this).serializeArray();
 
