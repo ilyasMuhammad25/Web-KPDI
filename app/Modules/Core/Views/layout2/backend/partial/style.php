@@ -6,3 +6,4 @@
 <!-- <link rel="stylesheet" href="<?= base_url('assets/css') ?>/bootstrap-material-datetimepicker.min.css"> -->
 <!-- <link rel="stylesheet" href="<?= base_url('assets/vendors') ?>/fontawesome-pro-5/css/all.css"> -->
 <link rel="stylesheet" href="<?= base_url('assets/css') ?>/material-icon.css">
+<link type="text/css" id="applicationStylesheet" rel="stylesheet" href="<?= base_url('assets/css') ?>/login_keanggotaan_backoffice.css">

@@ -195,36 +195,38 @@
                 $('#'+domID+'_listed').append('<input type="hidden" name="'+name+'" value="' + value + '" />');
             },
             removedfile: function(file) {
-                console.log('removedfile');
-                console.log(file);
-                var name = "";
+                // console.log('removedfile');
+                // console.log(file);
+                // var name = "";
 
-                var path = "<?=WRITEPATH?>" + "/uploads/";
+                // var path = "<?=WRITEPATH?>" + "/uploads/";
 
-				if(writePath){
-					var path = writePath;
-				}
+				// if(writePath){
+				// 	var path = writePath;
+				// }
 
-				//alert(path);
+				// alert(path);
 
-                if (file.upload !== undefined) {
-                    name = file.upload.filename;
-                } else {
-                    name = file.name;
-                    path = "<?=ROOTPATH?>" + "/public/uploads/" + routePath;
-                }
+                // if (file.upload !== undefined) {
+                //     name = file.upload.filename;
+                // } else {
+                //     name = file.name;
+                //     path = "<?=ROOTPATH?>" + "/public/uploads/" + routePath;
+                // }
 
-                $.ajax({
-                    type: 'POST',
-                    url: baseUrl + "/do_delete",
-                    data: "name=" + name + "&path=" + path,
-                    dataType: 'html'
-                });
+                // $.ajax({
+                //     type: 'POST',
+                //     url: baseUrl + "/do_delete",
+                //     data: "name=" + name + "&path=" + path,
+                //     dataType: 'html'
+                // });
 
-				$('input[name="'+domID+'['+file.upload.uuid+']"]').remove();
+				// $('input[name="'+domID+'['+file.upload.uuid+']"]').remove();
 
-                var _ref;
-                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                // var _ref;
+                // return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                return true;
+               
             }
         });
 

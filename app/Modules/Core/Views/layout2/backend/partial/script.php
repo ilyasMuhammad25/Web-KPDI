@@ -5,6 +5,7 @@
 <script src="<?= base_url('assets/js'); ?>/scrollbar.js"></script>
 <script src="<?= base_url('assets/js'); ?>/toastr.min.js"></script>
 <script src="<?= base_url('assets/js'); ?>/sweetalert2@8.js"></script>
+<script src="<?= base_url('assets/js'); ?>/login_keanggotaan_backoffice.js"></script>
 
 <!--VENDORS-->
 <script src="<?= base_url('assets/vendors'); ?>/dropzone/min/dropzone.min.js"></script>
@@ -22,6 +23,7 @@
 <script src="<?= base_url('assets/vendors'); ?>/select2/js/select2.min.js"></script>
 <!-- BlockUI -->
 <script src="<?= base_url('themes/uigniter')?>/js/vendors/blockui.js"></script>
+<!-- <script  id="applicationScript" type="text/javascript" src="<?= base_url('themes/uigniter')?>/js/vendors/login_keanggotaan_backoffice.js"></script> -->
 
 <!-- <script src="<?= base_url('assets/js'); ?>/bootstrap-material-datetimepicker.min.js"></script> -->
 <!-- <script src="<?= base_url('assets/js'); ?>/ckeditor.js"></script> -->

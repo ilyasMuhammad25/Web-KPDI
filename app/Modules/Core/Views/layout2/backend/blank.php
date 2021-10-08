@@ -12,6 +12,7 @@
     <meta name="msapplication-tap-highlight" content="no">
     <link rel="icon" href="<?= base_url(get_parameter('favicon')) ?>">
     <link rel="stylesheet" href="<?= base_url('themes/uigniter'); ?>/css/base.min.css">
+    <link rel="stylesheet" href="<?= base_url('themes/uigniter'); ?>/css/login_keanggotaan_backoffice.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .bg-corporate-primary{
@@ -77,6 +78,9 @@
             };
             toastr[toastr_type](toastr_msg, "Information");
         }
+    </script>
+    <script>
+        <script src="<?= base_url('themes/uigniter')?>/js/vendors/login_keanggotaan_backoffice.js"></script>
     </script>
 </body>
 

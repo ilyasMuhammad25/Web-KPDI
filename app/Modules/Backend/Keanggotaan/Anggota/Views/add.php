@@ -58,6 +58,7 @@ $display='block';
 
 <?=$this->section('script');?>
 <script> 
+    Dropzone.autoDiscover = false;
 	var checkboxes = $('#is_similar');
 
 	checkboxes.on('ifChanged', function(event){

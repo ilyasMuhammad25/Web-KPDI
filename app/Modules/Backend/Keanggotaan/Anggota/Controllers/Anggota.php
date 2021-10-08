@@ -103,7 +103,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     $this->data['ref_Statusanggota'] = get_references('statanggota');
     
     
-    // $this->data[' MemberNo'] =  get_MemberNo();
+    $this->data[' MemberNo'] =  get_MemberNo();
    
     // $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 
@@ -547,7 +547,7 @@ public function import()
     }
 }
 
-public function cetakKartu(){
+public function cetakKartu(int $id=null){
     if (!is_allowed('anggota/cetakKartu')) {
         set_message('toastr_msg', lang('App.permission.not.have'));
         set_message('toastr_type', 'error');
@@ -556,6 +556,8 @@ public function cetakKartu(){
 
 	$this->data['title'] = 'Import Anggota';
 	$this->data['kartu'] = array();
+    $anggota = $this->anggotaModel->find($id);
+    $this->data['anggota']=$anggota;
 
 	// 1. composer require mpdf/mpdf
 
