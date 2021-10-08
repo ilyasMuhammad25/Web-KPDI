@@ -18,6 +18,7 @@ class AuthAlterUsers extends Migration
 			'unit' 			=> ['type' => 'VARCHAR','constraint' => '50','null' => true,],
 			'company' 		=> ['type' => 'VARCHAR','constraint' => '50','null' => true,],
 			'address' 		=> ['type' => 'VARCHAR','constraint' => '255','null' => true,],
+			'coordinate' 	=> ['type' => 'VARCHAR','constraint' => '255','null' => true,],
 		];
 		$this->forge->addColumn('users', $fields);
 	}
