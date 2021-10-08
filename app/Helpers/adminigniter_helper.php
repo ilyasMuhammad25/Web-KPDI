@@ -1,9 +1,36 @@
 <?php
 /**
  * ---------------
+ * User Helper
+ * ---------------
+ */
+if (!function_exists('get_user_id')) {
+    function get_user_id()
+    {
+        $user_id = user_id();
+        return $user_id;
+    }
+}
+
+if (!function_exists('get_user')) {
+    function get_user($user_id = null)
+    {
+        if(empty($user_id)){
+            $user = user();
+        } else {
+            $user = db_get_single('users', 'id=' . $user_id);
+        }
+
+        return $user;
+    }
+}
+
+/**
+ * ---------------
  * Common Helper
  * ---------------
  */
+
 if (!function_exists('create_thumbnail')) {
     function create_thumbnail($path, $file = null, $prefix = 'thumb_', $width = 200)
     {

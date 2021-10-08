@@ -224,26 +224,36 @@ $request->uri->setSilent();
                                 </div>
                                 <div data-parent="#accordion" id="collapse_madatory3" class="collapse" style="">
                                     <div class="card-body">
-                                        <div class="form-row">
-                                            <div class="col-md-10">
-                                                <div class="position-relative form-group">
-                                                    <label
-                                                        for="name"><?= lang('Eksemplar.field.Jumlaheksemplar') ?>*</label>
-                                                    <div>
-                                                        <input type="number" class="form-control" id="frm_create_name"
-                                                            name="jml_eksemplar" id="jml_eksemplar"
-                                                            oninvalid="InvalidMsg('Jumlah Eksemplar',this);"
-                                                            oninput="InvalidMsg('Jumlah Eksemplar',this);"
-                                                            name="jml_eksemplar" value="1" required
-                                                            placeholder="<?= lang('Eksemplar.field.Jumlaheksemplar') ?> " />
-                                                        <!-- <small
-                                                            class="info help-block text-muted"><?= lang('Eksemplar.field.name') ?></small> -->
-                                                    </div>
-                                                </div>
-                                            </div>
+										<div class="col-md-12">
+											<div class="form-row">
+												<div class="col-md-4">
+													<div class="input-group"><input type="number" name="jml_eksemplar" class="form-control" placeholder="Jumlah Eksemplar">
+														<div class="input-group-append">
+															<button class="btn btn-primary btn-generate" data-tbody="eksemplar-tbody">Generate</button>
+														</div>
+													</div>
+												</div>
+											</div>
 
-                                        </div>
-                                        <!-- form container barcode -->
+											<div class="main-card mt-3 mb-3 card car-border">
+												<div class="card-body">
+													<table style="width: 100%;" id="eksemplar-tbl" class="table table-hover table-striped table-bordered">
+														<thead>
+															<tr>
+																<th width="25%">Barcode</th>
+																<th width="25%">Nomor Induk</th>
+																<th width="25%">RFID</th>
+																<th width="25%">Nomor Panggil</th>
+															</tr>
+														</thead>
+														<tbody id="eksemplar-tbody">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+
+        
 
 
                                         <div class="row">
@@ -504,7 +514,22 @@ $request->uri->setSilent();
 
 <?= $this->include('Eksemplar\Views\pilihkatalog'); ?>
 <script>
- 
+	$(".btn-generate").click(function() {
+		var index = Date.now();
+		var tbody = $(this).data('tbody');
+
+		$('#'+tbody).append(`
+			<tr>
+				<td><input name="no_barcode" type="text" class="form-control barcode" value="<?=BarcodeNumber_helper(); ?>" disabled></td>
+				<td><input name="no_induk" type="text" class="form-control barcode" value="<?=NoInduk_helper(); ?>" disabled></td>
+				<td><input name="rfid" type="text" class="form-control barcode" value="<?=RFID_helper(); ?>" disabled></td>
+				<td><input name="no_panggil" type="text" class="form-control barcode" value="" disabled></td>
+			</tr>
+		`);
+	});
+
+
+
 $(document).ready(function() {
     // var html = [];       
     var i;

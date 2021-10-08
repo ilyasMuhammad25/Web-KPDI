@@ -50,14 +50,14 @@
 										MASUK
 									</button>
 								<div>
-
+								<?php if ($config->activeResetter) : ?>
 								<div class="text-center mt-3">
 									<a href="<?= route_to('forgot') ?>" class="text-white" style="font-weight-100 font-size:18px; text-decoration:none;">Lupa Kata Sandi</a>
 								</div>
-
-								<div class="divider"></div>
+								<?php endif;?>
 
 								<?php if ($config->allowRegistration) : ?>
+								<div class="divider"></div>
 								<div class="text-center">
 									<a href="<?= route_to('register') ?>" class="text-white" style="font-weight:bold; font-size:18px; text-decoration:none;"><?=lang('Auth.needAnAccount')?> <?=lang('Auth.signUp')?></a>
 								</div>
