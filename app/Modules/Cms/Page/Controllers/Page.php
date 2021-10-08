@@ -102,6 +102,8 @@ class Page extends \hamkamannan\adminigniter\Controllers\BaseController
                         $newFileName = $file->getRandomName();
                         $file->move($this->modulePath, $newFileName);
                         $listed_file[] = $newFileName;
+
+						create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
                     }
                 }
                 $save_data['file_image'] = implode(',', $listed_file);

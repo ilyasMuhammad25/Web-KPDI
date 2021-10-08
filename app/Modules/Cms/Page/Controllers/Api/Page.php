@@ -187,7 +187,9 @@ class Page extends ResourceController
                     $file->move($this->modulePath, $newFileName);
                     $listed_file[] = $newFileName;
 
-					create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+					if($upload_field == 'file_image'){
+						create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+					}
                 }
             }
             $update_data[$upload_field] = implode(',', $listed_file);
