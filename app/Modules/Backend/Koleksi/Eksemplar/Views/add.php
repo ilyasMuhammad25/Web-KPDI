@@ -71,7 +71,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                 <div data-parent="#accordion" id="collapse_madatory4" class="collapse show" style="">
                                     <div class="card-body">
                                         <div class="form-row">
-                                            <div class="col-md-10">
+                                            <div class="col-md-12">
                                                 <div class="position-relative form-group">
                                                     <label for="name"><?=lang('Eksemplar.field.JudulUtama')?>*</label>
                                                     <div>
@@ -89,7 +89,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
                                                 <div class="position-relative form-group">
                                                     <label for="name"><?=lang('Eksemplar.field.AnakJudul')?></label>
                                                     <div>
@@ -101,7 +101,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
                                                 <div class="position-relative form-group">
                                                     <label for="sort">Penanggung Jawab </label>
                                                     <div>
@@ -497,6 +497,8 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 
 		$('#frm_create_name').val(judul);
 		$('#catalog_id').val(id);
+
+		$('#modal_create').modal('hide');
 	});
 
 	$(".btn-generate").click(function() {
