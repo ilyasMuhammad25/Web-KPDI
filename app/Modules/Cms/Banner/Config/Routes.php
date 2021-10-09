@@ -14,6 +14,7 @@ $routes->group('banner', ['namespace' => 'Banner\Controllers'], function ($subro
 	$subroutes->add('do_upload', 'Banner::do_upload');
 	$subroutes->add('do_delete', 'Banner::do_delete');
 	$subroutes->add('flip', 'Banner::flip');
+	$subroutes->add('thumb', 'Banner::thumb');
 });
 
 $routes->group('api/banner', ['namespace' => 'Banner\Controllers\Api'], function ($subroutes) {
@@ -22,4 +23,5 @@ $routes->group('api/banner', ['namespace' => 'Banner\Controllers\Api'], function
 	$subroutes->add('create', 'Banner::create');
 	$subroutes->add('edit/(:any)', 'Banner::edit/$1');
 	$subroutes->add('delete/(:any)', 'Banner::delete/$1');
+	$subroutes->add('upload_file', 'Banner::upload_file');
 });

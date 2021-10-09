@@ -1,5 +1,8 @@
 <?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
 <?= $this->extend($layout); ?>
+<?= $this->section('style'); ?>
+<?= $this->endSection('style'); ?>
+
 <?= $this->section('page'); ?>
 <div class="app-main__inner">
     <div class="app-page-title">
@@ -25,21 +28,29 @@
     <div class="row">
         <div class="col-md-9">
             <div class="card-shadow-dark profile-responsive card-border mb-3 card">
-                <div class="dropdown-menu-header">
+				<div class="dropdown-menu-header">
                     <div class="dropdown-menu-header-inner bg-primary">
                         <div class="menu-header-image" style="background-image: url('<?= base_url('themes/uigniter') ?>/images/dropdown-header/abstract4.jpg')"></div>
                         <div class="menu-header-content btn-pane-right">
                             <div class="avatar-icon-wrapper mr-2 avatar-icon-xl">
-                                <div class="avatar-icon"><img src="<?= base_url('themes/uigniter') ?>/images/avatars/2.jpg" alt="User Profile"></div>
+                                <div class="avatar-icon">
+                                    <?php 
+                                        $default = base_url('themes/uigniter/images/avatars/2.jpg'); 
+                                        $image = base_url('uploads/user/'.$user->avatar);
+                                        if(empty($user->avatar)){
+                                            $image = $default;
+                                        }
+                                    ?>
+
+                                    <img src="<?=$image?>" onerror="this.onerror=null;this.src='<?=$default?>';" alt="User Profile">
+                                </div>
                             </div>
                             <div>
                                 <h5 class="menu-header-title"><?= $user->first_name; ?> <?= $user->last_name; ?></h5>
-                                <h6 class="menu-header-subtitle"><?= $user->unit ? $user->unit . ' - ' : '' ?> <?= $user->company; ?></h6>
+								<a href="javascript:void(0);" data-title="Avatar" data-format-title="Format (JPG|PNG). Max 10MB" data-format=".jpg,.jpeg,.png" data-dropzone-url="" data-url="" data-redirect="<?= base_url('user/profile') ?>" data-id="<?=$user->id?>" data-field="avatar" data-title="" class="btn btn-xs btn-secondary mt-1 upload-data"><small><i class="fa fa-upload"></i> Upload</small></a>
                             </div>
                             <div class="menu-header-btn-pane">
-                                <?php if(is_allowed('user/update')):?>
-                                    <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);" class="mb-2 mr-2 btn btn-pill btn-warning" title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-edit"></i> <?= lang('User.btn.profile.update') ?></a>
-                                <?php endif;?>
+                                <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);" class="mb-2 mr-2 btn btn-pill btn-warning" title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-edit"></i> <?= lang('User.btn.profile.update') ?></a>
                             </div>
                         </div>
                     </div>
@@ -71,6 +82,21 @@
                                 </div>
                                 <div class="widget-content-right">
                                     <?= $user->email; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+					<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left mr-3">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">No Telepon</div>
+                                </div>
+                                <div class="widget-content-right">
+                                    <?= $user->phone; ?>
                                 </div>
                             </div>
                         </div>
@@ -111,22 +137,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">
-                        <div class="widget-content p-0">
-                            <div class="widget-content-wrapper">
-                                <div class="widget-content-left mr-3">
-                                    <i class="fa fa-phone"></i>
-                                </div>
-                                <div class="widget-content-left">
-                                    <div class="widget-heading">No Telepon</div>
-                                </div>
-                                <div class="widget-content-right">
-                                    <?= $user->phone; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
+					<li class="list-group-item">
                         <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
                                 <div class="widget-content-left mr-3">
@@ -141,14 +152,14 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">
+					<li class="list-group-item">
                         <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
                                 <div class="widget-content-left mr-3">
                                     <i class="fa fa-university"></i>
                                 </div>
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Satuan Kerja</div>
+                                    <div class="widget-heading">Institusi</div>
                                 </div>
                                 <div class="widget-content-right">
                                     <?= $user->company; ?>
@@ -173,6 +184,9 @@
                             </div>
                             <p class="mt-3">
                                 <?= $user->address ?>
+                            </p>
+                            <p class="mt-3">
+                                <a href="https://maps.google.com/?q=<?=$user->coordinate?>" target="_blank" title="Lihat Google Maps" class="btn btn-sm btn-warning" style="min-width:35px"><i class="fa fa-map"> </i> Google Maps</a> 
                             </p>
                         </div>
                     </div>
@@ -263,5 +277,9 @@
 
 <?= $this->section('script'); ?>
 <?= $this->include('User\Views\update_modal'); ?>
-
+<script>
+    $('.select2').select2({
+		dropdownParent: $('#modal_edit')
+	});
+</script>
 <?= $this->endSection('script'); ?>

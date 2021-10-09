@@ -24,7 +24,7 @@ class User extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
 
-        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
+        helper('adminigniter');
     }
 
     public function index()

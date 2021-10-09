@@ -51,6 +51,7 @@ class Autoload extends AutoloadConfig
 		'User' 			=> APPPATH . 'Modules/Core/User',
         'Home' 			=> APPPATH . 'Modules/Frontend/Home',
 			'Banner' 		=> APPPATH . 'Modules/Cms/Banner',
+			'Page' 			=> APPPATH . 'Modules/Cms/Page',
 				'Tag' 		=> APPPATH . 'Modules/Master/Tag',
 					'Dashboard' 		=> APPPATH . 'Modules/Backend/Dashboard',
 					'Report' 			=> APPPATH . 'Modules/Backend/Report',

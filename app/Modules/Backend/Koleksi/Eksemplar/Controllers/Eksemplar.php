@@ -39,7 +39,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
 
-        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
+        helper(['form', 'url', 'auth', 'app', 'adminigniter','eksemplar_helper']);
     }
     public function index()
     {
@@ -117,31 +117,87 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
-
         $this->data['title'] = 'Tambah Eksemplar';
+        // $this->data[' BarcodeNumber '] = (int)preg_replace('/[^0-9]/', '', BarcodeNumber_helper());
+        $this->data['ref_currency'] = get_references('ref_currency');
+        $this->data['ref_rules'] = get_references('ref_rules');
+        $this->data['ref_media'] = get_references('media');
+        $this->data['ref_partner'] = get_references('partner');
+        $this->data['ref_source'] = get_references('source');
+        $this->data['ref_status'] = get_references('ref_status');
+        $BarcodeNumber =  BarcodeNumber_helper();
+		$NoInduk =NoInduk_helper();
+		$RFID =RFID_helper();
+        
 
-		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('name', 'Judul Utama', 'trim');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
-            $save_data = [
-				'name' => $this->request->getPost('name'),
-                'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
-                'created_by' => user_id(),
-            ];
+            $post = $this->request->getPost();
+            $save_data = array();
 
-            $newEksemplarId = $this->eksemplarModel->insert($save_data);
+			$no_barcode_arr = (array) $this->request->getPost('no_barcode');
+			$no_induk_arr = $this->request->getPost('no_induk');
+			$rfid_arr = $this->request->getPost('rfid');
+			$no_panggil_arr = $this->request->getPost('no_panggil');
 
-            if ($newEksemplarId) {
-                add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
-                set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
-                set_message('toastr_type', 'success');
-                return redirect()->to('/eksemplar');
-            } else {
-                set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Eksemplar.info.failed_saved'));
-                echo view('Eksemplar\Views\add', $this->data);
-            }
+			foreach ($no_barcode_arr as $index => $no_barcode) {
+				$save_data[] = [
+					'NomorBarcode' => $no_barcode,
+					'NoInduk' => $no_induk_arr[$index],
+					'ref_currency' => $post['ref_currency'],
+					'Price' => $post['Price'],
+					'PriceType' => $post['PriceType'],
+					'TanggalPengadaan' => $post['TanggalPengadaan']??date('Y-m-d'),
+					'CallNumber' => $post['CallNumber'],
+					// 'Branch_id' => 37,
+					// 'Catalog_id' => $post['Catalog_id'],
+					// 'ref_partner' => $post['ref_partner'],
+					// 'Location_id' => $post['Location_id'],
+					// 'ref_rules' => $post['ref_rules'],
+					// 'Category_id' => $post['Category_id'],
+					// 'ref_media' => $post['ref_media'],
+					// 'ref_source' => $post['ref_source'],
+					// 'ref_status' => $post['ref_status'],
+					// 'Location_Library_id' => $post['Location_Library_id'],
+					// 'Keterangan_Sumber' => null,
+					// 'CreateTerminal' => null,
+					// 'IsVerified' => '',
+					// 'IsQUARANTINE' => null,
+					// 'QUARANTINEDBY' => null,
+					// 'QUARANTINEDDATE' => null,
+					// 'QUARANTINEDTERMINAL' => null,
+					// 'ISREFERENSI' => null,
+					// 'EDISISERIAL' => $edisi_serial,
+					// // 'NOJILID' => $post['NOJILID'],
+					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
+					// 'Bahan_Sertaan' => $post['Bahan_Sertaan'],
+					// 'KETERANGAN_LAIN' => $post['KETERANGAN_LAIN'],
+					// 'ISOPAC' => $post['IsOPAC'],
+					'created_by' => user_id(),
+				];
+			}
+
+			if(!empty($save_data)){
+				$this->eksemplarModel->insertBatch($save_data);
+
+				// $catalog = $this->catalogModel->update($catalog_id,array('judul'=>$judul));
+			}
+
+			// add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
+			set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
+			set_message('toastr_type', 'success');
+			return redirect()->to('/eksemplar');
+
+            // if ($newEksemplarId) {
+            //     add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
+            //     set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
+            //     set_message('toastr_type', 'success');
+            //     return redirect()->to('/eksemplar');
+            // } else {
+            //     set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Eksemplar.info.failed_saved'));
+            //     echo view('Eksemplar\Views\add', $this->data);
+            // }
         } else {
             $this->data['redirect'] = base_url('eksemplar/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));

@@ -1,5 +1,8 @@
 <?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
 <?= $this->extend($layout); ?>
+<?= $this->section('style'); ?>
+<?= $this->endSection('style'); ?>
+
 <?= $this->section('page'); ?>
 <div class="app-main__inner">
     <div class="app-page-title">
@@ -44,10 +47,9 @@
                             </div>
                             <div>
                                 <h5 class="menu-header-title"><?= $user->first_name; ?> <?= $user->last_name; ?></h5>
-                                <h6 class="menu-header-subtitle"><?= $user->unit ? $user->unit . ' - ' : '' ?> <?= $user->company; ?></h6>
+								<a href="javascript:void(0);" data-title="Avatar" data-format-title="Format (JPG|PNG). Max 10MB" data-format=".jpg,.jpeg,.png" data-dropzone-url="" data-url="" data-redirect="<?= base_url('user/profile') ?>" data-id="<?=$user->id?>" data-field="avatar" data-title="" class="btn btn-xs btn-secondary mt-1 upload-data"><small><i class="fa fa-upload"></i> Upload</small></a>
                             </div>
                             <div class="menu-header-btn-pane">
-                                <a href="javascript:void(0);" data-id="<?=$user->id?>" data-field="avatar" data-title="Avatar" title="" class="mb-2 mr-2 btn btn-pill btn-primary upload-data"><i class="fa fa-user"></i> Ubah Avatar</a>
                                 <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);" class="mb-2 mr-2 btn btn-pill btn-warning" title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-edit"></i> <?= lang('User.btn.profile.update') ?></a>
                             </div>
                         </div>
@@ -135,6 +137,21 @@
                             </div>
                         </div>
                     </li>
+					<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left mr-3">
+                                    <i class="fa fa-building"></i>
+                                </div>
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">Unit Kerja</div>
+                                </div>
+                                <div class="widget-content-right">
+                                    <?= $user->unit; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                     <li class="list-group-item">
                         <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
@@ -142,7 +159,7 @@
                                     <i class="fa fa-university"></i>
                                 </div>
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Nama <?=is_member('dinkes') ? 'Dinkes':'Instansi'?></div>
+                                    <div class="widget-heading">Institusi</div>
                                 </div>
                                 <div class="widget-content-right">
                                     <?= $user->company; ?>
@@ -160,7 +177,7 @@
                                     <i class="fa fa-map-marker"></i>
                                 </div>
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Alamat <?=is_member('dinkes') ? 'Dinkes':'Instansi'?></div>
+                                    <div class="widget-heading">Alamat</div>
                                 </div>
                                 <div class="widget-content-right">
                                 </div>
@@ -174,32 +191,6 @@
                         </div>
                     </div>
                 </div>
-
-                <?php if(is_member('dinkes')):?>
-                    <div class="card-border m-3 card">
-                        <div class="card-body">
-                            <div class="widget-content p-0">
-                                <div class="widget-content-wrapper">
-                                    <div class="widget-content-left mr-3">
-                                        <i class="fa fa-map-marker"></i>
-                                    </div>
-                                    <div class="widget-content-left">
-                                        <div class="widget-heading">Alamat P4TO/PED</div>
-                                    </div>
-                                    <div class="widget-content-right">
-                                    </div>
-                                </div>
-                                <p class="mt-3">
-                                    <?= $user->address2 ?>
-                                </p>
-                                <p class="mt-3">
-                                    <a href="https://maps.google.com/?q=<?=$user->coordinate2?>" target="_blank" title="Lihat Google Maps" class="btn btn-sm btn-warning" style="min-width:35px"><i class="fa fa-map"> </i> Google Maps</a> 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif;?>
-
             </div>
         </div>
         <div class="col-md-3">
@@ -284,7 +275,14 @@
 <?= $this->endSection('page'); ?>
 
 <?= $this->section('script'); ?>
+<script>
+	Dropzone.autoDiscover = false;
+</script>
 <?= $this->include('User\Views\update_modal'); ?>
 <?= $this->include('User\Views\upload_modal'); ?>
-
+<script>
+    $('.select2').select2({
+		dropdownParent: $('#modal_edit')
+	});
+</script>
 <?= $this->endSection('script'); ?>

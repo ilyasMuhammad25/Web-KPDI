@@ -9,7 +9,7 @@ return [
    'field.status' => 'Status',
    'field.id' => 'ID',
    'field.name' => 'Judul',
-   'field.photo' => 'Foto',
+   'field.photo' => 'Foto Cover',
    'field.category' => 'Kategori',
    'field.slug' => 'Slug',
    'field.sort' => 'Urutan',

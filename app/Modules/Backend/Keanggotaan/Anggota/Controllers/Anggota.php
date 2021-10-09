@@ -5,6 +5,7 @@ namespace Anggota\Controllers;
 use \CodeIgniter\Files\File;
 use PHPExcel;
 use PHPExcel_IOFactory;
+use DataTables\DataTables;
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -81,6 +82,40 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		}
     }
 
+	public function index_json()
+    {
+        if (!is_allowed('anggota/access')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+
+		$slug = $this->request->getVar('slug');
+
+        $query = $this->anggotaModel
+            ->select('t_anggota.*')
+            ->select('created.username as created_name')
+            ->select('updated.username as updated_name')
+            ->join('users created','created.id = t_anggota.created_by','left')
+            ->join('users updated','updated.id = t_anggota.updated_by','left');
+            
+        $anggotas = $query->findAll();
+        $this->data['title'] = 'Anggota';
+        $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
+        $this->data['anggotas'] = $anggotas;
+       
+		if(!empty($slug)){			
+			echo view("Anggota\Views\slug\\$slug", $this->data);
+		} else {
+			echo view('Anggota\Views\list_json', $this->data);
+		}
+    }
+
+	public function json()
+	{
+		return DataTables::use('v_anggota')->make(true);
+	}
+
   
     public function create()
     {
@@ -103,7 +138,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     $this->data['ref_Statusanggota'] = get_references('statanggota');
     
     
-    // $this->data[' MemberNo'] =  get_MemberNo();
+    $this->data[' MemberNo'] =  get_MemberNo();
    
     // $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 
@@ -547,7 +582,7 @@ public function import()
     }
 }
 
-public function cetakKartu(){
+public function cetakKartu(int $id=null){
     if (!is_allowed('anggota/cetakKartu')) {
         set_message('toastr_msg', lang('App.permission.not.have'));
         set_message('toastr_type', 'error');
@@ -556,6 +591,8 @@ public function cetakKartu(){
 
 	$this->data['title'] = 'Import Anggota';
 	$this->data['kartu'] = array();
+    $anggota = $this->anggotaModel->find($id);
+    $this->data['anggota']=$anggota;
 
 	// 1. composer require mpdf/mpdf
 

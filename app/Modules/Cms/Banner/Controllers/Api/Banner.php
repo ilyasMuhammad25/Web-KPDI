@@ -18,8 +18,8 @@ class Banner extends ResourceController
 
 	function __construct()
 	{
-		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->bannerModel = new Banner\Models\BannerModel();
+		helper(['url', 'text', 'form', 'auth', 'app', 'html','adminigniter']);
+		$this->bannerModel = new \Banner\Models\BannerModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
 		$this->modulePath = ROOTPATH . 'public/uploads/banner/';
@@ -28,6 +28,8 @@ class Banner extends ResourceController
 		if (!file_exists($this->modulePath)) {
 			mkdir($this->modulePath);
 		}
+
+		helper('adminigniter');
 	}
 
 	public function index()
@@ -167,5 +169,55 @@ class Banner extends ResourceController
 		} else {
 			return $this->failNotFound(lang('Banner.info.not_found').' ID:' . $id);
 		}
+	}
+
+	public function upload_file()
+	{
+        $upload_id = $this->request->getPost('upload_id');
+        $upload_field = $this->request->getPost('upload_field');
+        $upload_title = $this->request->getPost('upload_title');
+
+        $update_data = [];
+        $files = (array) $this->request->getPost('file_pendukung');
+        if (count($files)) {
+            $listed_file = array();
+            foreach ($files as $uuid => $name) {
+                if (file_exists($this->uploadPath . $name)) {
+                    $file = new File($this->uploadPath . $name);
+                    $newFileName = $file->getRandomName();
+                    $file->move($this->modulePath, $newFileName);
+                    $listed_file[] = $newFileName;
+
+					create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+                }
+            }
+            $update_data[$upload_field] = implode(',', $listed_file);
+        }
+		$banner = $this->bannerModel->find($upload_id);
+        $bannerUpdate = $this->bannerModel->update($upload_id,$update_data);
+        if ($bannerUpdate) {
+			unlink_file($this->modulePath, $banner->file_image);
+			unlink_file($this->modulePath, 'thumb_'.$banner->file_image);
+
+            $this->session->setFlashdata('toastr_msg', 'Upload file berhasil');
+            $this->session->setFlashdata('toastr_type', 'success');
+            $response = [
+                'status'   => 201,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'Upload file berhasil'
+                ]
+            ];
+            return $this->respondCreated($response);
+        } else {
+            $response = [
+                'status'   => 400,
+                'error'    => null,
+                'messages' => [
+                    'error' => 'Upload file gagal'
+                ]
+            ];
+            return $this->fail($response);
+        }
 	}
 }

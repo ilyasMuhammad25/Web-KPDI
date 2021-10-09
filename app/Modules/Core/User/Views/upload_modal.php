@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal_upload" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modal_upload_img" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,10 +16,10 @@
                         <div class="col-md-12">
                             <div class="position-relative form-group">
                                 <label for="file_pendukung" class="">File <span id="upload_title_span2"></span>*</label>
-                                <div id="dropzone_file_pendukung" class="dropzone"></div>
-                                <div id="dropzone_file_pendukung_listed"></div>
+                                <div id="file_pendukung" class="dropzone"></div>
+                                <div id="file_pendukung_listed"></div>
                                 <div>
-                                    <small class="info help-block">Format (JPG|PNG). Max 10 MB</small>
+                                    <small class="info help-block"><span id="upload_data_format_title"></span></small>
                                 </div>
                             </div>
                         </div>
@@ -27,8 +27,16 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="upload_id" id="upload_id" value="">
+                    <input type="hidden" name="upload_parent_id" id="upload_parent_id" value="">
                     <input type="hidden" name="upload_field" id="upload_field" value="">
                     <input type="hidden" name="upload_title" id="upload_title" value="">
+
+                    <input type="hidden" name="upload_data_dropzone_url" id="upload_data_dropzone_url" value="">
+                    <input type="hidden" name="upload_data_url" id="upload_data_url" value="">
+                    <input type="hidden" name="upload_data_format" id="upload_data_format" value="">
+                    <input type="hidden" name="upload_data_file" id="upload_data_file" value="">
+                    <input type="hidden" name="upload_data_redirect" id="upload_data_redirect" value="">
+
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= lang('App.btn.close') ?></button>
                     <button type="submit" class="btn btn-primary" name="submit"><?= lang('App.btn.save') ?></button>
                 </div>
@@ -38,9 +46,17 @@
 </div>
 
 <script>
+	var defaultDropzoneUrl = "<?= base_url('user/do_upload') ?>";
+	var defaultUrl = "<?= base_url('api/user/upload_file') ?>";
+	var defaultFormat = "application/pdf";
+	var defaultFile = 1;
+	var defaultRedirect = "<?= base_url('user') ?>";
+	var defaultFormatTitle = "Format (PDF). Max 10MB";
+
     $('.upload-data').click(function() {
         Dropzone.autoDiscover = false;
         var id = $(this).attr('data-id');
+        var parent_id = $(this).attr('data-parent');
         var field = $(this).attr('data-field');
         var title = $(this).attr('data-title');
 
@@ -52,23 +68,75 @@
         console.log(field)
         console.log(title)
 
-        $('#modal_upload').modal('show');
+		var data_dropzone_url = $(this).attr('data-dropzone-url');
+		if(data_dropzone_url) {
+			$('#upload_data_dropzone_url').val(data_dropzone_url);	
+		} else {
+			$('#upload_data_dropzone_url').val(defaultDropzoneUrl);	
+		}
+		console.log('upload_data_dropzone_url: ' + $('#upload_data_dropzone_url').val());
+
+		var data_url = $(this).attr('data-url');
+		if(data_url) {
+			$('#upload_data_url').val(data_url);	
+		} else {
+			$('#upload_data_url').val(defaultUrl);	
+		}
+		console.log('upload_data_url: ' + $('#upload_data_url').val());
+
+		var data_format = $(this).attr('data-format');
+		if(data_format) {
+			defaultFormat = data_format;
+			$('#upload_data_format').val(data_format);
+		} else {
+			$('#upload_data_format').val(defaultFormat);
+		}
+		console.log('upload_data_format: ' + $('#upload_data_format').val());
+
+		var data_file = $(this).attr('data-file');
+		if(data_file) {
+			defaultFile = data_file;
+			$('#upload_data_file').val(data_file);
+		} else {
+			$('#upload_data_file').val(defaultFile);
+		}
+		console.log('upload_data_file: ' + $('#upload_data_file').val());
+
+		var data_redirect = $(this).attr('data-redirect');
+		if(data_redirect) {
+			$('#upload_data_redirect').val(data_redirect);
+		} else {
+			$('#upload_data_redirect').val(defaultRedirect);
+		}
+		console.log('upload_data_redirect: ' + $('#upload_data_redirect').val());
+		
+		var data_format_title = $(this).attr('data-format-title');
+		if(data_format_title) {
+			$('#upload_data_format_title').html(data_format_title);	
+		} else {
+			$('#upload_data_format_title').html(defaultFormatTitle);	
+		}
+
+        $('#modal_upload_img').modal('show');
         $('#upload_id').val(id);
+        $('#upload_parent_id').val(parent_id);
         $('#upload_field').val(field);
         $('#upload_title').val(title);
         $('#upload_title_span').html(title);
-        // $('#upload_title_span2').html(title);
+        	
+		setDropzone('file_pendukung', 'user', $('#upload_data_format').val(), $('#upload_data_file').val(), 10);
     });
 
     $('#frm_upload').submit(function(event) {
         event.preventDefault()
         var data_post = $(this).serializeArray();
         var id = $('#upload_id').val();
+        var parent_id = $('#upload_parent_id').val();
 
         $('.loading').show()
 
         $.ajax({
-                url: '<?= base_url('api/user/upload_file') ?>',
+                url: $('#upload_data_url').val(),
                 type: 'POST',
                 dataType: 'json',
                 data: data_post,
@@ -85,7 +153,7 @@
                     })
 
                     setTimeout(function() {
-                        window.location.href = '<?= base_url('user/profile') ?>';
+                        window.location.href = $('#upload_data_redirect').val();
                     }, 2000)
                 } else {
                     $('#frm_upload_message').html(res.messages.error)
@@ -97,79 +165,19 @@
             })
             .always(function() {
                 $('.loading').hide()
-                $('html, body').animate({
-                    scrollTop: $(document).height()
-                }, 2000);
             });
 
         return false;
     });
 
-    $('#modal_upload').on('hidden.bs.modal', function() {
+    $('#modal_upload_img').on('hidden.bs.modal', function() {
         $(this).find('form').trigger('reset');
         $('#frm_upload_message').html('');
-        // dropzone_file_pendukung = null;
-        dropzone_file_pendukung.disable();
+        file_pendukung = null;
+        file_pendukung.disable();
     });
 
-    $('#modal_upload').on('shown.bs.modal', function(e) {
+    $('#modal_upload_img').on('shown.bs.modal', function(e) {
         //
-    });
-
-    Dropzone.autoDiscover = false;
-    var dropzone_file_pendukung = new Dropzone("#dropzone_file_pendukung", {
-        url: "<?= base_url('user/do_upload') ?>", // /do_uploads fi multiple
-        paramName: "file", // files if multiple
-        maxFiles: 1,
-        maxFilesize: 1,
-        addRemoveLinks: true,
-        acceptedFiles: '.jpg,.png',
-        renameFile: function(file) {
-            return new Date().getTime() + '_' + file.name.toLowerCase().replace(' ', '_');
-        },
-        accept: function(file, done) {
-            console.log("uploaded");
-            done();
-        },
-        init: function() {
-            this.on("maxfilesexceeded", function(file) {
-                console.log("max file");
-            });
-        },
-        success: function(file, response) {
-            console.log(file);
-            console.log(response);
-            // file.previewElement.querySelector("img").src = response.files[0].url;
-            // file.previewElement.classList.add("dz-success");
-            // var fileuploded = file.previewElement.querySelector("[data-dz-name]");
-            // fileuploded.innerHTML = response.files[0].name;
-            // file.name = response.files[0].name;
-
-            var uuid = file.upload.uuid;
-            var name = file.upload.filename;
-
-            $('#dropzone_file_pendukung_listed').append('<input type="hidden" name="file_pendukung[' + uuid + ']" value="' + name + '" />');
-        },
-        removedfile: function(file) {
-            console.log(file);
-            var name = "";
-            var path = "<?= WRITEPATH . 'uploads/' ?>";
-            if (file.upload !== undefined) {
-                name = file.upload.filename;
-            } else {
-                name = file.name;
-                path = "<?= ROOTPATH . 'public/uploads/user/' ?>";
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: "<?= base_url('user/do_delete') ?>",
-                data: "name=" + name + "&path=" + path,
-                dataType: 'html'
-            });
-            var _ref;
-            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        }
-
     });
 </script>

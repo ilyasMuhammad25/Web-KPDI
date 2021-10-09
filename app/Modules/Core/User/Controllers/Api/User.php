@@ -153,8 +153,6 @@ class User extends ResourceController
 				'company' => $this->request->getPost('company'),
 				'address' => $this->request->getPost('address'),
 				'coordinate' => $this->request->getPost('coordinate'),
-				'address2' => $this->request->getPost('address2'),
-				'coordinate2' => $this->request->getPost('coordinate2'),
 			);
 
 			if ($this->request->getPost('password')) {

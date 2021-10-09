@@ -9,7 +9,7 @@ class SirkulasiModel extends \hamkamannan\adminigniter\Models\BaseModel
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
     protected $allowedFields = [
-        'id', 'slug', 'name', 'description', 'sort',  'active', 'created_by', 'updated_by'
+        'id', 'slug', 'name', 'noanggota', 'nobarcode', 'description', 'sort',  'active', 'created_by', 'updated_by'
     ];
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

@@ -8,9 +8,7 @@ class EksemplarModel extends \hamkamannan\adminigniter\Models\BaseModel
     protected $primaryKey = 'id';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
-    protected $allowedFields = [
-        'id', 'slug', 'name', 'description', 'sort',  'active', 'created_by', 'updated_by'
-    ];
+	protected $protectFields = false;
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
