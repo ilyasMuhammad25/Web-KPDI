@@ -7,11 +7,11 @@ $(document).ready(function () {
     placeholder: "RDA/AACR",
     theme: "bootstrap",
   });
-  $("#opt_main_creator").select2({
+  $(".opt_main_creator").select2({
     placeholder: "kreator utama",
     theme: "bootstrap",
   });
-  $("#opt_addition_creator").select2({
+  $(".opt-addition-creator").select2({
     placeholder: "kreator tambahan",
     theme: "bootstrap",
   });
@@ -21,6 +21,7 @@ $(document).ready(function () {
   });
   $(".opt").select2({
     theme: "bootstrap",
+    placeholder: $(this).data("placeholder"),
   });
 
   $("#opt_type").select2({
