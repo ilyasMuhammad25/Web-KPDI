@@ -1,3 +1,13 @@
+<?php
+$request = \Config\Services::request();
+$request->uri->setSilent();
+$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+$baseModel->setTable('t_katalog');
+$katalogs = $baseModel
+    ->find_all('name', 'asc');
+    // dd($katalog);
+?>
+
 <div class="modal fade" id="modal_create" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -19,17 +29,34 @@
                         <th><?= lang('Eksemplar.field.description') ?></th>
                         <th><?= lang('Eksemplar.field.sort') ?></th>
                         <th><?= lang('Eksemplar.field.active') ?></th>
-                        <th><?= lang('Eksemplar.field.created_by') ?></th>
-                        <th><?= lang('Eksemplar.field.updated_by') ?></th>
+                      
                         <th><?= lang('Eksemplar.label.action') ?></th>
                     </tr>
                 </thead>
-                <tbody>
+                <!-- <tbody>
 					<tr>
 						<td>1</td>
 						<td colspan="6">Judul 1</td>
 						<td><button type="button" data-id="1" data-judul="Judul 1" class="btn btn-primary btn-pilih">Pilih</button></td>
 					</tr>
+                </tbody> -->
+
+                <tbody>
+                    <?php foreach ($katalogs as $row) : ?>
+                        <tr>
+                            <td width="35"></td>
+                            <td width="200">
+                                <?= _spec($row->name); ?> <br>
+                            </td>
+                            <td><?= _spec($row->description); ?></td>
+                            <td width="35"><?= _spec($row->sort); ?></td>
+                          
+                           
+                            <td width="35">
+                            <td><button type="button" data-id= <?= _spec($row->id); ?> data-judul= "<?= _spec($row->name); ?>" data-penanggungjawab="<?= _spec($row->description); ?>" class="btn btn-primary btn-pilih">Pilih</button></td>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

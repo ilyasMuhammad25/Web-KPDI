@@ -57,7 +57,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
         $katalogs = $query->findAll();
 
-        $this->data['title'] = 'Katalog ' . strtoupper($slug);
+        // $this->data['title'] = 'Katalog ' . strtoupper($slug);
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['katalogs'] = $katalogs;
         echo view('Katalog\Views\list', $this->data);

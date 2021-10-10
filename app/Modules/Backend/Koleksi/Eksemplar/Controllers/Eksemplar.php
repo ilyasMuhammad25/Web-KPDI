@@ -132,8 +132,8 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$this->validation->setRule('name', 'Judul Utama', 'trim');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-            $slug = url_title($this->request->getPost('name'), '-', TRUE);
-            $post = $this->request->getPost();
+            // $slug = url_title($this->request->getPost('name'), '-', TRUE);
+            //  $this->request->getPost = $this->request->getPost();
             $save_data = array();
 
 			$no_barcode_arr = (array) $this->request->getPost('no_barcode');
@@ -145,22 +145,22 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 				$save_data[] = [
 					'NomorBarcode' => $no_barcode,
 					'NoInduk' => $no_induk_arr[$index],
-					'ref_currency' => $post['ref_currency'],
-					'Price' => $post['Price'],
-					'PriceType' => $post['PriceType'],
-					'TanggalPengadaan' => $post['TanggalPengadaan']??date('Y-m-d'),
-					'CallNumber' => $post['CallNumber'],
+					'ref_currency' =>  $this->request->getPost('ref_currency'),
+					'Price' =>  $this->request->getPost('Price'),
+					'PriceType' =>  $this->request->getPost('PriceType'),
+					// 'TanggalPengadaan' =>  $this->request->getPost('TanggalPengadaan')?date('Y-m-d'),
+					'CallNumber' =>  $this->request->getPost('CallNumber'),
 					// 'Branch_id' => 37,
-					// 'Catalog_id' => $post['Catalog_id'],
-					// 'ref_partner' => $post['ref_partner'],
-					// 'Location_id' => $post['Location_id'],
-					// 'ref_rules' => $post['ref_rules'],
-					// 'Category_id' => $post['Category_id'],
-					// 'ref_media' => $post['ref_media'],
-					// 'ref_source' => $post['ref_source'],
-					// 'ref_status' => $post['ref_status'],
-					// 'Location_Library_id' => $post['Location_Library_id'],
-					// 'Keterangan_Sumber' => null,
+					'catalog_id' =>  $this->request->getPost('catalog_id'),
+					'ref_partner' =>  $this->request->getPost('ref_partner'),
+					// 'Location_id' =>  $this->request->getPost['Location_id'],
+					'ref_rules' =>  $this->request->getPost('ref_rules'),
+					// 'Category_id' =>  $this->request->getPost['Category_id'],
+					'ref_media' =>  $this->request->getPost('ref_media'),
+					'ref_source' =>  $this->request->getPost('ref_source'),
+					'ref_status' =>  $this->request->getPost('ref_status'),
+					// 'Location_Library_id' =>  $this->request->getPost['Location_Library_id'],
+					'Keterangan_Sumber' => null,
 					// 'CreateTerminal' => null,
 					// 'IsVerified' => '',
 					// 'IsQUARANTINE' => null,
@@ -169,11 +169,11 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					// 'QUARANTINEDTERMINAL' => null,
 					// 'ISREFERENSI' => null,
 					// 'EDISISERIAL' => $edisi_serial,
-					// // 'NOJILID' => $post['NOJILID'],
+					// // 'NOJILID' =>  $this->request->getPost['NOJILID'],
 					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
-					// 'Bahan_Sertaan' => $post['Bahan_Sertaan'],
-					// 'KETERANGAN_LAIN' => $post['KETERANGAN_LAIN'],
-					// 'ISOPAC' => $post['IsOPAC'],
+					// 'Bahan_Sertaan' =>  $this->request->getPost['Bahan_Sertaan'],
+					// 'KETERANGAN_LAIN' =>  $this->request->getPost['KETERANGAN_LAIN'],
+					'ISOPAC' =>  $this->request->getPost('IsOPAC'),
 					'created_by' => user_id(),
 				];
 			}
