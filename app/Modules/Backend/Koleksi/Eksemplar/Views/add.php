@@ -500,6 +500,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 		var rfid = "<?=RFID_helper()?>";
 		var no_panggil = "";
 
+		$('#'+tbody).empty();
 		for (let i = 0; i < exemplar; i++) {
 
 			no_panggil = rfid;
