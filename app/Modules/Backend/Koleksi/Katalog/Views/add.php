@@ -3,7 +3,8 @@ $request = \Config\Services::request();
 $request->uri->setSilent();
 ?>
 
-<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
+<?php $core = config('Core');
+$layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main'; ?>
 <?= $this->extend($layout); ?>
 <?= $this->section('style'); ?>
 <?= $this->endSection('style'); ?>
@@ -12,28 +13,28 @@ $request->uri->setSilent();
 
 
 <div class="app-main__inner">
-    <div class="app-page-title">
-        <div class="page-title-wrapper">
-            <div class="page-title-heading">
-                <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
-                </div>
-                <div><?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> RDA
-                    <div class="page-title-subheading"><?= lang('Katalog.form.complete_the_data') ?>.</div>
-                </div>
+      <div class="app-page-title">
+            <div class="page-title-wrapper">
+                  <div class="page-title-heading">
+                        <div class="page-title-icon">
+                              <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                        </div>
+                        <div><?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> RDA
+                              <div class="page-title-subheading"><?= lang('Katalog.form.complete_the_data') ?>.</div>
+                        </div>
+                  </div>
+                  <div class="page-title-actions">
+                        <nav class="" aria-label="breadcrumb">
+                              <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i> Home</a></li>
+                                    <li class="breadcrumb-item"><a href="<?= base_url('katalog') ?>"><?= lang('Katalog.module') ?></a></li>
+                                    <li class="active breadcrumb-item" aria-current="page"><?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?></li>
+                              </ol>
+                        </nav>
+                  </div>
             </div>
-            <div class="page-title-actions">
-                <nav class="" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i> Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('katalog') ?>"><?= lang('Katalog.module') ?></a></li>
-                        <li class="active breadcrumb-item" aria-current="page"><?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?></li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <div class="main-card mb-3 card">
+      </div>
+      <div class="main-card mb-3 card">
             <div class="card-header">
                   <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?>
             </div>
@@ -57,7 +58,7 @@ $request->uri->setSilent();
                                           <label for="sort"><?= lang('Katalog.field.sort') ?> </label>
                                           <div>
                                                 <input type="number" class="form-control" id="frm_create_sort" name="sort" placeholder="<?= lang('Katalog.field.sort') ?> " value="<?= set_value('sort') ?>" />
-                                                <small class="info help-block text-muted"><?= lang('Katalog.field.sort') ?>  Katalog</small>
+                                                <small class="info help-block text-muted"><?= lang('Katalog.field.sort') ?> Katalog</small>
                                           </div>
                                     </div>
                               </div>
@@ -75,7 +76,7 @@ $request->uri->setSilent();
                         </div>
                   </form>
             </div>
-    </div>
+      </div>
 </div>
 
 
