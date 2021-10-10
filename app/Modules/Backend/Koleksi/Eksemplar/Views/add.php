@@ -1,7 +1,14 @@
 <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
+$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+$baseModel->setTable('t_katalog');
+$katalogs = $baseModel
+    ->find_all('name', 'asc');
+    // dd($katalog);
 ?>
+
+
 
 <?php $core = config('Core');
 $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
@@ -101,7 +108,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                 <div class="position-relative form-group">
                                                     <label for="sort">Penanggung Jawab </label>
                                                     <div>
-                                                        <input type="text" class="form-control" id="frm_create_sort"
+                                                        <input type="text" class="form-control" id="penanggungjawab"
                                                             name="sort"
                                                             placeholder="<?=lang('Eksemplar.field.sort')?> " readonly />
 
@@ -458,26 +465,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
 <?=$this->endSection('page');?>
@@ -487,11 +475,13 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 <?=$this->include('Eksemplar\Views\pilihkatalog');?>
 <script>
 
-	$(".btn-pilih").click(function() {
+	$(".btn-pilih").click(function(){
 		var id = $(this).data('id');
 		var judul = $(this).data('judul');
+		var penanggungjawab = $(this).data('penanggungjawab');
 
 		$('#frm_create_name').val(judul);
+		$('#penanggungjawab').val(penanggungjawab);
 		$('#catalog_id').val(id);
 
 		$('#modal_create').modal('hide');

@@ -24,7 +24,7 @@
 							<div class="form-row">
 								<div class="col-md-3">
 									<div class="position-relative form-group">
-										<label for="name"><?=lang('Anggota.field.name')?>*</label>
+										<label for="name"><strong><?=lang('Anggota.field.name')?>*</strong></label>
 										<div>
 											<input type="text" class="form-control" id="name" name="name"
 												placeholder="<?=lang('Anggota.field.name')?>"

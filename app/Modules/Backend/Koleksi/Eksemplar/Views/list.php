@@ -53,9 +53,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($eksemplars as $row) : ?>
+                    
+                    <?php $i = 1; foreach ($eksemplars as $row) : ?>
                         <tr>
-                            <td width="35"></td>
+                            <td width="35"><?= $i++; ?></td>
+                            <td><input type="checkbox" name="checkItem[]" id="checkItem" value="<?= $row->id ?>"></td>
                             <td width="200">
                                 <?= _spec($row->NomorBarcode); ?> <br>
                             </td>
