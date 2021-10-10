@@ -65,7 +65,7 @@ class Autoload extends AutoloadConfig
 					'Mastertag'		 	=> APPPATH . 'Modules/Backend/Mastertag',
 					'KeranjangAnggota' 	=> APPPATH . 'Modules/Backend/Keanggotaan/KeranjangAnggota',
 					'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	       
- 					'Sumbangan'			 => APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
+ 					'Sumbangan'			=> APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
 	];
 
 	/**
