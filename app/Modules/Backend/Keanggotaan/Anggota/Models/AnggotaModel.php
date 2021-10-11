@@ -20,6 +20,8 @@ class AnggotaModel extends \hamkamannan\adminigniter\Models\BaseModel
     protected $validationMessages = [];
     protected $skipValidation     = true;
 
+    
+
     public function MemberNo(){
         $kode = $this->db->table('t_anggota')
         ->select ('RIGHT(MemberNo,4) as MemberNo', false)
