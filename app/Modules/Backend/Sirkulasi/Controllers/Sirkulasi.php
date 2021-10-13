@@ -70,6 +70,14 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('t_anggota');
+        $anggota = $baseModel
+            ->select('t_anggota.*')
+            ->find_all('name', 'asc');
+        $this->data['title'] = 'Tambah Sumbangan';
+        $this->data['anggota'] = $anggota;
+
         $this->data['title'] = 'Tambah Sirkulasi';
 
 		$this->validation->setRule('name', 'Nama', 'required');
@@ -94,12 +102,12 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
                 return redirect()->to('/sirkulasi');
             } else {
                 set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
-                echo view('Sirkulasi\Views\entripeminjaman', $this->data);
+                echo view('Sirkulasi\Views\peminjaman\add', $this->data);
             }
         } else {
             $this->data['redirect'] = base_url('sirkulasi/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-            echo view('Sirkulasi\Views\entripeminjaman', $this->data);
+            echo view('Sirkulasi\Views\peminjaman\add', $this->data);
         }
     }
 

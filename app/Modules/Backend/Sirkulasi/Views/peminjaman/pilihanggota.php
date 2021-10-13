@@ -2,8 +2,8 @@
 $request = \Config\Services::request();
 $request->uri->setSilent();
 $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_katalogold');
-$katalogs = $baseModel
+$baseModel->setTable('t_anggota');
+$anggotas = $baseModel
     ->find_all('name', 'asc');
     // dd($katalog);
 ?>
@@ -19,52 +19,60 @@ $katalogs = $baseModel
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="card-body">
-            <?= get_message('message'); ?>
-            <table style="width: 100%;" id="tbl_eksemplars" class="table table-hover table-striped table-bordered">
+            <div class="app-main__inner">
+    
+    <div class="main-card mb-3 card">
+        <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate">
+            </i><?=lang('Anggota.label.table')?> <?=lang('Anggota.module')?>
+            <div class="btn-actions-pane-right actions-icon-btn">
+
+                <?php if (is_allowed('anggota/create')): ?>
+                    <a href="<?=base_url('anggota/create')?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?=lang('Anggota.action.add')?> <?=lang('Anggota.module')?> </a>
+                <?php endif;?>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <?=get_message('message');?>
+            <table style="width: 100%;" id="tbl_anggotas" class="table table-hover table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th><?= lang('Eksemplar.field.no') ?> </th>
-                        <th><?= lang('Eksemplar.field.name') ?></th>
-                        <th><?= lang('Eksemplar.field.description') ?></th>
-                        <th><?= lang('Eksemplar.field.sort') ?></th>
-                        <th><?= lang('Eksemplar.field.active') ?></th>
-                      
-                        <th><?= lang('Eksemplar.label.action') ?></th>
+                        <th><?=lang('Anggota.field.no')?> </th>
+                        <th><?=lang('Anggota.field.name')?></th>
+                        <th><?=lang('Anggota.field.MemberNo')?></th>
+                        <th><?=lang('Anggota.field.Email')?></th>
+                        <th><?=lang('Anggota.label.action')?></th>
                     </tr>
                 </thead>
-                <!-- <tbody>
-					<tr>
-						<td>1</td>
-						<td colspan="6">Judul 1</td>
-						<td><button type="button" data-id="1" data-judul="Judul 1" class="btn btn-primary btn-pilih">Pilih</button></td>
-					</tr>
-                </tbody> -->
-
                 <tbody>
-                    <?php foreach ($katalogs as $row) : ?>
-                        <tr>
-                            <td width="35"></td>
-                            <td width="200">
-                                <?= _spec($row->name); ?> <br>
+                    <?php foreach ($anggotas as $row): ?>
+                    <tr>
+
+                        <td width="35"></td>
+                        
+                        <td width="200">
+                            <?=_spec($row->name);?> <br>
+                        </td>
+                        <td><?=_spec($row->MemberNo);?></td>
+                        <td><?=_spec($row->Email);?></td>
+                      
+                       
+                        <td width="35">
+                            <td><button type="button" data-id= <?= _spec($row->id); ?> data-no_anggota= "<?= _spec($row->MemberNo); ?>" data-name="<?= _spec($row->name); ?>" class="btn btn-primary btn-pilih">Pilih</button></td>
                             </td>
-                            <td><?= _spec($row->description); ?></td>
-                            <td width="35"><?= _spec($row->sort); ?></td>
-                          
-                           
-                            <td width="35">
-                            <td><button type="button" data-id= <?= _spec($row->id); ?> data-judul= "<?= _spec($row->name); ?>" data-penanggungjawab="<?= _spec($row->description); ?>" class="btn btn-primary btn-pilih">Pilih</button></td>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+
+                    </tr>
+                    <?php endforeach;?>
                 </tbody>
             </table>
-        </div>
         </div>
     </div>
 </div>
 
 <script>
+
+
+
     $('#frm_create2').submit(function(event) {
         event.preventDefault();
         var data_post = $(this).serializeArray();

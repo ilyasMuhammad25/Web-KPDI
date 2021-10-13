@@ -25,56 +25,245 @@ $request->uri->setSilent();
             <div class="page-title-actions">
                 <nav class="" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i> Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('sirkulasi') ?>"><?= lang('Sirkulasi.module') ?></a></li>
-                        <li class="active breadcrumb-item" aria-current="page"><?= lang('Sirkulasi.action.add') ?> <?= lang('Sirkulasi.module') ?></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i>
+                                Home</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="<?= base_url('sirkulasi') ?>"><?= lang('Sirkulasi.module') ?></a></li>
+                        <li class="active breadcrumb-item" aria-current="page"><?= lang('Sirkulasi.action.add') ?>
+                            <?= lang('Sirkulasi.module') ?></li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
     <div class="main-card mb-3 card">
-            <div class="card-header">
-                  <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form <?= lang('Sirkulasi.action.add') ?> <?= lang('Sirkulasi.module') ?>
-            </div>
-            <div class="card-body">
-                  <div id="infoMessage"><?= $message ?? ''; ?></div>
-                  <?= get_message('message'); ?>
+        <div class="card-header">
+            <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form
+            <?= lang('Sirkulasi.action.add') ?> <?= lang('Sirkulasi.module') ?>
+        </div>
+        <div class="card-body">
+            <div id="infoMessage"><?= $message ?? ''; ?></div>
+            <?= get_message('message'); ?>
 
-                  <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('sirkulasi/create'); ?>">
-                        <div class="form-row">
-                              <div class="col-md-9">
-                                    <div class="position-relative form-group">
-                                          <label for="name"><?= lang('Sirkulasi.field.name') ?>*</label>
-                                          <div>
-                                                <input type="text" class="form-control" id="frm_create_name" name="name" placeholder="<?= lang('Sirkulasi.field.name') ?> " value="<?= set_value('name'); ?>" />
-                                                <small class="info help-block text-muted"><?= lang('Sirkulasi.field.name') ?></small>
-                                          </div>
+            <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('sirkulasi/create'); ?>">
+                <div class="form-row">
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                        <input type="hidden" name="t_anggota_id" id="t_anggota_id" value="">
+                            <input type="text" name="jml_eksemplar" id="frm_create_MemberNo" class="form-control"
+                                placeholder="Nomor Anggota">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#modal_create">
+                                    Cari Nomor Anggota
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><br>
+                    <!-- data anggota -->
+                <div class="form-row" id="data-anggota">
+                <div class="col-md-12">
+                        <!-- Main content -->
+                        <section class="content">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <!-- Profile Image -->
+                                        <div class="card card-primary card-outline">
+                                            <div class="card-body box-profile">
+                                                <div class="text-center">
+                                                    <img class="profile-user-img img-fluid" src=""
+                                                        alt="User profile picture">
+                                                </div>
+
+                                                <h3 class="profile-username text-center"></h3>
+
+                                                <p class="text-muted text-center"></p>
+
+                                                <ul class="list-group list-group-unbordered mb-4">
+                                                    <li class="list-group-item">
+                                                        <b> </b> <a class="float-right"></a>
+                                                    </li>
+                                                    <li class="list-group-item" id="frm_create_name">
+                                                        <b>Nama:</b> <a class="float-right"></a>
+                                                    </li>
+                                                    <li class="list-group-item" id="frm_create_MemberNo">
+                                                        <b>No anggota</b> <a class="float-right"></a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <b>Jenis Anggota</b> <a class="float-right"></a>
+                                                    </li>
+                                                </ul>
+                                                <!-- View Berkas Pendaftaran -->
+
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
                                     </div>
-                              </div>
-                              <div class="col-md-3">
-                                    <div class="position-relative form-group">
-                                          <label for="sort"><?= lang('Sirkulasi.field.sort') ?> </label>
-                                          <div>
-                                                <input type="number" class="form-control" id="frm_create_sort" name="sort" placeholder="<?= lang('Sirkulasi.field.sort') ?> " value="<?= set_value('sort') ?>" />
-                                                <small class="info help-block text-muted"><?= lang('Sirkulasi.field.sort') ?>  Sirkulasi</small>
-                                          </div>
+
+                                    <!-- /.col -->
+                                    <div class="col-md-8">
+                                        <div class="card">
+                                            <div class="card-header p-2">
+                                                <ul class="nav nav-pills">
+                                                    <li class="nav-item"><a class="nav-link " href="#activity"
+                                                            data-toggle="tab">Detail Anggota</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#timeline"
+                                                            data-toggle="tab">Lokasi Anggota</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#settings"
+                                                            data-toggle="tab">Histori peminjaman</a></li>
+                                                </ul>
+                                            </div><!-- /.card-header -->
+                                            <div class="card-body">
+                                                <div class="tab-content">
+                                                    <!-- Biodata -->
+                                                    <div class="active tab-pane" id="activity">
+                                                        <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Biodata</th>
+                                                                    <th>Keterangan</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>1</th>
+                                                                    <td>Nama</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>2</th>
+                                                                    <td>Tempat Lahir</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>3</th>
+                                                                    <td>Tanggal Lahir</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>4</th>
+                                                                    <td>Jenis Kelamin</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>5</th>
+                                                                    <td>Agama</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>6</th>
+                                                                    <td>No. Handphone</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>7</th>
+                                                                    <td>Alamat</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <!-- Orangtua -->
+                                                    <div class="tab-pane" id="timeline">
+                                                        <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Kode</th>
+                                                                    <th>Nama Perpustakaan</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>1</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>2</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>3</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <!-- Sekolah -->
+                                                    <div class="tab-pane" id="settings">
+                                                        <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Nomor Barcode</th>
+                                                                    <th>judul</th>
+                                                                    <th>tanggal Pinjam</th>
+                                                                    <th>Tanggal kembali</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>1</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>2</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>3</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!-- /.tab-content -->
+                                            </div><!-- /.card-body -->
+                                        </div>
+                                        <!-- /.nav-tabs-custom -->
                                     </div>
-                              </div>
-                        </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div><!-- /.container-fluid -->
+                        </section>
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                              <label for="description"><?= lang('Sirkulasi.field.description') ?> </label>
-                              <div>
-                                    <textarea id="frm_create_description" name="description" placeholder="<?= lang('Sirkulasi.field.description') ?> " rows="2" class="form-control autosize-input" style="min-height: 38px;"><?= set_value('description') ?></textarea>
-                              </div>
-                        </div>
 
-                        <div class="form-group">
-                              <button type="submit" class="btn btn-primary" name="submit"><?= lang('Sirkulasi.action.save') ?></button>
-                        </div>
-                  </form>
-            </div>
+                <div class="form-group">
+                    <label for="description"><?= lang('Sirkulasi.field.description') ?> </label>
+                    <div>
+                        <textarea id="frm_create_description" name="description"
+                            placeholder="<?= lang('Sirkulasi.field.description') ?> " rows="2"
+                            class="form-control autosize-input"
+                            style="min-height: 38px;"><?= set_value('description') ?></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"
+                        name="submit"><?= lang('Sirkulasi.action.save') ?></button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -82,5 +271,200 @@ $request->uri->setSilent();
 <?= $this->endSection('page'); ?>
 
 <?= $this->section('script'); ?>
+<?=$this->include('Sirkulasi\Views\peminjaman\pilihanggota');?>
 
+<script>
+$(".btn-pilih").click(function() {
+    var id = $(this).data('id');
+    var no_anggota = $(this).data('no_anggota');
+    var name = $(this).data('name');
+    var penanggungjawab = $(this).data('penanggungjawab');
+
+    $('#frm_create_MemberNo').val(no_anggota);
+    $('#frm_create_name').val(name);
+    $('#penanggungjawab').val(penanggungjawab);
+    $('#catalog_id').val(id);
+
+    $('#modal_create').modal('hide');
+
+    $("#data-anggota").append(` <div class="col-md-12">
+                        <!-- Main content -->
+                        <section class="content">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <!-- Profile Image -->
+                                        <div class="card card-primary card-outline">
+                                            <div class="card-body box-profile">
+                                                <div class="text-center">
+                                                    <img class="profile-user-img img-fluid" src=""
+                                                        alt="User profile picture">
+                                                </div>
+
+                                                <h3 class="profile-username text-center"></h3>
+
+                                                <p class="text-muted text-center"></p>
+
+                                                <ul class="list-group list-group-unbordered mb-4">
+                                                    <li class="list-group-item">
+                                                        <b> </b> <a class="float-right"></a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <b>Email:</b> <a class="float-right"></a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <b>Prodi</b> <a class="float-right"></a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <b>Status</b> <a class="float-right"></a>
+                                                    </li>
+                                                </ul>
+                                                <!-- View Berkas Pendaftaran -->
+
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+
+                                    <!-- /.col -->
+                                    <div class="col-md-8">
+                                        <div class="card">
+                                            <div class="card-header p-2">
+                                                <ul class="nav nav-pills">
+                                                    <li class="nav-item"><a class="nav-link active" href="#activity"
+                                                            data-toggle="tab">Biodata</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#timeline"
+                                                            data-toggle="tab">Data Pelanggaran</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#settings"
+                                                            data-toggle="tab">Sekolah</a></li>
+                                                </ul>
+                                            </div><!-- /.card-header -->
+                                            <div class="card-body">
+                                                <div class="tab-content">
+                                                    <!-- Biodata -->
+                                                    <div class="active tab-pane" id="activity">
+                                                        <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Biodata</th>
+                                                                    <th>Keterangan</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>1</th>
+                                                                    <td>Nama</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>2</th>
+                                                                    <td>Tempat Lahir</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>3</th>
+                                                                    <td>Tanggal Lahir</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>4</th>
+                                                                    <td>Jenis Kelamin</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>5</th>
+                                                                    <td>Agama</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>6</th>
+                                                                    <td>No. Handphone</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>7</th>
+                                                                    <td>Alamat</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <!-- Orangtua -->
+                                                    <div class="tab-pane" id="timeline">
+                                                        <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Orangtua</th>
+                                                                    <th>Keterangan</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>1</th>
+                                                                    <td>Nama Orangtua</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>2</th>
+                                                                    <td>Pekerjaan Orangtua</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>3</th>
+                                                                    <td>No. Handphone Orangtua</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <!-- Sekolah -->
+                                                    <div class="tab-pane" id="settings">
+                                                        <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Sekolah</th>
+                                                                    <th>Keterangan</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>1</th>
+                                                                    <td>Nama Sekolah</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>2</th>
+                                                                    <td>Tahun Lulus</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>3</th>
+                                                                    <td>Alamat Sekolah</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!-- /.tab-content -->
+                                            </div><!-- /.card-body -->
+                                        </div>
+                                        <!-- /.nav-tabs-custom -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div><!-- /.container-fluid -->
+                        </section>
+                    </div>`);
+
+
+});
+</script>
 <?= $this->endSection('script'); ?>
