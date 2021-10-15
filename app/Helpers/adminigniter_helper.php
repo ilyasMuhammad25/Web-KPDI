@@ -1,9 +1,81 @@
 <?php
 /**
  * ---------------
+ * User Helper
+ * ---------------
+ */
+if (!function_exists('get_user_id')) {
+    function get_user_id()
+    {
+        $user_id = user_id();
+        return $user_id;
+    }
+}
+
+if (!function_exists('get_user')) {
+    function get_user($user_id = null)
+    {
+        if(empty($user_id)){
+            $user = user();
+        } else {
+            $user = db_get_single('users', 'id=' . $user_id);
+        }
+
+        return $user;
+    }
+}
+
+/**
+ * ---------------
  * Common Helper
  * ---------------
  */
+
+if (!function_exists('create_thumbnail')) {
+    function create_thumbnail($path, $file = null, $prefix = 'thumb_', $width = 200)
+    {
+		$thumbnails = service('thumbnails');
+		$thumbnails->setImageType(IMAGETYPE_JPEG);
+		$thumbnails->setWidth($width);
+
+		if(!empty($file)){
+			if(file_exists($path.'/'.$file)){
+				$thumbnails->create($path.'/'.$file, $path.'/'.$prefix.$file);
+			}
+		}
+    }
+}
+
+if (!function_exists('unlink_file')) {
+    function unlink_file($path, $file = null)
+    {
+		$result = false;
+		if(!empty($file)){
+			if(file_exists($path.'/'.$file)){
+				unlink($path.'/'.$file);
+				$result = true;
+			} 
+		}
+
+		return false;
+    }
+}
+
+if (!function_exists('get_ref')) {
+    function get_ref($slug)
+    {        
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('c_references');
+        $references = $baseModel
+            ->select('c_references.*')
+            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
+            ->where('c_menus.slug', $slug)
+            ->find_all('c_references.sort', 'asc');
+
+        return $references;
+    }
+}
+
 if (!function_exists('get_references')) {
     function get_references($controller)
     {        

@@ -61,20 +61,19 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="col-md-12">
+						<div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="company">Nama <?=is_member('dinkes') ? 'Dinkes':'Instansi'?></label>
+                                <label for="unit">Unit Kerja</label>
                                 <div>
-                                    <?php if(is_member('dinkes')):?>
-                                        <?php $companies = db_get_all('t_satker','active=1','name');?>
-                                        <select class="form-control" name="company" id="company" tabindex="-1" aria-hidden="true">
-                                            <?php foreach ($companies as $row) : ?>
-                                                <option value="<?= $row->name ?>" <?=(strtoupper($row->name) == strtoupper($user->company)) ? 'selected':''?>><?= $row->name ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    <?php else:?>
-                                        <input type="text" class="form-control" id="company" name="company" placeholder="Nama Instansi" value="<?= $user->company ?: 'Nama Instansi '; ?>" />
-                                    <?php endif;?>
+                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit Kerja" value="<?= $user->unit ?: ''; ?>" />
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="company">Institusi</label>
+                                <div>
+                                    <input type="text" class="form-control" id="company" name="company" placeholder="Institusi" value="<?= $user->company ?: ''; ?>" />
                                 </div>
                             </div>
                         </div>
@@ -83,7 +82,7 @@
                     <div class="form-row">
                         <div class="col-md-12">
                             <div class="position-relative form-group">
-                                <label for="address">Alamat <?=is_member('dinkes') ? 'Dinkes':'Instansi'?></label>
+                                <label for="address">Alamat </label>
                                 <div>
                                     <textarea id="address" name="address" placeholder="Jl. HR. Rasuna Said" rows="2" class="form-control autosize-input"><?= $user->address ?: ''; ?></textarea>
                                 </div>
@@ -91,7 +90,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="position-relative form-group">
-                                <label for="coordinate">Koordinat <?=is_member('dinkes') ? 'Dinkes':'Instansi'?></label>
+                                <label for="coordinate">Koordinat </label>
                                 <div>
                                     <textarea id="coordinate" name="coordinate" placeholder="-7.1044023304862645, 112.41614914528711" rows="1" class="form-control autosize-input"><?= $user->coordinate ?: ''; ?></textarea>
                                     <small class="info help-block">Pastikan format koordinat benar (latitude, longitude) </small>
@@ -99,28 +98,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <?php if(is_member('dinkes')):?>
-                        <div class="form-row">
-                            <div class="col-md-12">
-                                <div class="position-relative form-group">
-                                    <label for="address2">Alamat P4TO/PED</label>
-                                    <div>
-                                        <textarea id="address2" name="address2" placeholder="Jl.  HR. Rasuna Said" rows="2" class="form-control autosize-input"><?= $user->address2 ?: ''; ?></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="position-relative form-group">
-                                    <label for="coordinate2">Koordinat P4TO/PED</label>
-                                    <div>
-                                        <textarea id="coordinate2" name="coordinate2" placeholder="-7.1044023304862645, 112.41614914528711" rows="1" class="form-control autosize-input"><?= $user->coordinate2 ?: ''; ?></textarea>
-                                        <small class="info help-block">Pastikan format koordinat benar (latitude, longitude) </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endif;?>
 
                     <div class="form-row">
                         <div class="col-md-6">
@@ -164,6 +141,13 @@
         </div>
     </div>
 </div>
+
+<script>
+	$('#kd_eselon').change(function() {
+		var kd_eselon = $(this).val();
+		getDropdown(kd_eselon, 'kd_satker', 'Satker');
+	});
+</script>
 
 <script>
     var is_profile = '<?= $is_profile ?>';

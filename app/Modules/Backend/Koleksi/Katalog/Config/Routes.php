@@ -3,7 +3,7 @@
 }
 $routes->group('katalog', ['namespace' => 'Katalog\Controllers'], function ($subroutes) {
 	/*** Route Update for Katalog ***/
-	$subroutes->add('', 'Katalog::index');
+	$subroutes->add('', 'Katalogs::index');
 	$subroutes->add('index', 'Katalog::index');
 	$subroutes->add('detail/(:any)', 'Katalog::detail/$1');
 	$subroutes->add('create', 'Katalog::create');
@@ -14,6 +14,7 @@ $routes->group('katalog', ['namespace' => 'Katalog\Controllers'], function ($sub
 	$subroutes->add('do_upload', 'Katalog::do_upload');
 	$subroutes->add('do_delete', 'Katalog::do_delete');
 	$subroutes->add('flip', 'Katalog::flip');
+	$subroutes->add('partial', 'Katalog::showpartial');
 });
 
 $routes->group('api/katalog', ['namespace' => 'Katalog\Controllers\Api'], function ($subroutes) {
@@ -39,5 +40,6 @@ $routes->group('katalog-aacr', ['namespace' => 'Katalog\Controllers'], function 
 	$subroutes->add('index', 'Katalog::aacr_index');
 	$subroutes->add('detail/(:any)', 'Katalog::aacr_detail/$1');
 	$subroutes->add('create', 'Katalog::aacr_create');
+	$subroutes->add('create/action', 'Katalog::aacr_create_action');
 	$subroutes->add('edit/(:any)', 'Katalog::aacr_edit/$1');
 });

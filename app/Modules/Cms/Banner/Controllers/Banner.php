@@ -14,6 +14,7 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
     
     function __construct()
     {
+		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
         
@@ -39,7 +40,7 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
 
-        helper(['form', 'url', 'auth', 'app', 'adminigniter']);
+		helper('adminigniter');
     }
     public function index()
     {
@@ -102,6 +103,8 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
                         $newFileName = $file->getRandomName();
                         $file->move($this->modulePath, $newFileName);
                         $listed_file[] = $newFileName;
+
+						create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
                     }
                 }
                 $save_data['file_image'] = implode(',', $listed_file);
@@ -203,8 +206,12 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/banner');
         }
+		$banner = $this->bannerModel->find($id);
         $bannerDelete = $this->bannerModel->delete($id);
         if ($bannerDelete) {
+			unlink_file($this->modulePath, $banner->file_image);
+			unlink_file($this->modulePath, 'thumb_'.$banner->file_image);
+
             add_log('Hapus Banner', 'banner', 'delete', 't_banner', $id);
             set_message('toastr_msg', lang('Banner.info.successfully_deleted'));
             set_message('toastr_type', 'success');
@@ -232,5 +239,22 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'warning');
         }
         return redirect()->to('/banner');
+    }
+
+	public function thumb()
+    {
+		$from = $this->request->getVar('from');
+		$to = $this->request->getVar('to');
+
+		for ($i=$from; $i <= $to ; $i++) { 
+			$banner= $this->bannerModel->find($i);
+			$newFileName = $banner->file_image;
+			if(!file_exists($this->modulePath.'/thumb_'.$newFileName)){
+				create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+				echo "success generate thumbnail for ID: ".$i." <br>";
+			} else {
+				echo "already exist, failed generate thumbnail for ID: ".$i." <br>";
+			}
+		}
     }
 }

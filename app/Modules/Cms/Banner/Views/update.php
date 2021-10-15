@@ -82,25 +82,9 @@ $categories = $baseModel
                         </div>
 
                         <div class="form-group">
-                              <label for="description">Deskripsi</label>
+                              <label for="description">Keterangan</label>
                               <div>
-                                    <textarea id="description" name="description" placeholder="Deskripsi" rows="2" class="form-control autosize-input" style="min-height: 38px;"><?= set_value('description', $banner->description) ?></textarea>
-                              </div>
-                        </div>
-                        <div class="form-row">
-                              <div class="col-md-12">
-                                    <div class="form-row">
-                                          <div class="col-md-12">
-                                                <div class="position-relative form-group">
-                                                      <label for="file_image" class="">Foto Banner</label>
-                                                      <div id="dropzone_file_image" class="dropzone"></div>
-                                                      <div id="dropzone_file_image_listed"></div>
-                                                      <div>
-                                                            <small class="info help-block text-muted">Format (JPG|PNG). Max 10 MB</small>
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
+                                    <textarea id="description" name="description" placeholder="Keterangan" rows="2" class="form-control autosize-input" style="min-height: 38px;"><?= set_value('description', $banner->description) ?></textarea>
                               </div>
                         </div>
 

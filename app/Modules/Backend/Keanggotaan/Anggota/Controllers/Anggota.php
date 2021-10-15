@@ -5,7 +5,7 @@ namespace Anggota\Controllers;
 use \CodeIgniter\Files\File;
 use PHPExcel;
 use PHPExcel_IOFactory;
-use Dompdf\Dompdf;
+use DataTables\DataTables;
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -82,6 +82,40 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		}
     }
 
+	public function index_json()
+    {
+        if (!is_allowed('anggota/access')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+
+		$slug = $this->request->getVar('slug');
+
+        $query = $this->anggotaModel
+            ->select('t_anggota.*')
+            ->select('created.username as created_name')
+            ->select('updated.username as updated_name')
+            ->join('users created','created.id = t_anggota.created_by','left')
+            ->join('users updated','updated.id = t_anggota.updated_by','left');
+            
+        $anggotas = $query->findAll();
+        $this->data['title'] = 'Anggota';
+        $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
+        $this->data['anggotas'] = $anggotas;
+       
+		if(!empty($slug)){			
+			echo view("Anggota\Views\slug\\$slug", $this->data);
+		} else {
+			echo view('Anggota\Views\list_json', $this->data);
+		}
+    }
+
+	public function json()
+	{
+		return DataTables::use('v_anggota')->make(true);
+	}
+
   
     public function create()
     {
@@ -104,7 +138,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     $this->data['ref_Statusanggota'] = get_references('statanggota');
     
     
-    // $this->data[' MemberNo'] =  get_MemberNo();
+    $this->data[' MemberNo'] =  get_MemberNo();
    
     // $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 
@@ -548,20 +582,40 @@ public function import()
     }
 }
 
-public function cetakKartu(){
+public function cetakKartu(int $id=null){
     if (!is_allowed('anggota/cetakKartu')) {
         set_message('toastr_msg', lang('App.permission.not.have'));
         set_message('toastr_type', 'error');
         return redirect()->to('/dashboard');
     }
 
-     $this->data['title'] = 'Import Anggota';
-     $kartu = $this->anggotaModel->findAll();
-     $this->data['kartu'] = $kartu;
+	$this->data['title'] = 'Import Anggota';
+	$this->data['kartu'] = array();
+    $anggota = $this->anggotaModel->find($id);
+    $this->data['anggota']=$anggota;
+
+	// 1. composer require mpdf/mpdf
+
+	// $qrCode = new \Mpdf\QrCode\QrCode('Perpusnas RI');
+	// $output = new \Mpdf\QrCode\Output\Html();
+	// $html_qr = $output->output($qrCode, 100, [255, 255, 255], [10, 10, 10]);
+
+	// 2. composer require mpdf/qrcode
+
+	// 3. composer require picqer/php-barcode-generator
+
+	// $barcode = new \Picqer\Barcode\BarcodeGeneratorHTML();
+	// $html_bar = $barcode->getBarcode('081231723897', $barcode::TYPE_CODE_39);
+	// echo $html_bar;
+
+
+    //  $this->data['title'] = 'Import Anggota';
+    //  $kartu = $this->anggotaModel->findAll();
+    //  $this->data['kartu'] = $kartu;
     
 
      // instantiate and use the dompdf class
-     $dompdf = new Dompdf();
+     $dompdf = new \Dompdf\Dompdf();
      $html= view('Anggota\Views\cetak-kartu',$this->data);
      $dompdf->loadHtml($html);
      

@@ -14,7 +14,7 @@ class Auth extends \Myth\Auth\Config\Auth
 		'emailActivation' => 'Core\Views\auth\emails\activation',
 	];
 
-	public $allowRegistration = true;
+	public $allowRegistration = false;
 	public $requireActivation = false; 
 	public $activeResetter = false;
 	public $allowRemembering = true;

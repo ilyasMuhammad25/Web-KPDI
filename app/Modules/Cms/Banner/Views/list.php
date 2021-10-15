@@ -40,8 +40,8 @@
                 <thead>
                     <tr>
                         <th><?= lang('Banner.field.no') ?> </th>
-                        <th><?= lang('Banner.field.photo') ?> </th>
-                        <th><?= lang('Banner.field.name') ?>/<?= lang('Banner.field.category') ?></th>
+                        <th>Foto Cover</th>
+                        <th>Judul Banner / Kategori</th>
                         <th><?= lang('Banner.field.description') ?></th>
                         <th><?= lang('Banner.field.sort') ?></th>
                         <th><?= lang('Banner.field.active') ?></th>
@@ -52,13 +52,25 @@
                 </thead>
                 <tbody>
                     <?php foreach ($banners as $row) : ?>
+						<?php 
+							$default = base_url('uploads/default/no_cover.jpg');
+							$image = base_url('uploads/banner/' . $row->file_image);
+							$thumb = base_url('uploads/banner/thumb_' . $row->file_image);
+							if (empty($row->file_image)) {
+								$image = $default;
+								$thumb = $default;
+							}
+						?>
                         <tr>
                             <td width="35"></td>
-                            <td width="100">
-                                <a href="<?= base_url('uploads/banner/' . $row->file_image) ?>" class="image-link"><img width="100" class="rounded" src="<?= base_url('uploads/banner/' . $row->file_image) ?>" alt=""></a>
+							<td width="100" style="vertical-align: bottom;">
+								<a href="<?=$image?>" class="image-link">
+									<img width="100" class="rounded" src="<?=$thumb?>" onerror="this.onerror=null;this.src='<?=$default?>';" alt="">
+								</a>
+								<a href="javascript:void(0);" data-title="Foto Cover" data-format-title="Format (JPG|PNG). Max 10MB" data-format=".jpg,.jpeg,.png" data-dropzone-url="" data-url="" data-redirect="<?= base_url('banner') ?>" data-id="<?=$row->id?>" data-field="file_image" data-title="" data-toggle="tooltip" data-placement="top"  title="Upload " class="btn btn-sm btn-block btn-secondary upload-data mt-1" style="min-width:35px"><small><i class="fa fa-upload"> </i> Upload</small></a>
                             </td>
                             <td width="200">
-                                <?= _spec($row->name); ?> <br>
+								<?= _spec($row->name); ?> <br>
                                 <div class="mr-2 badge badge-pill badge-primary">
                                     <?= _spec($row->category); ?>
                                 </div>
@@ -76,15 +88,12 @@
                                 <span class="badge badge-info"><?= _spec($row->updated_at); ?></span><br>
                                 <span class="badge badge-info"><?= _spec($row->updated_name ?? '-'); ?></span>
                             </td>
-                            <td width="35">
-                                <?php if(is_allowed('banner/read')):?>
-                                    <!-- <a href="<?= base_url('banner/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Banner" class="btn btn-xs btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
-                                <?php endif;?>
+                            <td width="90">
                                 <?php if(is_allowed('banner/update')):?>
-                                    <a href="<?= base_url('banner/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Banner" class="btn btn-xs btn-warning mb-1 show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
+                                    <a href="<?= base_url('banner/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Banner" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
                                 <?php endif;?>
                                 <?php if(is_allowed('banner/delete')):?>
-                                    <a href="javascript:void(0);" data-href="<?= base_url('banner/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus  rud" class="btn btn-xs btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
+                                    <a href="javascript:void(0);" data-href="<?= base_url('banner/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus  rud" class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
                                 <?php endif;?>
                             </td>
                         </tr>
@@ -97,7 +106,10 @@
 <?= $this->endSection('page'); ?>
 
 <?= $this->section('script'); ?>
-
+<script>
+	Dropzone.autoDiscover = false;
+</script>
+<?=$this->include('Banner\Views\upload_modal');?>
 <script>
     setDataTable('#tbl_banners', disableOrderCols = [0, 8], defaultOrderCols = [7, 'desc'], autoNumber = true);
 

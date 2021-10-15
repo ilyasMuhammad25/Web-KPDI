@@ -51,12 +51,13 @@ class Autoload extends AutoloadConfig
 		'User' 			=> APPPATH . 'Modules/Core/User',
         'Home' 			=> APPPATH . 'Modules/Frontend/Home',
 			'Banner' 		=> APPPATH . 'Modules/Cms/Banner',
+			'Page' 			=> APPPATH . 'Modules/Cms/Page',
 				'Tag' 		=> APPPATH . 'Modules/Master/Tag',
 					'Dashboard' 		=> APPPATH . 'Modules/Backend/Dashboard',
 					'Report' 			=> APPPATH . 'Modules/Backend/Report',
 					'Artikel' 			=> APPPATH . 'Modules/Backend/Koleksi/Artikel',
 					'Eksemplar' 		=> APPPATH . 'Modules/Backend/Koleksi/Eksemplar',
-					'Katalog' 			=> APPPATH . 'Modules/Backend/Koleksi/Katalog',
+					'Katalog' 			=> APPPATH . 'Modules/Backend/Koleksi/Katalog', 
 					'KontenDigital' 	=> APPPATH . 'Modules/Backend/Koleksi/KontenDigital',
 					'SampulBuku' 		=> APPPATH . 'Modules/Backend/Koleksi/SampulBuku',
 					'Sirkulasi' 		=> APPPATH . 'Modules/Backend/Sirkulasi',
@@ -64,7 +65,7 @@ class Autoload extends AutoloadConfig
 					'Mastertag'		 	=> APPPATH . 'Modules/Backend/Mastertag',
 					'KeranjangAnggota' 	=> APPPATH . 'Modules/Backend/Keanggotaan/KeranjangAnggota',
 					'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	       
- 					'Sumbangan'			 => APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
+ 					'Sumbangan'			=> APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
 	];
 
 	/**

@@ -3,9 +3,13 @@ $request = \Config\Services::request();
 $request->uri->setSilent();
 ?>
 <div class="app-sidebar <?= get_parameter('sidebar-cs-class'); ?>">
-    <div class="app-header__logo">
-        <div class="logo-src site-name">
-            <a style="text-decoration: none; padding-right:9px; padding-bottom:3px;" href="<?= base_url() ?>" class="<?= get_parameter('text-cs-class', 'text-white'); ?>"><?= (get_parameter('show-logo-sidebar') == 0) ? get_parameter('site-name') : '' ?></a>
+	<div class="app-header__logo <?= get_parameter('sidebar-cs-class'); ?>">
+        <div class="logo-src">
+			<?php if(get_parameter('show-logo-sidebar') == 0):?>
+				<div class="site-name">
+					<a style="text-decoration: none; padding-right:9px; padding-bottom:3px;" href="<?= base_url() ?>" class="<?= get_parameter('text-cs-class', 'text-white'); ?>"><?=get_parameter('site-name','Backoffice')?> </a>
+				</div>
+			<?php endif;?>
         </div>
         <div class="header__pane ml-auto">
             <div>

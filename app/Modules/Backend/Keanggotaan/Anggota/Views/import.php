@@ -67,6 +67,24 @@ $member_id = $request->getVar('member_id') ?? 0;
 						</div>
 					</div>
 
+					<div class="form-row">
+								<div class="col-md-12">
+									<div class="position-relative form-group">
+										<label for="file_image" class="">Foto
+											Anggota</label>
+										<div id="dropzone_file_image"
+											class="dropzone"></div>
+										<div id="dropzone_file_image_listed"></div>
+										<div>
+											<small
+												class="info help-block text-muted">Format
+												(JPG|PNG).
+												Max 10 MB</small>
+										</div>
+									</div>
+								</div>
+							</div>
+
 					<div class="form-group">
 							<button type="submit" class="btn btn-primary btn-lg mt-3" name="submit"><?=lang('Anggota.action.save')?></button>
 					</div>
@@ -80,6 +98,8 @@ $member_id = $request->getVar('member_id') ?? 0;
 
 <?=$this->section('script');?>
 <script>
+	 Dropzone.autoDiscover = false;
+	 var file_template1 = setDropzone('dropzone_file_image', 'anggota', '.jpg,.jpeg,.png', 1, 10);
       var file_template = setDropzone('file_template', 'anggota', '.xlsx,.xls', 1, 10);
 	  var path = "<?=WRITEPATH?>" + "/uploads/";
 	  
