@@ -41,6 +41,8 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
 		} 
 
 		helper('adminigniter');
+		helper('thumbnail');
+		helper('reference');
     }
     public function index()
     {
@@ -145,6 +147,7 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
                 $slug = url_title($this->request->getPost('name'), '-', TRUE);
                 $update_data = [
                     'name' => $this->request->getPost('name'),
+                    'slug' => $this->request->getPost('slug')??$slug,
                     'category_id' => $this->request->getPost('category_id'),
                     'sort' => $this->request->getPost('sort'),
                     'description' => $this->request->getPost('description'),

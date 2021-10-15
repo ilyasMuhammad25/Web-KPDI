@@ -74,7 +74,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             // ->join('users updated','updated.id = t_anggota.updated_by','left');
             
         $anggotas = $query->findAll();
-        dd($anggotas);
+        
         $this->data['title'] = 'Anggota';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['anggotas'] = $anggotas;
@@ -156,7 +156,20 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
-    
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('m_propinsi');
+        $propinsi = $baseModel
+            ->select('m_propinsi.*')
+            ->find_all('name', 'asc');
+
+            $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+            $baseModel->setTable('m_kota');
+            $kota = $baseModel
+                ->select('m_kota.*')
+                ->find_all('name', 'asc');
+
+        $this->data['propinsi'] = $propinsi;
+        $this->data['kota'] = $kota;
     $this->data['ref_identitas'] = get_references('ref_identitas');
     $this->data['ref_perkawinan'] = get_references('ref_perkawinan');
     $this->data['ref_jeniskelamin'] = get_references('ref_jeniskelamin');
@@ -271,7 +284,13 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
                 return redirect()->to('/dashboard');
         }
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('m_propinsi');
+        $propinsi = $baseModel
+            ->select('m_propinsi.*')
+            ->find_all('name', 'asc');
 
+        $this->data['propinsi'] = $propinsi;
 		$anggota = $this->anggotaModel->find($id);
 
         $this->data['title'] = 'Ubah Anggota';

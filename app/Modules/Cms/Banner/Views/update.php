@@ -51,12 +51,21 @@ $categories = $baseModel
 
                   <form id="frm" class="col-md-12 mx-auto" method="post" action="">
                         <div class="form-row">
-                              <div class="col-md-6">
+                              <div class="col-md-12">
                                     <div class="position-relative form-group">
                                           <label for="name">Judul Banner*</label>
                                           <div>
                                                 <input type="text" class="form-control" id="name" name="name" placeholder="Judul Banner" value="<?= set_value('name', $banner->name); ?>" />
                                                 <small class="info help-block text-muted">Judul Banner</small>
+                                          </div>
+                                    </div>
+                              </div>
+							  <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                          <label for="slug">Slug*</label>
+                                          <div>
+                                                <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug" value="<?= set_value('slug', $banner->slug); ?>" />
+                                                <!-- <small class="info help-block text-muted">Permalink: <a href="<?=base_url('home/banner?slug='.$banner->slug)?>" target="_blank"><?=base_url('home/banner?slug='.$banner->slug)?></a></small> -->
                                           </div>
                                     </div>
                               </div>

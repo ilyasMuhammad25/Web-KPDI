@@ -9,7 +9,6 @@ use CodeIgniter\Files\File;
 
 class Banner extends ResourceController
 {
-	use ResponseTrait;
 	protected $bannerModel;
 	protected $validation;
 	protected $session;
@@ -30,6 +29,8 @@ class Banner extends ResourceController
 		}
 
 		helper('adminigniter');
+		helper('thumbnail');
+		helper('reference');
 	}
 
 	public function index()
@@ -188,7 +189,9 @@ class Banner extends ResourceController
                     $file->move($this->modulePath, $newFileName);
                     $listed_file[] = $newFileName;
 
-					create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+					if($upload_field == 'file_image'){
+						create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+					}
                 }
             }
             $update_data[$upload_field] = implode(',', $listed_file);

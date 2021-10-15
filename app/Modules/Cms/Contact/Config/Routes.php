@@ -1,7 +1,7 @@
 <?php if (!isset($routes)) {
 	$routes = \Config\Services::routes(true);
 }
-$routes->group('contact', ['namespace' => 'App\Modules\Cms\Contact\Controllers'], function ($subroutes) {
+$routes->group('contact', ['namespace' => 'Contact\Controllers'], function ($subroutes) {
 	/*** Route Update for Contact ***/
 	$subroutes->add('', 'Contact::index');
 	$subroutes->add('contact', 'Contact::index');
@@ -16,10 +16,9 @@ $routes->group('contact', ['namespace' => 'App\Modules\Cms\Contact\Controllers']
 	$subroutes->add('flip', 'Contact::flip');
 });
 
-$routes->group('api/contact', ['namespace' => 'App\Modules\Cms\Contact\Controllers\Api'], function ($subroutes) {
+$routes->group('api/contact', ['namespace' => 'Contact\Controllers\Api'], function ($subroutes) {
 	/*** Route Update for Contact ***/
 	$subroutes->add('', 'Contact::index');
-	$subroutes->add('contact', 'Contact::index');
 	$subroutes->add('index', 'Contact::index');
 	$subroutes->add('detail/(:any)', 'Contact::detail/$1');
 	$subroutes->add('edit/(:any)', 'Contact::edit/$1');

@@ -57,6 +57,9 @@ $display='block';
 <?=$this->endSection('page');?>
 
 <?=$this->section('script');?>
+<script>
+$('.select2').select2();
+</script>
 <script> 
     Dropzone.autoDiscover = false;
 	var checkboxes = $('#is_similar');

@@ -9,7 +9,6 @@ use CodeIgniter\Files\File;
 
 class Page extends ResourceController
 {
-	use ResponseTrait;
 	protected $pageModel;
 	protected $validation;
 	protected $session;
@@ -28,7 +27,11 @@ class Page extends ResourceController
 		if (!file_exists($this->modulePath)) {
 			mkdir($this->modulePath);
 		}
+
 		helper('adminigniter');
+		helper('thumbnail');
+		helper('reference');
+		helper('reference');
 	}
 
 	public function index()

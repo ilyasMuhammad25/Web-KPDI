@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Cms\Contact\Controllers;
+namespace Contact\Controllers;
 
 use \CodeIgniter\Files\File;
 
@@ -13,7 +13,7 @@ class Contact extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $modulePath;
     function __construct()
     {
-        $this->contactModel = new \App\Modules\Cms\Contact\Models\ContactModel();
+        $this->contactModel = new \Contact\Models\ContactModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/contact/';
         

@@ -28,6 +28,7 @@ return [
    'field.Tempatlahir'=>'Tempat lahir',
    'field.DateOfBirth'=>'Tanggal Lahir',
    'field.provinsi'=>'Provinsi',
+   'field.library'=>'Lokasi Perpustakaan',
    'field.city'=>'kab/Kota',
    'field.peminjaman'=>'Nomor peminjaman',
    'field.pelanggaran'=>'Data-Pelanggaran',

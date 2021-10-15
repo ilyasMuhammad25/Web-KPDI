@@ -1,9 +1,80 @@
 <?php
 /**
  * ---------------
- * User Helper
+ * Auth Helper
  * ---------------
  */
+if (!function_exists('get_users')) {
+    function get_users($group_id = null)
+    {        
+        if(!empty($group_id)){
+            $users_groups = db_get_all("auth_groups_users","group_id = {$group_id}","user_id");
+            $user_id_arr = array();
+            foreach($users_groups as $row){
+                array_push($user_id_arr, $row->user_id);
+            }
+            array_unique($user_id_arr);
+
+            $user_id_str = implode(",", $user_id_arr);
+            $users = db_get_all("users", "id in ({$user_id_str})");
+            return $users;
+        } else {
+            $users = db_get_all("users",null,"id");
+            return $users;
+        }
+    }
+}
+
+if (!function_exists('get_user_group_id')) {
+    function get_user_group_id($user_id = null)
+    {
+        if(empty($user_id)){
+            $user_id = user_id();
+        }
+        
+        $group = db_get_single("auth_groups_users","user_id = {$user_id}");
+        return $group->group_id;
+    }
+}
+
+if (!function_exists('get_user_group_ids')) {
+    function get_user_group_ids($user_id = null)
+    {
+        if(empty($user_id)){
+            $user_id = user_id();
+        }
+        
+        $groups = db_get_all("auth_groups_users","user_id = {$user_id}");
+
+        return $groups;
+    }
+}
+
+if (!function_exists('get_group_id')) {
+    function get_group_id($group)
+    {
+        if (is_numeric($group))
+        {
+            return (int)$group;
+        }
+
+        $data = db_get_single("auth_groups","name = '{$group}'");
+        return $data->id;
+    }
+}
+
+if (!function_exists('get_group')) {
+    function get_group($group_id = null)
+    {
+        if(empty($group_id)){
+            $group_id = get_user_group_id();
+        }
+
+        $group = db_get_single("auth_groups","id = {$group_id}");
+        return $group;
+    }
+}
+
 if (!function_exists('get_user_id')) {
     function get_user_id()
     {
@@ -25,99 +96,163 @@ if (!function_exists('get_user')) {
     }
 }
 
+if (!function_exists('is_admin')) {
+    function is_admin($user_id = null)
+    {
+        $auth = \Myth\Auth\Config\Services::authentication();
+
+        if ($auth->check()){
+            if (empty($user_id)) {
+                $user_id = $auth->id();
+            }
+            return is_member('admin', $user_id);
+        } 
+
+        return false;
+    }
+}
+
+if (!function_exists('logged_in')) {
+    function logged_in()
+    {
+        $auth = \Myth\Auth\Config\Services::authentication();
+        return $auth->check();
+    }
+}
+/**
+ * ---------------
+ * DB Helper
+ * ---------------
+ */
+if (!function_exists('get_last')) {
+    function get_last($ref_table, $where = null)
+    {        
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($ref_table);
+        $query = $baseModel->orderBy('id','desc');
+        
+        if(!empty($where)){
+            $query->where($where);
+        }
+
+        $data = $query->limit(1)->row(); 
+
+        return $data;
+    }
+}
+
+if (!function_exists('get_first')) {
+    function get_first($ref_table, $where = null)
+    {        
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($ref_table);
+        $query = $baseModel->orderBy('id','asc');
+        
+        if(!empty($where)){
+            $query->where($where);
+        }
+
+        $data = $query->limit(1)->row(); 
+
+        return $data;
+    }
+}
+
+if (!function_exists('get_doc_number')) {
+    function get_doc_number($table_name, $field_name = 'id', $prefix = 'AJU-', $zero_length = 4)
+    {        
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        $data = $baseModel->selectMax($field_name)->row(); 
+
+        $counter = (empty($data)) ? 1 : $data->{$field_name} + 1;
+        $doc_number = strtoupper($prefix).str_pad($counter , $zero_length , "0" , STR_PAD_LEFT);
+
+        return $doc_number;
+    }
+}
+
+if (!function_exists('db_get_single')) {
+    function db_get_single($table_name = null, $where = false)
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->get_single($where);
+    }
+}
+
+if (!function_exists('db_get_all')) {
+    function db_get_all($table_name = null, $where = null, $by = "id", $order = 'desc')
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->get_all($where, $by, $order);
+    }
+}
+
+if (!function_exists('db_count_all')) {
+    function db_count_all($table_name = null)
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->count_all();
+    }
+}
+
+if (!function_exists('db_count')) {
+    function db_count($table_name = null, $where = null)
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table_name);
+        return $baseModel->count($where);
+    }
+}
+
 /**
  * ---------------
  * Common Helper
  * ---------------
  */
-
-if (!function_exists('create_thumbnail')) {
-    function create_thumbnail($path, $file = null, $prefix = 'thumb_', $width = 200)
+if (!function_exists('get_visitor')) {
+    function get_visitor()
     {
-		$thumbnails = service('thumbnails');
-		$thumbnails->setImageType(IMAGETYPE_JPEG);
-		$thumbnails->setWidth($width);
-
-		if(!empty($file)){
-			if(file_exists($path.'/'.$file)){
-				$thumbnails->create($path.'/'.$file, $path.'/'.$prefix.$file);
-			}
-		}
-    }
-}
-
-if (!function_exists('unlink_file')) {
-    function unlink_file($path, $file = null)
-    {
-		$result = false;
-		if(!empty($file)){
-			if(file_exists($path.'/'.$file)){
-				unlink($path.'/'.$file);
-				$result = true;
-			} 
-		}
-
-		return false;
-    }
-}
-
-if (!function_exists('get_ref')) {
-    function get_ref($slug)
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable('c_references');
-        $references = $baseModel
-            ->select('c_references.*')
-            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.slug', $slug)
-            ->find_all('c_references.sort', 'asc');
-
-        return $references;
-    }
-}
-
-if (!function_exists('get_references')) {
-    function get_references($controller)
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable('c_references');
-        $references = $baseModel
-            ->select('c_references.*')
-            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('lower(c_menus.controller)', strtolower($controller))
-            ->find_all('c_references.sort', 'asc');
-
-        return $references;
-    }
-}
-
-if (!function_exists('get_references_slug')) {
-    function get_references_slug($slug)
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable('c_references');
-        $references = $baseModel
-            ->select('c_references.*')
-            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-			->where('lower(c_menus.slug)', strtolower($slug))
-            ->find_all('c_references.sort', 'asc');
-
-        return $references;
-    }
-}
-
-if (!function_exists('get_references_dropdown')) {
-    function get_references_dropdown($controller, $selected_id = 0)
-    {        
-        $html = '<select class="form-control" name="ref_type_id" tabindex="-1" aria-hidden="true">';
-        $references = get_references($controller);
-        foreach($references as $row){
-            $selected = ($row->id == $selected_id) ? 'selected': '';
-            $html .= '<option value="'.$row->id.'" '.$selected.'>'.$row->name.'</option>';
+        $site_visitor_mode = get_parameter('site-visitor-mode', 0);
+        if ($site_visitor_mode == 0) {
+            $visitor = get_parameter('site-visitor');
+            $visitor++;
+            set_parameter('site-visitor', $visitor);
+            return get_parameter('site-visitor');
+        } else {
+            set_ip_info();
+            return count_visitor();
         }
-        $html .= '</select>';
-            
-        return $html;
+    }
+}
+
+if (!function_exists('count_visitor')) {
+    function count_visitor()
+    {
+        $visitorModel = new \App\Models\VisitorModel();
+        $visitors = $visitorModel->findAll();
+        $sum = 0;
+        foreach ($visitors as $row) {
+            $sum += $row->hits;
+        }
+        return $sum;
+    }
+}
+
+if (!function_exists('rest_url')) {
+    function rest_url($uri = '')
+    {        
+		$base_url = base_url($uri);
+		$rest_url = getenv('app.restURL');
+
+		if(!empty($rest_url)){
+			$base_url = $rest_url. '/'. $uri;
+		}
+		
+        return $base_url;
     }
 }
 
@@ -158,101 +293,75 @@ if (!function_exists('get_object_array')) {
     }
 }
 
-if (!function_exists('is_display2')) {
-    function is_display2($table_name = 't_banner', $field_name = 'name')
+if (!function_exists('pd')) {
+    function pd($object)
     {
-        $result = false;
-        $default = 'name';
-        $columns_str = str_replace(' ','',get_parameter($table_name.'_columns',$default));
-        $columns_arr = explode(',',$columns_str);
-        if(in_array($field_name, $columns_arr)){
-            $result = true;
+        print_r($object);
+        die();
+        return true;
+    }
+}
+
+/**
+ * ---------------
+ * Global Helper
+ * ---------------
+ */
+if (!function_exists('get_page')) {
+    function get_page($slug = null)
+    {
+        $pageModel = new \Page\Models\PageModel();
+        $page = $pageModel->where('slug', $slug)->row();
+
+        return $page;
+    }
+}
+
+if (!function_exists('get_option')) {
+    function get_option($param_name = null)
+    {
+        return get_parameter($param_name);
+    }
+}
+
+if (!function_exists('send_email')) {
+    function send_email($to = '', $subject = '', $data = [])
+    {
+        $mail = new PHPMailer(true);
+        $status = false;
+		$messages = '';
+        try {
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.googlemail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'balisaauction.dev@gmail.com'; // silahkan ganti dengan alamat email Anda
+            $mail->Password   = 'password2021!!'; // silahkan ganti dengan password email Anda
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = 465;
+
+            $mail->setFrom('balisaauction.dev@gmail.com', 'P4TO'); // silahkan ganti dengan alamat email Anda
+            $mail->addAddress($to);
+            $mail->addReplyTo('balisaauction.dev@gmail.com', 'P4TO'); // silahkan ganti dengan alamat email Anda
+            // Content
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = view('auth/notifEmail', $data);
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            $status = $mail->send();
+			$message = 'Email Sent';
+        } catch (Exception $e) {
+            $messages =  "Send Email failed. Error: " . $mail->ErrorInfo;
+            $status = false;
         }
 
-        return $result;
-    }
-}
-if (!function_exists('get_MemberNo')) {
-    function get_MemberNo()
-    {
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable('t_anggota');
-        $kode = $baseModel
-        ->select ('RIGHT(MemberNo,4) as MemberNo', false)
-        ->orderBy('MemberNo','DESC')
-        ->limit(1)->get()->getRowArray();
+		$response = array(
+			'status'=> $status,
+			'message' => $message,
+		);
 
-        if (empty($kode['MemberNo'])){
-            $no=1;
-        }else{
-            $no=intval($kode['MemberNo']) + 1; }
-        $tgl= date('Ymd');
-        $batas = str_pad($no, 4, "0", STR_PAD_LEFT);
-        $MemberNo = $tgl.$batas;
-        return $MemberNo;
-    }
-    
-}
-
-// db helper
-if (!function_exists('db_get_single')) {
-    function db_get_single($table_name = null, $where = false)
-    {
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable($table_name);
-        return $baseModel->get_single($where);
+		return $response;
     }
 }
 
-if (!function_exists('db_get_all')) {
-    function db_get_all($table_name = null, $where = null, $by = "id", $order = 'desc')
-    {
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable($table_name);
-        return $baseModel->get_all($where, $by, $order);
-    }
-}
-
-if (!function_exists('db_count_all')) {
-    function db_count_all($table_name = null)
-    {
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable($table_name);
-        return $baseModel->count_all();
-    }
-}
-
-if (!function_exists('db_count')) {
-    function db_count($table_name = null, $where = null)
-    {
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable($table_name);
-        return $baseModel->count($where);
-    }
-
-    // Fungsi untuk mengubah format tanggal mejadi format tanggal Indonesia
-function tgl_indonesia($tgl){ 
-    $tanggal = substr($tgl,8,2);
-    $nama_bulan = array("Januari", "Februari", "Maret", "April", "Mei", 
-            "Juni", "Juli", "Agustus", "September", 
-            "Oktober", "November", "Desember");
-    $bulan = $nama_bulan[substr($tgl,5,2) - 1];
-    $tahun = substr($tgl,0,4);
-    return $tanggal.' '.$bulan.' '.$tahun;       
-}
-
-function ubah_tgl1($tanggal) { 
-    $pisah   = explode('/',$tanggal);
-    $larik   = array($pisah[2],$pisah[0],$pisah[1]);
-    $satukan = implode('-',$larik);
-    return $satukan;
- }
- 
- // Fungsi untuk mengubah susunan format tanggal dari database ke form
- function ubah_tgl2($tanggal) { 
-    $pisah   = explode('-',$tanggal);
-    $larik   = array($pisah[1],$pisah[2],$pisah[0]);
-    $satukan = implode('/',$larik);
-    return $satukan;
- }
-}
+?>
