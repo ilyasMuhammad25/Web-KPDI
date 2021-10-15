@@ -43,7 +43,7 @@ $request->uri->setSilent();
                             <div>
                                 <select class="form-control" id="frm_create_ref_format" name="ref_format" placeholder="<?=lang('Tag.field.ref_format')?> " required>
                                     <option value="" disabled selected><?=lang('Tag.field.ref_format')?></option>
-                                    <?php foreach (get_references('ref-jenis-format') as $row): ?>
+                                    <?php foreach (get_ref('ref-jenis-format') as $row): ?>
                                         <option value="<?=$row->id?>" <?=($row->id == $tag->ref_format)?'selected':''?>><?=$row->name?></option>
                                     <?php endforeach;?>
                                 </select>
@@ -56,7 +56,7 @@ $request->uri->setSilent();
                             <div>
                                 <select class="form-control" id="frm_create_ref_group" name="ref_group" placeholder="<?=lang('Tag.field.ref_group')?> " required>
                                     <option value="" disabled selected><?=lang('Tag.field.ref_group')?></option>
-                                    <?php foreach (get_references('ref-group-field') as $row): ?>
+                                    <?php foreach (get_ref('ref-group-field') as $row): ?>
                                         <option value="<?=$row->id?>" <?=($row->id == $tag->ref_group)?'selected':''?>><?=$row->name?></option>
                                     <?php endforeach;?>
                                 </select>

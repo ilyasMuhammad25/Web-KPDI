@@ -49,6 +49,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
         helper('adminigniter');
+        helper('reference');
 		helper('anggota');
 		helper('tgl_indo');
     }
@@ -125,17 +126,17 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
     
-    $this->data['ref_identitas'] = get_references('ref_identitas');
-    $this->data['ref_perkawinan'] = get_references('ref_perkawinan');
-    $this->data['ref_jeniskelamin'] = get_references('ref_jeniskelamin');
-    $this->data['ref_pendidikan'] = get_references('ref_pendidikan');
-    $this->data['ref_pekerjaan'] = get_references('ref_perkerjaan');
-    $this->data['ref_jenisanggota'] = get_references('ref_jenisanggota');
-    $this->data['ref_agama'] = get_references('ref_agama');
-    $this->data['ref_unitkerja'] = get_references('ref_unitkerja');
-    $this->data['ref_fakultas'] = get_references('ref_fakultas');
-    $this->data['ref_jurusan'] = get_references('ref_jurusan');
-    $this->data['ref_Statusanggota'] = get_references('statanggota');
+    $this->data['ref_identitas'] = get_ref('ref_identitas');
+    $this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
+    $this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
+    $this->data['ref_pendidikan'] = get_ref('ref_pendidikan');
+    $this->data['ref_pekerjaan'] = get_ref('ref_perkerjaan');
+    $this->data['ref_jenisanggota'] = get_ref('ref_jenisanggota');
+    $this->data['ref_agama'] = get_ref('ref_agama');
+    $this->data['ref_unitkerja'] = get_ref('ref_unitkerja');
+    $this->data['ref_fakultas'] = get_ref('ref_fakultas');
+    $this->data['ref_jurusan'] = get_ref('ref_jurusan');
+    $this->data['ref_Statusanggota'] = get_ref('statanggota');
     
     
     $this->data[' MemberNo'] =  get_MemberNo();
@@ -245,17 +246,17 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Ubah Anggota';
 
         $this->data['anggota'] = $anggota;
-		$this->data['ref_identitas'] = get_references('ref_identitas');
-		$this->data['ref_perkawinan'] = get_references('ref_perkawinan');
-		$this->data['ref_jeniskelamin'] = get_references('ref_jeniskelamin');
-		$this->data['ref_pendidikan'] = get_references('ref_pendidikan');
-		$this->data['ref_pekerjaan'] = get_references('ref_perkerjaan');
-		$this->data['ref_jenisanggota'] = get_references('ref_jenisanggota');
-		$this->data['ref_agama'] = get_references('ref_agama');
-		$this->data['ref_unitkerja'] = get_references('ref_unitkerja');
-		$this->data['ref_fakultas'] = get_references('ref_fakultas');
-		$this->data['ref_jurusan'] = get_references('ref_jurusan');
-		$this->data['ref_Statusanggota'] = get_references('statanggota');
+		$this->data['ref_identitas'] = get_ref('ref_identitas');
+		$this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
+		$this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
+		$this->data['ref_pendidikan'] = get_ref('ref_pendidikan');
+		$this->data['ref_pekerjaan'] = get_ref('ref_perkerjaan');
+		$this->data['ref_jenisanggota'] = get_ref('ref_jenisanggota');
+		$this->data['ref_agama'] = get_ref('ref_agama');
+		$this->data['ref_unitkerja'] = get_ref('ref_unitkerja');
+		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
+		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
+		$this->data['ref_Statusanggota'] = get_ref('statanggota');
 
 		$this->validation->setRule('name', 'Nama', 'required');
 		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
