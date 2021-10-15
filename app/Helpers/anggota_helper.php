@@ -1,4 +1,26 @@
 <?php
+if (!function_exists('get_MemberNo')) {
+    function get_MemberNo()
+    {
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('t_anggota');
+        $kode = $baseModel
+        ->select ('RIGHT(MemberNo,4) as MemberNo', false)
+        ->orderBy('MemberNo','DESC')
+        ->limit(1)->get()->getRowArray();
+
+        if (empty($kode['MemberNo'])){
+            $no=1;
+        }else{
+            $no=intval($kode['MemberNo']) + 1; }
+        $tgl= date('Ymd');
+        $batas = str_pad($no, 4, "0", STR_PAD_LEFT);
+        $MemberNo = $tgl.$batas;
+        return $MemberNo;
+    }
+    
+}
+
 if (!function_exists('get_member_no')) {
     function get_member_no($member_id = null)
     {        

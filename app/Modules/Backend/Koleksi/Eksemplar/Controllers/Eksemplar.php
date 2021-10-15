@@ -119,12 +119,12 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         }
         $this->data['title'] = 'Tambah Eksemplar';
         // $this->data[' BarcodeNumber '] = (int)preg_replace('/[^0-9]/', '', BarcodeNumber_helper());
-        $this->data['ref_currency'] = get_references('ref_currency');
-        $this->data['ref_rules'] = get_references('ref_rules');
-        $this->data['ref_media'] = get_references('media');
-        $this->data['ref_partner'] = get_references('partner');
-        $this->data['ref_source'] = get_references('source');
-        $this->data['ref_status'] = get_references('ref_status');
+        $this->data['ref_currency'] = get_ref('ref_currency');
+        $this->data['ref_rules'] = get_ref('ref_rules');
+        $this->data['ref_media'] = get_ref('media');
+        $this->data['ref_partner'] = get_ref('partner');
+        $this->data['ref_source'] = get_ref('source');
+        $this->data['ref_status'] = get_ref('ref_status');
         $BarcodeNumber =  BarcodeNumber_helper();
 		$NoInduk =NoInduk_helper();
 		$RFID =RFID_helper();

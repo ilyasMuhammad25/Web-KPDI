@@ -32,9 +32,9 @@ $anggotas = $baseModel
             </div>
 
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <?=get_message('message');?>
-            <table style="width: 100%;" id="tbl_anggotas" class="table table-hover table-striped table-bordered">
+            <table style="width: 100%;" id="modal_anggota" class="table table-hover table-striped table-bordered">
                 <thead>
                     <tr>
                         <th><?=lang('Anggota.field.no')?> </th>
@@ -58,7 +58,7 @@ $anggotas = $baseModel
                       
                        
                         <td width="35">
-                            <td><button type="button" data-id= <?= _spec($row->id); ?> data-no_anggota= "<?= _spec($row->MemberNo); ?>" data-name="<?= _spec($row->name); ?>" class="btn btn-primary btn-pilih">Pilih</button></td>
+                            <button type="button" data-id= <?= _spec($row->id); ?> data-no_anggota= "<?= _spec($row->MemberNo); ?>" data-name="<?= _spec($row->name); ?>" class="btn btn-primary btn-pilih">Pilih</button>
                             </td>
 
                     </tr>

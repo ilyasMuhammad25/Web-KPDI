@@ -274,6 +274,13 @@ $request->uri->setSilent();
 <?=$this->include('Sirkulasi\Views\peminjaman\pilihanggota');?>
 
 <script>
+     $('#modal_create').on('shown.bs.modal', function() {
+       setDataTable('#modal_anggota', disableOrderCols = [0, 4], defaultOrderCols = [1, 'asc'], autoNumber = true);
+       
+       
+    });
+
+
 $(".btn-pilih").click(function() {
     var id = $(this).data('id');
     var no_anggota = $(this).data('no_anggota');
@@ -281,7 +288,7 @@ $(".btn-pilih").click(function() {
     var penanggungjawab = $(this).data('penanggungjawab');
 
     $('#frm_create_MemberNo').val(no_anggota);
-    $('#frm_create_name').val(name);
+    $('#frm_create_name').html(name);
     $('#penanggungjawab').val(penanggungjawab);
     $('#catalog_id').val(id);
 

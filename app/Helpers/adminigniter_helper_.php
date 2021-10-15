@@ -77,7 +77,7 @@ if (!function_exists('get_ref')) {
 }
 
 if (!function_exists('get_references')) {
-    function get_references($controller)
+    function get_ref($controller)
     {        
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable('c_references');
@@ -110,7 +110,7 @@ if (!function_exists('get_references_dropdown')) {
     function get_references_dropdown($controller, $selected_id = 0)
     {        
         $html = '<select class="form-control" name="ref_type_id" tabindex="-1" aria-hidden="true">';
-        $references = get_references($controller);
+        $references = get_ref($controller);
         foreach($references as $row){
             $selected = ($row->id == $selected_id) ? 'selected': '';
             $html .= '<option value="'.$row->id.'" '.$selected.'>'.$row->name.'</option>';
