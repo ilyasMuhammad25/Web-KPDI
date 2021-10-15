@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Cms\Contact\Models;
+namespace Contact\Models;
 
 class ContactModel extends \hamkamannan\adminigniter\Models\BaseModel
 {

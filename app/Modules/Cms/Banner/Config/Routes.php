@@ -19,6 +19,8 @@ $routes->group('banner', ['namespace' => 'Banner\Controllers'], function ($subro
 
 $routes->group('api/banner', ['namespace' => 'Banner\Controllers\Api'], function ($subroutes) {
 	/*** Route Update for Banner ***/
+	$subroutes->add('', 'Banner::index');
+	$subroutes->add('index', 'Banner::index');
 	$subroutes->add('detail/(:any)', 'Banner::detail/$1');
 	$subroutes->add('create', 'Banner::create');
 	$subroutes->add('edit/(:any)', 'Banner::edit/$1');

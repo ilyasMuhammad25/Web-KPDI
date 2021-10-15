@@ -19,6 +19,8 @@ $routes->group('page', ['namespace' => 'Page\Controllers'], function ($subroutes
 
 $routes->group('api/page', ['namespace' => 'Page\Controllers\Api'], function ($subroutes) {
 	/*** Route Update for Page ***/
+	$subroutes->add('', 'Page::index');
+	$subroutes->add('index', 'Page::index');
 	$subroutes->add('detail/(:any)', 'Page::detail/$1');
 	$subroutes->add('create', 'Page::create');
 	$subroutes->add('edit/(:any)', 'Page::edit/$1');
