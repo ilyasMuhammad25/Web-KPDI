@@ -1,11 +1,13 @@
 <?php
 
 namespace Anggota\Controllers;
+// namespace hamkamannan\adminigniter\Modules\Core\Parameter\Controllers;
 
 use \CodeIgniter\Files\File;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use DataTables\DataTables;
+
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -51,6 +53,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         helper('adminigniter');
 		helper('anggota');
 		helper('tgl_indo');
+        helper('url');
     }
 
     public function index()
@@ -66,11 +69,12 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         $query = $this->anggotaModel
             ->select('t_anggota.*')
             ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_anggota.created_by','left')
-            ->join('users updated','updated.id = t_anggota.updated_by','left');
+            // ->select('updated.username as updated_name')
+            ->join('users created','created.id = t_anggota.created_by','left');
+            // ->join('users updated','updated.id = t_anggota.updated_by','left');
             
         $anggotas = $query->findAll();
+        dd($anggotas);
         $this->data['title'] = 'Anggota';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['anggotas'] = $anggotas;
@@ -92,17 +96,10 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$slug = $this->request->getVar('slug');
 
-        $query = $this->anggotaModel
-            ->select('t_anggota.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_anggota.created_by','left')
-            ->join('users updated','updated.id = t_anggota.updated_by','left');
-            
-        $anggotas = $query->findAll();
+       
         $this->data['title'] = 'Anggota';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['anggotas'] = $anggotas;
+        
        
 		if(!empty($slug)){			
 			echo view("Anggota\Views\slug\\$slug", $this->data);
@@ -111,10 +108,45 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		}
     }
 
-	public function json()
+    public function json()
 	{
-		return DataTables::use('v_anggota')->make(true);
+        $data = DataTables::use('v_anggota')
+        // ->select('t_anggota.*')
+        // ->select('users.username as created_name')
+        // ->join('users','users.id = t_anggota.created_by','left')
+        
+        // ->select('t_anggota.*') 
+        // ->select('users.username as updated_name')
+           
+            // ->join('users','users.id = t_anggota.updated_by','left')
+       
+        ->make(true);
+
+    return $data;
 	}
+
+    public function index_datatables()
+    {
+        if (!is_allowed('anggota/access')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+        helper('url');
+        return view('Anggota\Views\list_json copy');
+    }
+    public function ajaxDataTables()
+    {
+
+     
+        
+        $db = db_connect();
+		$builder = $db->table('t_anggota')->select('name, MemberNo, IdentityNo');
+		
+		return DataTable::of($builder)
+			   ->addNumbering() //it will return data output with numbering on first column
+			   ->toJson();
+    }
 
   
     public function create()

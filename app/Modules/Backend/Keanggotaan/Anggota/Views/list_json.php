@@ -50,7 +50,7 @@ $request->uri->setSilent();
                 <thead>
                     <tr>
                         <th><?=lang('Anggota.field.no')?> </th>
-                        <th><?=lang('Banner.field.photo')?> </th>
+                        <th align="center"><?=lang('Banner.field.photo')?> </th>
                         <th><?=lang('Anggota.field.name')?></th>
                         <th><?=lang('Anggota.field.MemberNo')?></th>
                         <th><?=lang('Anggota.field.Email')?></th>
@@ -73,7 +73,7 @@ $request->uri->setSilent();
 						<th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody >
                 </tbody>
             </table>
         </div>
@@ -90,17 +90,28 @@ $request->uri->setSilent();
             url: '<?=base_url('anggota/json')?>',
         },
         columns: [
-            {data: 'id', name: 'id'},
+            {"data": "id",
+    render: function (data, type, row, meta) {
+        return meta.row + meta.settings._iDisplayStart + 1;
+    }},
             {data: 'file_image', name: 'file_image'},
             {data: 'name', name: 'name'},
             {data: 'MemberNo', name: 'MemberNo'},
             {data: 'Email', name: 'Email'},
             {data: 'active', name: 'active'},
             {data: 'created_name', name: 'created_name'},
-            {data: 'updated_name', name: 'updated_name'},
+            {data: 'updated_by', name: 'updated_by'},
             {data: 'id', name: 'id'},
         ],
         columnDefs:[
+
+            {
+                targets:1, data:'id', render: function(data,type,full,meta) { 
+                    var file_image = '<img width="100" class="rounded" src="<?=base_url('uploads/anggota/')?>/'+data+'" alt="">';
+                    var button_delete = '<button type="button" class="btn btn-primary btn-sm mt-2">Ambil gambar</button>';
+                    return file_image + button_delete;
+                },
+            },
             {
                 targets:8, data:'id', render: function(data,type,full,meta) { 
                     var button_edit = '<a href="<?=base_url('anggota/edit')?>/'+data+'" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Ubah Param"><i class="pe-7s-note font-weight-bold"> </i></a> ';

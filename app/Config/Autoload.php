@@ -44,6 +44,7 @@ class Autoload extends AutoloadConfig
 		'App'           => APPPATH,
 		'Config'        => APPPATH . 'Config',
 		'DataTables'    => APPPATH .'Libraries/DataTables',
+		'Hermawan\DataTables'   => APPPATH .'ThirdParty/CodeIgniter4-DataTables/src',
 		'Modules'       => APPPATH . 'Modules',
 		'Uigniter'      => APPPATH . 'Modules/Uigniter',
 		'Core'       	=> APPPATH . 'Modules/Core',
