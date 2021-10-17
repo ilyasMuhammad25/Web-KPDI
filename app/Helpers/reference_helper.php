@@ -86,7 +86,6 @@ if (!function_exists('get_ref_dropdown')) {
     }
 }
 
-
 if (!function_exists('get_table_references')) {
     function get_table_references($table, $fields = 'id', $where = null)
     {        

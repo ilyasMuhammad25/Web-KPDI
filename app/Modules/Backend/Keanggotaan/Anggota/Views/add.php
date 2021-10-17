@@ -74,4 +74,13 @@ $('.select2').select2();
 
 	var file_template = setDropzone('dropzone_file_image', 'anggota', '.jpg,.jpeg,.png', 1, 10);
 </script>
+<script>
+		$( document ).ready(function() {
+		$('#Provincy').change(function() {
+			var propinsi_id = $(this).val();
+			var uriParam = '?propinsi_id='+propinsi_id;
+			getDropdown('City', uriParam, 'Pilih', false, false);
+		});
+	});
+</script>
 <?=$this->endSection('script');?>

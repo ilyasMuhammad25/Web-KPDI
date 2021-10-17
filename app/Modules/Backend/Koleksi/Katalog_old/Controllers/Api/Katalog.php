@@ -1,16 +1,16 @@
 <?php
 
-namespace Anggota\Controllers\Api;
+namespace Katalog\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\AnggotaModel;
+use App\Models\KatalogModel;
 use CodeIgniter\Files\File;
 
-class Anggota extends ResourceController
+class Katalog extends ResourceController
 {
 	use ResponseTrait;
-	protected $anggotaModel;
+	protected $katalogModel;
 	protected $validation;
 	protected $session;
 	protected $modulePath;
@@ -19,40 +19,38 @@ class Anggota extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->anggotaModel = new \Anggota\Models\AnggotaModel();
+		$this->katalogModel = new \Katalog\Models\KatalogModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
-		$this->modulePath = ROOTPATH . 'public/uploads/anggota/';
+		$this->modulePath = ROOTPATH . 'public/uploads/katalog/';
 		$this->uploadPath = WRITEPATH . 'uploads/';
 
 		if (!file_exists($this->modulePath)) {
 			mkdir($this->modulePath);
 		}
-
-		helper('reference');
 	}
 
 	public function index()
 	{
-		if (!is_allowed('anggota/access')) {
+		if (!is_allowed('katalog/access')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->anggotaModel->findAll();
+		$data = $this->katalogModel->findAll();
 		return $this->respond($data, 200);
 	}
 
 	public function detail($id = null)
 	{
-		if (!is_allowed('anggota/read')) {
+		if (!is_allowed('katalog/read')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->anggotaModel->find($id);
+		$data = $this->katalogModel->find($id);
 		if ($data) {
 			return $this->respond($data);
 		} else {
@@ -62,7 +60,7 @@ class Anggota extends ResourceController
 
 	public function create()
 	{
-		if (!is_allowed('anggota/create')) {
+		if (!is_allowed('katalog/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
@@ -78,15 +76,15 @@ class Anggota extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$newAnggotaId = $this->anggotaModel->insert($save_data);
-			if ($newAnggotaId) {
-				$this->session->setFlashdata('toastr_msg', lang('Anggota.info.successfully_saved'));
+			$newKatalogId = $this->katalogModel->insert($save_data);
+			if ($newKatalogId) {
+				$this->session->setFlashdata('toastr_msg', lang('Katalog.info.successfully_saved'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
 					'status'   => 201,
 					'error'    => null,
 					'messages' => [
-						'success' => lang('Anggota.info.successfully_saved')
+						'success' => lang('Katalog.info.successfully_saved')
 					]
 				];
 				return $this->respondCreated($response);
@@ -95,7 +93,7 @@ class Anggota extends ResourceController
 					'status'   => 400,
 					'error'    => null,
 					'messages' => [
-						'error' =>  lang('Anggota.info.failed_saved')
+						'error' =>  lang('Katalog.info.failed_saved')
 					]
 				];
 				return $this->fail($response);
@@ -108,7 +106,7 @@ class Anggota extends ResourceController
 
 	public function edit($id = null)
 	{
-		if (!is_allowed('anggota/update')) {
+		if (!is_allowed('katalog/update')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
@@ -124,21 +122,21 @@ class Anggota extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$anggotaUpdate = $this->anggotaModel->update($id, $update_data);
-			if ($anggotaUpdate) {
-				add_log('Ubah Anggota', 'anggota', 'edit', 't_anggota', $id);
-				$this->session->setFlashdata('toastr_msg', lang('Anggota.info.successfully_updated'));
+			$katalogUpdate = $this->katalogModel->update($id, $update_data);
+			if ($katalogUpdate) {
+				add_log('Ubah Katalog', 'katalog', 'edit', 't_katalog', $id);
+				$this->session->setFlashdata('toastr_msg', lang('Katalog.info.successfully_updated'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
 					'status'   => 201,
 					'error'    => null,
 					'messages' => [
-						'success' => lang('Anggota.info.successfully_updated')
+						'success' => lang('Katalog.info.successfully_updated')
 					]
 				];
 				return $this->respond($response);
 			} else {
-				return $this->fail('<div class="alert alert-danger fade show" role="alert">'.lang('Anggota.info.failed_updated').'</div>', 400);
+				return $this->fail('<div class="alert alert-danger fade show" role="alert">'.lang('Katalog.info.failed_updated').'</div>', 400);
 			}
 		} else {
 			$message = $this->validation->listErrors();
@@ -148,38 +146,26 @@ class Anggota extends ResourceController
 
 	public function delete($id = null)
 	{
-		if (!is_allowed('anggota/delete')) {
+		if (!is_allowed('katalog/delete')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->anggotaModel->find($id);
+		$data = $this->katalogModel->find($id);
 		if ($data) {
-			$this->anggotaModel->delete($id);
-			add_log('Hapus Anggota', 'anggota', 'delete', 't_anggota', $id);
+			$this->katalogModel->delete($id);
+			add_log('Hapus Katalog', 'katalog', 'delete', 't_katalog', $id);
 			$response = [
 				'status'   => 200,
 				'error'    => null,
 				'messages' => [
-					'success' => lang('Anggota.info.successfully_deleted')
+					'success' => lang('Katalog.info.successfully_deleted')
 				]
 			];
 			return $this->respondDeleted($response);
 		} else {
-			return $this->failNotFound(lang('Anggota.info.not_found').' ID:' . $id);
+			return $this->failNotFound(lang('Katalog.info.not_found').' ID:' . $id);
 		}
-	}
-
-	public function cities()
-	{
-		$propinsi_id = $this->request->getVar('propinsi_id');
-		if(!empty($propinsi_id)){
-			$data = get_dropdown('m_kota','propinsi_id = '.$propinsi_id);
-		} else {
-			$data = get_dropdown('m_kota');
-		}
-
-		return $this->respond($data, 200);
 	}
 }
