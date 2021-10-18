@@ -140,22 +140,6 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable('m_propinsi');
-        $propinsi = $baseModel
-            ->select('m_propinsi.*')
-            ->find_all('name', 'asc');
-
-            $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-            $baseModel->setTable('m_kota');
-            $kota = $baseModel
-                ->select('m_kota.*')
-                ->find_all('name', 'asc');
-    
-            $this->data['kota'] = $kota;
-
-        $this->data['propinsi'] = $propinsi;
-    
     $this->data['ref_identitas'] = get_ref('ref_identitas');
     $this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
     $this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');

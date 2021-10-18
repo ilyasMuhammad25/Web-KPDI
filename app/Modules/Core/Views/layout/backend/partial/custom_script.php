@@ -490,7 +490,7 @@
 			$('#'+domID).append('<option value="">'+title+'</option>');
 			$.each(respJson, function(index, itemData) {
 				var code = itemData.code;
-				var text = itemData.text.toUpperCase();
+				var text = itemData.text;
 				var selected = '';
 
 				if(code == selectedCode){
@@ -498,7 +498,7 @@
 				}
 
 				if(includeCode){
-					text = +itemData.code+ ' - ' +itemData.text.toUpperCase();
+					text = +itemData.code+ ' - ' +itemData.text;
 				}
 				$('#'+domID).append('<option value="' + code+ '" '+selected+'>' +text+ ' </option>');
 			});
