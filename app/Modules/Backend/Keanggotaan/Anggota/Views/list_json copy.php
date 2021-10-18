@@ -76,29 +76,33 @@ $request->uri->setSilent();
 <?=$this->endSection('page');?>
 
 <?=$this->section('script');?>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <!-- Bootstrap 4.5 CDN  -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <!-- DataTable CDN js -->
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" ></script>
-   
+<script>
+ <script>
+  
+  $(document).ready(function() {
 
-<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js" ></script>
-    <script type="text/javascript">
- 
-    $(document).ready(function() {
-     
-   
+    bsCustomFileInput.init();
 
-    $(document).ready(function() {
-    $('#table').DataTable({
-        processing: true,
-        serverSide: true,
-        order: [], //this mean no init order on datatable
-        ajax: '<?=base_url('anggota/ajaxDataTables')?>'
+    //Menampilkan data berita (dataTable server-side)
+    $('#table').DataTable({ 
+      "responsive": true,
+      "autoWidth": false,
+      "processing" : true, 
+      "serverSide" : true, 
+      "order"    : [], 
+
+      "ajax": {
+        "url" : "<?=base_url('anggota/ajaxDataAnggota')?>",
+        "type"  : "POST"
+      },
+
+      "columnDefs" : [
+        { 
+          "targets" : [ 0 ], 
+          "orderable" : false,
+        },
+      ],
     });
-});
-
     });
     </script>
 <?=$this->endSection('script');?>

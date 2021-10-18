@@ -9,6 +9,7 @@ $routes->group('anggota', ['namespace' => 'Anggota\Controllers'], function ($sub
 	$subroutes->add('index_datatables', 'Anggota::index_datatables');
 	$subroutes->add('ajaxDataTables', 'Anggota::ajaxDataTables');
 	$subroutes->add('json', 'Anggota::json');
+	$subroutes->add('ajaxDataAnggota', 'Anggota::ajaxDataAnggota');
 	$subroutes->add('detail/(:any)', 'Anggota::detail/$1');
 	$subroutes->add('create', 'Anggota::create');
 	$subroutes->add('edit/(:any)', 'Anggota::edit/$1');

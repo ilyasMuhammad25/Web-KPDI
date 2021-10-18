@@ -7,6 +7,7 @@ use \CodeIgniter\Files\File;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use DataTables\DataTables;
+use Config\Services;
 
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
@@ -17,13 +18,14 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $uploadPath;
     protected $modulePath;
     protected $baseModel;
+    protected $request;
     
     function __construct()
     {
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
-        
-        $this->anggotaModel = new \Anggota\Models\AnggotaModel();
+        $this->request 		= Services::request();
+        $this->anggotaModel = new \Anggota\Models\AnggotaModel($this->request);
         // $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         
 
@@ -70,9 +72,9 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         $query = $this->anggotaModel
             ->select('t_anggota.*')
             ->select('created.username as created_name')
-            // ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_anggota.created_by','left');
-            // ->join('users updated','updated.id = t_anggota.updated_by','left');
+            ->select('updated.username as updated_name')
+            ->join('users created','created.id = t_anggota.created_by','left')
+            ->join('users updated','updated.id = t_anggota.updated_by','left');
             
         $anggotas = $query->findAll();
         
@@ -86,6 +88,8 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			echo view('Anggota\Views\list', $this->data);
 		}
     }
+
+   
 
 	public function index_json()
     {
@@ -126,28 +130,6 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     return $data;
 	}
 
-    public function index_datatables()
-    {
-        if (!is_allowed('anggota/access')) {
-            set_message('toastr_msg', lang('App.permission.not.have'));
-            set_message('toastr_type', 'error');
-            return redirect()->to('/dashboard');
-        }
-        helper('url');
-        return view('Anggota\Views\list_json copy');
-    }
-    public function ajaxDataTables()
-    {
-
-     
-        
-        $db = db_connect();
-		$builder = $db->table('t_anggota')->select('name, MemberNo, IdentityNo');
-		
-		return DataTable::of($builder)
-			   ->addNumbering() //it will return data output with numbering on first column
-			   ->toJson();
-    }
 
   
     public function create()
