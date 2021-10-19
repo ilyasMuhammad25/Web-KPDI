@@ -6,7 +6,10 @@ return [
    'form.complete_the_data' => 'Mohon lengkapi data pada form berikut',
 
    'field.no' => 'No',
+   'field.peminjaman' => 'No Peminjaman',
+   'field.barcode' => 'No Barcode',
    'field.status' => 'Status',
+   'field.judul' => 'Judul',
    'field.id' => 'ID',
    'field.name' => 'Nama',
    'field.slug' => 'Slug',

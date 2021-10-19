@@ -59,7 +59,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Sirkulasi';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['sirkulasis'] = $sirkulasis;
-        echo view('Sirkulasi\Views\listpeminjaman', $this->data);
+        echo view('Sirkulasi\Views\peminjaman/list', $this->data);
     }
 
     public function create()
@@ -187,15 +187,15 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
                 add_log('Tambah Sirkulasi', 'sirkulasi', 'create', 't_sirkulasi', $newSirkulasiId);
                 set_message('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
                 set_message('toastr_type', 'success');
-                return redirect()->to('/sirkulasi/listpengembalian');
+                return redirect()->to('/sirkulasi/pengembalian/add');
             } else {
                 set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
-                echo view('Sirkulasi\Views\entripengembalian', $this->data);
+                echo view('Sirkulasi\Views\pengembalian/add', $this->data);
             }
         } else {
             $this->data['redirect'] = base_url('sirkulasi/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-            echo view('Sirkulasi\Views\entripengembalian', $this->data);
+            echo view('Sirkulasi\Views\pengembalian/add', $this->data);
         }
     }
 

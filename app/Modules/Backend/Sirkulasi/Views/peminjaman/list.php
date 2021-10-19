@@ -40,12 +40,14 @@
                 <thead>
                     <tr>
                         <th><?= lang('Sirkulasi.field.no') ?> </th>
-                        <th><?= lang('Sirkulasi.field.name') ?></th>
-                        <th><?= lang('Sirkulasi.field.description') ?></th>
-                        <th><?= lang('Sirkulasi.field.sort') ?></th>
-                        <th><?= lang('Sirkulasi.field.active') ?></th>
-                        <th><?= lang('Sirkulasi.field.created_by') ?></th>
-                        <th><?= lang('Sirkulasi.field.updated_by') ?></th>
+                        <th>Nomor Barcode</th>
+                        <th>Judul</th>
+                        <th>Penerbit</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Jatuh tempo</th>
+                        <th>Tanggal kembali</th>
+                        <th>Hari terlambat</th>
+                        <th>Lokasi Perpustakaan</th>
                         <th><?= lang('Sirkulasi.label.action') ?></th>
                     </tr>
                 </thead>
