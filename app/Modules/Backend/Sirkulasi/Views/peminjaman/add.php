@@ -55,14 +55,16 @@ $request->uri->setSilent();
                             <input type="text" name="jml_eksemplar" id="frm_create_MemberNo" class="form-control"
                                 placeholder="Nomor Anggota">
                             <div class="input-group-append">
-                            <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class="btn btn-primary" title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-edit"></i> cari anggota</a>
+                                <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);"
+                                    class="btn btn-primary" title="<?= lang('User.btn.profile.update') ?>"><i
+                                        class="fa fa-user"></i> cari anggota</a>
                             </div>
                         </div>
                     </div>
 
                 </div><br>
                 <!-- data anggota -->
-                
+
                 <div class="form-row" id="data-anggota">
                     <div class="col-md-12">
                         <!-- Main content -->
@@ -257,14 +259,33 @@ $request->uri->setSilent();
                                 placeholder="Nomor Barcode">
                             <div class="input-group-append">
 
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#exampleModal">
-                                    Launch demo modal
-                                </button>
+                                <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);"
+                                    class="btn btn-primary" title="<?= lang('User.btn.profile.update') ?>"><i
+                                        class="fa fa-book"></i> Cari Eksemplar</a>
                             </div>
                         </div>
                     </div>
 
+                </div>
+                <div class="form-row">
+
+                    <div class="card-body table-responsive">
+                        <?=get_message('message');?>
+                        <table style="width: 100%;" id="tbl_eksemplars"
+                            class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><?= lang('Eksemplar.field.no') ?> </th>
+                                    <th><?= lang('Eksemplar.field.Barcode') ?></th>
+                                    <th><?= lang('Eksemplar.field.Tanggalpengadaan') ?></th>
+                                    <th><?= lang('Eksemplar.field.induk') ?></th>
+                                    <th><?= lang('Eksemplar.field.bibliografis') ?></th>
+                                    <th><?= lang('Eksemplar.label.action') ?></th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="description"><?= lang('Sirkulasi.field.description') ?> </label>
@@ -285,9 +306,6 @@ $request->uri->setSilent();
     </div>
 </div>
 
-                                <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);" class="mb-2 mr-2 btn btn-pill btn-warning" title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-edit"></i> <?= lang('User.btn.profile.update') ?></a>
-                                <a data-toggle="modal" data-target="#modal_edit2" href="javascript:void(0);" class="mb-2 mr-2 btn btn-pill btn-warning" title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-edit"></i> <?= lang('User.btn.profile.update') ?></a>
-                                <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class="mb-2 mr-2 btn btn-pill btn-warning" title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-edit"></i> 123</a>
 
 
 
@@ -295,8 +313,8 @@ $request->uri->setSilent();
 
 <?= $this->section('script'); ?>
 
-<?= $this->include('Sirkulasi\Views\peminjaman\update_modal'); ?>
-<?= $this->include('Sirkulasi\Views\peminjaman\upload_modal'); ?>
+<?= $this->include('Sirkulasi\Views\peminjaman\pilih_eksemplar'); ?>
+<?= $this->include('Sirkulasi\Views\peminjaman\pilih_anggota'); ?>
 
 <script>
 $('#modal_create').on('shown.bs.modal', function() {

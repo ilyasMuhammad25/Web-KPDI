@@ -1,14 +1,14 @@
-<?php
+<!-- <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
 $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_anggota');
-$anggotas = $baseModel
-    ->find_all('name', 'asc');
+$baseModel->setTable('t_eksemplar');
+$eksemplars = $baseModel
+    ->find_all('NomorBarcode','desc');
     // dd($katalog);
-?>
+?> -->
 
-<div class="modal fade" id="modal_create" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modal_eksemplar" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -34,35 +34,41 @@ $anggotas = $baseModel
         </div>
         <div class="card-body table-responsive">
             <?=get_message('message');?>
-            <table style="width: 100%;" id="modal_anggota" class="table table-hover table-striped table-bordered">
+            <table style="width: 100%;" id="tbl_eksemplars" class="table table-hover table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th><?=lang('Anggota.field.no')?> </th>
-                        <th><?=lang('Anggota.field.name')?></th>
-                        <th><?=lang('Anggota.field.MemberNo')?></th>
-                        <th><?=lang('Anggota.field.Email')?></th>
-                        <th><?=lang('Anggota.label.action')?></th>
+                        <th><?= lang('Eksemplar.field.no') ?> </th>
+                        <th><?= lang('Eksemplar.field.Barcode') ?></th>
+                        <th><?= lang('Eksemplar.field.Tanggalpengadaan') ?></th>
+                        <th><?= lang('Eksemplar.field.induk') ?></th>
+                        <th><?= lang('Eksemplar.field.bibliografis') ?></th>
+                        <th><?= lang('Eksemplar.label.action') ?></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($anggotas as $row): ?>
-                    <tr>
-
-                        <td width="35"></td>
-                        
-                        <td width="200">
-                            <?=_spec($row->name);?> <br>
-                        </td>
-                        <td><?=_spec($row->MemberNo);?></td>
-                        <td><?=_spec($row->Email);?></td>
-                      
-                       
-                        <td width="35">
-                            <button type="button" data-id= <?= _spec($row->id); ?> data-no_anggota= "<?= _spec($row->MemberNo); ?>" data-name="<?= _spec($row->name); ?>" class="btn btn-primary btn-pilih">Pilih</button>
+                    
+                    <?php $i = 1; foreach ($eksemplars as $row) : ?>
+                        <tr>
+                            <td width="35"><?= $i++; ?></td>
+                         
+                            <td width="200">
+                                <?= _spec($row->NomorBarcode); ?> <br>
                             </td>
-
-                    </tr>
-                    <?php endforeach;?>
+                            <td width="200">
+                                <?= _spec($row->TanggalPengadaan); ?> <br>
+                            </td>
+                            <td width="200">
+                                <?= _spec($row->NoInduk); ?> <br>
+                            </td>
+                         
+                         
+                         
+                            <td width="35">
+                            <button type="button" data-id= <?= _spec($row->id); ?>  class="btn btn-primary btn-pilih">Pilih</button>
+                            </td>
+                          
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -117,7 +123,7 @@ $anggotas = $baseModel
         return false;
     });
 
-    $('#modal_create').on('hidden.bs.modal', function() {
+    $('#exampleModal').on('hidden.bs.modal', function() {
         $(this).find('form').trigger('reset');
         $('#frm_create_message').html('');
     });
