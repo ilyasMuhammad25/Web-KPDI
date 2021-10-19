@@ -44,7 +44,26 @@ $anggotas = $baseModel
                         <th><?=lang('Anggota.label.action')?></th>
                     </tr>
                 </thead>
-                
+                <tbody>
+                    <?php foreach ($anggotas as $row): ?>
+                    <tr>
+
+                        <td width="35"></td>
+                        
+                        <td width="200">
+                            <?=_spec($row->name);?> <br>
+                        </td>
+                        <td><?=_spec($row->MemberNo);?></td>
+                        <td><?=_spec($row->Email);?></td>
+                      
+                       
+                        <td width="35">
+                            <button type="button" data-id= <?= _spec($row->id); ?> data-no_anggota= "<?= _spec($row->MemberNo); ?>" data-name="<?= _spec($row->name); ?>" class="btn btn-primary btn-pilih">Pilih</button>
+                            </td>
+
+                    </tr>
+                    <?php endforeach;?>
+                </tbody>
             </table>
         </div>
     </div>
@@ -52,6 +71,51 @@ $anggotas = $baseModel
 
 <script>
 
+
+
+    $('#frm_create2').submit(function(event) {
+        event.preventDefault();
+        var data_post = $(this).serializeArray();
+
+        $('.loading').show();
+
+        $.ajax({
+                url: '<?= base_url('api/user/create') ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: data_post,
+            })
+            .done(function(res) {
+                console.log(res)
+                if (res.status === 201) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: '<?= lang('User.info.success.create') ?>',
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    setTimeout(function() {
+                        window.location.href = '<?= base_url('user') ?>';
+                    }, 2000);
+                } else {
+                    $('#frm_create_message').html(res.messages.error);
+                }
+            })
+            .fail(function(res) {
+                console.log(res);
+                $('#frm_create_message').html(res.responseJSON.messages.error);
+            })
+            .always(function() {
+                $('.loading').hide();
+                $('html, body').animate({
+                    scrollTop: $(document).height()
+                }, 2000);
+            });
+
+        return false;
+    });
 
     $('#modal_create').on('hidden.bs.modal', function() {
         $(this).find('form').trigger('reset');

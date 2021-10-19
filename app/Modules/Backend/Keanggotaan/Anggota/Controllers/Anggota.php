@@ -18,14 +18,14 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $uploadPath;
     protected $modulePath;
     protected $baseModel;
-    protected $request;
+    
     
     function __construct()
     {
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
         $this->request 		= Services::request();
-        $this->anggotaModel = new \Anggota\Models\AnggotaModel($this->request);
+        $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         // $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         
 
