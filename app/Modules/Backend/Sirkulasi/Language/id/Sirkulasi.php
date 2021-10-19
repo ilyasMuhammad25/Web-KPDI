@@ -10,6 +10,7 @@ return [
    'field.barcode' => 'No Barcode',
    'field.status' => 'Status',
    'field.judul' => 'Judul',
+   'field.penerbitan' => 'Penerbitan',
    'field.id' => 'ID',
    'field.name' => 'Nama',
    'field.slug' => 'Slug',
