@@ -302,6 +302,15 @@ if (!function_exists('pd')) {
     }
 }
 
+if (!function_exists('jd')) {
+    function jd($object)
+    {
+        echo json_encode($object);
+        die();
+        return true;
+    }
+}
+
 /**
  * ---------------
  * Global Helper

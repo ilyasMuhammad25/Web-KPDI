@@ -4,14 +4,14 @@ namespace Katalog\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class KatalogSeeder extends Seeder
+class KatalogRDASeeder extends Seeder
 {
 	public function run()
 	{
 		// $this->db->query("SET FOREIGN_KEY_CHECKS=0;");
 
         // // Katalog
-        // $this->db->table('t_katalog')->truncate();
+        // $this->db->table('t_catalog')->truncate();
         // $katalog_data = [
         //     [
         //         'name' => 'Test 1',
@@ -26,7 +26,7 @@ class KatalogSeeder extends Seeder
         //         'description' => '',
         //     ],
         // ];
-        // $this->db->table('t_katalog')->insertBatch($katalog_data);
+        // $this->db->table('t_catalog')->insertBatch($katalog_data);
 		// $this->db->query("SET FOREIGN_KEY_CHECKS=0;");
 	}
 }

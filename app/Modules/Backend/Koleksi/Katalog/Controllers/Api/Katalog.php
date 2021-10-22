@@ -4,7 +4,7 @@ namespace Katalog\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\KatalogModel;
+use App\Models\KatalogRDAModel;
 use CodeIgniter\Files\File;
 
 class Katalog extends ResourceController
@@ -19,7 +19,7 @@ class Katalog extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->katalogModel = new \Katalog\Models\KatalogModel();
+		$this->katalogModel = new Katalog\Models\KatalogRDAModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
 		$this->modulePath = ROOTPATH . 'public/uploads/katalog/';
@@ -76,8 +76,8 @@ class Katalog extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$newKatalogId = $this->katalogModel->insert($save_data);
-			if ($newKatalogId) {
+			$newKatalogRDAId = $this->katalogModel->insert($save_data);
+			if ($newKatalogRDAId) {
 				$this->session->setFlashdata('toastr_msg', lang('Katalog.info.successfully_saved'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
@@ -124,7 +124,7 @@ class Katalog extends ResourceController
 
 			$katalogUpdate = $this->katalogModel->update($id, $update_data);
 			if ($katalogUpdate) {
-				add_log('Ubah Katalog', 'katalog', 'edit', 't_katalog', $id);
+				add_log('Ubah Katalog', 'katalog', 'edit', 't_catalog', $id);
 				$this->session->setFlashdata('toastr_msg', lang('Katalog.info.successfully_updated'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
@@ -155,7 +155,7 @@ class Katalog extends ResourceController
 		$data = $this->katalogModel->find($id);
 		if ($data) {
 			$this->katalogModel->delete($id);
-			add_log('Hapus Katalog', 'katalog', 'delete', 't_katalog', $id);
+			add_log('Hapus Katalog', 'katalog', 'delete', 't_catalog', $id);
 			$response = [
 				'status'   => 200,
 				'error'    => null,

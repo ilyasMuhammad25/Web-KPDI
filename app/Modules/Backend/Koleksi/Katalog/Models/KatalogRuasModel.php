@@ -2,9 +2,9 @@
 
 namespace Katalog\Models;
 
-class KatalogModel extends \hamkamannan\adminigniter\Models\BaseModel
+class KatalogRuasModel extends \hamkamannan\adminigniter\Models\BaseModel
 {
-    protected $table      			= 't_catalog';
+    protected $table      			= 't_catalog_ruas';
     protected $primaryKey 			= 'id';
     protected $returnType     		= 'object';
     protected $useSoftDeletes 		= false;

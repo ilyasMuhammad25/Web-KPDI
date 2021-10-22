@@ -1,7 +1,7 @@
 <?php
 
 return [
-   'module' => 'Katalog ',
+   'module' => 'Katalog RDA',
 
    'form.complete_the_data' => 'Mohon lengkapi data pada form berikut',
 
