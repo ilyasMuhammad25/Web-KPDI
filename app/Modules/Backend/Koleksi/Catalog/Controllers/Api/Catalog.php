@@ -1,16 +1,16 @@
 <?php
 
-namespace Katalog\Controllers\Api;
+namespace Catalog\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\KatalogRDAModel;
+use App\Models\CatalogRDAModel;
 use CodeIgniter\Files\File;
 
-class Katalog extends ResourceController
+class Catalog extends ResourceController
 {
 	use ResponseTrait;
-	protected $katalogModel;
+	protected $catalogModel;
 	protected $validation;
 	protected $session;
 	protected $modulePath;
@@ -19,10 +19,11 @@ class Katalog extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->katalogModel = new Katalog\Models\KatalogRDAModel();
+		$this->catalogModel = new \Catalog\Models\CatalogModel();
+		$this->catalogRuasModel = new \Catalog\Models\CatalogRuasModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
-		$this->modulePath = ROOTPATH . 'public/uploads/katalog/';
+		$this->modulePath = ROOTPATH . 'public/uploads/catalog/';
 		$this->uploadPath = WRITEPATH . 'uploads/';
 
 		if (!file_exists($this->modulePath)) {
@@ -32,25 +33,25 @@ class Katalog extends ResourceController
 
 	public function index()
 	{
-		if (!is_allowed('katalog/access')) {
+		if (!is_allowed('catalog/access')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->katalogModel->findAll();
+		$data = $this->catalogModel->findAll();
 		return $this->respond($data, 200);
 	}
 
 	public function detail($id = null)
 	{
-		if (!is_allowed('katalog/read')) {
+		if (!is_allowed('catalog/read')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->katalogModel->find($id);
+		$data = $this->catalogModel->find($id);
 		if ($data) {
 			return $this->respond($data);
 		} else {
@@ -60,7 +61,7 @@ class Katalog extends ResourceController
 
 	public function create()
 	{
-		if (!is_allowed('katalog/create')) {
+		if (!is_allowed('catalog/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
@@ -76,15 +77,15 @@ class Katalog extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$newKatalogRDAId = $this->katalogModel->insert($save_data);
-			if ($newKatalogRDAId) {
-				$this->session->setFlashdata('toastr_msg', lang('Katalog.info.successfully_saved'));
+			$newCatalogRDAId = $this->catalogModel->insert($save_data);
+			if ($newCatalogRDAId) {
+				$this->session->setFlashdata('toastr_msg', lang('Catalog.info.successfully_saved'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
 					'status'   => 201,
 					'error'    => null,
 					'messages' => [
-						'success' => lang('Katalog.info.successfully_saved')
+						'success' => lang('Catalog.info.successfully_saved')
 					]
 				];
 				return $this->respondCreated($response);
@@ -93,7 +94,7 @@ class Katalog extends ResourceController
 					'status'   => 400,
 					'error'    => null,
 					'messages' => [
-						'error' =>  lang('Katalog.info.failed_saved')
+						'error' =>  lang('Catalog.info.failed_saved')
 					]
 				];
 				return $this->fail($response);
@@ -106,7 +107,7 @@ class Katalog extends ResourceController
 
 	public function edit($id = null)
 	{
-		if (!is_allowed('katalog/update')) {
+		if (!is_allowed('catalog/update')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
@@ -122,21 +123,21 @@ class Katalog extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$katalogUpdate = $this->katalogModel->update($id, $update_data);
-			if ($katalogUpdate) {
-				add_log('Ubah Katalog', 'katalog', 'edit', 't_catalog', $id);
-				$this->session->setFlashdata('toastr_msg', lang('Katalog.info.successfully_updated'));
+			$CatalogUpdate = $this->catalogModel->update($id, $update_data);
+			if ($CatalogUpdate) {
+				add_log('Ubah Catalog', 'Catalog', 'edit', 't_Catalog', $id);
+				$this->session->setFlashdata('toastr_msg', lang('Catalog.info.successfully_updated'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
 					'status'   => 201,
 					'error'    => null,
 					'messages' => [
-						'success' => lang('Katalog.info.successfully_updated')
+						'success' => lang('Catalog.info.successfully_updated')
 					]
 				];
 				return $this->respond($response);
 			} else {
-				return $this->fail('<div class="alert alert-danger fade show" role="alert">'.lang('Katalog.info.failed_updated').'</div>', 400);
+				return $this->fail('<div class="alert alert-danger fade show" role="alert">'.lang('Catalog.info.failed_updated').'</div>', 400);
 			}
 		} else {
 			$message = $this->validation->listErrors();
@@ -146,26 +147,26 @@ class Katalog extends ResourceController
 
 	public function delete($id = null)
 	{
-		if (!is_allowed('katalog/delete')) {
+		if (!is_allowed('catalog/delete')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->katalogModel->find($id);
+		$data = $this->catalogModel->find($id);
 		if ($data) {
-			$this->katalogModel->delete($id);
-			add_log('Hapus Katalog', 'katalog', 'delete', 't_catalog', $id);
+			$this->catalogModel->delete($id);
+			add_log('Hapus Catalog', 'Catalog', 'delete', 't_Catalog', $id);
 			$response = [
 				'status'   => 200,
 				'error'    => null,
 				'messages' => [
-					'success' => lang('Katalog.info.successfully_deleted')
+					'success' => lang('Catalog.info.successfully_deleted')
 				]
 			];
 			return $this->respondDeleted($response);
 		} else {
-			return $this->failNotFound(lang('Katalog.info.not_found').' ID:' . $id);
+			return $this->failNotFound(lang('Catalog.info.not_found').' ID:' . $id);
 		}
 	}
 }

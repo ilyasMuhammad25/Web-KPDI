@@ -1,14 +1,14 @@
 <?php
 
-namespace Katalog\Controllers;
+namespace Catalog\Controllers;
 
 use \CodeIgniter\Files\File;
 
-class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
+class Catalog extends \hamkamannan\adminigniter\Controllers\BaseController
 {
     protected $auth;
     protected $authorize;
-    protected $katalogModel;
+    protected $catalogModel;
     protected $uploadPath;
     protected $modulePath;
     
@@ -17,10 +17,10 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
         
-        $this->katalogModel = new \Katalog\Models\KatalogModel();
-        $this->katalogRuasModel = new \Katalog\Models\KatalogRuasModel();
+        $this->catalogModel = new \Catalog\Models\CatalogModel();
+        $this->catalogRuasModel = new \Catalog\Models\CatalogRuasModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
-        $this->modulePath = ROOTPATH . 'public/uploads/katalog/';
+        $this->modulePath = ROOTPATH . 'public/uploads/catalog/';
         
         if (!file_exists($this->uploadPath)) {
             mkdir($this->uploadPath);
@@ -42,40 +42,40 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		helper('adminigniter');
 		helper('reference');
-		helper('katalog');
+		helper('catalog');
     }
     public function index()
     {
-        if (!is_allowed('katalog/access')) {
+        if (!is_allowed('catalog/access')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
 
-        $query = $this->katalogModel
-            ->select('t_catalog.*')
+        $query = $this->catalogModel
+            ->select('t_Catalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_catalog.created_by','left')
-            ->join('users updated','updated.id = t_catalog.updated_by','left');
+            ->join('users created','created.id = t_Catalog.created_by','left')
+            ->join('users updated','updated.id = t_Catalog.updated_by','left');
             
-        $katalogs = $query->findAll();
+        $Catalogs = $query->findAll();
 
-        $this->data['title'] = 'Katalog';
+        $this->data['title'] = 'Catalog';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['katalogs'] = $katalogs;
-        echo view('Katalog\Views\list', $this->data);
+        $this->data['Catalogs'] = $Catalogs;
+        echo view('Catalog\Views\list', $this->data);
     }
 
     public function create()
     {
-        if (!is_allowed('katalog/create')) {
+        if (!is_allowed('catalog/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
 
-        $this->data['title'] = 'Tambah Katalog';
+        $this->data['title'] = 'Tambah Catalog';
 
 		$this->validation->setRule('name', 'Nama', 'trim');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
@@ -117,8 +117,8 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 			];
 
 			// jd($save_data);
-			$newKatalogRDAId = $this->katalogModel->insert($save_data);
-			if ($newKatalogRDAId) {
+			$newCatalogId = $this->catalogModel->insert($save_data);
+			if ($newCatalogId) {
 				$post['ControlNumber'] = $controlNumber;
 				$post['BIBID'] = $bibid;
 				$post['005'] = '$a ' . date('YmdHis');
@@ -128,13 +128,13 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					'tag'           => '008',
 					'indicator1'    => null,
 					'indicator2'    => null,
-					'catalog_id' 	=> $newKatalogRDAId,
+					'catalog_id' 	=> $newCatalogId,
 					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target-group'], 11, '#') . str_pad($post['paper-form'], 2, '#') . str_pad($post['opt-language'], 5, '#')
 				];
 				array_push($save_data_ruas, $tag008);
 
 				foreach ($post as $key => $value) :
-					$column = getRuas($key,$value, $newKatalogRDAId);
+					$column = getRuas($key,$value, $newCatalogId);
 					if(!empty($column)){
 						array_push($save_data_ruas, $column);
 					}
@@ -142,40 +142,40 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
 				// jd($save_data_ruas);
 				if(!empty($save_data_ruas)){
-					$this->katalogRuasModel->insertBatch($save_data_ruas);
+					$this->catalogRuasModel->insertBatch($save_data_ruas);
 				}
 
-				add_log('Tambah Katalog', 'katalog', 'create', 't_catalog', $newKatalogRDAId);
-				set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
+				add_log('Tambah Catalog', 'Catalog', 'create', 't_Catalog', $newCatalogId);
+				set_message('toastr_msg', lang('Catalog.info.successfully_saved'));
 				set_message('toastr_type', 'success');
 
 				$response = [
 					'status'   => 200,
 					'error'    => null,
 					'messages' => [
-						'success' =>  lang('Katalog.info.successfully_saved')
+						'success' =>  lang('Catalog.info.successfully_saved')
 					]
 				];
 				return json_encode($response);
 			} 
         } else {
-            $this->data['redirect'] = base_url('katalog/create');
+            $this->data['redirect'] = base_url('catalog/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-            echo view('Katalog\Views\add', $this->data);
+            echo view('Catalog\Views\add', $this->data);
         }
     }
 
     public function edit(int $id = null)
     {
-        if (!is_allowed('katalog/update')) {
+        if (!is_allowed('catalog/update')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
 
-        $this->data['title'] = 'Ubah Katalog';
-        $katalog = $this->katalogModel->find($id);
-        $this->data['katalog'] = $katalog;
+        $this->data['title'] = 'Ubah Catalog';
+        $Catalog = $this->catalogModel->find($id);
+        $this->data['Catalog'] = $Catalog;
 
 		$this->validation->setRule('name', 'Nama', 'required');
         if ($this->request->getPost()) {
@@ -189,30 +189,30 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                     'updated_by' => user_id(),
                 ];
 
-                $katalogUpdate = $this->katalogModel->update($id, $update_data);
+                $CatalogUpdate = $this->catalogModel->update($id, $update_data);
 
-                if ($katalogUpdate) {
-                    add_log('Ubah Katalog', 'katalog', 'edit', 't_catalog', $id);
-                    set_message('toastr_msg', 'Katalog berhasil diubah');
+                if ($CatalogUpdate) {
+                    add_log('Ubah Catalog', 'Catalog', 'edit', 't_Catalog', $id);
+                    set_message('toastr_msg', 'Catalog berhasil diubah');
                     set_message('toastr_type', 'success');
-                    return redirect()->to('/katalog');
+                    return redirect()->to('/Catalog');
                 } else {
-                    set_message('toastr_msg', 'Katalog gagal diubah');
+                    set_message('toastr_msg', 'Catalog gagal diubah');
                     set_message('toastr_type', 'warning');
-                    set_message('message', 'Katalog gagal diubah');
-                    return redirect()->to('/katalog/edit/' . $id);
+                    set_message('message', 'Catalog gagal diubah');
+                    return redirect()->to('/catalog/edit/' . $id);
                 }
             }
         }
 
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['redirect'] = base_url('katalog/edit/' . $id);
-        echo view('Katalog\Views\update', $this->data);
+        $this->data['redirect'] = base_url('catalog/edit/' . $id);
+        echo view('Catalog\Views\update', $this->data);
     }
 
     public function delete(int $id = 0)
     {
-        if (!is_allowed('katalog/delete')) {
+        if (!is_allowed('catalog/delete')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
@@ -221,19 +221,19 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         if (!$id) {
             set_message('toastr_msg', 'Sorry you have to provide parameter (id)');
             set_message('toastr_type', 'error');
-            return redirect()->to('/katalog');
+            return redirect()->to('/Catalog');
         }
-        $katalogDelete = $this->katalogModel->delete($id);
-        if ($katalogDelete) {
-            add_log('Hapus Katalog', 'katalog', 'delete', 't_catalog', $id);
-            set_message('toastr_msg', lang('Katalog.info.successfully_deleted'));
+        $CatalogDelete = $this->catalogModel->delete($id);
+        if ($CatalogDelete) {
+            add_log('Hapus Catalog', 'Catalog', 'delete', 't_Catalog', $id);
+            set_message('toastr_msg', lang('Catalog.info.successfully_deleted'));
             set_message('toastr_type', 'success');
-            return redirect()->to('/katalog');
+            return redirect()->to('/Catalog');
         } else {
-            set_message('toastr_msg', lang('Katalog.info.failed_deleted'));
+            set_message('toastr_msg', lang('Catalog.info.failed_deleted'));
             set_message('toastr_type', 'warning');
-            set_message('message', lang('Katalog.info.failed_deleted'));
-            return redirect()->to('/katalog/delete/' . $id);
+            set_message('message', lang('Catalog.info.failed_deleted'));
+            return redirect()->to('/catalog/delete/' . $id);
         }
     }
 
@@ -242,16 +242,16 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         $field = $this->request->getVar('field');
         $value = $this->request->getVar('value');
 
-        $katalogUpdate = $this->katalogModel->update($id, array($field => $value));
+        $CatalogUpdate = $this->catalogModel->update($id, array($field => $value));
 
-        if ($katalogUpdate) {
-            set_message('toastr_msg', ' Katalog berhasil diubah');
+        if ($CatalogUpdate) {
+            set_message('toastr_msg', ' Catalog berhasil diubah');
             set_message('toastr_type', 'success');
         } else {
-            set_message('toastr_msg', ' Katalog gagal diubah');
+            set_message('toastr_msg', ' Catalog gagal diubah');
             set_message('toastr_type', 'warning');
         }
-        return redirect()->to('/katalog');
+        return redirect()->to('/Catalog');
     }
 
 	public function ajax_create()
@@ -295,8 +295,8 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             ];
 
 			// jd($save_data);
-            $newKatalogRDAId = $this->katalogModel->insert($save_data);
-            if ($newKatalogRDAId) {
+            $newCatalogId = $this->catalogModel->insert($save_data);
+            if ($newCatalogId) {
                 $post['ControlNumber'] = $controlNumber;
                 $post['BIBID'] = $bibid;
                 $post['005'] = '$a ' . date('YmdHis');
@@ -306,13 +306,13 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					'tag'           => '008',
 					'indicator1'    => null,
 					'indicator2'    => null,
-					'catalog_id' 	=> $newKatalogRDAId,
+					'Catalog_id' 	=> $newCatalogId,
 					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target-group'], 11, '#') . str_pad($post['paper-form'], 2, '#') . str_pad($post['opt-language'], 5, '#')
 				];
 				array_push($save_data_ruas, $tag008);
 
 				foreach ($post as $key => $value) :
-					$column = getRuas($key,$value, $newKatalogRDAId);
+					$column = getRuas($key,$value, $newCatalogId);
 					if(!empty($column)){
 						array_push($save_data_ruas, $column);
 					}
@@ -320,18 +320,18 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
 				// jd($save_data_ruas);
 				if(!empty($save_data_ruas)){
-					$this->katalogRuasModel->insertBatch($save_data_ruas);
+					$this->catalogRuasModel->insertBatch($save_data_ruas);
 				}
 
 				return json_encode($save_data_ruas);
 
-                // add_log('Tambah Katalog', 'katalog', 'create', 't_catalog', $newKatalogRDAId);
-                // set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
+                // add_log('Tambah Catalog', 'Catalog', 'create', 't_Catalog', $newCatalogId);
+                // set_message('toastr_msg', lang('Catalog.info.successfully_saved'));
                 // set_message('toastr_type', 'success');
-                // return redirect()->to('/katalog');
+                // return redirect()->to('/Catalog');
             } else {
-                set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Katalog.info.failed_saved'));
-                echo view('Katalog\Views\add', $this->data);
+                set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Catalog.info.failed_saved'));
+                echo view('Catalog\Views\add', $this->data);
             }
         endif;
     }

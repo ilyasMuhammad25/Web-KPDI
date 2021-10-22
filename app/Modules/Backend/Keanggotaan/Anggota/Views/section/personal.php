@@ -647,6 +647,7 @@
  <input type=button value="Save Snapshot" onClick="saveSnap()">
   
  <div id="results" ></div>
+ <input type="hidden" name="camera_image" id="camera_image" value="">
                             </div>
                         </div>
                     </div>

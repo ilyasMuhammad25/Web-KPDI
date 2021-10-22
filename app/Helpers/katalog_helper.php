@@ -284,7 +284,7 @@ if (!function_exists('ControlNumber')) {
         //get last control number
         if (!empty($id)) {
             $row = getData([
-                'table'     => 't_catalog_ruas',
+                'table'     => 't_katalog_ruas',
                 'select'    => "Value` AS max",
                 'where'     => [
                     ['field' => 'Catalogid', 'value' => $id],
@@ -295,7 +295,7 @@ if (!function_exists('ControlNumber')) {
             $newControlNumber =  substr($row, 3);
         } else {
             $row = getData([
-                'table'     => 't_catalog',
+                'table'     => 't_katalog',
                 'select'    => 'MAX(REPLACE(ControlNumber,"INLIS", "")) AS max',
                 'like'      => ['ControlNumber' => 'INLIS0']
             ])->getRowArray()['max'];
@@ -316,7 +316,7 @@ if (!function_exists('BIBID')) {
     {
         if (!empty($id)) {
             $row = getData([
-                'table'     => 't_catalog_ruas',
+                'table'     => 't_katalog_ruas',
                 'select' => 'value AS max',
                 'where'  => [
                     ['field' => 'catalog_id', 'value' => $id],
@@ -328,7 +328,7 @@ if (!function_exists('BIBID')) {
         } else {
             $yearMonth =  date('my');
             $row = getData([
-                'table'     => 't_catalog',
+                'table'     => 't_katalog',
                 'select'    => "SUBSTR(MAX(BIBID),'0010-$yearMonth') AS max",
                 'like'      => ['BIBID' => "0010-$yearMonth"],
                 'where'     =>

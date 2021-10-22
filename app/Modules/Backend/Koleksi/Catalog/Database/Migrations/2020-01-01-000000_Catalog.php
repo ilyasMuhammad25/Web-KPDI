@@ -1,10 +1,10 @@
 <?php
 
-namespace Katalog\Database\Migrations;
+namespace Catalog\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Katalog extends Migration
+class Catalog extends Migration
 {
 	public function up()
 	{

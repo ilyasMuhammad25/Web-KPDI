@@ -69,7 +69,7 @@ $(document).ready(function() {
         console.log(dataform);
 
         ajax = notformxhr({
-            url: "/katalog/partial",
+            url: "/catalog/partial",
             data: dataform,
         }).done(function(response) {
             setTimeout(() => {
@@ -612,8 +612,8 @@ $(document).ready(function() {
     formapp.on("submit", (e) => {
         e.preventDefault();
 
-		var url = "<?= base_url('katalog/create') ?>";
-		var redirect = "<?= base_url('katalog') ?>";
+		var url = "<?= base_url('catalog/create') ?>";
+		var redirect = "<?= base_url('Catalog') ?>";
         var data_post = new FormData(formapp[0]);
 		console.log(data_post);
 
@@ -629,7 +629,7 @@ $(document).ready(function() {
 			console.log(res)
 			Swal.fire({
 				title: 'Success',
-				text: 'Katalog berhasil disimpan',
+				text: 'Catalog berhasil disimpan',
 				type: 'success',
 				showConfirmButton: false,
 				timer: 3000

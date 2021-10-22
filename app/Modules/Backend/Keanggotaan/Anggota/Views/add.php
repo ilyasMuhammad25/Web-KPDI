@@ -113,8 +113,8 @@ $('.select2').select2();
     //  snapshot dan mendapatkan data gambar
     Webcam.snap( function(data_uri) {
        // display results in page
-       document.getElementById('results').innerHTML = 
-           '<img id="imageprev" src="'+data_uri+'"/>';
+       document.getElementById('results').innerHTML = '<img id="imageprev" src="'+data_uri+'"/>';
+	   $('#camera_image').val(data_uri);
      } );
  
      Webcam.reset();
@@ -128,7 +128,7 @@ function saveSnap(){
         console.log('Save successfully');
        //console.log(text);
    });
- 
+
 }
 </script>
 <?=$this->endSection('script');?>

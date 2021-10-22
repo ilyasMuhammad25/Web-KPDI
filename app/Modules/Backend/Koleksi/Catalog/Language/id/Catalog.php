@@ -1,7 +1,7 @@
 <?php
 
 return [
-   'module' => 'Katalog RDA',
+   'module' => 'Katalog',
 
    'form.complete_the_data' => 'Mohon lengkapi data pada form berikut',
 
@@ -30,14 +30,14 @@ return [
    'info.list_all' => 'Daftar Semua',
    'info.not_found' => 'Tidak ditemukan',
    'info.success' => 'Berhasil',
-   'info.successfully_saved' => 'Katalog berhasil disimpan',
-   'info.successfully_deleted' => 'Katalog berhasil dihapus',
-   'info.successfully_updated' => 'Katalog berhasil diubah',
+   'info.successfully_saved' => 'Catalog berhasil disimpan',
+   'info.successfully_deleted' => 'Catalog berhasil dihapus',
+   'info.successfully_updated' => 'Catalog berhasil diubah',
    'info.error' => 'Error',
    'info.failed' => 'Gagal',
-   'info.failed_to_save' => 'Katalog gagal disimpan',
-   'info.failed_to_delete' => 'Katalog gagal dihapus',
-   'info.failed_to_update' => 'Katalog gagal diubah',
+   'info.failed_to_save' => 'Catalog gagal disimpan',
+   'info.failed_to_delete' => 'Catalog gagal dihapus',
+   'info.failed_to_update' => 'Catalog gagal diubah',
    'info.warning' => 'Peringatan',
    'info.are_you_sure' => 'Anda yakin ?',
    'info.can_not_be_restored' => 'Tidak bisa dikembalikan',

@@ -1,10 +1,10 @@
 <?php
 
-namespace Katalog\Models;
+namespace Catalog\Models;
 
-class KatalogModel extends \hamkamannan\adminigniter\Models\BaseModel
+class CatalogRuasModel extends \hamkamannan\adminigniter\Models\BaseModel
 {
-    protected $table      			= 't_catalog';
+    protected $table      			= 't_catalog_ruas';
     protected $primaryKey 			= 'id';
     protected $returnType     		= 'object';
     protected $useSoftDeletes 		= false;

@@ -10,15 +10,15 @@
 					<i class="pe-7s-notebook icon-gradient bg-strong-bliss"></i>
 				</div>
 				<div>
-					<?= lang('Katalog.module') ?> 
-					<div class="page-title-subheading"><?= lang('Katalog.info.list_all') ?>  <?= lang('Katalog.module') ?> </div>
+					<?= lang('Catalog.module') ?> 
+					<div class="page-title-subheading"><?= lang('Catalog.info.list_all') ?>  <?= lang('Catalog.module') ?> </div>
 				</div>
 			</div>
 			<div class="page-title-actions">
 				<nav class="" aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?= base_url('katalog') ?>"><i class="fa fa-home"></i> <?= lang('Katalog.label.home') ?></a></li>
-						<li class="active breadcrumb-item" aria-current="page"><?= lang('Katalog.module') ?> </li>
+						<li class="breadcrumb-item"><a href="<?= base_url('Catalog') ?>"><i class="fa fa-home"></i> <?= lang('Catalog.label.home') ?></a></li>
+						<li class="active breadcrumb-item" aria-current="page"><?= lang('Catalog.module') ?> </li>
 					</ol>
 				</nav>
 			</div>
@@ -26,30 +26,30 @@
 	</div>
 	<div class="main-card mb-3 card">
 		<div class="card-header">
-			<i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Katalog.label.table') ?> <?= lang('Katalog.module') ?> 
+			<i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Catalog.label.table') ?> <?= lang('Catalog.module') ?> 
 			<div class="btn-actions-pane-right actions-icon-btn">
-				<?php if(is_allowed('katalog/create')):?>
-				<a href="<?= base_url('katalog/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> </a>
+				<?php if(is_allowed('catalog/create')):?>
+				<a href="<?= base_url('catalog/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Catalog.action.add') ?> <?= lang('Catalog.module') ?> </a>
 				<?php endif;?>
 			</div>
 		</div>
 		<div class="card-body">
 			<?= get_message('message'); ?>
-			<table style="width: 100%;" id="tbl_katalogs" class="table table-hover table-striped table-bordered">
+			<table style="width: 100%;" id="tbl_Catalogs" class="table table-hover table-striped table-bordered">
 				<thead>
 					<tr>
-						<th><?= lang('Katalog.field.no') ?> </th>
+						<th><?= lang('Catalog.field.no') ?> </th>
 						<th>BIBID</th>
 						<th>Judul</th>
 						<th>Pengarang</th>
-						<th><?= lang('Katalog.field.active') ?></th>
-						<th><?= lang('Katalog.field.created_by') ?></th>
-						<th><?= lang('Katalog.field.updated_by') ?></th>
-						<th><?= lang('Katalog.label.action') ?></th>
+						<th><?= lang('Catalog.field.active') ?></th>
+						<th><?= lang('Catalog.field.created_by') ?></th>
+						<th><?= lang('Catalog.field.updated_by') ?></th>
+						<th><?= lang('Catalog.label.action') ?></th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($katalogs as $row) : ?>
+					<?php foreach ($Catalogs as $row) : ?>
 					<tr>
 						<td width="35"></td>
 						<td width="150">
@@ -58,7 +58,7 @@
 						<td><?= _spec($row->Title); ?></td>
 						<td width="250"><?= _spec($row->Author); ?></td>
 						<td width="50">
-							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="active" data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('catalog/apply_status'); ?>" data-field="active" data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
 						</td>
 						<td width="100">
 							<span class="badge badge-info"><?= _spec($row->created_at); ?></span><br>
@@ -69,14 +69,14 @@
 							<span class="badge badge-info"><?= _spec($row->updated_name ?? '-'); ?></span>
 						</td>
 						<td width="90">
-							<?php if(is_allowed('katalog/read')):?>
-							<!-- <a href="<?= base_url('katalog/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Katalog" class="btn btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
+							<?php if(is_allowed('catalog/read')):?>
+							<!-- <a href="<?= base_url('catalog/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Catalog" class="btn btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
 							<?php endif;?>
-							<?php if(is_allowed('katalog/update')):?>
-							<a href="<?= base_url('katalog/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Katalog RDA" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
+							<?php if(is_allowed('catalog/update')):?>
+							<a href="<?= base_url('catalog/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Catalog RDA" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
 							<?php endif;?>
-							<?php if(is_allowed('katalog/delete')):?>
-							<a href="javascript:void(0);" data-href="<?= base_url('katalog/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus Katalog RDA" class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
+							<?php if(is_allowed('catalog/delete')):?>
+							<a href="javascript:void(0);" data-href="<?= base_url('catalog/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus Catalog RDA" class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
 							<?php endif;?>
 						</td>
 					</tr>
@@ -89,7 +89,7 @@
 <?= $this->endSection('page'); ?>
 <?= $this->section('script'); ?>
 <script>
-	setDataTable('#tbl_katalogs', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
+	setDataTable('#tbl_catalogs', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
 	
 	$("body").on("click", ".remove-data", function() {
 	    var url = $(this).attr('data-href');

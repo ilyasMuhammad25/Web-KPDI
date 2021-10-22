@@ -1,18 +1,18 @@
 <?php
 
-namespace Katalog\Database\Seeds;
+namespace Catalog\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class KatalogRDASeeder extends Seeder
+class CatalogSeeder extends Seeder
 {
 	public function run()
 	{
 		// $this->db->query("SET FOREIGN_KEY_CHECKS=0;");
 
-        // // Katalog
-        // $this->db->table('t_catalog')->truncate();
-        // $katalog_data = [
+        // // Catalog
+        // $this->db->table('t_Catalog')->truncate();
+        // $Catalog_data = [
         //     [
         //         'name' => 'Test 1',
         //         'description' => '',
@@ -26,7 +26,7 @@ class KatalogRDASeeder extends Seeder
         //         'description' => '',
         //     ],
         // ];
-        // $this->db->table('t_catalog')->insertBatch($katalog_data);
+        // $this->db->table('t_Catalog')->insertBatch($Catalog_data);
 		// $this->db->query("SET FOREIGN_KEY_CHECKS=0;");
 	}
 }
