@@ -40,7 +40,7 @@ $request->uri->setSilent();
     <div class="main-card mb-3 card">
         <div class="card-header">
             <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form
-           Pengembalian
+            Pengembalian
         </div>
         <div class="card-body">
             <div id="infoMessage"><?= $message ?? ''; ?></div>
@@ -53,7 +53,7 @@ $request->uri->setSilent();
                         <div class="input-group">
                             <input type="hidden" name="t_anggota_id" id="t_anggota_id" value="">
                             <input type="text" name="jml_eksemplar" id="frm_create_MemberNo" class="form-control"
-                                placeholder="Masukan Nomor Anggota">
+                                placeholder="Masukan Nomor Barcode">
                             <div class="input-group-append">
                                 <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);"
                                     class="btn btn-primary" title="<?= lang('User.btn.profile.update') ?>"><i
@@ -250,11 +250,12 @@ $request->uri->setSilent();
                 </div>
 
 
-              
+
                 <div class="form-row">
-                <div class =" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #73b9d7; padding: 10px;
+                    <div class=" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #315644; padding: 10px;
                       color: #fff; text-shadow: 0 1px 2px #222; margin-bottom: 3px; border-radius: 5px;">
-                      <b>KOLEKSI YANG AKAN DIKEMBALIKAN</b></div>
+                        <b>KOLEKSI YANG AKAN DIKEMBALIKAN</b>
+                    </div>
                     <div class="card-body table-responsive">
                         <?=get_message('message');?>
                         <table style="width: 100%;" id="tbl_eksemplars"
@@ -274,10 +275,10 @@ $request->uri->setSilent();
                         </table>
                     </div>
                 </div>
-             
+
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary"
+                    <button type="submit" class="btn btn-primary" style="background-color: #315644;"
                         name="submit"><?= lang('Sirkulasi.action.save') ?></button>
                 </div>
             </form>

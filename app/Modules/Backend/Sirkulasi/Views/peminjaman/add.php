@@ -56,8 +56,9 @@ $request->uri->setSilent();
                                 placeholder="Nomor Anggota">
                             <div class="input-group-append">
                                 <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);"
-                                    class="btn btn-primary" title="<?= lang('User.btn.profile.update') ?>"><i
-                                        class="fa fa-user"></i> cari anggota</a>
+                                    style="background-color: #315644;" class="btn btn-primary"
+                                    title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-user"></i> cari
+                                    anggota</a>
                             </div>
                         </div>
                     </div>
@@ -260,15 +261,44 @@ $request->uri->setSilent();
                             <div class="input-group-append">
 
                                 <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);"
-                                    class="btn btn-primary" title="<?= lang('User.btn.profile.update') ?>"><i
-                                        class="fa fa-book"></i> Cari Eksemplar</a>
+                                    style="background-color: #315644;" class="btn btn-primary"
+                                    title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-book"></i> Cari
+                                    Eksemplar</a>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="form-row">
 
+                <div class="form-row">
+                    <div class=" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #315644; padding: 10px;
+                      color: #fff; text-shadow: 0 1px 2px #222; margin-bottom: 3px; border-radius: 5px;">
+                        <b>KERANJANG PEMINJAMAN</b>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <?=get_message('message');?>
+                        <table style="width: 100%;" id="tbl_eksemplars"
+                            class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><?= lang('Sirkulasi.field.no') ?> </th>
+                                    <th><?= lang('Sirkulasi.field.barcode') ?></th>
+                                    <th><?= lang('Sirkulasi.field.judul') ?></th>
+                                    <th><?= lang('Sirkulasi.field.penerbitan') ?></th>
+                                    <th>Tanggal Peminjaman</th>
+                                    <th>Jatuh Tempo</th>
+                                    <th><?= lang('Sirkulasi.label.action') ?></th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class=" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #315644; padding: 10px;
+                      color: #fff; text-shadow: 0 1px 2px #222; margin-bottom: 3px; border-radius: 5px;">
+                        <b>KOLEKSI YANG MASIH DIPINJAM</b>
+                    </div>
                     <div class="card-body table-responsive">
                         <?=get_message('message');?>
                         <table style="width: 100%;" id="tbl_eksemplars"
@@ -298,7 +328,7 @@ $request->uri->setSilent();
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary"
+                    <button type="submit" class="btn btn-primary" style="background-color: #315644;"
                         name="submit"><?= lang('Sirkulasi.action.save') ?></button>
                 </div>
             </form>
