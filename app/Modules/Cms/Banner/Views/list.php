@@ -65,7 +65,7 @@
                             <td width="35"></td>
 							<td width="100" style="vertical-align: bottom;">
 								<a href="<?=$image?>" class="image-link">
-									<img width="100" class="rounded" src="<?=$thumb?>" onerror="this.onerror=null;this.src='<?=$default?>';" alt="">
+									<img width="100" class="rounded" src="<?=$image?>" onerror="this.onerror=null;this.src='<?=$default?>';" alt="">
 								</a>
 								<a href="javascript:void(0);" data-title="Foto Cover" data-format-title="Format (JPG|PNG). Max 10MB" data-format=".jpg,.jpeg,.png" data-dropzone-url="" data-url="" data-redirect="<?= base_url('banner') ?>" data-id="<?=$row->id?>" data-field="file_image" data-title="" data-toggle="tooltip" data-placement="top"  title="Upload " class="btn btn-sm btn-block btn-secondary upload-data mt-1" style="min-width:35px"><small><i class="fa fa-upload"> </i> Upload</small></a>
                             </td>

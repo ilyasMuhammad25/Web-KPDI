@@ -40,6 +40,8 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 		} 
 
         helper(['form', 'url', 'auth', 'app', 'adminigniter','eksemplar_helper']);
+        helper('adminigniter');
+        helper('reference');
     }
     public function index()
     {

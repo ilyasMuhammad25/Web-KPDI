@@ -11,14 +11,14 @@ class Banner extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $bannerModel;
     protected $uploadPath;
     protected $modulePath;
-    protected $request;
+  
     function __construct()
     {
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
-        $this->request 		= Services::request();
-        $this->bannerModel = new \Banner\Models\BannerModel($this->request);
+       
+        $this->bannerModel = new \Banner\Models\BannerModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/banner/';
         

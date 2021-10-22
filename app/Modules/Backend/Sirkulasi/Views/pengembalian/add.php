@@ -55,9 +55,9 @@ $request->uri->setSilent();
                             <input type="text" name="jml_eksemplar" id="frm_create_MemberNo" class="form-control"
                                 placeholder="Masukan Nomor Anggota">
                             <div class="input-group-append">
-                                <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);"
+                                <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);"
                                     class="btn btn-primary" title="<?= lang('User.btn.profile.update') ?>"><i
-                                        class="fa fa-user"></i> Cari daftar peminjaman</a>
+                                        class="fa fa-book"></i> Cari daftar peminjaman</a>
                             </div>
                         </div>
                     </div>

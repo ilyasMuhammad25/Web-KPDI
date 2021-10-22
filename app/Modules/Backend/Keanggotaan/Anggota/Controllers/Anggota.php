@@ -16,6 +16,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $authorize;
     protected $anggotaModel;
     protected $uploadPath;
+    protected $lokasiperpustakaanModel;
     protected $modulePath;
     protected $baseModel;
     
@@ -26,10 +27,8 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->language->setLocale('id');
         $this->request 		= Services::request();
         $this->anggotaModel = new \Anggota\Models\AnggotaModel();
-        // $this->anggotaModel = new \Anggota\Models\AnggotaModel();
-        
-
-        // $this->anggotaModel1 = new \Anggota\Models\AnggotaModel->MemberNo();
+        $this->lokasiperpustakaanModel = new \LokasiPerpustakaan\Models\LokasiPerpustakaanModel();
+     
         
         $this->baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
@@ -140,6 +139,13 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
+        // mengambil nama lokasi perpustakaan
+    $lokasiperpustakaans =  $this->lokasiperpustakaanModel->findAll();
+       
+
+      
+    $this->data['lokasiperpustakaans'] = $lokasiperpustakaans;
+
     $this->data['ref_identitas'] = get_ref('ref_identitas');
     $this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
     $this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
@@ -246,7 +252,24 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             echo view('Anggota\Views\add', $this->data);
         }
     }
-
+     
+    public function camera(){
+        if (!is_allowed('anggota/update')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+                return redirect()->to('/dashboard');
+        }
+        // $files = (array) $this->request->getPost('file_image');
+        $filename = 'pic_'.date('YmdHis') . '.jpeg';
+ 
+$url = '';
+if( move_uploaded_file($_FILES['file_image']['tmp_name'],'upload/'.$filename) ){
+   $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . '/upload/' . $filename;
+}
+ 
+// Return image url
+echo $url;
+    }
     public function edit(int $id = null)
     {
         if (!is_allowed('anggota/update')) {
