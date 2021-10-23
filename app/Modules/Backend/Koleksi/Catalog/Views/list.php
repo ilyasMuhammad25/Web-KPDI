@@ -1,5 +1,8 @@
 <?= $this->extend(config('Core')->layout_backend); ?>
 <?= $this->section('style'); ?>
+<style>
+
+</style>
 <?= $this->endSection('style'); ?>
 <?= $this->section('page'); ?>
 <div class="app-main__inner">
@@ -33,23 +36,21 @@
 				<?php endif;?>
 			</div>
 		</div>
-		<div class="card-body">
+		<div class="card-body table-responsive">
 			<?= get_message('message'); ?>
-			<table style="width: 100%;" id="tbl_Catalogs" class="table table-hover table-striped table-bordered">
+			<table style="width: 100%;" id="tbl_catalogs" class="table table-hover table-striped table-bordered">
 				<thead>
 					<tr>
 						<th><?= lang('Catalog.field.no') ?> </th>
 						<th>BIBID</th>
 						<th>Judul</th>
 						<th>Pengarang</th>
-						<th><?= lang('Catalog.field.active') ?></th>
-						<th><?= lang('Catalog.field.created_by') ?></th>
-						<th><?= lang('Catalog.field.updated_by') ?></th>
+						<th>Penerbitan</th>
 						<th><?= lang('Catalog.label.action') ?></th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($Catalogs as $row) : ?>
+					<?php foreach ($catalogs as $row) : ?>
 					<tr>
 						<td width="35"></td>
 						<td width="150">
@@ -57,17 +58,7 @@
 						</td>
 						<td><?= _spec($row->Title); ?></td>
 						<td width="250"><?= _spec($row->Author); ?></td>
-						<td width="50">
-							<input type="checkbox" class="apply-status" data-href="<?= base_url('catalog/apply_status'); ?>" data-field="active" data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
-						</td>
-						<td width="100">
-							<span class="badge badge-info"><?= _spec($row->created_at); ?></span><br>
-							<span class="badge badge-info"><?= _spec($row->created_name); ?></span>
-						</td>
-						<td width="100">
-							<span class="badge badge-info"><?= _spec($row->updated_at); ?></span><br>
-							<span class="badge badge-info"><?= _spec($row->updated_name ?? '-'); ?></span>
-						</td>
+						<td width="250"><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
 						<td width="90">
 							<?php if(is_allowed('catalog/read')):?>
 							<!-- <a href="<?= base_url('catalog/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Catalog" class="btn btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
@@ -89,7 +80,7 @@
 <?= $this->endSection('page'); ?>
 <?= $this->section('script'); ?>
 <script>
-	setDataTable('#tbl_catalogs', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
+	setDataTable('#tbl_catalogs', disableOrderCols = [0, 5], defaultOrderCols = [1, 'desc'], autoNumber = true);
 	
 	$("body").on("click", ".remove-data", function() {
 	    var url = $(this).attr('data-href');

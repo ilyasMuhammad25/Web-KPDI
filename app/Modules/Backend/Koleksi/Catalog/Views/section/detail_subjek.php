@@ -61,58 +61,67 @@
 							<input type="text" class="form-control" id="class-ddc" name="class-ddc" placeholder="DeweyNo" value="<?= isset($ddc) ? $ddc : '' ?>">
 							<small id="class-ddc-feedback" class="text-danger"></small>
 						</div>
-						<div id="call-number-append" class="form-group" data-total="1">
-							<div id="call-number-0" class="form-group">
-								<label for="recipient-name" class="col-form-label">No. Panggil</label>
-								<div class="input-group">
-									<input type="text" class="form-control callnumber" name="callnumber[]" placeholder="No. Panggil" value="<?= isset($callnumber) ? $callnumber[0] : '' ?>">
-									<small id="callno-feedback" class="text-danger"></small>
-									<div class="input-group-append">
-										<button id="callnumber" class="btn btn-sm btn-light" type="button"><i class="fa fa-plus m-1"></i></button>
-									</div>
-								</div>
-							</div>
-							<?php if (isset($callnumber)) : ?>
-								<?php for ($i = 1; $i < count($callnumber); $i++) : ?>
-									<div id="call-number-<?= $i ?>" class="form-group">
+
+						<div class="row">
+							<div class="col-md-6">
+								<div id="call-number-append" class="form-group" data-total="1">
+									<div id="call-number-0" class="form-group">
 										<label for="recipient-name" class="col-form-label">No. Panggil</label>
 										<div class="input-group">
-											<input type="text" class="form-control callnumber" name="callnumber[]" placeholder="No. Panggil" value="<?= isset($callnumber) ? $callnumber[$i] : '' ?>">
+											<input type="text" class="form-control callnumber" name="callnumber[]" placeholder="No. Panggil" value="<?= isset($callnumber) ? $callnumber[0] : '' ?>">
 											<small id="callno-feedback" class="text-danger"></small>
 											<div class="input-group-append">
-												<button class="btn btn-sm btn-light remove-call-number" type="button" data-target="#call-number-<?= $i ?>"><i class="fa fa-plus m-1"></i></button>
+												<button id="callnumber" class="btn btn-sm btn-light" type="button"><i class="fa fa-plus m-1"></i></button>
 											</div>
 										</div>
 									</div>
-								<?php endfor; ?>
-							<?php endif; ?>
-						</div>
-						<div id="issn-append" class="form-group" data-total="1">
-							<div id="issn-0" class="form-group">
-								<label for="recipient-name" class="col-form-label">ISSN</label>
-								<div class="input-group">
-									<input type="text" class="form-control issn" name="issn[]" placeholder="ISSN" value="<?= isset($issn) ? $issn[0] : '' ?>">
-									<small id="issn-feedback" class="text-danger"></small>
-									<div class="input-group-append">
-										<button id="add-issn" class="btn btn-sm btn-light" type="button"><i class="fa fa-plus m-1"></i></button>
-									</div>
+									<?php if (isset($callnumber)) : ?>
+										<?php for ($i = 1; $i < count($callnumber); $i++) : ?>
+											<div id="call-number-<?= $i ?>" class="form-group">
+												<label for="recipient-name" class="col-form-label">No. Panggil</label>
+												<div class="input-group">
+													<input type="text" class="form-control callnumber" name="callnumber[]" placeholder="No. Panggil" value="<?= isset($callnumber) ? $callnumber[$i] : '' ?>">
+													<small id="callno-feedback" class="text-danger"></small>
+													<div class="input-group-append">
+														<button class="btn btn-sm btn-light remove-call-number" type="button" data-target="#call-number-<?= $i ?>"><i class="fa fa-plus m-1"></i></button>
+													</div>
+												</div>
+											</div>
+										<?php endfor; ?>
+									<?php endif; ?>
 								</div>
 							</div>
-							<?php if (isset($issn)) : ?>
-								<?php for ($i = 1; $i < count($issn); $i++) : ?>
-									<div id="issn-<?= $i ?>" class="form-group">
+							<div class="col-md-6">
+								<div id="issn-append" class="form-group" data-total="1">
+									<div id="issn-0" class="form-group">
 										<label for="recipient-name" class="col-form-label">ISSN</label>
 										<div class="input-group">
-											<input type="text" class="form-control issn" name="issn[]" placeholder="ISSN" value="<?= $issn[$i] ?>">
+											<input type="text" class="form-control issn" name="issn[]" placeholder="ISSN" value="<?= isset($issn) ? $issn[0] : '' ?>">
 											<small id="issn-feedback" class="text-danger"></small>
 											<div class="input-group-append">
-												<button class="btn btn-sm btn-light remove-issn" type="button" data-target="#issn-<?= $i ?>"><i class="fa fa-plus m-1"></i></button>
+												<button id="add-issn" class="btn btn-sm btn-light" type="button"><i class="fa fa-plus m-1"></i></button>
 											</div>
 										</div>
 									</div>
-								<?php endfor; ?>
-							<?php endif; ?>
+									<?php if (isset($issn)) : ?>
+										<?php for ($i = 1; $i < count($issn); $i++) : ?>
+											<div id="issn-<?= $i ?>" class="form-group">
+												<label for="recipient-name" class="col-form-label">ISSN</label>
+												<div class="input-group">
+													<input type="text" class="form-control issn" name="issn[]" placeholder="ISSN" value="<?= $issn[$i] ?>">
+													<small id="issn-feedback" class="text-danger"></small>
+													<div class="input-group-append">
+														<button class="btn btn-sm btn-light remove-issn" type="button" data-target="#issn-<?= $i ?>"><i class="fa fa-plus m-1"></i></button>
+													</div>
+												</div>
+											</div>
+										<?php endfor; ?>
+									<?php endif; ?>
+								</div>
+							</div>
 						</div>
+
+
 					</div>
 				</div>
 			</div>

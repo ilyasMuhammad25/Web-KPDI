@@ -15,21 +15,31 @@
 				</div>
 				<div data-parent="#accordion4" id="collapse4" class="collapse" style="">
 					<div class="card-body">
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Jumlah Halaman</label>
-							<input type="text" class="form-control description" id="page" name="physical-description[a]" placeholder="Jumlah Halaman" value="<?= isset($page) ? $page : '' ?>">
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Ket. Ilustarsi</label>
-							<input type="text" class="form-control description" id="illustration" name="physical-description[b]" placeholder="Ket. Ilustrasi" value="<?= isset($illustration) ? $illustration : '' ?>">
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Dimensi</label>
-							<input type="text" class="form-control description" id="dimention" name="physical-description[c]" placeholder="Dimensi" value="<?= isset($dimention) ? $dimention : '' ?>">
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Bahan Sertaan</label>
-							<input type="text" class="form-control description" id="accompanying-material" name="physical-description[e]" placeholder="Bahan Sertaan" value="<?= isset($accompanyingmaterial) ? $accompanyingmaterial : '' ?>">
+						<div class="row">
+							<div class="col-md-2">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Jumlah Halaman</label>
+									<input type="text" class="form-control description" id="page" name="physical-description[a]" placeholder="Jumlah Halaman" value="<?= isset($page) ? $page : '' ?>">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Ket. Ilustarsi</label>
+									<input type="text" class="form-control description" id="illustration" name="physical-description[b]" placeholder="Ket. Ilustrasi" value="<?= isset($illustration) ? $illustration : '' ?>">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Dimensi</label>
+									<input type="text" class="form-control description" id="dimention" name="physical-description[c]" placeholder="Dimensi" value="<?= isset($dimention) ? $dimention : '' ?>">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Bahan Sertaan</label>
+									<input type="text" class="form-control description" id="accompanying-material" name="physical-description[e]" placeholder="Bahan Sertaan" value="<?= isset($accompanyingmaterial) ? $accompanyingmaterial : '' ?>">
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
