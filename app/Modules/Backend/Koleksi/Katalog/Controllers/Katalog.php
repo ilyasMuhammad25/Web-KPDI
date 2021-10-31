@@ -87,21 +87,21 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$post           = $this->request->getPost();
 			$worksheet      = $post['worksheet'];
-			$controlNumber  = ControlNumber();
-			$bibid          = BIBID();
-			$title          = ArrImplode($post['title'], ';');
-			$author         = ArrImplode(array_merge([$post['author']['100']], $post['additional-author']['input']), ';');
+			$controlNumber  = get_control_number();
+			$bibid          = get_bib_id();
+			$title          = get_imploded_array($post['title'], ';');
+			$author         = get_imploded_array(array_merge([$post['author']['100']], $post['additional-author']['input']), ';');
 			$place          = $post['publisher']['a'];
 			$name           = $post['publisher']['b'];
 			$year           = $post['publisher']['c'];
 			$publication    = "$place $name $year;";
-			$subject        = ArrImplode($post['subject']['desc'], ';');
-			$isbn           = ArrImplode($post['issn'], ';');
+			$subject        = get_imploded_array($post['subject']['desc'], ';');
+			$isbn           = get_imploded_array($post['issn'], ';');
 			$deweyNo        = $post['class-ddc'];
-			$callNumber     = ArrImplode($post['callnumber'], ';');
-			$physicalDescription = ArrImplode($post['physical-description'], ';');
+			$callNumber     = get_imploded_array($post['callnumber'], ';');
+			$physicalDescription = get_imploded_array($post['physical-description'], ';');
 			$language       = $post['opt-language'];
-			$notes          = ArrImplode($post['notes']['input'], ';');
+			$notes          = get_imploded_array($post['notes']['input'], ';');
 			$save_data = [
 				'ControlNumber'         => $controlNumber,
 				'BIBID'                 => $bibid,
@@ -140,7 +140,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 				array_push($save_data_ruas, $tag008);
 
 				foreach ($post as $key => $value) :
-					$column = getRuas($key,$value, $newKatalogId);
+					$column = get_ruas($key,$value, $newKatalogId);
 					if(!empty($column)){
 						array_push($save_data_ruas, $column);
 					}
@@ -201,7 +201,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                     add_log('Ubah Katalog', 'Katalog', 'edit', 't_katalog', $id);
                     set_message('toastr_msg', 'Katalog berhasil diubah');
                     set_message('toastr_type', 'success');
-                    return redirect()->to('/Katalog');
+                    return redirect()->to('/katalog');
                 } else {
                     set_message('toastr_msg', 'Katalog gagal diubah');
                     set_message('toastr_type', 'warning');
@@ -227,14 +227,14 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         if (!$id) {
             set_message('toastr_msg', 'Sorry you have to provide parameter (id)');
             set_message('toastr_type', 'error');
-            return redirect()->to('/Katalog');
+            return redirect()->to('/katalog');
         }
         $KatalogDelete = $this->katalogModel->delete($id);
         if ($KatalogDelete) {
             add_log('Hapus Katalog', 'Katalog', 'delete', 't_katalog', $id);
             set_message('toastr_msg', lang('Katalog.info.successfully_deleted'));
             set_message('toastr_type', 'success');
-            return redirect()->to('/Katalog');
+            return redirect()->to('/katalog');
         } else {
             set_message('toastr_msg', lang('Katalog.info.failed_deleted'));
             set_message('toastr_type', 'warning');
@@ -257,7 +257,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_msg', ' Katalog gagal diubah');
             set_message('toastr_type', 'warning');
         }
-        return redirect()->to('/Katalog');
+        return redirect()->to('/katalog');
     }
 
 	public function ajax_create()
@@ -265,21 +265,21 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         if ($this->request->isAJAX()) :
             $post           = $this->request->getPost();
             $worksheet      = $post['worksheet'];
-            $controlNumber  = ControlNumber();
-            $bibid          = BIBID();
-            $title          = ArrImplode($post['title'], ';');
-            $author         = ArrImplode(array_merge([$post['author']['100']], $post['additional-author']['input']), ';');
+            $controlNumber  = get_control_number();
+            $bibid          = get_bib_id();
+            $title          = get_imploded_array($post['title'], ';');
+            $author         = get_imploded_array(array_merge([$post['author']['100']], $post['additional-author']['input']), ';');
             $place          = $post['publisher']['a'];
             $name           = $post['publisher']['b'];
             $year           = $post['publisher']['c'];
             $publication    = "$place $name $year;";
-            $subject        = ArrImplode($post['subject']['desc'], ';');
-            $isbn           = ArrImplode($post['issn'], ';');
+            $subject        = get_imploded_array($post['subject']['desc'], ';');
+            $isbn           = get_imploded_array($post['issn'], ';');
             $deweyNo        = $post['class-ddc'];
-            $callNumber     = ArrImplode($post['callnumber'], ';');
-            $physicalDescription = ArrImplode($post['physical-description'], ';');
+            $callNumber     = get_imploded_array($post['callnumber'], ';');
+            $physicalDescription = get_imploded_array($post['physical-description'], ';');
             $language       = $post['opt-language'];
-            $notes          = ArrImplode($post['notes']['input'], ';');
+            $notes          = get_imploded_array($post['notes']['input'], ';');
             $save_data = [
 				'ControlNumber'         => $controlNumber,
 				'BIBID'                 => $bibid,
@@ -334,7 +334,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 // add_log('Tambah Katalog', 'Katalog', 'create', 't_katalog', $newKatalogId);
                 // set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
                 // set_message('toastr_type', 'success');
-                // return redirect()->to('/Katalog');
+                // return redirect()->to('/katalog');
             } else {
                 set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Katalog.info.failed_saved'));
                 echo view('Katalog\Views\add', $this->data);

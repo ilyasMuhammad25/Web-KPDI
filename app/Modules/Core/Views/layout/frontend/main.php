@@ -10,7 +10,7 @@
 		<title>OPAC</title>
 	</head>
 	<body class="doc wide-container" data-spy="scroll" data-target="#navbar-example3" data-scroll-animation="true" data-offset="70">
-		<div id="preloader">
+		<!-- <div id="preloader">
 			<div id="ctn-preloader" class="ctn-preloader">
 				<div class="round_spinner">
 					<div class="spinner"></div>
@@ -22,7 +22,7 @@
 				<h2 class="head">Memuat Halaman</h2>
 				<p></p>
 			</div>
-		</div>
+		</div> -->
 		<div class="body_wrapper">
 			<?= $this->include('Core\layout\frontend\partial\header'); ?>
 			<?= $this->include('Core\layout\frontend\partial\header_mobile'); ?>

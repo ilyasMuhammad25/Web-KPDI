@@ -124,6 +124,99 @@ if (!function_exists('logged_in')) {
  * DB Helper
  * ---------------
  */
+
+function db_get_data(array $data)
+{
+    $db = \Config\Database::connect();
+    $res = $db->table($data['table']);
+    if (isset($data['distinct'])) {
+        $res->distinct()
+            ->select($data['distinct']['select']);
+    }
+    if (isset($data['select'])) {
+        $res->select($data['select']);
+    }
+    if (isset($data['limit'])) {
+        $res->limit($data['limit']['count'], $data['limit']['from']);
+    }
+    if (isset($data['like'])) {
+        $res->groupStart();
+        $res->like($data['like']);
+        $res->groupEnd();
+    }
+    if (isset($data['orlike'])) {
+        $res->groupStart();
+        $res->orLike($data['orlike']);
+        $res->groupEnd();
+    }
+    if (isset($data['where']) and count($data['where']) > 0) {
+        $res->groupStart();
+        if (count($data['where']) > 0) {
+            foreach ($data['where'] as $where) {
+                if (isset($where['value']))
+                    $res->where($where['field'], $where['value']);
+                else
+                    $res->where($where['field'], null, false);
+            }
+        }
+        if (isset($data['orwhere']) and count($data['orwhere']) > 0) {
+            if (count($data['orwhere']) > 0) {
+                foreach ($data['orwhere'] as $orwhere) {
+                    if (isset($orwhere['value']))
+                        $res->orWhere($orwhere['field'], $orwhere['value']);
+                    else
+                        $res->orWhere($orwhere['field'], null, false);
+                }
+            }
+        }
+        $res->groupEnd();
+    }
+    if (isset($data['orderBy'])) {
+        if (isset($data['orderBy']['field']) and isset($data['orderBy']['sort']))
+            $res->orderBy($data['orderBy']['field'], $data['orderBy']['sort']);
+        else
+            $res->orderBy($data['orderBy']['random']);
+    }
+    if (isset($data['join'])) {
+        foreach ($data['join'] as $join) {
+            $res->join($join['table'], $join['table'] . '.' . $join['child'] . '=' . $join['parent'], isset($join['type']) ? $join['type'] : '');
+        }
+    }
+    if (isset($data['group'])) {
+        $res->groupBy($data['group']);
+    }
+    return $res->get();
+}
+
+function db_insert_data(array $data, $table)
+{
+    $db = \Config\Database::connect();
+    $isMultiarray = is_multi_array($data);
+    if ($isMultiarray)
+        $db->table($table)->insertBatch($data);
+    else
+        $db->table($table)->insert($data);
+}
+
+function is_multi_array($arr)
+{
+    rsort($arr);
+    return isset($arr[0]) && is_array($arr[0]);
+}
+
+if (!function_exists('get_multi_array')) {
+    function get_multi_array($post, $param)
+    {
+        foreach ($post as $value) {
+            $fix[] = reset($value);
+        }
+
+        $combine = implode($fix, $param);
+
+        return $combine;
+    }
+}
+
 if (!function_exists('get_last')) {
     function get_last($ref_table, $where = null)
     {        

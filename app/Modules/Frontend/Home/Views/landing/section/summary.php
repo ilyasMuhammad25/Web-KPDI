@@ -1,3 +1,29 @@
+<?php
+$request = \Config\Services::request();
+$request->uri->setSilent();
+
+$katalogModel = new \Katalog\Models\KatalogModel();
+$query = $katalogModel
+    ->where('t_katalog.active',1);
+
+$count_items = $query->countAllResults(false);
+
+if(!empty($keyword)){
+    $query->groupStart();
+    $query->like('t_katalog.title', $keyword);
+    $query->groupEnd();
+    $count_items = $query->countAllResults(false);
+    // dd($count_items);
+} 
+
+$items = $query
+    ->select('t_katalog.*')
+    ->orderBy('t_katalog.created_at', 'desc')
+    ->paginate(10, 'katalogs');
+
+$pager = $query->pager;
+?>
+
 <section class="doc_features_area">
 	<img class="doc_features_shap" src="<?=base_url('themes/opac')?>/img/new/shap_white.png" alt="">
 	<div class="container">

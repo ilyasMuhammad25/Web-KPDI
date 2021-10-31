@@ -613,7 +613,7 @@ $(document).ready(function() {
         e.preventDefault();
 
 		var url = "<?= base_url('katalog/create') ?>";
-		var redirect = "<?= base_url('Katalog') ?>";
+		var redirect = "<?= base_url('katalog') ?>";
         var data_post = new FormData(formapp[0]);
 		console.log(data_post);
 
