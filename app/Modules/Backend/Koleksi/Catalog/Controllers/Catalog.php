@@ -53,17 +53,23 @@ class Catalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $query = $this->catalogModel
-            ->select('t_Catalog.*')
+            ->select('t_catalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_Catalog.created_by','left')
-            ->join('users updated','updated.id = t_Catalog.updated_by','left');
+            ->join('users created','created.id = t_catalog.created_by','left')
+            ->join('users updated','updated.id = t_catalog.updated_by','left');
             
-        $Catalogs = $query->findAll();
+		$slug = $this->request->getVar('slug');
+		if(!empty($slug)){
+			$isRDA = (int) strtoupper($slug) == 'RDA';
+			$query->where('t_catalog.isRDA',$isRDA);
+		}   
+
+        $catalogs = $query->findAll();
 
         $this->data['title'] = 'Catalog';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['Catalogs'] = $Catalogs;
+        $this->data['catalogs'] = $catalogs;
         echo view('Catalog\Views\list', $this->data);
     }
 
@@ -145,7 +151,7 @@ class Catalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					$this->catalogRuasModel->insertBatch($save_data_ruas);
 				}
 
-				add_log('Tambah Catalog', 'Catalog', 'create', 't_Catalog', $newCatalogId);
+				add_log('Tambah Catalog', 'Catalog', 'create', 't_catalog', $newCatalogId);
 				set_message('toastr_msg', lang('Catalog.info.successfully_saved'));
 				set_message('toastr_type', 'success');
 
@@ -192,7 +198,7 @@ class Catalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 $CatalogUpdate = $this->catalogModel->update($id, $update_data);
 
                 if ($CatalogUpdate) {
-                    add_log('Ubah Catalog', 'Catalog', 'edit', 't_Catalog', $id);
+                    add_log('Ubah Catalog', 'Catalog', 'edit', 't_catalog', $id);
                     set_message('toastr_msg', 'Catalog berhasil diubah');
                     set_message('toastr_type', 'success');
                     return redirect()->to('/Catalog');
@@ -225,7 +231,7 @@ class Catalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
         $CatalogDelete = $this->catalogModel->delete($id);
         if ($CatalogDelete) {
-            add_log('Hapus Catalog', 'Catalog', 'delete', 't_Catalog', $id);
+            add_log('Hapus Catalog', 'Catalog', 'delete', 't_catalog', $id);
             set_message('toastr_msg', lang('Catalog.info.successfully_deleted'));
             set_message('toastr_type', 'success');
             return redirect()->to('/Catalog');
@@ -325,7 +331,7 @@ class Catalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
 				return json_encode($save_data_ruas);
 
-                // add_log('Tambah Catalog', 'Catalog', 'create', 't_Catalog', $newCatalogId);
+                // add_log('Tambah Catalog', 'Catalog', 'create', 't_catalog', $newCatalogId);
                 // set_message('toastr_msg', lang('Catalog.info.successfully_saved'));
                 // set_message('toastr_type', 'success');
                 // return redirect()->to('/Catalog');

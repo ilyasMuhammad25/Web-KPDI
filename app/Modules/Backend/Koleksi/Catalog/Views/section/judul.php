@@ -20,15 +20,21 @@
 							<input type="text" class="form-control" id="title" name="title[a]" placeholder="Judul Utama" value="<?= is_array($title) ? $title['title'] : '' ?>">
 							<small id="title-feedback" class="text-danger"></small>
 						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Anak Judul</label>
-							<input type="text" class="form-control" id="child-title" name="title[b]" placeholder="Anak Judul" value="<?= is_array($title) ? $title['childtitle'] : '' ?>">
-							<small id="child-title-feedback" class="text-danger"></small>
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Penanggung Jawab</label>
-							<input type="text" class="form-control" id="heldby" name="title[c]" placeholder="Penanggung Jawab" value="<?= is_array($title) ? $title['heldby'] : '' ?>">
-							<small id="heldby-feedback" class="text-danger"></small>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Anak Judul</label>
+									<input type="text" class="form-control" id="child-title" name="title[b]" placeholder="Anak Judul" value="<?= is_array($title) ? $title['childtitle'] : '' ?>">
+									<small id="child-title-feedback" class="text-danger"></small>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Penanggung Jawab</label>
+									<input type="text" class="form-control" id="heldby" name="title[c]" placeholder="Penanggung Jawab" value="<?= is_array($title) ? $title['heldby'] : '' ?>">
+									<small id="heldby-feedback" class="text-danger"></small>
+								</div>
+							</div>
 						</div>
 						<div id="previous-title-append">
 							<div class="form-group previoustitle">

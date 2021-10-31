@@ -15,34 +15,43 @@
 				</div>
 				<div data-parent="#accordion7" id="collapse7" class="collapse" style="">
 					<div class="card-body">
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Bahasa</label>
-							<div>
-								<select name="opt-language" class="form-control select2" style="width:100%">
-									<?php foreach (get_dropdown('t_references_items','reference_id = 5','code') as $row) :  ?>
-										<option value="<?= $row->code ?>"><?= $row->code?> - <?= $row->text?></option>
-									<?php endforeach; ?>
-								</select>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Bahasa</label>
+									<div>
+										<select name="opt-language" class="form-control select2" style="width:100%">
+											<?php foreach (get_dropdown('t_references_items','reference_id = 5','code') as $row) :  ?>
+												<option value="<?= $row->code ?>"><?= $row->code?> - <?= $row->text?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Bentuk Karya Tulis</label>
-							<div>
-								<select name="paper-form" class="form-control select2" style="width:100%">
-									<?php foreach (get_dropdown('t_references_items','reference_id = 17','code') as $row) :  ?>
-										<option value="<?= $row->code ?>"><?= $row->code?> - <?= $row->text?></option>
-									<?php endforeach; ?>
-								</select>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Bentuk Karya Tulis</label>
+									<div>
+										<select name="paper-form" class="form-control select2" style="width:100%">
+											<?php foreach (get_dropdown('t_references_items','reference_id = 17','code') as $row) :  ?>
+												<option value="<?= $row->code ?>"><?= $row->code?> - <?= $row->text?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Kelompok Sasaran</label>
-							<select name="target-group" class="form-control select2" style="width:100%">
-								<?php foreach (get_dropdown('t_references_items','reference_id = 2','code') as $row) :  ?>
-									<option value="<?= $row->code ?>"><?= $row->code?> - <?= $row->text?></option>
-								<?php endforeach; ?>
-							</select>
-							<small id="target-group-feedback" class="text-danger"></small>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">Kelompok Sasaran</label>
+									<select name="target-group" class="form-control select2" style="width:100%">
+										<?php foreach (get_dropdown('t_references_items','reference_id = 2','code') as $row) :  ?>
+											<option value="<?= $row->code ?>"><?= $row->code?> - <?= $row->text?></option>
+										<?php endforeach; ?>
+									</select>
+									<small id="target-group-feedback" class="text-danger"></small>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

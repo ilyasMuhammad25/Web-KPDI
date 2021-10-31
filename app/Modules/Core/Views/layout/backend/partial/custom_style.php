@@ -1,4 +1,14 @@
 <style>
+div.dataTables_wrapper div.dataTables_filter {
+  float: none;
+  text-align: left;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+  float: none;
+  text-align: right;
+}
+
 :root {
   --sidebar-width: 300px;
   --min-sidebar-width: -300px;
