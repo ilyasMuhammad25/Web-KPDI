@@ -21,10 +21,12 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 	public function search()
 	{
 		$this->data['title'] = 'Search';
-
-
-
 		echo view('Home\Views\search\index', $this->data);
+	}
+	public function anggota()
+	{
+		$this->data['title'] = 'Keanggotaan Online';
+		echo view('Home\Views\anggota\index', $this->data);
 	}
 	public function detail($id = null)
 	{
