@@ -464,46 +464,45 @@
                                 <div class="col-md-12">
                                 </div>
                             </div>
-                           
+
 
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="position-relative form-group">
                                         <strong> <label><?=lang('anggota.field.library')?></label></strong>
-										
-                                            <select class="form-control js-example-basic-multiple" name="Provincy" id="Provincy"
-                                                tabindex="-1" aria-hidden="true" style="width:100%">
+                                        <div>
+                                            <select class="form-control js-example-basic-multiple"
+                                                name="Location_loan_id[]" multiple="multiple" tabindex="-1"
+                                                aria-hidden="true" style="width:100%">
                                                 <option value="">-Pilih-</option>
-                                                <?php foreach(get_dropdown('m_propinsi') as $row):?>
+                                                <?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
                                                 <option value="<?=$row->code?>"><?=$row->text?></option>
                                                 <?php endforeach;?>
                                             </select>
-									
+
+
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="position-relative form-group">
-                                      <strong>  <label for="name">Lokasi Ruang</label></strong>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Default checkbox
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckChecked" checked>
-                                            <label class="form-check-label" for="flexCheckChecked">
-                                                Checked checkbox
-                                            </label>
+                                        <strong> <label for="name">Lokasi Ruang</label></strong>
+                                        <div>
+                                            <select class="form-control js-example-basic-multiple"
+                                                name="LocationRuang_loan_id[]" multiple="multiple" tabindex="-1"
+                                                aria-hidden="true" style="width:100%">
+                                                <option value="">-Pilih-</option>
+                                                <?php foreach(get_dropdown('m_lokasiruang') as $row):?>
+                                                <option value="<?=$row->code?>"><?=$row->text?></option>
+                                                <?php endforeach;?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                            
+
                             </div>
-                        
-                         
+
+
                         </div>
                     </div>
                 </div>
@@ -637,26 +636,30 @@
                                     </div>
                                 </div>
 
-								<div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="position-relative form-group">
-                                        <label for="file_image" class="">Foto
+                                        <label for="camera_image" class="">Foto
                                             Anggota</label>
-											<div id="my_camera"></div>
- <input type=button value="Open Camera" onClick="configure()">
- <input type=button value="Take Snapshot" onClick="take_snapshot()">
- <input type=button value="Save Snapshot" onClick="saveSnap()">
-  
- <div id="results" ></div>
- <input type="hidden" name="camera_image" id="camera_image" value="">
+                                        <div id="my_camera"></div>
+                                        <div id="results"></div>
+                                        <input type=button class="btn btn-lg btn-primary" value="Open Camera"
+                                            onClick="configure()">
+                                        <input type=button class="btn btn-lg btn-primary" value="Take Snapshot"
+                                            onClick="take_snapshot()">
+                                        <input type=button class="btn btn-lg btn-primary" value="Save Snapshot"
+                                            onClick="saveSnap()">
+
+
+                                        <input type="hidden" name="camera_image" id="camera_image" value="">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="form-group mt-1">
-        <button type="submit" class="btn btn-lg btn-primary" name="submit"><i class="fa fa-save"></i>
-            <?=lang('Anggota.action.save')?></button>
-    </div>
+            <div class="form-group mt-1">
+                <button type="submit" class="btn btn-lg btn-primary" name="submit"><i class="fa fa-save"></i>
+                    <?=lang('Anggota.action.save')?></button>
+            </div>
 </form>

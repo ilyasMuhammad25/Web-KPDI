@@ -9,11 +9,27 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 	function __construct()
     {
 		helper(['form', 'url', 'auth', 'app', 'adminigniter']);
+
+		helper('reference');
+		helper('katalog');
 	}
 	public function index()
 	{
 		$this->data['title'] = 'Home';
-		echo view('Home\Views\index', $this->data);
+		echo view('Home\Views\home\index', $this->data);
+	}
+	public function search()
+	{
+		$this->data['title'] = 'Search';
+
+
+
+		echo view('Home\Views\search\index', $this->data);
+	}
+	public function detail($id = null)
+	{
+		$this->data['title'] = 'Search';
+		echo view('Home\Views\search\detail', $this->data);
 	}
 
 	public function ip() {

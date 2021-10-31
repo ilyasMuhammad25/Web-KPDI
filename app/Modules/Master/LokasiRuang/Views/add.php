@@ -44,10 +44,15 @@ $request->uri->setSilent();
                         <div class="form-row">
                               <div class="col-md-9">
                                     <div class="position-relative form-group">
-                                          <label for="name"><?= lang('LokasiRuang.field.name') ?>*</label>
+                                          <strong><label for="name">Lokasi Perpustakaan*</label></strong>
                                           <div>
-                                                <input type="text" class="form-control" id="frm_create_name" name="name" placeholder="<?= lang('LokasiRuang.field.name') ?> " value="<?= set_value('name'); ?>" />
-                                                <small class="info help-block text-muted"><?= lang('LokasiRuang.field.name') ?></small>
+                                          <select class="form-control select2" name="Lokasi_perpustakaan_id" id="Lokasi_perpustakaan_id"
+                                                tabindex="-1" aria-hidden="true" style="width:100%">
+                                                <option value="">-Pilih-</option>
+                                                <?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
+                                                <option value="<?=$row->code?>"><?=$row->text?></option>
+                                                <?php endforeach;?>
+                                            </select>
                                           </div>
                                     </div>
                               </div>
@@ -61,6 +66,18 @@ $request->uri->setSilent();
                                     </div>
                               </div>
                         </div>
+
+                        <div class="form-row">
+                              <div class="col-md-9">
+                                    <div class="position-relative form-group">
+                                          <label for="name"><?= lang('LokasiPerpustakaan.field.name') ?>*</label>
+                                          <div>
+                                                <input type="text" class="form-control" id="frm_create_name" name="name" placeholder="<?= lang('LokasiPerpustakaan.field.name') ?> " value="<?= set_value('name'); ?>" />
+                                                <small class="info help-block text-muted"><?= lang('LokasiPerpustakaan.field.name') ?></small>
+                                          </div>
+                                    </div>
+                              </div>
+                              </div>
 
                         <div class="form-group">
                               <label for="description"><?= lang('LokasiRuang.field.description') ?> </label>

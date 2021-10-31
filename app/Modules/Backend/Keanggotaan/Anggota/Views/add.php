@@ -58,7 +58,10 @@ $display='block';
 
 <?=$this->section('script');?>
 <script>
-     $('.js-example-basic-multiple').select2();
+  $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+   
 $('.select2').select2();
 </script>
 <script> 

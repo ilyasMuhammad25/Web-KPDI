@@ -7,6 +7,7 @@ $routes->group('eksemplar', ['namespace' => 'Eksemplar\Controllers'], function (
 	$subroutes->add('index', 'Eksemplar::index');
 	$subroutes->add('detail/(:any)', 'Eksemplar::detail/$1');
 	$subroutes->add('create', 'Eksemplar::create');
+	$subroutes->add('cetakLabel/(:any)', 'Eksemplar::cetakLabel/$1');
 	$subroutes->add('edit/(:any)', 'Eksemplar::edit/$1');
 	$subroutes->add('delete/(:any)', 'Eksemplar::delete/$1');
 	$subroutes->add('apply_status/(:any)', 'Eksemplar::apply_status/$1');

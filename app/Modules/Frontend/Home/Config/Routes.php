@@ -6,6 +6,8 @@ $routes->group('home', ['namespace' => 'Home\Controllers'], function ($subroutes
 	$subroutes->add('', 'Home::index');
 	$subroutes->add('param/(:any)', 'Home::param/$1');
 	$subroutes->add('index', 'Home::index');
+	$subroutes->add('search', 'Home::search');
+	$subroutes->add('detail/(:any)', 'Home::detail/param/$1');
 	$subroutes->add('ip', 'Home::ip');
 	$subroutes->add('json', 'Home::json');
 	$subroutes->add('datatables', 'Home::datatables');

@@ -53,7 +53,8 @@ class Autoload extends AutoloadConfig
 		'Banner' 			=> APPPATH . 'Modules/Cms/Banner',
 		'Page' 				=> APPPATH . 'Modules/Cms/Page',
 		'Tag' 				=> APPPATH . 'Modules/Master/Tag',
-		'LokasiPerpustakaan'=> APPPATH . 'Modules/Master/LokasiPerpustakaan',
+		'LokasiPerpustakaan' => APPPATH . 'Modules/Master/LokasiPerpustakaan',
+		'LokasiRuang'        => APPPATH . 'Modules/Master/LokasiRuang',
 		'Dashboard' 		=> APPPATH . 'Modules/Backend/Dashboard',
 		'Report' 			=> APPPATH . 'Modules/Backend/Report',
 		'Artikel' 			=> APPPATH . 'Modules/Backend/Koleksi/Artikel',
@@ -67,7 +68,6 @@ class Autoload extends AutoloadConfig
 		'KeranjangAnggota' 	=> APPPATH . 'Modules/Backend/Keanggotaan/KeranjangAnggota',
 		'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	       
 		'Sumbangan'			=> APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
-		'LokasiRuang' 		=> APPPATH . 'Modules/Backendmaster/LokasiRuang',
 	];
 
 	/**
