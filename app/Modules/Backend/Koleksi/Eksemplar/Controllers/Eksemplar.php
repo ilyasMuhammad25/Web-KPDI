@@ -331,5 +331,51 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         return redirect()->to('/eksemplar');
     }
 
+    public function cetakLabel(int $id=null){
+        if (!is_allowed('anggota/cetakKartu')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+    
+        $this->data['title'] = 'Import Anggota';
+        $this->data['kartu'] = array();
+        $eksemplar = $this->eksemplarModel->find($id);
+        $this->data['eksempalar']=$eksemplar;
+    
+        // 1. composer require mpdf/mpdf
+    
+        // $qrCode = new \Mpdf\QrCode\QrCode('Perpusnas RI');
+        // $output = new \Mpdf\QrCode\Output\Html();
+        // $html_qr = $output->output($qrCode, 100, [255, 255, 255], [10, 10, 10]);
+    
+        // 2. composer require mpdf/qrcode
+    
+        // 3. composer require picqer/php-barcode-generator
+    
+        // $barcode = new \Picqer\Barcode\BarcodeGeneratorHTML();
+        // $html_bar = $barcode->getBarcode('081231723897', $barcode::TYPE_CODE_39);
+        // echo $html_bar;
+    
+    
+        //  $this->data['title'] = 'Import Anggota';
+        //  $kartu = $this->anggotaModel->findAll();
+        //  $this->data['kartu'] = $kartu;
+        
+    
+         // instantiate and use the dompdf class
+         $dompdf = new \Dompdf\Dompdf();
+         $html= view('Eksemplar\Views\cetak-label',$this->data);
+         $dompdf->loadHtml($html);
+         
+         // (Optional) Setup the paper size and orientation
+         $dompdf->setPaper('A4', 'landscape');
+         
+         // Render the HTML as PDF
+         $dompdf->render();
+         
+         // Output the generated PDF to Browser
+         $dompdf->stream();
+    }
 
 }

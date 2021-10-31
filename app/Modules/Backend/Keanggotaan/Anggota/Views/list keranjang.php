@@ -16,9 +16,9 @@ $request->uri->setSilent();
                 <div class="page-title-icon">
                     <i class="pe-7s-id icon-gradient bg-strong-bliss"></i>
                 </div>
-                <div><?=lang('Anggota.module')?>
+                <div><?=lang('Anggota.module_keranjang')?>
                     <div class="page-title-subheading"><?=lang('Anggota.info.list_all')?>
-                        <?=lang('Anggota.module')?> </div>
+                        <?=lang('Anggota.module_keranjang')?> </div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -26,7 +26,7 @@ $request->uri->setSilent();
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?=base_url('anggota')?>"><i class="fa fa-home"></i>
                                 <?=lang('Anggota.label.home')?></a></li>
-                        <li class="active breadcrumb-item" aria-current="page"><?=lang('Anggota.module')?> </li>
+                        <li class="active breadcrumb-item" aria-current="page"><?=lang('Anggota.module_keranjang')?> </li>
                     </ol>
                 </nav>
             </div>
@@ -61,7 +61,7 @@ $request->uri->setSilent();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($anggotas as $row): ?>
+                    <?php foreach ($anggotakeranjangs as $row): ?>
                     <tr>
 
                         <td width="35"></td>
@@ -75,8 +75,8 @@ $request->uri->setSilent();
                         <td><?=_spec($row->Email);?></td>
                         <td width="50">
                             <input type="checkbox" class="apply-status"
-                                data-href="<?=base_url('anggota/apply_status');?>" data-field="iskeranjang"
-                                data-id="<?=$row->id?>" <?=($row->iskeranjang == 1) ? 'checked' : ''?> data-toggle="toggle"
+                                data-href="<?=base_url('anggota/apply_status');?>" data-field="active"
+                                data-id="<?=$row->id?>" <?=($row->active == 1) ? 'checked' : ''?> data-toggle="toggle"
                                 data-onstyle="success">
                         </td>
                         <td width="130">
