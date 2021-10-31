@@ -19,7 +19,7 @@ class Anggota extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->anggotaModel = new Anggota\Models\AnggotaModel();
+		$this->anggotaModel = new \Anggota\Models\AnggotaModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
 		$this->modulePath = ROOTPATH . 'public/uploads/anggota/';
@@ -28,6 +28,8 @@ class Anggota extends ResourceController
 		if (!file_exists($this->modulePath)) {
 			mkdir($this->modulePath);
 		}
+
+		helper('reference');
 	}
 
 	public function index()
@@ -167,5 +169,17 @@ class Anggota extends ResourceController
 		} else {
 			return $this->failNotFound(lang('Anggota.info.not_found').' ID:' . $id);
 		}
+	}
+
+	public function cities()
+	{
+		$propinsi_id = $this->request->getVar('propinsi_id');
+		if(!empty($propinsi_id)){
+			$data = get_dropdown('m_kota','propinsi_id = '.$propinsi_id);
+		} else {
+			$data = get_dropdown('m_kota');
+		}
+
+		return $this->respond($data, 200);
 	}
 }

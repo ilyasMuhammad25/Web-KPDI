@@ -58,13 +58,20 @@
     /* Data Table*/
     function setDataTable(dom, disableOrderCols = [4, 6, 7], defaultOrderCols = [0, 'asc'], autoNumber = false) {
         var t = $(dom).DataTable({
+			"dom": 
+				"<'row'<'col-md-6 col-sm-8 col-xs-12 text-left'f><'col-md-6 col-sm-4 col-xs-12 d-none d-sm-block text-right'p>>" +
+				"<'row'<'col-md-12'tr>>" +
+				"<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12 text-right'i>>",
+			"pagingType": "full",
             "oLanguage": {
                 "sSearch": "<i class='fa fa-search'></i> _INPUT_",
                 "sLengthMenu": "_MENU_",
-                "sInfo": "Show _START_ to _END_ of _TOTAL_ records",
+                // "sInfo": "_START_ - _END_ of _TOTAL_",
                 "oPaginate": {
-                    "sNext": "Next",
-                    "sPrevious": "Prev",
+                    "sNext": "<i class='fa fa-chevron-right'></i>",
+                    "sPrevious": "<i class='fa fa-chevron-left'></i>",
+                    "sLast": "<i class='fa fa-chevron-double-right'></i>",
+                    "sFirst": "<i class='fa fa-chevron-double-left'></i>",
                 }
             },
             "drawCallback": function( settings ) {
@@ -490,7 +497,7 @@
 			$('#'+domID).append('<option value="">'+title+'</option>');
 			$.each(respJson, function(index, itemData) {
 				var code = itemData.code;
-				var text = itemData.text.toUpperCase();
+				var text = itemData.text;
 				var selected = '';
 
 				if(code == selectedCode){
@@ -498,7 +505,7 @@
 				}
 
 				if(includeCode){
-					text = +itemData.code+ ' - ' +itemData.text.toUpperCase();
+					text = +itemData.code+ ' - ' +itemData.text;
 				}
 				$('#'+domID).append('<option value="' + code+ '" '+selected+'>' +text+ ' </option>');
 			});

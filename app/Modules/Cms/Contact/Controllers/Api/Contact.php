@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Cms\Contact\Controllers\Api;
+namespace Contact\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
@@ -10,7 +10,6 @@ use CodeIgniter\Files\File;
 
 class Contact extends ResourceController
 {
-    use ResponseTrait;
     protected $contactModel;
     protected $validation;
     protected $session;
@@ -19,7 +18,7 @@ class Contact extends ResourceController
 
     function __construct()
     {
-        $this->contactModel = new \App\Modules\Cms\Contact\Models\ContactModel();
+        $this->contactModel = new \Contact\Models\ContactModel();
         $this->validation = \Config\Services::validation();
         $this->session = session();
         $this->modulePath = ROOTPATH . 'public/uploads/contact/';

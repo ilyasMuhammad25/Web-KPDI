@@ -2,6 +2,7 @@
 
 namespace Banner\Models;
 
+
 class BannerModel extends \hamkamannan\adminigniter\Models\BaseModel
 {
     protected $table      			= 't_banner';
@@ -16,4 +17,7 @@ class BannerModel extends \hamkamannan\adminigniter\Models\BaseModel
     protected $validationRules    	= [];
     protected $validationMessages 	= [];
     protected $skipValidation     	= true;
+
+
+  
 }

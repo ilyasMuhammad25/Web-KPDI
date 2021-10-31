@@ -57,6 +57,10 @@ $display='block';
 <?=$this->endSection('page');?>
 
 <?=$this->section('script');?>
+<script>
+     $('.js-example-basic-multiple').select2();
+$('.select2').select2();
+</script>
 <script> 
     Dropzone.autoDiscover = false;
 	var checkboxes = $('#is_similar');
@@ -70,5 +74,61 @@ $display='block';
 	});
 
 	var file_template = setDropzone('dropzone_file_image', 'anggota', '.jpg,.jpeg,.png', 1, 10);
+</script>
+<script>
+		$( document ).ready(function() {
+		$('#Provincy').change(function() {
+			var propinsi_id = $(this).val();
+			var uriParam = '?propinsi_id='+propinsi_id;
+			getDropdown('City', uriParam, 'Pilih', false, false);
+		});
+	});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+ 
+ <!-- Kode untuk snapshot dan menampilkan picture -->
+ <script language="JavaScript">
+  
+ // Konfigurasi dan pengaturan kamera
+ function configure(){
+    Webcam.set({
+       width: 320,
+       height: 240,
+       image_format: 'jpeg',
+       jpeg_quality: 90
+    });
+    Webcam.attach( '#my_camera' );
+ }
+ // Tombol untuk menangkap
+ 
+ // preload shutter audio clip
+ var shutter = new Audio();
+ shutter.autoplay = false;
+ shutter.src = navigator.userAgent.match(/Firefox/) ? 'shutter.ogg' : 'shutter.mp3';
+ 
+ function take_snapshot() {
+    // play sound effect
+    shutter.play();
+ 
+    //  snapshot dan mendapatkan data gambar
+    Webcam.snap( function(data_uri) {
+       // display results in page
+       document.getElementById('results').innerHTML = '<img id="imageprev" src="'+data_uri+'"/>';
+	   $('#camera_image').val(data_uri);
+     } );
+ 
+     Webcam.reset();
+ }
+ 
+function saveSnap(){
+   // Get base64 value from <img id='imageprev'> source
+   var base64image = document.getElementById("imageprev").src;
+ 
+   Webcam.upload( base64image, '<?= base_url('anggota/camera') ?>', function(code, text) {
+        console.log('Save successfully');
+       //console.log(text);
+   });
+
+}
 </script>
 <?=$this->endSection('script');?>

@@ -1,15 +1,15 @@
 <?php
 
-namespace Katalog\Database\Migrations;
+namespace LokasiRuang\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Katalog extends Migration
+class LokasiRuang extends Migration
 {
 	public function up()
 	{
-		// t_katalog
-		$this->forge->dropTable('t_katalog', true);
+		// t_lokasiruang
+		$this->forge->dropTable('t_lokasiruang', true);
 		$this->forge->addField([
 			'id' 			=> ['type' => 'MEDIUMINT','constraint' => '11','unsigned' => true,'auto_increment' => true,],
 			'name' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
@@ -24,13 +24,13 @@ class Katalog extends Migration
 			'deleted_at' 	=> ['type' => 'DATETIME','null' => true,],
 		]);
 		$this->forge->addKey('id', true);
-		$this->forge->createTable('t_katalog');
+		$this->forge->createTable('t_lokasiruang');
 	}
 
 	//--------------------------------------------------------------------
 
 	public function down()
 	{
-		$this->forge->dropTable('t_katalog', true);
+		$this->forge->dropTable('t_lokasiruang', true);
 	}
 }

@@ -126,8 +126,9 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 'updated_by' => user_id(),
                 'updated_at' => $date,
             ];
-
+            // $this->data['save_data']=$save_data;
             $newKatalogId = $this->katalogModel->insert($save_data);
+            $this->data['save_data']= $save_data ;
 
             if ($newKatalogId) {
                 add_log('Tambah Katalog', 'katalog', 'create', 't_katalog', $newKatalogId);
@@ -136,14 +137,14 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 return redirect()->to('/katalog');
             } else {
                 set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Katalog.info.failed_saved'));
-                echo view('Katalog\Views\add', $this->data);
+                echo view('Katalog\Views\partial\simple', $sthis->data);
             }
         } else {
             $this->data['redirect'] = base_url('katalog/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
 
 
-            echo view('Katalog\Views\add', $this->data);
+            echo view('Katalog\Views\partial\simple', $this->data);
         }
     }
 

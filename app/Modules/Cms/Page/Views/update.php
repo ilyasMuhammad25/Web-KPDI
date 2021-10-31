@@ -50,7 +50,7 @@ $request->uri->setSilent();
 
                   <form id="frm" class="col-md-12 mx-auto" method="post" action="">
                         <div class="form-row">
-                              <div class="col-md-6">
+                              <div class="col-md-12">
                                     <div class="position-relative form-group">
                                           <label for="name"><?= lang('Page.field.name') ?>*</label>
                                           <div>
@@ -59,11 +59,20 @@ $request->uri->setSilent();
                                           </div>
                                     </div>
                               </div>
+							  <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                          <label for="slug"><?= lang('Page.field.slug') ?>*</label>
+                                          <div>
+                                                <input type="text" class="form-control" id="slug" name="slug" placeholder="<?= lang('Page.field.slug') ?>" value="<?= set_value('slug', $page->slug); ?>" />
+                                                <small class="info help-block text-muted">Permalink: <a href="<?=base_url('home/page?slug='.$page->slug)?>" target="_blank"><?=base_url('home/page?slug='.$page->slug)?></a></small>
+                                          </div>
+                                    </div>
+                              </div>
 							  <div class="col-md-3">
                                     <div class="position-relative form-group">
                                           <label>Kategori*</label>
                                           <select class="form-control" name="category_id" id="category_id" tabindex="-1" aria-hidden="true">
-                                                <?php foreach (get_ref('ref-page') as $row) : ?>
+                                                <?php foreach (get_ref_by_slug('ref-page') as $row) : ?>
                                                 <option value="<?= $row->id ?>"><?= $row->name ?></option>
                                                 <?php endforeach; ?>
                                           </select>

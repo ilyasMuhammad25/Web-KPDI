@@ -93,7 +93,11 @@ $(document).ready(function () {
       storePhysicalDescriptionValue();
       localStorage.setItem("data", JSON.stringify(storage));
       console.log(JSON.parse(localStorage.getItem("data")));
-      $(".opt").select2();
+      // $(".opt").select2({
+      //   theme: "bootstrap",
+      //   width: "element",
+      //   placeholder: $(this).data("placeholder"),
+      // });
     }, 1000);
   }
 

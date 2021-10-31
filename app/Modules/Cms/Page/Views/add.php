@@ -63,7 +63,7 @@ $request->uri->setSilent();
                                     <div class="position-relative form-group">
                                           <label>Kategori*</label>
                                           <select class="form-control" name="category_id" id="category_id" tabindex="-1" aria-hidden="true">
-                                                <?php foreach (get_ref('ref-page') as $row) : ?>
+                                                <?php foreach (get_ref_by_slug('ref-page') as $row) : ?>
                                                 <option value="<?= $row->id ?>"><?= $row->name ?></option>
                                                 <?php endforeach; ?>
                                           </select>

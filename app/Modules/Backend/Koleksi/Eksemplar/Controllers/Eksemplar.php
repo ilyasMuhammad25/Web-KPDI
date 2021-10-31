@@ -40,6 +40,8 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 		} 
 
         helper(['form', 'url', 'auth', 'app', 'adminigniter','eksemplar_helper']);
+        helper('adminigniter');
+        helper('reference');
     }
     public function index()
     {
@@ -119,12 +121,12 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         }
         $this->data['title'] = 'Tambah Eksemplar';
         // $this->data[' BarcodeNumber '] = (int)preg_replace('/[^0-9]/', '', BarcodeNumber_helper());
-        $this->data['ref_currency'] = get_references('ref_currency');
-        $this->data['ref_rules'] = get_references('ref_rules');
-        $this->data['ref_media'] = get_references('media');
-        $this->data['ref_partner'] = get_references('partner');
-        $this->data['ref_source'] = get_references('source');
-        $this->data['ref_status'] = get_references('ref_status');
+        $this->data['ref_currency'] = get_ref('ref_currency');
+        $this->data['ref_rules'] = get_ref('ref_rules');
+        $this->data['ref_media'] = get_ref('media');
+        $this->data['ref_partner'] = get_ref('partner');
+        $this->data['ref_source'] = get_ref('source');
+        $this->data['ref_status'] = get_ref('ref_status');
         $BarcodeNumber =  BarcodeNumber_helper();
 		$NoInduk =NoInduk_helper();
 		$RFID =RFID_helper();
@@ -145,10 +147,11 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 				$save_data[] = [
 					'NomorBarcode' => $no_barcode,
 					'NoInduk' => $no_induk_arr[$index],
+                    'RFID' => 	$rfid_arr,
 					'ref_currency' =>  $this->request->getPost('ref_currency'),
 					'Price' =>  $this->request->getPost('Price'),
 					'PriceType' =>  $this->request->getPost('PriceType'),
-					// 'TanggalPengadaan' =>  $this->request->getPost('TanggalPengadaan')?date('Y-m-d'),
+					'TanggalPengadaan' =>  $this->request->getPost('TanggalPengadaan'),
 					'CallNumber' =>  $this->request->getPost('CallNumber'),
 					// 'Branch_id' => 37,
 					'catalog_id' =>  $this->request->getPost('catalog_id'),
@@ -164,15 +167,15 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					// 'CreateTerminal' => null,
 					// 'IsVerified' => '',
 					// 'IsQUARANTINE' => null,
-					// 'QUARANTINEDBY' => null,
+					'QUARANTINEDBY' => user_id(),
 					// 'QUARANTINEDDATE' => null,
 					// 'QUARANTINEDTERMINAL' => null,
 					// 'ISREFERENSI' => null,
 					// 'EDISISERIAL' => $edisi_serial,
-					// // 'NOJILID' =>  $this->request->getPost['NOJILID'],
+					'NOJILID' =>  $this->request->getPost('NOJILID'),
 					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
-					// 'Bahan_Sertaan' =>  $this->request->getPost['Bahan_Sertaan'],
-					// 'KETERANGAN_LAIN' =>  $this->request->getPost['KETERANGAN_LAIN'],
+					'Bahan_Sertaan' =>  $this->request->getPost('Bahan_Sertaan'),
+					'KETERANGAN_LAIN' =>  $this->request->getPost['KETERANGAN_LAIN'],
 					'ISOPAC' =>  $this->request->getPost('IsOPAC'),
 					'created_by' => user_id(),
 				];
@@ -214,18 +217,52 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $this->data['title'] = 'Ubah Eksemplar';
+        $this->data['ref_currency'] = get_references('ref_currency');
+        $this->data['ref_rules'] = get_references('ref_rules');
+        $this->data['ref_media'] = get_references('media');
+        $this->data['ref_partner'] = get_references('nama_sumber');
+        $this->data['ref_source'] = get_references('jenis_sumber');
+        $this->data['ref_status'] = get_references('ref_status');
+        $BarcodeNumber =  BarcodeNumber_helper();
+		$NoInduk =NoInduk_helper();
+		$RFID =RFID_helper();
         $eksemplar = $this->eksemplarModel->find($id);
         $this->data['eksemplar'] = $eksemplar;
 
-		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('name', 'Nama', 'trim');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
                 $slug = url_title($this->request->getPost('name'), '-', TRUE);
                 $update_data = [
-                    'name' => $this->request->getPost('name'),
-                    'slug' => $slug,
-                    'sort' => $this->request->getPost('sort'),
-                    'description' => $this->request->getPost('description'),
+                    'ref_currency' =>  $this->request->getPost('ref_currency'),
+					'Price' =>  $this->request->getPost('Price'),
+					'PriceType' =>  $this->request->getPost('PriceType'),
+					'TanggalPengadaan' =>  $this->request->getPost('TanggalPengadaan'),
+					'callNumber' =>  $this->request->getPost('CallNumber'),
+					// 'Branch_id' => 37,
+					'catalog_id' =>  $this->request->getPost('catalog_id'),
+					'ref_partner' =>  $this->request->getPost('ref_partner'),
+					// 'Location_id' =>  $this->request->getPost['Location_id'],
+					'ref_rules' =>  $this->request->getPost('ref_rules'),
+					// 'Category_id' =>  $this->request->getPost['Category_id'],
+					'ref_media' =>  $this->request->getPost('ref_media'),
+					'ref_source' =>  $this->request->getPost('ref_source'),
+					'ref_status' =>  $this->request->getPost('ref_status'),
+					// 'Location_Library_id' =>  $this->request->getPost['Location_Library_id'],
+					'Keterangan_Sumber' => null,
+					// 'CreateTerminal' => null,
+					// 'IsVerified' => '',
+					// 'IsQUARANTINE' => null,
+					'QUARANTINEDBY' => user_id(),
+					// 'QUARANTINEDDATE' => null,
+					// 'QUARANTINEDTERMINAL' => null,
+					// 'ISREFERENSI' => null,
+					// 'EDISISERIAL' => $edisi_serial,
+					'NOJILID' =>  $this->request->getPost('NOJILID'),
+					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
+					'Bahan_Sertaan' =>  $this->request->getPost('Bahan_Sertaan'),
+					'KETERANGAN_LAIN' =>  $this->request->getPost['KETERANGAN_LAIN'],
+					'ISOPAC' =>  $this->request->getPost('IsOPAC'),
                     'updated_by' => user_id(),
                 ];
 

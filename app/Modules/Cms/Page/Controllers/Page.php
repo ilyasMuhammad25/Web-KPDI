@@ -40,6 +40,9 @@ class Page extends \hamkamannan\adminigniter\Controllers\BaseController
 		} 
 
 		helper('adminigniter');
+		helper('thumbnail');
+		helper('reference');
+		helper('reference');
     }
     public function index()
     {
@@ -156,11 +159,11 @@ class Page extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->validation->setRule('category_id', 'Jenis Tokoh', 'required');
         if ($this->request->getPost()) {
             if ($this->validation->withRequest($this->request)->run()) {
-                $slug = url_title($this->request->getPost('name'), '-', TRUE);
+				$slug = url_title($this->request->getPost('name'), '-', TRUE);
                 $update_data = [
                     'name' => $this->request->getPost('name'),
+                    'slug' => $this->request->getPost('slug')??$slug,
 					'category_id' => $this->request->getPost('category_id'),
-                    'slug' => $slug,
                     'sort' => $this->request->getPost('sort'),
                     'description' => $this->request->getPost('description'),
 					'content' => $this->request->getPost('content'),

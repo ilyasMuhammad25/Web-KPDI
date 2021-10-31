@@ -59,7 +59,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Sirkulasi';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['sirkulasis'] = $sirkulasis;
-        echo view('Sirkulasi\Views\listpeminjaman', $this->data);
+        echo view('Sirkulasi\Views\peminjaman/list', $this->data);
     }
 
     public function create()
@@ -69,6 +69,14 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
+
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('t_anggota');
+        $anggota = $baseModel
+            ->select('t_anggota.*')
+            ->find_all('name', 'asc');
+        $this->data['title'] = 'Tambah Sumbangan';
+        $this->data['anggota'] = $anggota;
 
         $this->data['title'] = 'Tambah Sirkulasi';
 
@@ -94,12 +102,12 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
                 return redirect()->to('/sirkulasi');
             } else {
                 set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
-                echo view('Sirkulasi\Views\entripeminjaman', $this->data);
+                echo view('Sirkulasi\Views\peminjaman\add', $this->data);
             }
         } else {
             $this->data['redirect'] = base_url('sirkulasi/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-            echo view('Sirkulasi\Views\entripeminjaman', $this->data);
+            echo view('Sirkulasi\Views\peminjaman\add', $this->data);
         }
     }
 
@@ -179,15 +187,15 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
                 add_log('Tambah Sirkulasi', 'sirkulasi', 'create', 't_sirkulasi', $newSirkulasiId);
                 set_message('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
                 set_message('toastr_type', 'success');
-                return redirect()->to('/sirkulasi/listpengembalian');
+                return redirect()->to('/sirkulasi/pengembalian/add');
             } else {
                 set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
-                echo view('Sirkulasi\Views\entripengembalian', $this->data);
+                echo view('Sirkulasi\Views\pengembalian/add', $this->data);
             }
         } else {
             $this->data['redirect'] = base_url('sirkulasi/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-            echo view('Sirkulasi\Views\entripengembalian', $this->data);
+            echo view('Sirkulasi\Views\pengembalian/add', $this->data);
         }
     }
 
@@ -326,5 +334,46 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'warning');
         }
         return redirect()->to('/sirkulasi');
+    }
+
+    public function perpanjangan()
+    {
+        if (!is_allowed('sirkulasi/createpengembalian')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+
+        $this->data['title'] = 'Tambah Sirkulasi';
+
+		$this->validation->setRule('name', 'Nama', 'required');
+        if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
+            $slug = url_title($this->request->getPost('name'), '-', TRUE);
+            $save_data = [
+				'name' => $this->request->getPost('name'),
+                'slug' => $slug,
+                'noanggota' => $this->request->getPost('noanggota'),
+                'nobarcode' => $this->request->getPost('nobarcode'),
+				'sort' => $this->request->getPost('sort'),
+				'description' => $this->request->getPost('description'),
+                'created_by' => user_id(),
+            ];
+
+            $newSirkulasiId = $this->sirkulasiModel->insert($save_data);
+
+            if ($newSirkulasiId) {
+                add_log('Tambah Sirkulasi', 'sirkulasi', 'create', 't_sirkulasi', $newSirkulasiId);
+                set_message('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
+                set_message('toastr_type', 'success');
+                return redirect()->to('/sirkulasi/pengembalian/add');
+            } else {
+                set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
+                echo view('Sirkulasi\Views\perpanjangan/add', $this->data);
+            }
+        } else {
+            $this->data['redirect'] = base_url('sirkulasi/create');
+            set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
+            echo view('Sirkulasi\Views\perpanjangan/add', $this->data);
+        }
     }
 }

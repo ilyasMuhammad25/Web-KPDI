@@ -6,7 +6,10 @@ $routes->group('anggota', ['namespace' => 'Anggota\Controllers'], function ($sub
 	$subroutes->add('', 'Anggota::index');
 	$subroutes->add('index', 'Anggota::index');
 	$subroutes->add('index_json', 'Anggota::index_json');
+	$subroutes->add('index_datatables', 'Anggota::index_datatables');
+	$subroutes->add('ajaxDataTables', 'Anggota::ajaxDataTables');
 	$subroutes->add('json', 'Anggota::json');
+	$subroutes->add('ajaxDataAnggota', 'Anggota::ajaxDataAnggota');
 	$subroutes->add('detail/(:any)', 'Anggota::detail/$1');
 	$subroutes->add('create', 'Anggota::create');
 	$subroutes->add('edit/(:any)', 'Anggota::edit/$1');
@@ -31,4 +34,5 @@ $routes->group('api/anggota', ['namespace' => 'Anggota\Controllers\Api'], functi
 	$subroutes->add('create', 'Anggota::create');
 	$subroutes->add('edit/(:any)', 'Anggota::edit/$1');
 	$subroutes->add('delete/(:any)', 'Anggota::delete/$1');
+	$subroutes->add('cities', 'Anggota::cities');
 });

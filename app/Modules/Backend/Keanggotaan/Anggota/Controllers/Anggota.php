@@ -1,11 +1,14 @@
 <?php
 
 namespace Anggota\Controllers;
+// namespace hamkamannan\adminigniter\Modules\Core\Parameter\Controllers;
 
 use \CodeIgniter\Files\File;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use DataTables\DataTables;
+use Config\Services;
+
 
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
@@ -13,19 +16,19 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $authorize;
     protected $anggotaModel;
     protected $uploadPath;
+    protected $lokasiperpustakaanModel;
     protected $modulePath;
     protected $baseModel;
+    
     
     function __construct()
     {
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
-        
+        $this->request 		= Services::request();
         $this->anggotaModel = new \Anggota\Models\AnggotaModel();
-        // $this->anggotaModel = new \Anggota\Models\AnggotaModel();
-        
-
-        // $this->anggotaModel1 = new \Anggota\Models\AnggotaModel->MemberNo();
+        $this->lokasiperpustakaanModel = new \LokasiPerpustakaan\Models\LokasiPerpustakaanModel();
+     
         
         $this->baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
@@ -49,8 +52,11 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
         helper('adminigniter');
+        helper('reference');
 		helper('anggota');
 		helper('tgl_indo');
+        helper('url');
+        helper('thumbnail');
     }
 
     public function index()
@@ -71,6 +77,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             ->join('users updated','updated.id = t_anggota.updated_by','left');
             
         $anggotas = $query->findAll();
+        
         $this->data['title'] = 'Anggota';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['anggotas'] = $anggotas;
@@ -82,6 +89,8 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		}
     }
 
+   
+
 	public function index_json()
     {
         if (!is_allowed('anggota/access')) {
@@ -92,17 +101,10 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$slug = $this->request->getVar('slug');
 
-        $query = $this->anggotaModel
-            ->select('t_anggota.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_anggota.created_by','left')
-            ->join('users updated','updated.id = t_anggota.updated_by','left');
-            
-        $anggotas = $query->findAll();
+       
         $this->data['title'] = 'Anggota';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['anggotas'] = $anggotas;
+        
        
 		if(!empty($slug)){			
 			echo view("Anggota\Views\slug\\$slug", $this->data);
@@ -111,10 +113,23 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		}
     }
 
-	public function json()
+    public function json()
 	{
-		return DataTables::use('v_anggota')->make(true);
+        $data = DataTables::use('v_anggota')
+        // ->select('t_anggota.*')
+        // ->select('users.username as created_name')
+        // ->join('users','users.id = t_anggota.created_by','left')
+        
+        // ->select('t_anggota.*') 
+        // ->select('users.username as updated_name')
+           
+            // ->join('users','users.id = t_anggota.updated_by','left')
+       
+        ->make(true);
+
+    return $data;
 	}
+
 
   
     public function create()
@@ -124,18 +139,25 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
             return redirect()->to('/dashboard');
         }
-    
-    $this->data['ref_identitas'] = get_references('ref_identitas');
-    $this->data['ref_perkawinan'] = get_references('ref_perkawinan');
-    $this->data['ref_jeniskelamin'] = get_references('ref_jeniskelamin');
-    $this->data['ref_pendidikan'] = get_references('ref_pendidikan');
-    $this->data['ref_pekerjaan'] = get_references('ref_perkerjaan');
-    $this->data['ref_jenisanggota'] = get_references('ref_jenisanggota');
-    $this->data['ref_agama'] = get_references('ref_agama');
-    $this->data['ref_unitkerja'] = get_references('ref_unitkerja');
-    $this->data['ref_fakultas'] = get_references('ref_fakultas');
-    $this->data['ref_jurusan'] = get_references('ref_jurusan');
-    $this->data['ref_Statusanggota'] = get_references('statanggota');
+
+        // mengambil nama lokasi perpustakaan
+    $lokasiperpustakaans =  $this->lokasiperpustakaanModel->findAll();
+       
+
+      
+    $this->data['lokasiperpustakaans'] = $lokasiperpustakaans;
+
+    $this->data['ref_identitas'] = get_ref('ref_identitas');
+    $this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
+    $this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
+    $this->data['ref_pendidikan'] = get_ref('ref_pendidikan');
+    $this->data['ref_pekerjaan'] = get_ref('ref_perkerjaan');
+    $this->data['ref_jenisanggota'] = get_ref('ref_jenisanggota');
+    $this->data['ref_agama'] = get_ref('ref_agama');
+    $this->data['ref_unitkerja'] = get_ref('ref_unitkerja');
+    $this->data['ref_fakultas'] = get_ref('ref_fakultas');
+    $this->data['ref_jurusan'] = get_ref('ref_jurusan');
+    $this->data['ref_Statusanggota'] = get_ref('statanggota');
     
     
     $this->data[' MemberNo'] =  get_MemberNo();
@@ -147,7 +169,16 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->validation->setRule('name', 'Nama', 'required');
         $this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-            $slug = url_title($this->request->getPost('name'), '-', TRUE);
+            
+			$base64_string = $this->request->getPost('camera_image');
+			$file = new File($this->uploadPath);
+            $newFileName = $file->getRandomName().'.jpg';
+			base64_to_jpeg($base64_string, $this->modulePath.$newFileName);
+
+			dd($this->modulePath.$newFileName);
+
+
+			$slug = url_title($this->request->getPost('name'), '-', TRUE);
            
             // $tanggal_lahir 	= $this->request->getPost('DateOfBirth');
           
@@ -231,7 +262,24 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             echo view('Anggota\Views\add', $this->data);
         }
     }
-
+     
+    public function camera(){
+        if (!is_allowed('anggota/update')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+                return redirect()->to('/dashboard');
+        }
+        // $files = (array) $this->request->getPost('file_image');
+        $filename = 'pic_'.date('YmdHis') . '.jpeg';
+ 
+$url = '';
+if( move_uploaded_file($_FILES['file_image']['tmp_name'],'upload/'.$filename) ){
+   $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . '/upload/' . $filename;
+}
+ 
+// Return image url
+echo $url;
+    }
     public function edit(int $id = null)
     {
         if (!is_allowed('anggota/update')) {
@@ -239,23 +287,29 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             set_message('toastr_type', 'error');
                 return redirect()->to('/dashboard');
         }
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('m_propinsi');
+        $propinsi = $baseModel
+            ->select('m_propinsi.*')
+            ->find_all('name', 'asc');
 
+        $this->data['propinsi'] = $propinsi;
 		$anggota = $this->anggotaModel->find($id);
 
         $this->data['title'] = 'Ubah Anggota';
 
         $this->data['anggota'] = $anggota;
-		$this->data['ref_identitas'] = get_references('ref_identitas');
-		$this->data['ref_perkawinan'] = get_references('ref_perkawinan');
-		$this->data['ref_jeniskelamin'] = get_references('ref_jeniskelamin');
-		$this->data['ref_pendidikan'] = get_references('ref_pendidikan');
-		$this->data['ref_pekerjaan'] = get_references('ref_perkerjaan');
-		$this->data['ref_jenisanggota'] = get_references('ref_jenisanggota');
-		$this->data['ref_agama'] = get_references('ref_agama');
-		$this->data['ref_unitkerja'] = get_references('ref_unitkerja');
-		$this->data['ref_fakultas'] = get_references('ref_fakultas');
-		$this->data['ref_jurusan'] = get_references('ref_jurusan');
-		$this->data['ref_Statusanggota'] = get_references('statanggota');
+		$this->data['ref_identitas'] = get_ref('ref_identitas');
+		$this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
+		$this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
+		$this->data['ref_pendidikan'] = get_ref('ref_pendidikan');
+		$this->data['ref_pekerjaan'] = get_ref('ref_perkerjaan');
+		$this->data['ref_jenisanggota'] = get_ref('ref_jenisanggota');
+		$this->data['ref_agama'] = get_ref('ref_agama');
+		$this->data['ref_unitkerja'] = get_ref('ref_unitkerja');
+		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
+		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
+		$this->data['ref_Statusanggota'] = get_ref('statanggota');
 
 		$this->validation->setRule('name', 'Nama', 'required');
 		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');

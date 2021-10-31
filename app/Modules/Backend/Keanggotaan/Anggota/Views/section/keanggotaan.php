@@ -274,13 +274,21 @@
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_Provincy" name="Provincy"
-                                placeholder="<?=lang('Anggota.field.provinsi')?>"
-                                value="<?= set_value('Provincy',$anggota->Provincy); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
+                        <select class="form-control select2" name="Provincy" id="Provincy" tabindex="-1"
+                                    aria-hidden="true" style="width:100%">
+                                    <option value="">-Provinsi-</option>
+                                    <?php foreach($propinsi as $row):?>
+                                        <option value="<?= $row->name ?>" <?=($row->name == $anggota->Provincy) ? 'selected':''?>>
+                                <?= $row->name ?>
+                            </option>
+                                 
+                                    <?php endforeach;?>
+                                    </select>
                         </div>
                     </div>
                 </div>
+                
+                
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?= lang('Anggota.field.city') ?></label>
@@ -292,6 +300,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name">Kecamatan</label>
@@ -334,6 +343,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="card-body">
             <div class="form-row">
                 <div class="col-md-12">
