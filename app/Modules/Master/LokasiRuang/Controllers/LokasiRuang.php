@@ -30,6 +30,7 @@ class LokasiRuang extends \hamkamannan\adminigniter\Controllers\BaseController
         if (!file_exists($this->modulePath)) {
             mkdir($this->modulePath);
         }
+        
 
         $this->auth = \Myth\Auth\Config\Services::authentication();
         $this->authorize = \Myth\Auth\Config\Services::authorization();
@@ -40,6 +41,12 @@ class LokasiRuang extends \hamkamannan\adminigniter\Controllers\BaseController
 			$this->session->set('redirect_url', current_url() );
 			return redirect()->route('login');
 		} 
+        helper('adminigniter');
+        helper('reference');
+		helper('anggota');
+		helper('tgl_indo');
+        helper('url');
+        helper('thumbnail');
     }
     public function index()
     {
@@ -50,11 +57,11 @@ class LokasiRuang extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $query = $this->lokasiruangModel
-            ->select('t_lokasiruang.*')
+            ->select('m_lokasiruang.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_lokasiruang.created_by','left')
-            ->join('users updated','updated.id = t_lokasiruang.updated_by','left');
+            ->join('users created','created.id = m_lokasiruang.created_by','left')
+            ->join('users updated','updated.id = m_lokasiruang.updated_by','left');
             
         $lokasiruangs = $query->findAll();
 
@@ -81,6 +88,7 @@ class LokasiRuang extends \hamkamannan\adminigniter\Controllers\BaseController
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $save_data = [
 				'name' => $this->request->getPost('name'),
+				'Lokasi_perpustakaan_id' => $this->request->getPost('Lokasi_perpustakaan_id'),
                 'slug' => $slug,
 				'sort' => $this->request->getPost('sort'),
 				'description' => $this->request->getPost('description'),

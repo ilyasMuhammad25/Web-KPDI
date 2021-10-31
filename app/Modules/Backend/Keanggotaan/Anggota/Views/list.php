@@ -54,7 +54,7 @@ $request->uri->setSilent();
                         <th><?=lang('Anggota.field.name')?></th>
                         <th><?=lang('Anggota.field.MemberNo')?></th>
                         <th><?=lang('Anggota.field.Email')?></th>
-                        <th><?=lang('Anggota.field.active')?></th>
+                        <th><?=lang('Anggota.field.iskeranjang')?></th>
                         <th><?=lang('Anggota.field.created_by')?></th>
                         <th><?=lang('Anggota.field.updated_by')?></th>
                         <th><?=lang('Anggota.label.action')?></th>
@@ -75,8 +75,8 @@ $request->uri->setSilent();
                         <td><?=_spec($row->Email);?></td>
                         <td width="50">
                             <input type="checkbox" class="apply-status"
-                                data-href="<?=base_url('anggota/apply_status');?>" data-field="active"
-                                data-id="<?=$row->id?>" <?=($row->active == 1) ? 'checked' : ''?> data-toggle="toggle"
+                                data-href="<?=base_url('anggota/apply_status');?>" data-field="iskeranjang"
+                                data-id="<?=$row->id?>" <?=($row->iskeranjang == 1) ? 'checked' : ''?> data-toggle="toggle"
                                 data-onstyle="success">
                         </td>
                         <td width="130">

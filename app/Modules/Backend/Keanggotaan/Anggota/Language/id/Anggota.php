@@ -2,6 +2,7 @@
 
 return [
    'module' => 'Anggota',
+   'module_keranjang' => 'Keranjang Anggota',
 
    'form.complete_the_data' => 'Mohon lengkapi data pada form berikut',
 
@@ -41,6 +42,7 @@ return [
    'field.category' => 'Kategori',
    'field.description' => 'Keterangan',
    'field.active' => 'Aktif',
+   'field.iskeranjang' => 'Keranjang Anggota',
    'field.created_by' => 'Dibuat oleh',
    'field.updated_by' => 'Diubah oleh',
    'field.created_at' => 'Tgl dibuat',

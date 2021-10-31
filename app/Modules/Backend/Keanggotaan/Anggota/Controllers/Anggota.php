@@ -17,6 +17,8 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $anggotaModel;
     protected $uploadPath;
     protected $lokasiperpustakaanModel;
+    protected $anggotahakaksesModel;
+
     protected $modulePath;
     protected $baseModel;
     
@@ -28,6 +30,8 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->request 		= Services::request();
         $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         $this->lokasiperpustakaanModel = new \LokasiPerpustakaan\Models\LokasiPerpustakaanModel();
+        $this->anggotahakaksesModel = new \Anggota\Models\Anggotahakakses();
+       
      
         
         $this->baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
@@ -76,7 +80,9 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
             ->join('users created','created.id = t_anggota.created_by','left')
             ->join('users updated','updated.id = t_anggota.updated_by','left');
             
-        $anggotas = $query->findAll();
+        $anggotas = $query
+       
+        ->find_all('created_at','desc');
         
         $this->data['title'] = 'Anggota';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
@@ -87,6 +93,37 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		} else {
 			echo view('Anggota\Views\list', $this->data);
 		}
+    }
+
+    public function keranjang()
+    {
+        if (!is_allowed('anggota/access')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+
+		$slug = $this->request->getVar('slug');
+
+        $query = $this->anggotaModel
+            ->select('t_anggota.*')
+            ->select('created.username as created_name')
+            ->select('updated.username as updated_name')
+            ->join('users created','created.id = t_anggota.created_by','left')
+            ->join('users updated','updated.id = t_anggota.updated_by','left');
+            
+        $anggotakeranjangs = $query
+       
+        ->where('iskeranjang','0')
+        ->findAll();
+        
+        $this->data['title'] = 'Anggota';
+        $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
+        $this->data['anggotakeranjangs'] = $anggotakeranjangs;
+       
+	
+	return view('Anggota\Views\list keranjang', $this->data);
+		
     }
 
    
@@ -170,12 +207,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             
-			$base64_string = $this->request->getPost('camera_image');
-			$file = new File($this->uploadPath);
-            $newFileName = $file->getRandomName().'.jpg';
-			base64_to_jpeg($base64_string, $this->modulePath.$newFileName);
-
-			dd($this->modulePath.$newFileName);
+			
 
 
 			$slug = url_title($this->request->getPost('name'), '-', TRUE);
@@ -186,6 +218,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 				'name' => $this->request->getPost('name'),
                 'slug' => $slug,
                 'MemberNo'=> get_MemberNo(),
+
                 // 'MemberNo'=> $this->anggotaModel->MemberNo(),
                 'IdentityNo'=> $this->request->getPost('IdentityNo'),
                 'PlaceOfBirth'=> $this->request->getPost('PlaceOfBirth'),
@@ -244,7 +277,39 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
                  }
                  $save_data['file_image'] = implode(',', $listed_file);
              }
+
+         $base64_string = $this->request->getPost('camera_image');
+             if(!empty($base64_string)){
+			    $file = new File($this->uploadPath);
+                $newFileName = $file->getRandomName().'.jpg';
+			    base64_to_jpeg($base64_string, $this->modulePath.$newFileName);
+                $save_data['file_image'] =  $newFileName;
+			   
+             }
+            
             $newAnggotaId = $this->anggotaModel->protect(false)->insert($save_data);
+            if($newAnggotaId){
+                $Locations=$this->request->getPost('Location_loan_id');
+               
+                $save_akses_lokasi_temp = [];
+                $save_akses_lokasi = [];
+                for ($x = 0; $x < count($Locations); $x++){
+                $save_akses_lokasi_temp = [
+                    't_anggota_id' => $newAnggotaId,
+                    'Location_loan_id' =>$Locations[$x], //$this->request->getPost('Location_loan_id'),
+                   //$this->request->getPost('LocationRuang_loan_id'),
+                    
+                ];
+                array_push($save_akses_lokasi,$save_akses_lokasi_temp);
+            }
+             
+                        }
+                       
+                        if(!empty($save_akses_lokasi)){
+                            $this->anggotahakaksesModel->insertBatch($save_akses_lokasi);
+                        }
+                    //   $tes=$this->$anggotahakaksesModel-findAll();
+                    //   dd($tes);
             // $newAnggotaId = $this->anggotaModel->insert($save_data);
 
             if ($newAnggotaId) {
@@ -448,6 +513,7 @@ echo $url;
         $value = $this->request->getVar('value');
 
         $anggotaUpdate = $this->anggotaModel->update($id, array($field => $value));
+        // dd($anggotaUpdate);
 
         if ($anggotaUpdate) {
             set_message('toastr_msg', ' Anggota berhasil diubah');
@@ -683,5 +749,3 @@ public function cetakKartu(int $id=null){
      $dompdf->stream();
 }
 }
-
-
