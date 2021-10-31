@@ -35,7 +35,7 @@ $request->uri->setSilent();
 			<div class="row">
 				<div class="col-lg-12">
 					Halaman Copyan dari backend
-					
+					<?= $this->include("Home\Views\anggota\pendaftaran"); ?>
 				</div>
 			</div>
 		</div>
