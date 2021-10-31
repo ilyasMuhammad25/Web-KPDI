@@ -28,7 +28,7 @@ $items = $query
 $pager = $query->pager;
 ?>
 
-<?= $this->extend('Core\layout\frontend\search\index'); ?>
+<?= $this->extend('Core\layout\frontend\main'); ?>
 <?= $this->section('style'); ?>
 <style>
 	.header_search_form .custom-select {

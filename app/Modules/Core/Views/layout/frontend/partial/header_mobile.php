@@ -2,20 +2,20 @@
 	<div class="container">
 		<div class="mobile_menu_left">
 			<button type="button" class="navbar-toggler mobile_menu_btn">
-			<span class="menu_toggle ">
-			<span class="hamburger">
-			<span></span>
-			<span></span>
-			<span></span>
-			</span>
-			</span>
+				<span class="menu_toggle ">
+					<span class="hamburger">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</span>
 			</button>
 			<a class="navbar-brand header_logo" href="index.html">
-			<img class="sticky_logo main_logo" src="<?=base_url('themes/opac')?>/img/logo.png" srcset="<?=base_url('themes/opac')?>/img/logo-2x.png 2x" alt="logo">
-			<img class="white_logo" src="<?=base_url('themes/opac')?>/img/logo-w.png" srcset="<?=base_url('themes/opac')?>/img/logo-w2x.png 2x" alt="logo">
+				<img class="sticky_logo main_logo" src="<?=base_url('themes/opac')?>/img/logo.png" srcset="<?=base_url('themes/opac')?>/img/logo-2x.png 2x" alt="logo">
+				<img class="white_logo" src="<?=base_url('themes/opac')?>/img/logo-w.png" srcset="<?=base_url('themes/opac')?>/img/logo-w2x.png 2x" alt="logo">
 			</a>
 		</div>
-		<div class="mobile_menu_right">
+		<!-- <div class="mobile_menu_right">
 			<div class="right-nav">
 				<a class="nav_btn tp_btn" href="https://is.gd/nDvqm2" target="_blank"></a>
 				<a class="px-2 ml-3" href="#" title="Subscribe to the newsletter">
@@ -34,7 +34,7 @@
 					</label>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 <div class="click_capture"></div>
@@ -55,7 +55,7 @@
 		<nav class="mobile_nav_top">
 			<ul class="navbar-nav menu ml-auto">
 				<li class="nav-item dropdown submenu">
-					<a href="#" class="nav-link">Home</a>
+					<a href="<?=base_url()?>" class="nav-link">Beranda</a>
 				</li>
 				<li class="nav-item dropdown submenu active">
 					<a href="#" class="nav-link">Docs</a>
@@ -125,7 +125,7 @@
 			</ul>
 		</nav>
 		<div class="mobile_nav_bottom">
-			<?= $this->include('Core\layout\frontend\search\partial\sidebar_nav'); ?>
+			<?= $this->include('Core\layout\frontend\partial\sidebar_nav'); ?>
 		</div>
 	</div>
 </div>

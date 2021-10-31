@@ -59,7 +59,7 @@ class Autoload extends AutoloadConfig
 		'Report' 			=> APPPATH . 'Modules/Backend/Report',
 		'Artikel' 			=> APPPATH . 'Modules/Backend/Koleksi/Artikel',
 		'Eksemplar' 		=> APPPATH . 'Modules/Backend/Koleksi/Eksemplar',
-		'Catalog' 			=> APPPATH . 'Modules/Backend/Koleksi/Catalog', 
+		'Katalog' 			=> APPPATH . 'Modules/Backend/Koleksi/Katalog', 
 		'KontenDigital' 	=> APPPATH . 'Modules/Backend/Koleksi/KontenDigital',
 		'SampulBuku' 		=> APPPATH . 'Modules/Backend/Koleksi/SampulBuku',
 		'Sirkulasi' 		=> APPPATH . 'Modules/Backend/Sirkulasi',

@@ -16,7 +16,7 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 	public function index()
 	{
 		$this->data['title'] = 'Home';
-		echo view('Home\Views\home\index', $this->data);
+		echo view('Home\Views\landing\index', $this->data);
 	}
 	public function search()
 	{

@@ -8,3 +8,4 @@
 <link rel="stylesheet" href="<?=base_url('themes/opac')?>/assets/mcustomscrollbar/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" href="<?=base_url('themes/opac')?>/css/style-main.css">
 <link rel="stylesheet" href="<?=base_url('themes/opac')?>/css/responsive.css">
+<link rel="stylesheet" href="<?= base_url('assets/vendors') ?>/fontawesome-pro-5/css/all.css">

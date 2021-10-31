@@ -4,7 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="shortcut icon" href="<?=base_url('themes/opac')?>/img/ico.png" type="image/x-icon">
-		<?= $this->include('Core\layout\frontend\search\partial\style'); ?>
+		<?= $this->include('Core\layout\frontend\partial\style'); ?>
+		<?= $this->include('Core\layout\frontend\partial\custom_style'); ?>
 		<?= $this->renderSection('style'); ?>
 		<title>OPAC</title>
 	</head>
@@ -23,15 +24,16 @@
 			</div>
 		</div>
 		<div class="body_wrapper">
-			<?= $this->include('Core\layout\frontend\search\partial\header'); ?>
-			<?= $this->include('Core\layout\frontend\search\partial\header_mobile'); ?>
-			<?= $this->include('Core\layout\frontend\search\partial\breadcrumb'); ?>
+			<?= $this->include('Core\layout\frontend\partial\header'); ?>
+			<?= $this->include('Core\layout\frontend\partial\header_mobile'); ?>
+			<?= $this->include('Core\layout\frontend\partial\breadcrumb'); ?>
 			<?= $this->renderSection('page'); ?>
-			<?= $this->include('Core\layout\frontend\search\partial\footer'); ?>
+			<?= $this->include('Core\layout\frontend\partial\footer'); ?>
 		</div>
 		<!-- tolltip modal here -->
 		<a id="back-to-top" title="Back to Top"></a>
-		<?= $this->include('Core\layout\frontend\search\partial\script'); ?>
+		<?= $this->include('Core\layout\frontend\partial\script'); ?>
+		<?= $this->include('Core\layout\frontend\partial\custom_script'); ?>
 		<?= $this->renderSection('script'); ?>
 	</body>
 </html>
