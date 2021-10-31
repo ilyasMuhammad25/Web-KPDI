@@ -11,7 +11,7 @@ if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 
 define('WEB_LANG', isset($_SESSION['web_lang']) ? $_SESSION['web_lang'] : $language);
 
-define('FORM_JUDUL', 'title');
+define('FORM_JUDUL', 'title'); 
 define('FORM_PENGARANG', 'author');
 define('FORM_SUBJEK', 'subject');
 define('FORM_ISBN', 'subject');
