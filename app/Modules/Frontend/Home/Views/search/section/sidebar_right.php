@@ -2,12 +2,7 @@
 $request = \Config\Services::request();
 $request->uri->setSilent();
 
-$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_worksheets');
-$categories = $baseModel
-    ->select('t_worksheets.*')
-	->where('active', 1)
-    ->find_all('id', 'asc');
+$worksheets = get_worksheet_summary();
 ?>
 
 <div class="open_icon" id="right">
@@ -20,8 +15,8 @@ $categories = $baseModel
 		<div class="widget categorie_widget">
 			<h5>Kategori Koleksi</h5>
 			<ul class="list-unstyled categorie_list">
-				<?php foreach($categories as $row):?>
-					<li><a href="<?=base_url('home/search?pDataItem=&pType=Title&pLembarkerja='.$row->id)?>"><?=$row->name?> <span></span></a></li>
+				<?php foreach($worksheets as $row):?>
+					<li><a href="<?=base_url('home/search?pDataItem=&pType=&pLembarkerja='.$row->id)?>"><?=$row->name?> (<?=$row->total?>)</a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>

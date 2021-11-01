@@ -19,6 +19,13 @@ if(!empty($keyword)){
     $count_items = $query->countAllResults(false);
 } 
 
+if(!empty($worksheet)){
+    $query->groupStart();
+    $query->where('t_katalog.Worksheet_id', $worksheet);
+    $query->groupEnd();
+    $count_items = $query->countAllResults(false);
+} 
+
 $items = $query
     ->select('t_katalog.*')
     ->orderBy('t_katalog.created_at', 'desc')

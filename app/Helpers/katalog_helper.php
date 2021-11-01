@@ -1,4 +1,18 @@
 <?php
+if (!function_exists('get_worksheet_summary')) {
+	function get_worksheet_summary()
+	{
+		$katalogModel = new \Katalog\Models\KatalogModel();
+		$query = $katalogModel
+			->select('t_worksheets.id, t_worksheets.name, count(*) as total')
+			->join('t_worksheets','t_worksheets.id = t_katalog.Worksheet_id','inner')
+    		->groupBy('t_katalog.Worksheet_id')
+			->where('t_worksheets.active', 1);
+
+		return $query->get()->getResult();
+	}
+}
+
 if (!function_exists('get_worksheet_label')) {
 	function get_worksheet_label($worksheet_id)
 	{
