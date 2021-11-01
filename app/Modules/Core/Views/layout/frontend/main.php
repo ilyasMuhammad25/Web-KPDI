@@ -35,5 +35,8 @@
 		<?= $this->include('Core\layout\frontend\partial\script'); ?>
 		<?= $this->include('Core\layout\frontend\partial\custom_script'); ?>
 		<?= $this->renderSection('script'); ?>
+		<script>
+			$('#pDataItem').focus();
+		</script>
 	</body>
 </html>
