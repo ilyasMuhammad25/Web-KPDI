@@ -14,7 +14,7 @@ $count_items = $query->countAllResults(false);
 
 if(!empty($keyword)){
     $query->groupStart();
-    $query->like('t_katalog.title', $keyword);
+    $query->like('t_katalog.Title', $keyword);
     $query->groupEnd();
     $count_items = $query->countAllResults(false);
     // dd($count_items);
@@ -67,7 +67,7 @@ $pager = $query->pager;
 					<div class="shortcode_title">
 						<a class="btn" href="#"><?=get_worksheet_label($worksheet)?></a><br>
 						<?php if(!empty($keyword)): ?>
-							Pencarian <i><b>"<?=$request->getVar('pDataItem')?>"</b></i>, ditemukan <?=$count_items?> item.
+							Pencarian <i><b><?=$request->getVar('pDataItem')?></b></i>, ditemukan <?=$count_items?> item.
 						<?php else:?>
 							Ditemukan <?=$count_items?> item.
 						<?php endif;?>
