@@ -49,9 +49,9 @@ $pager = $query->pager;
 				<div class="col-sm-7">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Beranda</a></li>
+							<li class="breadcrumb-item"><a href="<?=base_url()?>">Beranda</a></li>
 							<!-- <li class="breadcrumb-item"><a href="#">Docs</a></li> -->
-							<li class="breadcrumb-item active" aria-current="page">Hasil Pencarian &nbsp;  <b>"<?=$request->getVar('pDataItem')?>"</b></li>
+							<li class="breadcrumb-item active" aria-current="page">Hasil Pencarian &nbsp;  <b><i><?=$request->getVar('pDataItem')?></i></b></li>
 						</ol>
 					</nav>
 				</div>
