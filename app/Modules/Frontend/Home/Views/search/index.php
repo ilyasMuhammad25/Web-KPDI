@@ -99,7 +99,7 @@ $pager = $query->pager;
 															<a href="<?=base_url('home/search?slug=#')?>">
 																<p class="b_title"><?=$row->Title?></p>
 															</a> 
-															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($worksheet)?></span>
+															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($row->Worksheet_id)?></span>
 														</td>
 													</tr>
 													<tr>

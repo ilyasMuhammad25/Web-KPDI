@@ -4,29 +4,47 @@ if (!function_exists('get_worksheet_label')) {
 	{
 		$alias_name = '';
 		switch ($worksheet_id) {
-			case 'OPAC_NASKAH_KUNO':
-				$alias_name = 'OPAC_NASKAH_KUNO_LABEL';
+			case 1:
+				$alias_name = 'Monograf';
 				break;
-			case 'OPAC_BUKU_LANGKA': // di nomor panggil 
-				$alias_name = 'OPAC_BUKU_LANGKA_LABEL';
+			case 2: 
+				$alias_name = 'Sumber Elektronik';
 				break;
-			case 'OPAC_PETA':
-				$alias_name = 'OPAC_PETA_LABEL';
+			case 3:
+				$alias_name = 'Film';
 				break;
-			case 'OPAC_FOTO_GAMBAR_LUKISAN':
-				$alias_name = 'OPAC_FOTO_GAMBAR_LUKISAN_LABEL';
+			case 4:
+				$alias_name = 'Terbitan Berkala';
 				break;
-			case 'OPAC_MAJALAH_SURAT_KABAR_LANGKA':
-				$alias_name = 'OPAC_MAJALAH_SURAT_KABAR_LANGKA_LABEL';
+			case 5:
+				$alias_name = 'Bahan Kartografis';
 				break;
-			case 'OPAC_MIKRO_FILM':
-				$alias_name = 'OPAC_MIKRO_FILM_LABEL';
+			case 6: 
+				$alias_name = 'Bahan Grafis';
 				break;
-			case 'OPAC_SUMBER_LAINNYA':
-				$alias_name = 'OPAC_SUMBER_LAINNYA_LABEL';
+			case 7:
+				$alias_name = 'Rekaman Video';
+				break;
+			case 8:
+				$alias_name = 'Musik';
+				break;
+			case 9:
+				$alias_name = 'Bahan Campuran';
+				break;
+			case 10: 
+				$alias_name = 'Rekaman Suara';
+				break;
+			case 11:
+				$alias_name = 'Bentuk Mikro';
+				break;
+			case 12:
+				$alias_name = 'Manuskrip';
+				break;
+			case 15:
+				$alias_name = 'Bahan Ephemeral ';
 				break;
 			default:
-				$alias_name = 'OPAC_SEMUA_KOLEKSI_LABEL';
+				$alias_name = 'Monograf';
 		}
 		return $alias_name;
 	}
