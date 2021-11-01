@@ -65,7 +65,7 @@ $pager = $query->pager;
 
 				<div class="col-lg-7 col-md-8 doc-middle-content" style="padding-left:5px; padding-right:30px;">
 					<div class="shortcode_title">
-						<a class="btn" href="#"><?=get_worksheet_label($worksheet)?></a><br>
+
 						<?php if(!empty($keyword)): ?>
 							Pencarian <i><b><?=$request->getVar('pDataItem')?></b></i>, ditemukan <?=$count_items?> item.
 						<?php else:?>
