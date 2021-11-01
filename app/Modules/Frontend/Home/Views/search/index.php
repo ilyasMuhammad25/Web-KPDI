@@ -7,17 +7,16 @@ $query = $katalogModel
     ->where('t_katalog.active',1);
 
 $keyword = $request->getVar('pDataItem');
-$type = $request->getVar('pType');
+$type = $request->getVar('pType') ?? 'Title';
 $worksheet = $request->getVar('pLembarkerja');
 
 $count_items = $query->countAllResults(false);
 
 if(!empty($keyword)){
     $query->groupStart();
-    $query->like('t_katalog.Title', $keyword);
+    $query->like('t_katalog.'.$type, $keyword);
     $query->groupEnd();
     $count_items = $query->countAllResults(false);
-    // dd($count_items);
 } 
 
 $items = $query
