@@ -1,4 +1,4 @@
-<section class="doc_testimonial_area mt-5">
+<section class="doc_testimonial_area pt-5 pb-5">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6">

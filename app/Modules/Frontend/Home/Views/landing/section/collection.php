@@ -1,4 +1,4 @@
-<section class="doc_community_area">
+<section class="doc_community_area pt-5 pb-5">
 	<img class="shap_one" src="<?=base_url('themes/opac')?>/img/new/community_bg_shap_one.png" alt="">
 	<img class="shap_two" src="<?=base_url('themes/opac')?>/img/new/community_bg_shap_two.png" alt="">
 	<div class="container">

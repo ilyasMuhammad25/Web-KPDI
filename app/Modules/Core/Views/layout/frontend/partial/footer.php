@@ -1,5 +1,5 @@
 <footer class="forum_footer_area pt-0 pb-0">
-	<div class="bg-transparent pt-4 pb-4">
+	<div class="bg-transparent pt-5 pb-5">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-sm-6">

@@ -1,4 +1,4 @@
-<section class="recommended_topic_area">
+<section class="recommended_topic_area pt-5 pb-5">
 	<div class="container">
 		<div class="recommended_topic_inner">
 			<img class="doc_shap_one" src="img/new/shap.png" alt="">
