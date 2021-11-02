@@ -58,7 +58,9 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
             ->join('users created','created.id = t_eksemplar.created_by','left')
             ->join('users updated','updated.id = t_eksemplar.updated_by','left');
             
-        $eksemplars = $query->findAll();
+        $eksemplars = $query
+        ->Where('IsQUARANINE','1')
+        ->find_all('created_at','desc');
 
         $this->data['title'] = 'Eksemplar';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
@@ -81,7 +83,9 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
             ->join('users created','created.id = t_eksemplar.created_by','left')
             ->join('users updated','updated.id = t_eksemplar.updated_by','left');
             
-        $eksemplars = $query->findAll();
+        $eksemplars = $query
+        ->Where('IsQUARANINE','0')
+        ->find_all('created_at','desc');
 
         $this->data['title'] = 'Eksemplar - Karantina';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
@@ -104,7 +108,9 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
             ->join('users created','created.id = t_eksemplar.created_by','left')
             ->join('users updated','updated.id = t_eksemplar.updated_by','left');
             
-        $eksemplars = $query->findAll();
+        $eksemplars = $query
+        ->Where('iskeranjang','0')
+        ->find_all('created_at','desc');
 
         $this->data['title'] = 'Eksemplar - Keranjang';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');

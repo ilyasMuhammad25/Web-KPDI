@@ -9,6 +9,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $auth;
     protected $authorize;
     protected $sirkulasiModel;
+    protected $sirkulasi_itemModel;
     protected $uploadPath;
     protected $modulePath;
     
@@ -18,6 +19,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->language->setLocale('id');
         
         $this->sirkulasiModel = new \Sirkulasi\Models\SirkulasiModel();
+        $this->sirkulasi_itemModel = new \Sirkulasi\Models\Sirkulasi_itemModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/sirkulasi/';
         
@@ -38,6 +40,13 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 			$this->session->set('redirect_url', current_url() );
 			return redirect()->route('login');
 		} 
+        helper('adminigniter');
+        helper('reference');
+		helper('anggota');
+		helper('tgl_indo');
+        helper('url');
+        helper('thumbnail');
+        helper('sirkulasi');
     }
     public function index()
     {
@@ -48,11 +57,11 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $query = $this->sirkulasiModel
-            ->select('t_sirkulasi.*')
+            ->select('t_eksemplar_loan.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_sirkulasi.created_by','left')
-            ->join('users updated','updated.id = t_sirkulasi.updated_by','left');
+            ->join('users created','created.id = t_eksemplar_loan.created_by','left')
+            ->join('users updated','updated.id = t_eksemplar_loan.updated_by','left');
             
         $sirkulasis = $query->findAll();
 
@@ -62,7 +71,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         echo view('Sirkulasi\Views\peminjaman/list', $this->data);
     }
 
-    public function create()
+    public function create_peminjaman()
     {
         if (!is_allowed('sirkulasi/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
@@ -79,21 +88,44 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['anggota'] = $anggota;
 
         $this->data['title'] = 'Tambah Sirkulasi';
-
-		$this->validation->setRule('name', 'Nama', 'required');
+        $NomorTransaksi =  NomorTransaksi_helper();
+		$this->validation->setRule('t_anggota_id', 't_anggota_id', 'required');
+		// $this->validation->setRule('t_eksemplar_id', 't_eksemplar_id', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-            $slug = url_title($this->request->getPost('name'), '-', TRUE);
+            // $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $save_data = [
-				'name' => $this->request->getPost('name'),
-                'slug' => $slug,
-                'noanggota' => $this->request->getPost('noanggota'),
-                'nobarcode' => $this->request->getPost('nobarcode'),
+				't_anggota_id' => $this->request->getPost('t_anggota_id'),
+				'NomorTransaksi' => $NomorTransaksi,
+				// 't_eksemplar_id' => $this->request->getPost('t_anggota_id'),
+                'Tanggal_pinjam' => date("Y-m-d H:i:s"),
 				'sort' => $this->request->getPost('sort'),
 				'description' => $this->request->getPost('description'),
                 'created_by' => user_id(),
             ];
 
-            $newSirkulasiId = $this->sirkulasiModel->insert($save_data);
+            $newSirkulasiId = $this->sirkulasiModel->protect(false)->insert($save_data);
+            if($newSirkulasiId){
+                $eksemplars=$this->request->getPost('t_eksemplar_id');
+               
+                $save_itemLoan_temp = [];
+                $save_itemLoan = [];
+                for ($x = 0; $x < count($eksemplars); $x++){
+                $save_itemLoan_temp = [
+                    't_EksemplarLoan_id' => $newSirkulasiId,
+                    't_eksemplar_id' =>$eksemplars[$x], //$this->request->getPost('Location_loan_id'),
+                   //$this->request->getPost('LocationRuang_loan_id'),
+                    
+                ];
+                array_push($save_itemLoan,$save_itemLoan_temp);
+            }
+             
+                        }
+                    
+                        if(!empty($save_itemLoan)){
+                    
+                          $saveLoan=  $this->sirkulasi_itemModel->insertBatch($save_itemLoan);
+                          
+                        };
 
             if ($newSirkulasiId) {
                 add_log('Tambah Sirkulasi', 'sirkulasi', 'create', 't_sirkulasi', $newSirkulasiId);
@@ -182,6 +214,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             ];
 
             $newSirkulasiId = $this->sirkulasiModel->insert($save_data);
+         
 
             if ($newSirkulasiId) {
                 add_log('Tambah Sirkulasi', 'sirkulasi', 'create', 't_sirkulasi', $newSirkulasiId);

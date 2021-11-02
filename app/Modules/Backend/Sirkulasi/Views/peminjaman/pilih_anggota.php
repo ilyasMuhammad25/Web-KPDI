@@ -53,6 +53,7 @@ $anggotas = $baseModel
                                         <button type="button" data-id=<?= _spec($row->id); ?>
                                             data-no_anggota="<?= _spec($row->MemberNo); ?>"
                                             data-name="<?= _spec($row->name); ?>"
+                                            data-no_anggota1="<?= _spec($row->MemberNo); ?>"
                                             class="btn btn-primary btn-pilih">Pilih</button>
                                     </td>
 

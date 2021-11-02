@@ -28,13 +28,13 @@ class Sirkulasi extends Migration
 			'deleted_at' 	=> ['type' => 'DATETIME','null' => true,],
 		]);
 		$this->forge->addKey('id', true);
-		$this->forge->createTable('t_sirkulasi');
+		$this->forge->createTable('t_eksemplar_loan');
 	}
 
 	//--------------------------------------------------------------------
 
 	public function down()
 	{
-		$this->forge->dropTable('t_sirkulasi', true);
+		$this->forge->dropTable('t_eksemplar_loan', true);
 	}
 }

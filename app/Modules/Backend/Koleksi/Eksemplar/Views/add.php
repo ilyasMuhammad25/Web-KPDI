@@ -2,7 +2,7 @@
 $request = \Config\Services::request();
 $request->uri->setSilent();
 $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_katalogold');
+$baseModel->setTable('t_katalog');
 $katalogs = $baseModel
     ->find_all('name', 'asc');
     // dd($katalog);

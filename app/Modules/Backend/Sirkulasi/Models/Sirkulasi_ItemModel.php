@@ -2,14 +2,14 @@
 
 namespace Sirkulasi\Models;
 
-class SirkulasiModel extends \hamkamannan\adminigniter\Models\BaseModel
+class Sirkulasi_itemModel extends \hamkamannan\adminigniter\Models\BaseModel
 {
-    protected $table      = 't_eksemplar_loan';
+    protected $table      = 't_eksemplarloan_item';
     protected $primaryKey = 'id';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;
     protected $allowedFields = [
-        'id', 'slug', 'NomorTransaksi', 't_anggota_id', 'Tanggal_pinjam', 'Tenggal_kembali','Location_library_id', 'sort',  'active', 'created_by', 'updated_by'
+        'id', 't_EksemplarLoan_id', 't_eksemplar_id', 'Location_library_id', 'description', 'sort',  'active', 'created_by', 'updated_by'
     ];
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

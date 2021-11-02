@@ -484,21 +484,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="position-relative form-group">
-                                        <strong> <label for="name">Lokasi Ruang</label></strong>
-                                        <div>
-                                            <select class="form-control js-example-basic-multiple"
-                                                name="LocationRuang_loan_id[]" multiple="multiple" tabindex="-1"
-                                                aria-hidden="true" style="width:100%">
-                                                <option value="">-Pilih-</option>
-                                                <?php foreach(get_dropdown('m_lokasiruang') as $row):?>
-                                                <option value="<?=$row->code?>"><?=$row->text?></option>
-                                                <?php endforeach;?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                            
 
                             </div>
 

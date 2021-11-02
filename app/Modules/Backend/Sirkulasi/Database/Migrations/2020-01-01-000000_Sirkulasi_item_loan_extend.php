@@ -4,7 +4,7 @@ namespace Sirkulasi\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Sirkulasi extends Migration
+class Sirkulasi_item_loan_extend extends Migration
 {
 	public function up()
 	{
@@ -25,13 +25,13 @@ class Sirkulasi extends Migration
 			'deleted_at' 	=> ['type' => 'DATETIME','null' => true,],
 		]);
 		$this->forge->addKey('id', true);
-		$this->forge->createTable('t_sirkulasi');
+		$this->forge->createTable('t_Eksemplar_extend');
 	}
 
 	//--------------------------------------------------------------------
 
 	public function down()
 	{
-		$this->forge->dropTable('t_sirkulasi', true);
+		$this->forge->dropTable('t_Eksemplar_extend', true);
 	}
 }
