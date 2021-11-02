@@ -1,4 +1,11 @@
 <?php
+if (!function_exists('create_user')) {
+    function create_user($username, $email)
+    {
+        return true;
+    }
+}
+
 if (!function_exists('get_MemberNo')) {
     function get_MemberNo()
     {
