@@ -1,0 +1,29 @@
+<?php
+     $page = get_page('panduan');
+?>
+<section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Panduan</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+           
+           
+          </div>
+          <div class="col-lg-12 pt-4 pt-lg-0">
+            <p  style="text-align:justify">
+            <?=$page->content?>
+            </p>
+           
+                    <!-- <a href="<?=base_url('home')?>" class="footer-logo margin-25px-bottom d-inline-block">
+                        <img src="<?=base_url('uploads')?>/surat.png" data-at2x="<?=base_url('uploads')?>/surat.png" alt="">
+                       
+                    </a> -->
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->

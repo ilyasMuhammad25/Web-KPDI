@@ -48,3 +48,17 @@ if (!function_exists('unlink_file')) {
 		return false;
     }
 }
+
+
+if (!function_exists('get_barcode')) {
+    function get_barcode($barcode_str)
+    {
+		$result = '';
+		$barcode = new \Picqer\Barcode\BarcodeGeneratorHTML();
+		$barcode = $barcode->getBarcode($barcode_str, $barcode::TYPE_CODE_39);
+		$result = $barcode;
+
+		return $result;
+    }
+}
+
