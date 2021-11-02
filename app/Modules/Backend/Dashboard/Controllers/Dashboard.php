@@ -32,7 +32,11 @@ class Dashboard extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['countActiveUser'] = count($this->userModel->where('active', 1)->findAll());
         $this->data['countInactiveUser'] = count($this->userModel->where('active', 0)->findAll());
 
-        echo view('Dashboard\Views\index', $this->data);
+		if(is_member('admin')){
+			echo view('Dashboard\Views\index', $this->data);
+		} else {
+			echo view('Dashboard\Views\member', $this->data);
+		}
     }
 
     public function highlight()

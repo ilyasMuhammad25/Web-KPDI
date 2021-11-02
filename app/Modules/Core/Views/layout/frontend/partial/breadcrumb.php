@@ -33,12 +33,13 @@ $request->uri->setSilent();
 					</div>
 				</div>
 				<div class="header_search_keyword text-center">
-					<span class="header-search-form__keywords-label">Kata kunci terkini</span>
+					<br>
+					<!-- <span class="header-search-form__keywords-label">Kata kunci terkini</span>
 					<ul class="list-unstyled">
 						<li class="wow fadeInUp" data-wow-delay="0.2s"><a href="#">Bung Karno</a></li>
 						<li class="wow fadeInUp" data-wow-delay="0.3s"><a href="#">Sejarah Indonesia</a></li>
 						<li class="wow fadeInUp" data-wow-delay="0.4s"><a href="#">Pra Kemerdekaan</a></li>
-					</ul>
+					</ul> -->
 				</div>
 			</form>
 		</div>

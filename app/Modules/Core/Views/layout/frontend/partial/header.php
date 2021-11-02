@@ -31,92 +31,30 @@ $request->uri->setSilent();
 			</span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav menu ml-auto">
+			<ul class="navbar-nav menu ml-auto">
 				<li class="nav-item dropdown active">
 					<a href="<?=base_url()?>" class="nav-link dropdown-toggle">Beranda</a>
 				</li>
-				<li class="nav-item dropdown submenu mega_menu tab-demo">
-					<a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mega Menu</a>
-					<i class="arrow_carrot-down_alt2 mobile_dropdown_icon" aria-hidden="true" data-toggle="dropdown"></i>
-					<ul class="dropdown-menu">
-						<li>
-							<div class="row">
-								<div class="col-lg-5 tabHeader">
-									<ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-										<li class="nav-item active">
-											<a class="nav-link" id="layanan1-tab" data-toggle="pill" href="#layanan1" role="tab" aria-controls="layanan1" aria-selected="true">Layanan 1</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" id="layanan2-tab" data-toggle="pill" href="#layanan2" role="tab" aria-controls="layanan2" aria-selected="false">Layanan 2</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" id="layanan3-tab" data-toggle="pill" href="#layanan3" role="tab" aria-controls="layanan3" aria-selected="false">Layanan 3</a>
-										</li>
-									</ul>
-								</div>
-								<div class="col-lg-7">
-									<div class="tab-content tabContent" id="v-pills-tabContent">
-										<div class="tab-pane fade active show" id="layanan1" role="tabpanel" aria-labelledby="layanan1-tab">
-											<div class="d-flex">
-												<ul class="list-unstyled tab_list">
-													<li> <a href="<?=base_url()?>"> Link 1 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 2 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 3 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 4 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 5 </a> </li>
-												</ul>
-											</div>
-										</div>
-										<div class="tab-pane fade" id="layanan2" role="tabpanel" aria-labelledby="layanan2-tab">
-											<div class="d-flex">
-												<ul class="list-unstyled tab_list">
-												<li> <a href="<?=base_url()?>"> Link 1 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 2 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 3 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 4 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 5 </a> </li>
-												</ul>
-											</div>
-										</div>
-										<div class="tab-pane fade" id="layanan3" role="tabpanel" aria-labelledby="layanan3-tab">
-											<div class="d-flex">
-												<ul class="list-unstyled tab_list">
-													<li> <a href="<?=base_url()?>"> Link 1 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 2 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 3 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 4 </a> </li>
-													<li> <a href="<?=base_url()?>"> Link 5 </a> </li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item dropdown submenu">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Simple Menu
-					</a>
-					<i class="arrow_carrot-down_alt2 mobile_dropdown_icon" aria-hidden="false" data-toggle="dropdown"></i>
-					<ul class="dropdown-menu">
-						<li class="nav-item"><a href="<?=base_url()?>" class="nav-link">Tautan 1</a></li>
-						<li class="nav-item"><a href="<?=base_url()?>" class="nav-link">Tautan 2</a></li>
-						<li class="nav-item"><a href="<?=base_url()?>" class="nav-link">Tautan 3</a></li>
-						<li class="nav-item"><a href="<?=base_url()?>" class="nav-link">Tautan 4</a></li>
-						<li class="nav-item"><a href="<?=base_url()?>" class="nav-link">Tautan 5</a></li>
-					</ul>
-				</li>
 			</ul>
 			<div class="right-nav">
-				<?php if(!logged_in()):?>
-					<a class="nav_btn" href="<?=base_url('login')?>"><i class="fa fa-lock"></i> Masuk</a> 
-					&nbsp;
-					<a class="nav_btn tp_btn" href="<?=base_url('home/anggota')?>"><i class="fa fa-user"></i> Pendaftaran Anggota</a>
-				<?php else:?>
-					<a class="nav_btn" href="<?=base_url('dashboard')?>"><i class="fa fa-desktop"></i> Dashboard</a> 
-				<?php endif;?> 
+				<ul class="navbar-nav menu ml-auto">
+					<li class="nav-item dropdown submenu">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-user"></i> Keanggotaan Online
+						</a>
+						<i class="arrow_carrot-down_alt2 mobile_dropdown_icon" aria-hidden="false" data-toggle="dropdown"></i>
+						<ul class="dropdown-menu">
+							<?php if(!logged_in()):?>
+								<li class="nav-item"><a href="<?=base_url('login')?>" class="nav-link">Masuk</a></li>
+								<li class="nav-item"><a href="<?=base_url('register')?>" class="nav-link">Daftar</a></li>
+								<?php else:?>
+									<li class="nav-item"><a href="<?=base_url('dashboard')?>" class="nav-link">Dashboard</a></li>
+									<li class="nav-item"><a href="<?=base_url('user/profile')?>" class="nav-link">Profil</a></li>
+									<li class="nav-item"><a href="<?=base_url('logout')?>" class="nav-link">Keluar</a></li>
+							<?php endif;?> 
+						</ul>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

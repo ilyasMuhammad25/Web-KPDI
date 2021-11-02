@@ -110,7 +110,7 @@ $pager = $query->pager;
 														</td>
 													</tr>
 													<tr>
-														<th>Kreator</th>
+														<th>Kreator/Pengarang</th>
 														<td><?=$row->Author?></td>
 													</tr>
 													<tr>

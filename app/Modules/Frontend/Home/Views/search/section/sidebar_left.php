@@ -4,35 +4,28 @@
 		<i class="arrow_carrot-left"></i>
 	</div>
 	<div class="scroll">
-		<h5 class="pb-2">Filter Pencarian</h5>
+		<h5 class="pb-2">Lebih Spesifik</h5>
 		<ul class="list-unstyled nav-sidebar">
-			
-			<li class="nav-item">
-				<a href="javascript:void(0)" class="nav-link"><img src="<?=base_url('themes/opac')?>/img/side-nav/chat.png" alt="Judul">Judul</a>
-				<span class="icon"><i class="arrow_carrot-down"></i></span>
-				<ul class="list-unstyled dropdown_nav">
-					<li>
-						<form action="#" class="cate-search-form">
-							<!-- <div class="input-group">
-								<input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
-								<div class="input-group-append">
-									<div class="input-group-text">Apply</div>
-								</div>
-							</div> -->
-
-							<input type="text" class="form-control" name="f_title" placeholder="Judul" id="f_title">
-						</form>
-					</li>
-				</ul>
-			</li>
+		
 			<li class="nav-item">
 				<a href="javascript:void(0)" class="nav-link"><img src="<?=base_url('themes/opac')?>/img/side-nav/users.png" alt="Pengarang">Pengarang</a>
 				<span class="icon"><i class="arrow_carrot-down"></i></span>
 				<ul class="list-unstyled dropdown_nav">
 					<li>
-						<form action="#" class="cate-search-form">
-							<input type="text" class="form-control" name="f_author" placeholder="Pengarang" id="f_author">
-						</form>
+						<div class="all_users short-by scroll">
+							<a class="dropdown-item active-short" href="#">
+								<ion-icon name="checkmark-outline"></ion-icon>
+								Pengarang 1
+							</a>
+							<a class="dropdown-item" href="#">
+								<ion-icon name="checkmark-outline"></ion-icon>
+								Pengarang 2
+							</a>
+							<a class="dropdown-item" href="#">
+								<ion-icon name="checkmark-outline"></ion-icon>
+								Pengarang 3
+							</a>
+						</div>
 					</li>
 				</ul>
 			</li>
@@ -41,9 +34,20 @@
 				<span class="icon"><i class="arrow_carrot-down"></i></span>
 				<ul class="list-unstyled dropdown_nav">
 					<li>
-						<form action="#" class="cate-search-form">
-							<input type="text" class="form-control" name="f_subject" placeholder="Subjek" id="f_subject">
-						</form>
+						<div class="all_users short-by scroll">
+							<a class="dropdown-item active-short" href="#">
+								<ion-icon name="checkmark-outline"></ion-icon>
+								Subjek 1
+							</a>
+							<a class="dropdown-item" href="#">
+								<ion-icon name="checkmark-outline"></ion-icon>
+								Subjek 2
+							</a>
+							<a class="dropdown-item" href="#">
+								<ion-icon name="checkmark-outline"></ion-icon>
+								Subjek 3
+							</a>
+						</div>
 					</li>
 				</ul>
 			</li>
@@ -52,33 +56,18 @@
 				<span class="icon"><i class="arrow_carrot-down"></i></span>
 				<ul class="list-unstyled dropdown_nav">
 					<li>
-						<form action="#" class="cate-search-form">
-							<input type="text" class="form-control" name="f_publisher" placeholder="Penerbit" id="f_publisher">
-						</form>
 						<div class="all_users short-by scroll">
 							<a class="dropdown-item active-short" href="#">
 								<ion-icon name="checkmark-outline"></ion-icon>
-								Gramedia Pustaka Utama
+								Penerbit 1
 							</a>
 							<a class="dropdown-item" href="#">
 								<ion-icon name="checkmark-outline"></ion-icon>
-								Elex Media Komputindo
+								Penerbit 2
 							</a>
 							<a class="dropdown-item" href="#">
 								<ion-icon name="checkmark-outline"></ion-icon>
-								Erlangga
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								Rajawali Press
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								Deepublish
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								Bumi Aksara
+								Penerbit 3
 							</a>
 						</div>
 					</li>
@@ -90,34 +79,9 @@
 				<ul class="list-unstyled dropdown_nav">
 					<li>
 						<form action="#" class="cate-search-form">
-							<input type="text" class="form-control" name="f_publisher" placeholder="Tahun Terbit" id="f_publisher">
+							<input type="text" class="form-control" name="f_publish_year_from" placeholder="Dari Tahun Terbit" id="f_publish_year_from">
+							<input type="text" class="form-control" name="f_publish_year_to" placeholder="Hingga Tahun Terbit" id="f_publish_year_to">
 						</form>
-						<div class="all_users short-by scroll">
-							<a class="dropdown-item active-short" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								sebelum 1980
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								1980-1989   
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								1990-1999
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								2000-2009
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								2010-2019
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								2020-2029
-							</a>
-						</div>
 					</li>
 				</ul>
 			</li>
@@ -126,9 +90,6 @@
 				<span class="icon"><i class="arrow_carrot-down"></i></span>
 				<ul class="list-unstyled dropdown_nav">
 					<li>
-						<form action="#" class="cate-search-form">
-							<input type="text" class="form-control" name="f_publish_location" placeholder="Kota Terbit" id="f_publish_location">
-						</form>
 						<div class="all_users short-by scroll">
 							<a class="dropdown-item active-short" href="#">
 								<ion-icon name="checkmark-outline"></ion-icon>
@@ -141,18 +102,6 @@
 							<a class="dropdown-item" href="#">
 								<ion-icon name="checkmark-outline"></ion-icon>
 								Bandung
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								Malang
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								Surabaya
-							</a>
-							<a class="dropdown-item" href="#">
-								<ion-icon name="checkmark-outline"></ion-icon>
-								Bogor
 							</a>
 						</div>
 					</li>
