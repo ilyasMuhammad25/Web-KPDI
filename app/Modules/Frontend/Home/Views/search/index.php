@@ -7,17 +7,23 @@ $query = $katalogModel
     ->where('t_katalog.active',1);
 
 $keyword = $request->getVar('pDataItem');
-$type = $request->getVar('pType');
+$type = $request->getVar('pType') ?? 'Title';
 $worksheet = $request->getVar('pLembarkerja');
 
 $count_items = $query->countAllResults(false);
 
 if(!empty($keyword)){
     $query->groupStart();
-    $query->like('t_katalog.title', $keyword);
+    $query->like('t_katalog.'.$type, $keyword);
     $query->groupEnd();
     $count_items = $query->countAllResults(false);
-    // dd($count_items);
+} 
+
+if(!empty($worksheet)){
+    $query->groupStart();
+    $query->where('t_katalog.Worksheet_id', $worksheet);
+    $query->groupEnd();
+    $count_items = $query->countAllResults(false);
 } 
 
 $items = $query
@@ -28,7 +34,7 @@ $items = $query
 $pager = $query->pager;
 ?>
 
-<?= $this->extend('Core\layout\frontend\search\index'); ?>
+<?= $this->extend('Core\layout\frontend\main'); ?>
 <?= $this->section('style'); ?>
 <style>
 	.header_search_form .custom-select {
@@ -43,9 +49,9 @@ $pager = $query->pager;
 				<div class="col-sm-7">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Beranda</a></li>
+							<li class="breadcrumb-item"><a href="<?=base_url()?>">Beranda</a></li>
 							<!-- <li class="breadcrumb-item"><a href="#">Docs</a></li> -->
-							<li class="breadcrumb-item active" aria-current="page">Hasil Pencarian &nbsp;  <b>"<?=$request->getVar('pDataItem')?>"</b></li>
+							<li class="breadcrumb-item active" aria-current="page">Hasil Pencarian &nbsp;  <b><i><?=$request->getVar('pDataItem')?></i></b></li>
 						</ol>
 					</nav>
 				</div>
@@ -65,9 +71,9 @@ $pager = $query->pager;
 
 				<div class="col-lg-7 col-md-8 doc-middle-content" style="padding-left:5px; padding-right:30px;">
 					<div class="shortcode_title">
-						<a class="btn" href="#"><?=get_worksheet_label($worksheet)?></a><br>
+
 						<?php if(!empty($keyword)): ?>
-							Pencarian <i><b>"<?=$request->getVar('pDataItem')?>"</b></i>, ditemukan <?=$count_items?> item.
+							Pencarian <i><b><?=$request->getVar('pDataItem')?></b></i>, ditemukan <?=$count_items?> item.
 						<?php else:?>
 							Ditemukan <?=$count_items?> item.
 						<?php endif;?>
@@ -100,7 +106,7 @@ $pager = $query->pager;
 															<a href="<?=base_url('home/search?slug=#')?>">
 																<p class="b_title"><?=$row->Title?></p>
 															</a> 
-															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($worksheet)?></span>
+															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($row->Worksheet_id)?></span>
 														</td>
 													</tr>
 													<tr>

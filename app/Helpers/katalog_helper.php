@@ -1,32 +1,64 @@
 <?php
+if (!function_exists('get_worksheet_summary')) {
+	function get_worksheet_summary()
+	{
+		$katalogModel = new \Katalog\Models\KatalogModel();
+		$query = $katalogModel
+			->select('t_worksheets.id, t_worksheets.name, count(*) as total')
+			->join('t_worksheets','t_worksheets.id = t_katalog.Worksheet_id','inner')
+    		->groupBy('t_katalog.Worksheet_id')
+			->where('t_worksheets.active', 1);
+
+		return $query->get()->getResult();
+	}
+}
+
 if (!function_exists('get_worksheet_label')) {
 	function get_worksheet_label($worksheet_id)
 	{
 		$alias_name = '';
 		switch ($worksheet_id) {
-			case OPAC_NASKAH_KUNO:
-				$alias_name = OPAC_NASKAH_KUNO_LABEL;
+			case 1:
+				$alias_name = 'Monograf';
 				break;
-			case OPAC_BUKU_LANGKA: // di nomor panggil 
-				$alias_name = OPAC_BUKU_LANGKA_LABEL;
+			case 2: 
+				$alias_name = 'Sumber Elektronik';
 				break;
-			case OPAC_PETA:
-				$alias_name = OPAC_PETA_LABEL;
+			case 3:
+				$alias_name = 'Film';
 				break;
-			case OPAC_FOTO_GAMBAR_LUKISAN:
-				$alias_name = OPAC_FOTO_GAMBAR_LUKISAN_LABEL;
+			case 4:
+				$alias_name = 'Terbitan Berkala';
 				break;
-			case OPAC_MAJALAH_SURAT_KABAR_LANGKA:
-				$alias_name = OPAC_MAJALAH_SURAT_KABAR_LANGKA_LABEL;
+			case 5:
+				$alias_name = 'Bahan Kartografis';
 				break;
-			case OPAC_MIKRO_FILM:
-				$alias_name = OPAC_MIKRO_FILM_LABEL;
+			case 6: 
+				$alias_name = 'Bahan Grafis';
 				break;
-			case OPAC_SUMBER_LAINNYA:
-				$alias_name = OPAC_SUMBER_LAINNYA_LABEL;
+			case 7:
+				$alias_name = 'Rekaman Video';
+				break;
+			case 8:
+				$alias_name = 'Musik';
+				break;
+			case 9:
+				$alias_name = 'Bahan Campuran';
+				break;
+			case 10: 
+				$alias_name = 'Rekaman Suara';
+				break;
+			case 11:
+				$alias_name = 'Bentuk Mikro';
+				break;
+			case 12:
+				$alias_name = 'Manuskrip';
+				break;
+			case 15:
+				$alias_name = 'Bahan Ephemeral ';
 				break;
 			default:
-				$alias_name = OPAC_SEMUA_KOLEKSI_LABEL;
+				$alias_name = 'Monograf';
 		}
 		return $alias_name;
 	}
@@ -38,31 +70,31 @@ if (!function_exists('get_worksheet_label2')) {
 		$alias_name = '';
 		switch (strtoupper($worksheet_name)) {
 			case 'MANUSKRIP':
-				$alias_name = OPAC_NASKAH_KUNO_LABEL;
+				$alias_name = 'OPAC_NASKAH_KUNO_LABEL';
 				break;
 			case 'MONOGRAF': // di nomor panggil 
-				$alias_name = OPAC_BUKU_LANGKA_LABEL;
+				$alias_name = 'OPAC_BUKU_LANGKA_LABEL';
 				break;
 			case 'BAHAN KARTOGRAFIS':
-				$alias_name = OPAC_PETA_LABEL;
+				$alias_name = 'OPAC_PETA_LABEL';
 				break;
 			case 'BAHAN CAMPURAN':
-				$alias_name = OPAC_FOTO_GAMBAR_LUKISAN_LABEL;
+				$alias_name = 'OPAC_FOTO_GAMBAR_LUKISAN_LABEL';
 				break;
 			case 'TERBITAN BERKALA':
-				$alias_name = OPAC_MAJALAH_SURAT_KABAR_LANGKA_LABEL;
+				$alias_name = 'OPAC_MAJALAH_SURAT_KABAR_LANGKA_LABEL';
 				break;
 			case 'SUMBER ELEKTRONIK':
-				$alias_name = OPAC_SUMBER_LAINNYA_LABEL;
+				$alias_name = 'OPAC_SUMBER_LAINNYA_LABEL';
 				break;
 			case 'REKAMAN SUARA':
-				$alias_name = OPAC_SUMBER_LAINNYA_LABEL;
+				$alias_name = 'OPAC_SUMBER_LAINNYA_LABEL';
 				break;
 			case 'BENTUK MIKRO':
-				$alias_name = OPAC_MIKRO_FILM_LABEL;
+				$alias_name = 'OPAC_MIKRO_FILM_LABEL';
 				break;
 			default:
-				$alias_name = OPAC_SEMUA_KOLEKSI_LABEL;
+				$alias_name = 'OPAC_SEMUA_KOLEKSI_LABEL';
 		}
 		return $alias_name;
 	}
@@ -73,26 +105,26 @@ if (!function_exists('get_search_by_label')) {
 	{
 		$alias_name = '';
 		switch ($search_id) {
-			case FORM_JUDUL:
-				$alias_name = FORM_JUDUL_LABEL;
+			case 'FORM_JUDUL':
+				$alias_name = 'FORM_JUDUL_LABEL';
 				break;
-			case FORM_PENGARANG:
-				$alias_name = FORM_PENGARANG_LABEL;
+			case 'FORM_PENGARANG':
+				$alias_name = 'FORM_PENGARANG_LABEL';
 				break;
-			case FORM_TAHUN:
-				$alias_name = FORM_TAHUN_LABEL;
+			case 'FORM_TAHUN':
+				$alias_name = 'FORM_TAHUN_LABEL';
 				break;
-			case FORM_SUBJEK:
-				$alias_name = FORM_SUBJEK_LABEL;
+			case 'FORM_SUBJEK':
+				$alias_name = 'FORM_SUBJEK_LABEL';
 				break;
-			case FORM_CATALOGID:
-				$alias_name = FORM_CATALOGID_LABEL;
+			case 'FORM_CATALOGID':
+				$alias_name = 'FORM_CATALOGID_LABEL';
 				break;
-			case FORM_BIBID:
-				$alias_name = FORM_BIBID_LABEL;
+			case 'FORM_BIBID':
+				$alias_name = 'FORM_BIBID_LABEL';
 				break;
 			default:
-				$alias_name = FORM_JUDUL_LABEL;
+				$alias_name = 'FORM_JUDUL_LABEL';
 		}
 		return $alias_name;
 	}
@@ -103,23 +135,23 @@ if (!function_exists('get_search_by_label2')) {
 	{
 		$alias_name = '';
 		switch ($search_id) {
-			case JUDUL:
-				$alias_name = JUDUL_LABEL;
+			case 'JUDUL':
+				$alias_name = 'JUDUL_LABEL';
 				break;
-			case PENGARANG:
-				$alias_name = PENGARANG_LABEL;
+			case 'PENGARANG':
+				$alias_name = 'PENGARANG_LABEL';
 				break;
-			case TAHUN:
-				$alias_name = TAHUN_LABEL;
+			case 'TAHUN':
+				$alias_name = 'TAHUN_LABEL';
 				break;
-			case SUBJEK:
-				$alias_name = SUBJEK_LABEL;
+			case 'SUBJEK':
+				$alias_name = 'SUBJEK_LABEL';
 				break;
-			case CATALOGID:
-				$alias_name = CATALOGID_LABEL;
+			case 'CATALOGID':
+				$alias_name = 'CATALOGID_LABEL';
 				break;
-			case BIBID:
-				$alias_name = BIBID_LABEL;
+			case 'BIBID':
+				$alias_name = 'BIBID_LABEL';
 				break;
 			default:
 				$alias_name = '';
@@ -128,14 +160,11 @@ if (!function_exists('get_search_by_label2')) {
 	}
 }
 
-if (!function_exists('ControlNumber')) {
-    function ControlNumber($id = null)
+if (!function_exists('get_control_number')) {
+    function get_control_number($id = null)
     {
-        //get last control number
         if (!empty($id)) {
-            // $query2 = $conn->query('SELECT t_katalog_ruas.`Value` AS MaxControlNumber FROM t_katalog_ruas WHERE t_katalog_ruas.`CatalogId` = "' . $id . '" AND t_katalog_ruas.`Tag` ="001" ');
-            // $row = $query2->getRow()->MaxControlNumber;
-            $row = getData([
+            $row = db_get_data([
                 'table'     => 't_katalog_ruas',
                 'select'    => "Value` AS max",
                 'where'     => [
@@ -146,9 +175,7 @@ if (!function_exists('ControlNumber')) {
 
             $newControlNumber =  substr($row, 3);
         } else {
-            // $query2 = $conn->query('SELECT MAX(REPLACE(ControlNumber,"INLIS", "")) AS MaxControlNumber FROM t_katalog WHERE ControlNumber LIKE "INLIS0%"');
-            // $query2 = $conn->query('SELECT MAX(REGEXP_SUBSTR(ControlNumber,"[0-9]+")) AS MaxControlNumber FROM t_katalog WHERE ControlNumber LIKE "INLIS0%"');
-            $row = getData([
+            $row = db_get_data([
                 'table'     => 't_katalog',
                 'select'    => 'MAX(REPLACE(ControlNumber,"INLIS", "")) AS max',
                 'like'      => ['ControlNumber' => 'INLIS0']
@@ -165,8 +192,8 @@ if (!function_exists('ControlNumber')) {
     }
 }
 
-if (!function_exists('getRuas')) {
-    function getRuas($key, $value, $katalog_id = null)
+if (!function_exists('get_ruas')) {
+    function get_ruas($key, $value, $katalog_id = null)
     {
 		$column = array();
 		switch ($key) {
@@ -362,126 +389,13 @@ if (!function_exists('getRuas')) {
 
 		return $column;
     }
-    
 }
 
-function getData(array $data)
-{
-    $db = \Config\Database::connect();
-    $res = $db->table($data['table']);
-    if (isset($data['distinct'])) {
-        $res->distinct()
-            ->select($data['distinct']['select']);
-    }
-    if (isset($data['select'])) {
-        $res->select($data['select']);
-    }
-    if (isset($data['limit'])) {
-        $res->limit($data['limit']['count'], $data['limit']['from']);
-    }
-    if (isset($data['like'])) {
-        $res->groupStart();
-        $res->like($data['like']);
-        $res->groupEnd();
-    }
-    if (isset($data['orlike'])) {
-        $res->groupStart();
-        $res->orLike($data['orlike']);
-        $res->groupEnd();
-    }
-    if (isset($data['where']) and count($data['where']) > 0) {
-        $res->groupStart();
-        if (count($data['where']) > 0) {
-            foreach ($data['where'] as $where) {
-                if (isset($where['value']))
-                    $res->where($where['field'], $where['value']);
-                else
-                    $res->where($where['field'], null, false);
-            }
-        }
-        if (isset($data['orwhere']) and count($data['orwhere']) > 0) {
-            if (count($data['orwhere']) > 0) {
-                foreach ($data['orwhere'] as $orwhere) {
-                    if (isset($orwhere['value']))
-                        $res->orWhere($orwhere['field'], $orwhere['value']);
-                    else
-                        $res->orWhere($orwhere['field'], null, false);
-                }
-            }
-        }
-        $res->groupEnd();
-    }
-    if (isset($data['orderBy'])) {
-        if (isset($data['orderBy']['field']) and isset($data['orderBy']['sort']))
-            $res->orderBy($data['orderBy']['field'], $data['orderBy']['sort']);
-        else
-            $res->orderBy($data['orderBy']['random']);
-    }
-    if (isset($data['join'])) {
-        foreach ($data['join'] as $join) {
-            $res->join($join['table'], $join['table'] . '.' . $join['child'] . '=' . $join['parent'], isset($join['type']) ? $join['type'] : '');
-        }
-    }
-    if (isset($data['group'])) {
-        $res->groupBy($data['group']);
-    }
-    return $res->get();
-}
-
-function insertData(array $data, $table)
-{
-    $db = \Config\Database::connect();
-    $isMultiarray = is_multi_array($data);
-    if ($isMultiarray)
-        $db->table($table)->insertBatch($data);
-    else
-        $db->table($table)->insert($data);
-}
-
-function is_multi_array($arr)
-{
-    rsort($arr);
-    return isset($arr[0]) && is_array($arr[0]);
-}
-
-if (!function_exists('ControlNumber')) {
-    function ControlNumber($id = null)
-    {
-        //get last control number
-        if (!empty($id)) {
-            $row = getData([
-                'table'     => 't_katalog_ruas',
-                'select'    => "Value` AS max",
-                'where'     => [
-                    ['field' => 'Catalogid', 'value' => $id],
-                    ['field' => 'Tag', 'value' => '001'],
-                ]
-            ])->getRowArray()['max'];
-
-            $newControlNumber =  substr($row, 3);
-        } else {
-            $row = getData([
-                'table'     => 't_katalog',
-                'select'    => 'MAX(REPLACE(ControlNumber,"INLIS", "")) AS max',
-                'like'      => ['ControlNumber' => 'INLIS0']
-            ])->getRowArray()['max'];
-
-
-            if ($row >= 0) {
-                $controlNumber = (int)preg_replace('/[^0-9]/', '', $row);
-            }
-            $newControlNumber =  'INLIS' . str_pad((int)$controlNumber + 1, 15, '0', STR_PAD_LEFT);
-        }
-
-        return $newControlNumber;
-    }
-}
-
-if (!function_exists('BIBID')) {
-    function BIBID($id = null)
+if (!function_exists('get_bib_id')) {
+    function get_bib_id($id = null)
     {
         if (!empty($id)) {
-            $row = getData([
+            $row = db_get_data([
                 'table'     => 't_katalog_ruas',
                 'select' => 'value AS max',
                 'where'  => [
@@ -493,7 +407,7 @@ if (!function_exists('BIBID')) {
             $newId =  substr($row, 3);
         } else {
             $yearMonth =  date('my');
-            $row = getData([
+            $row = db_get_data([
                 'table'     => 't_katalog',
                 'select'    => "SUBSTR(MAX(BIBID),'0010-$yearMonth') AS max",
                 'like'      => ['BIBID' => "0010-$yearMonth"],
@@ -510,8 +424,8 @@ if (!function_exists('BIBID')) {
     }
 }
 
-if (!function_exists('ArrImplode')) {
-    function ArrImplode($post, $param)
+if (!function_exists('get_imploded_array')) {
+    function get_imploded_array($post, $param)
     {
         $fixdata = (is_array($post) ?  implode($param, $post) : $post);
 
@@ -519,21 +433,8 @@ if (!function_exists('ArrImplode')) {
     }
 }
 
-if (!function_exists('MultiArray')) {
-    function MultiArray($post, $param)
-    {
-        foreach ($post as $value) {
-            $fix[] = reset($value);
-        }
-
-        $combine = Implode($fix, $param);
-
-        return $combine;
-    }
-}
-
-if (!function_exists('Implode_Penerbit')) {
-    function ImplodePenerbit($post, $var = null)
+if (!function_exists('get_imploded_penerbit')) {
+    function get_imploded_penerbit($post, $var = null)
     {
         $arrPenerbit = '';
         foreach ($post as $key => $value) {

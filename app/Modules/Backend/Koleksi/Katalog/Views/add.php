@@ -32,42 +32,35 @@
 	<div class="main-card mb-3 card">
 		<div class="card-header">
 			<i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?>
+			<div class="btn-actions-pane-right actions-icon-btn">
+				<div class="btn btn-group" style="padding-left:0">
+					<a href="<?= base_url('katalog/create?marc=0') ?>" class="btn btn-<?=($request->getVar('marc') == 0) ? 'success':'secondary'?>" title=""><i class="fa fa-list"></i> Tampilan Form Sederhana</a>
+					<a href="<?= base_url('katalog/create?marc=1') ?>" class="btn btn-<?=($request->getVar('marc') == 1) ? 'success':'secondary'?>" title=""><i class="fa fa-code"></i> Tampilan Form MARC </a>
+				</div>
+			</div>
 		</div>
 		<div class="card-body">
 			<div id="infoMessage"><?= $message ?? ''; ?></div>
 			<?= get_message('message'); ?>
 			<form id="form-app" class="col-md-12 mx-auto" method="post" action="<?= base_url('katalog/create'); ?>">
-				<div class="card mb-3">
-					<div class="card-header">
-						<div class="btn btn-group" style="padding-left:0">
-							<button class="btn btn-success">Salin Judul</button>
-							<button class="btn btn-info">Salin Katalog</button>
-						</div>
-						<div class="btn-actions-pane-right actions-icon-btn">
-							<?php if(is_allowed('katalog/create')):?>
-								<a href="<?= base_url('katalog/create?form=marc') ?>" class=" btn btn-secondary" title=""><i class="fa fa-code"></i> Tampilkan MARC </a>
-							<?php endif;?>
-						</div>
-					</div>
-					<div class="card-body">
-						<div class="form-row">
-							<div class="col-md-12">
-								<div class="position-relative form-group">
-									<label for="worksheet">Jenis Bahan</label>
-									<div>
-										<select name="worksheet" class="form-control select2" id="worksheet" data-placeholder="Pilih Jenis Bahan" style="width:100%;">
-											<option></option>
-											<?php foreach (get_dropdown('t_worksheets') as $row) :  ?>
-											<option value="<?= $row->code ?>"><?= $row->text ?></option>
-											<?php endforeach;  ?>
-										</select>
-									</div>
-								</div>
+				<div class="form-row">
+					<div class="col-md-12">
+						<div class="position-relative form-group">
+							<label for="worksheet">Jenis Bahan</label>
+							<div>
+								<select name="worksheet" class="form-control select2" id="worksheet" data-placeholder="Pilih Jenis Bahan" style="width:100%;">
+									<option></option>
+									<?php foreach (get_dropdown('t_worksheets') as $row) :  ?>
+									<option value="<?= $row->code ?>"><?= $row->text ?></option>
+									<?php endforeach;  ?>
+								</select>
 							</div>
 						</div>
-						<input type="hidden" class="form-control" id="id" name="id">
 					</div>
 				</div>
+				<input type="hidden" class="form-control" id="id" name="id">
+				<input type="hidden" class="form-control" id="marc" name="marc" value="<?=$request->getVar('marc')??0?>">
+				<input type="hidden" class="form-control" id="rda" name="rda" value="<?=$request->getVar('rda')??1?>">
 
 				<?= $this->include('Katalog\Views\section\judul'); ?>
 				<?= $this->include('Katalog\Views\section\tajuk_pengarang'); ?>
