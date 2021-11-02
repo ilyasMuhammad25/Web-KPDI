@@ -6,8 +6,8 @@ $katalogModel = new \Katalog\Models\KatalogModel();
 $katalogs = $katalogModel
   ->select('t_katalog.*')
   ->where('active', 1)
-  ->orderBy('created_at', 'desc')
-  ->limit(8)
+  ->orderBy('created_at', 'asc')
+  ->limit(12)
   ->get()
   ->getResult();
 ?>
