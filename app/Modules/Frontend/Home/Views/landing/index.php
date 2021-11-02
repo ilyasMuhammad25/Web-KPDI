@@ -20,6 +20,7 @@ $request->uri->setSilent();
 <script>
 $('#collections').slick({
 	dots: true,
+	autoplay:true,
 	infinite: false,
 	speed: 300,
 	slidesToShow: 4,
