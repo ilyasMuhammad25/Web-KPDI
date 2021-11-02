@@ -1,6 +1,14 @@
 <?php if (!isset($routes)) {
 	$routes = \Config\Services::routes(true);
 }
+
+$routes->get('signup', 'Home::signup', ['namespace' => 'Home\Controllers']);
+$routes->post('signup', 'Home::attemptSignup', ['namespace' => 'Home\Controllers']);
+$routes->get('signin', 'Home::signin', ['namespace' => 'Home\Controllers']);
+$routes->post('signin', 'Home::attemptSignin', ['namespace' => 'Home\Controllers']);
+$routes->get('opac', 'Home::index', ['namespace' => 'Home\Controllers']);
+$routes->get('search', 'Home::search', ['namespace' => 'Home\Controllers']);
+
 $routes->group('home', ['namespace' => 'Home\Controllers'], function ($subroutes) {
 	/*** Route Update for Home ***/
 	$subroutes->add('', 'Home::index');

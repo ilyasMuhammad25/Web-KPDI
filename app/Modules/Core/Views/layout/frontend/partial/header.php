@@ -45,8 +45,8 @@ $request->uri->setSilent();
 						<i class="arrow_carrot-down_alt2 mobile_dropdown_icon" aria-hidden="false" data-toggle="dropdown"></i>
 						<ul class="dropdown-menu">
 							<?php if(!logged_in()):?>
-								<li class="nav-item"><a href="<?=base_url('login')?>" class="nav-link">Masuk</a></li>
-								<li class="nav-item"><a href="<?=base_url('register')?>" class="nav-link">Daftar</a></li>
+								<li class="nav-item"><a href="<?=base_url('signin')?>" class="nav-link">Masuk</a></li>
+								<li class="nav-item"><a href="<?=base_url('signup')?>" class="nav-link">Daftar</a></li>
 								<?php else:?>
 									<li class="nav-item"><a href="<?=base_url('dashboard')?>" class="nav-link">Dashboard</a></li>
 									<li class="nav-item"><a href="<?=base_url('user/profile')?>" class="nav-link">Profil</a></li>
