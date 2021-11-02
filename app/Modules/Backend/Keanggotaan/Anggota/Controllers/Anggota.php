@@ -288,6 +288,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
              }
             
             $newAnggotaId = $this->anggotaModel->protect(false)->insert($save_data);
+           
             if($newAnggotaId){
                 $Locations=$this->request->getPost('Location_loan_id');
                

@@ -54,7 +54,8 @@
                         <th><?= lang('Eksemplar.field.Tanggalpengadaan') ?></th>
                         <th><?= lang('Eksemplar.field.induk') ?></th>
                         <th><?= lang('Eksemplar.field.bibliografis') ?></th>
-                        <th><?= lang('Eksemplar.field.active') ?></th>
+                        <th>Karantina</th>
+                        <th>Keranjang</th>
                         <th><?= lang('Eksemplar.field.created_by') ?></th>
 
                         <th><?= lang('Eksemplar.label.action') ?></th>
@@ -82,8 +83,14 @@
 
                         <td width="50">
                             <input type="checkbox" class="apply-status"
-                                data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="active"
-                                data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle"
+                                data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="IsQUARANINE"
+                                data-id="<?=$row->id?>" <?= ($row->IsQUARANINE == 1) ? 'checked' : '' ?> data-toggle="toggle"
+                                data-onstyle="success">
+                        </td>
+                        <td width="50">
+                            <input type="checkbox" class="apply-status"
+                                data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="iskeranjang"
+                                data-id="<?=$row->id?>" <?= ($row->iskeranjang == 1) ? 'checked' : '' ?> data-toggle="toggle"
                                 data-onstyle="success">
                         </td>
                         <td width="100">
@@ -101,7 +108,11 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item btn-pilih" href="#">Cetak Label</a>
                                     <a href="<?=base_url('eksemplar/cetakLabel/' . $row->id);?>" data-toggle="tooltip" data-placement="top" title="Cetak Kartu" class="btn btn-lg btn-primary" ><i class="fa fa-print"></i>label</a>
-                                    <a class="dropdown-item" href="#">Tampil di Opac</a>
+                                     <input type="checkbox" class="dropdown-item apply-status"
+                                data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="active"
+                                data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle"
+                                data-onstyle="success">
+                                <label class="d-inline">Karantina</label>
 
                                     <!-- <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Separated link</a>

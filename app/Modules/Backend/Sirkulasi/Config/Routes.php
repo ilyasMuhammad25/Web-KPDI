@@ -6,7 +6,7 @@ $routes->group('sirkulasi', ['namespace' => 'Sirkulasi\Controllers'], function (
 	$subroutes->add('', 'Sirkulasi::index');
 	$subroutes->add('index', 'Sirkulasi::index');
 	$subroutes->add('detail/(:any)', 'Sirkulasi::detail/$1');
-	$subroutes->add('create', 'Sirkulasi::create');
+	$subroutes->add('create_peminjaman', 'Sirkulasi::create_peminjaman');
 	$subroutes->add('createpengembalian', 'Sirkulasi::createpengembalian');
 	$subroutes->add('perpanjangan', 'Sirkulasi::perpanjangan');
 	$subroutes->add('listpeminjaman', 'Sirkulasi::listpeminjaman');

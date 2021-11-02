@@ -109,6 +109,26 @@ if (!function_exists('get_dropdown')) {
 		$query = $baseModel->where('active',1);
 		$query->select("$code as code");
 		$query->select("$text as text");
+	
+        
+		if(!empty($where)){
+			$query->where($where);
+		}
+
+        return $query->orderBy($code)->get()->getResult();
+    }
+}
+
+if (!function_exists('get_dropdown2')) {
+    function get_dropdown2($table, $where = null, $code = 'id', $barcode='NomorBarcode')
+    {        
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table);
+
+		$query = $baseModel->where('active',1);
+		$query->select("$code as code");
+		
+		$query->select("$barcode as barcode");
         
 		if(!empty($where)){
 			$query->where($where);

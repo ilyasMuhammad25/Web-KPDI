@@ -46,7 +46,7 @@ $request->uri->setSilent();
             <div id="infoMessage"><?= $message ?? ''; ?></div>
             <?= get_message('message'); ?>
 
-            <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('sirkulasi/create'); ?>">
+            <form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?= base_url('sirkulasi/create_peminjaman'); ?>">
                 <div class="form-row">
 
                     <div class="col-md-6">
@@ -67,133 +67,7 @@ $request->uri->setSilent();
                 <!-- data anggota -->
 
                 <div class="form-row" id="data-anggota">
-                   
-                </div>
-
-
-                <div class="form-row mt-4">
-
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <input type="hidden" name="t_anggota_id" id="t_anggota_id" value="">
-                            <input type="text" name="jml_eksemplar" id="frm_create_MemberNo" class="form-control"
-                                placeholder="Nomor Barcode">
-                            <div class="input-group-append">
-
-                                <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);"
-                                    style="background-color: #315644;" class="btn btn-primary"
-                                    title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-book"></i> Cari
-                                    Eksemplar</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="form-row">
-                    <div class=" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #315644; padding: 10px;
-                      color: #fff; text-shadow: 0 1px 2px #222; margin-bottom: 3px; border-radius: 5px;">
-                        <b>KERANJANG PEMINJAMAN</b>
-                    </div>
-                    <div class="card-body table-responsive">
-                        <?=get_message('message');?>
-                        <table style="width: 100%;" id="tbl_eksemplars"
-                            class="table table-hover table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th><?= lang('Sirkulasi.field.no') ?> </th>
-                                    <th><?= lang('Sirkulasi.field.barcode') ?></th>
-                                    <th><?= lang('Sirkulasi.field.judul') ?></th>
-                                    <th><?= lang('Sirkulasi.field.penerbitan') ?></th>
-                                    <th>Tanggal Peminjaman</th>
-                                    <th>Jatuh Tempo</th>
-                                    <th><?= lang('Sirkulasi.label.action') ?></th>
-                                </tr>
-                            </thead>
-
-                        </table>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class=" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #315644; padding: 10px;
-                      color: #fff; text-shadow: 0 1px 2px #222; margin-bottom: 3px; border-radius: 5px;">
-                        <b>KOLEKSI YANG MASIH DIPINJAM</b>
-                    </div>
-                    <div class="card-body table-responsive">
-                        <?=get_message('message');?>
-                        <table style="width: 100%;" id="tbl_eksemplars"
-                            class="table table-hover table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th><?= lang('Eksemplar.field.no') ?> </th>
-                                    <th><?= lang('Eksemplar.field.Barcode') ?></th>
-                                    <th><?= lang('Eksemplar.field.Tanggalpengadaan') ?></th>
-                                    <th><?= lang('Eksemplar.field.induk') ?></th>
-                                    <th><?= lang('Eksemplar.field.bibliografis') ?></th>
-                                    <th><?= lang('Eksemplar.label.action') ?></th>
-                                </tr>
-                            </thead>
-
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="description"><?= lang('Sirkulasi.field.description') ?> </label>
-                    <div>
-                        <textarea id="frm_create_description" name="description"
-                            placeholder="<?= lang('Sirkulasi.field.description') ?> " rows="2"
-                            class="form-control autosize-input"
-                            style="min-height: 38px;"><?= set_value('description') ?></textarea>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" style="background-color: #315644;"
-                        name="submit"><?= lang('Sirkulasi.action.save') ?></button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-<?= $this->endSection('page'); ?>
-
-<?= $this->section('script'); ?>
-
-<?= $this->include('Sirkulasi\Views\peminjaman\pilih_eksemplar'); ?>
-<?= $this->include('Sirkulasi\Views\peminjaman\pilih_anggota'); ?>
-
-<script>
-$('#modal_create').on('shown.bs.modal', function() {
-    setDataTable('#modal_anggota', disableOrderCols = [0, 4], defaultOrderCols = [1, 'asc'], autoNumber = true);
-
-
-});
-
-$('#modal_eksemplar').on('shown.bs.modal', function() {
-    //    setDataTable('#modal_anggota', disableOrderCols = [0, 4], defaultOrderCols = [1, 'asc'], autoNumber = true);
-
-
-});
-
-
-$(".btn-pilih").click(function() {
-    var id = $(this).data('id');
-    var no_anggota = $(this).data('no_anggota');
-    var name = $(this).data('name');
-    var penanggungjawab = $(this).data('penanggungjawab');
-
-    $('#frm_create_MemberNo').val(no_anggota);
-    $('#frm_create_name').html(name);
-    $('#penanggungjawab').val(penanggungjawab);
-    $('#catalog_id').val(id);
-
-    $('#modal_create').modal('hide');
-
-    $("#data-anggota").append(`   <div class="col-md-12">
+                    <div class="col-md-12">
                         <!-- Main content -->
                         <section class="content">
                             <div class="container-fluid">
@@ -219,8 +93,9 @@ $(".btn-pilih").click(function() {
                                                         <b>Nama: </b><span id="frm_create_name"></span> <a
                                                             class="float-right"></a>
                                                     </li>
-                                                    <li class="list-group-item" id="frm_create_MemberNo">
-                                                        <b>No anggota</b> <a class="float-right"></a>
+                                                    <li class="list-group-item">
+                                                        <b>Nomor Anggota: </b><span id="MemberNo"></span> <a
+                                                            class="float-right"></a>
                                                     </li>
                                                     <li class="list-group-item">
                                                         <b>Jenis Anggota</b> <a class="float-right"></a>
@@ -344,7 +219,7 @@ $(".btn-pilih").click(function() {
                                                             <tbody>
                                                                 <tr>
                                                                     <th>1</th>
-                                                                    <td></td>
+                                                                    <td><span id="no_barcode"></span></td>
                                                                     <td></td>
                                                                     <td></td>
                                                                     <td></td>
@@ -373,7 +248,158 @@ $(".btn-pilih").click(function() {
                                 <!-- /.row -->
                             </div><!-- /.container-fluid -->
                         </section>
-                    </div>`);
+                    </div>
+                </div>
+
+
+                <div class="form-row mt-4">
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <strong><label>Masukan Nomor Barcode</label></strong>
+                            <select class="form-control js-example-basic-multiple" name="t_eksemplar_id[]"
+                                multiple="multiple" tabindex="-1" aria-hidden="true" style="width:100%">
+                                <option value="">-Pilih-</option>
+                                <?php foreach(get_dropdown2('t_eksemplar') as $row):?>
+                                <option value="<?=$row->code?>"><?=$row->barcode?></option>
+                                <?php endforeach;?>
+                            </select>
+
+
+                            <div class="input-group-append inline">
+
+                                <a data-toggle="modal" data-target="#modal_edit" href="javascript:void(0);"
+                                    style="background-color: #315644;" class="btn btn-primary"
+                                    title="<?= lang('User.btn.profile.update') ?>"><i class="fa fa-book"></i>EKsemplar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class=" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #315644; padding: 10px;
+                      color: #fff; text-shadow: 0 1px 2px #222; margin-bottom: 3px; border-radius: 5px;">
+                        <b>KERANJANG PEMINJAMAN</b>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <?=get_message('message');?>
+                        <table style="width: 100%;" id="tbl_eksemplars"
+                            class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><?= lang('Sirkulasi.field.no') ?> </th>
+                                    <th><?= lang('Sirkulasi.field.barcode') ?></th>
+                                    <th><?= lang('Sirkulasi.field.judul') ?></th>
+                                    <th><?= lang('Sirkulasi.field.penerbitan') ?></th>
+                                    <th>Tanggal Peminjaman</th>
+                                    <th>Jatuh Tempo</th>
+                                    <th><?= lang('Sirkulasi.label.action') ?></th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class=" container-fluid mt-4" style="text-align: center; font-size: 14px; background-color: #315644; padding: 10px;
+                      color: #fff; text-shadow: 0 1px 2px #222; margin-bottom: 3px; border-radius: 5px;">
+                        <b>KOLEKSI YANG MASIH DIPINJAM</b>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <?=get_message('message');?>
+                        <table style="width: 100%;" id="tbl_eksemplars"
+                            class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><?= lang('Eksemplar.field.no') ?> </th>
+                                    <th><?= lang('Eksemplar.field.Barcode') ?></th>
+                                    <th><?= lang('Eksemplar.field.Tanggalpengadaan') ?></th>
+                                    <th><?= lang('Eksemplar.field.induk') ?></th>
+                                    <th><?= lang('Eksemplar.field.bibliografis') ?></th>
+                                    <th><?= lang('Eksemplar.label.action') ?></th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+            
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg" style="background-color: #315644;"
+                        name="submit"><i class="fa fa-save m-1"></i><?= lang('Sirkulasi.action.save') ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<?= $this->endSection('page'); ?>
+
+<?= $this->section('script'); ?>
+
+<?= $this->include('Sirkulasi\Views\peminjaman\pilih_eksemplar'); ?>
+<?= $this->include('Sirkulasi\Views\peminjaman\pilih_anggota'); ?>
+
+<script>
+$('#modal_create').on('shown.bs.modal', function() {
+    setDataTable('#modal_anggota', disableOrderCols = [0, 4], defaultOrderCols = [1, 'asc'], autoNumber = true);
+
+
+});
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+
+$('#modal_edit').on('shown.bs.modal', function() {
+    setDataTable('#modal_eksemplar', disableOrderCols = [0, 5], defaultOrderCols = [1, 'asc'], autoNumber =
+        true);
+
+
+});
+
+//pilih anggota
+$(".btn-pilih").click(function() {
+    var id = $(this).data('id');
+    var no_anggota1 = $(this).data('no_anggota1');
+    // var no_anggota = $(this).data('no_anggota');
+    var NomorAnggota = $(this).data('NomorAnggota');
+    var name = $(this).data('name');
+    var penanggungjawab = $(this).data('penanggungjawab');
+
+    $('#frm_create_MemberNo').val(no_anggota1);
+    $('#MemberNo').html(no_anggota1);
+    $('#frm_create_name').html(name);
+    // $('#NomorAnggota').html(NomorAnggota);
+    $('#penanggungjawab').val(penanggungjawab);
+    $('#t_anggota_id').val(id);
+
+    $('#modal_create').modal('hide');
+
+    $("#data-anggota").append(` `);
+
+
+});
+// pilih eksemplar
+$(".btn-eksemplar").click(function() {
+    var id = $(this).data('id');
+    var no_barcode = $(this).data('no_barcode');
+    // var no_anggota = $(this).data('no_anggota');
+    // var NomorAnggota= $(this).data('NomorAnggota');
+    // var name = $(this).data('name');
+    // var penanggungjawab = $(this).data('penanggungjawab');
+
+    $('#frm_create_NomorBarcode').val(no_barcode);
+
+    $('#t_eksemplar_id').val(id);
+
+    $('#modal_edit').modal('hide');
+
+    // $("#data-anggota").append(` `);
 
 
 });

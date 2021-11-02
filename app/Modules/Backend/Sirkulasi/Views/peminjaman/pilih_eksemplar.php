@@ -21,7 +21,7 @@ $eksemplars = $baseModel
             </div>
             <div class="card-body table-responsive">
                 <?=get_message('message');?>
-                <table style="width: 100%;" id="tbl_eksemplars" class="table table-hover table-striped table-bordered">
+                <table style="width: 100%;" id="modal_eksemplar" class="table table-hover table-striped table-bordered">
                     <thead>
                         <tr>
                             <th><?= lang('Eksemplar.field.no') ?> </th>
@@ -53,9 +53,11 @@ $eksemplars = $baseModel
 
 
                             <td width="35">
-                                <button type="button" data-id=<?= _spec($row->id); ?>
-                                    class="btn btn-primary btn-pilih">Pilih</button>
-                            </td>
+                                        <button type="button" data-id=<?= _spec($row->id); ?>
+                                            data-no_barcode="<?= _spec($row->NomorBarcode); ?>"
+                                          
+                                            class="btn btn-primary btn-eksemplar">Pilih</button>
+                                    </td>
 
                         </tr>
                         <?php endforeach; ?>

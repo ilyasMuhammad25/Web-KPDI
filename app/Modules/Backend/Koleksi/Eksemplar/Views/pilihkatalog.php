@@ -2,7 +2,7 @@
 $request = \Config\Services::request();
 $request->uri->setSilent();
 $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_katalogold');
+$baseModel->setTable('t_katalog');
 $katalogs = $baseModel
     ->find_all('name', 'asc');
     // dd($katalog);
@@ -46,14 +46,14 @@ $katalogs = $baseModel
                         <tr>
                             <td width="35"></td>
                             <td width="200">
-                                <?= _spec($row->name); ?> <br>
+                                <?= _spec($row->Title); ?> <br>
                             </td>
                             <td><?= _spec($row->description); ?></td>
                             <td width="35"><?= _spec($row->sort); ?></td>
                           
                            
                             <td width="35">
-                            <td><button type="button" data-id= <?= _spec($row->id); ?> data-judul= "<?= _spec($row->name); ?>" data-penanggungjawab="<?= _spec($row->description); ?>" class="btn btn-primary btn-pilih">Pilih</button></td>
+                            <td><button type="button" data-id= <?= _spec($row->id); ?> data-judul= "<?= _spec($row->Title); ?>" data-penanggungjawab="<?= _spec($row->description); ?>" class="btn btn-primary btn-pilih">Pilih</button></td>
                             </td>
                         </tr>
                     <?php endforeach; ?>
