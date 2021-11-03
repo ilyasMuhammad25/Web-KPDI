@@ -68,6 +68,8 @@ class Autoload extends AutoloadConfig
 		'KeranjangAnggota' 	=> APPPATH . 'Modules/Backend/Keanggotaan/KeranjangAnggota',
 		'Perpanjangan' 		=> APPPATH . 'Modules/Backend/Keanggotaan/Perpanjangan',	       
 		'Sumbangan'			=> APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
+        'UsulanKoleksi' => APPPATH . 'Modules/Backend/Keanggotaan/UsulanKoleksi',
+        'PemesananKoleksi' => APPPATH . 'Modules/Backend/Keanggotaan/PemesananKoleksi',
 	];
 
 	/**
