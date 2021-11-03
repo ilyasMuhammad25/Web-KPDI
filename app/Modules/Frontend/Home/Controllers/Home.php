@@ -97,6 +97,9 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		$anggota = [
 			'name' => $this->request->getPost('name'),
 			'MemberNo' => $this->request->getPost('username'),
+			// 'ttl' => $this->request->getPost('ttl'),
+			// 'ttl' => $this->request->getPost('ttl'),
+			// 'ttl' => $this->request->getPost('ttl'),
 		];
 
 		$newAnggotaId = $this->anggotaModel->protect(false)->insert($anggota);

@@ -33,7 +33,7 @@
     <div class="body_wrapper">
         <section class="signup_area">
             <div class="row ml-0 mr-0">
-                <div class="sign_left signin_left">
+                <div class="sign_left signin_left d-sm-none d-md-block">
                     <h2 class="pt-5">Daftar - Keanggotaan Online</h2>
                     <img class="position-absolute top" src="<?=base_url('themes/opac')?>/img/signup/top_ornamate.png" alt="top">
                     <img class="position-absolute bottom" src="<?=base_url('themes/opac')?>/img/signup/bottom_ornamate.png" alt="bottom">
@@ -41,7 +41,7 @@
                     <div class="round"></div>
                 </div>
                 <div class="sign_right signup_right">
-                    <div class="sign_inner signup_inner">
+                    <div class="signup_inner p-5 pr-5">
                         <div class="text-center">
 							<?php if (get_parameter('show-logo-login') == 1) : ?>
 								<a href="<?= base_url() ?>"><img src="<?= base_url(get_parameter('logo')) ?>" width="250" class="mb-4" /></a>
@@ -57,10 +57,10 @@
 
 						<form class="row login_form" action="<?= route_to('signup') ?>" method="post">
 							<?= csrf_field() ?>
-                            <div class="col-lg-12 form-group">
+                            <!-- <div class="col-lg-12 form-group">
                                 <div class="small_text">Nomor Anggota</div>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Nomor Anggota" value="<?=get_MemberNo()?>" readonly style="font-weight:bold">
-                            </div>
+                            </div> -->
+							<input type="hidden" class="form-control" id="username" name="username" placeholder="Nomor Anggota" value="<?=get_MemberNo()?>" readonly style="font-weight:bold">
 
 							<div class="col-lg-12 form-group">
                                 <div class="small_text">Nama Anggota</div>
@@ -92,7 +92,7 @@
                         </form>
 
 						<div class="divider">
-							<span class="or-text">atau</span>
+							<hr>
 						</div>
 						<div class="text-center">
 							<p>Sudah memiliki Nomor Anggota? <a href="<?=base_url('signin')?>">Masuk di sini</a></p>
