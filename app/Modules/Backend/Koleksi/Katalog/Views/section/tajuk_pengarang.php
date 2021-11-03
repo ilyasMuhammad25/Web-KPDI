@@ -9,7 +9,7 @@
 						<h5 class="m-0 p-0">
 							<i class="header-icon lnr-layers icon-gradient bg-primary">
 							</i>
-							Kreator/ Tajuk Pengarang
+							Kreator/Tajuk Pengarang
 						</h5>
 					</button>
 				</div>

@@ -42,6 +42,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         helper(['form', 'url', 'auth', 'app', 'adminigniter','eksemplar_helper']);
         helper('adminigniter');
         helper('reference');
+        helper('thumbnail');
     }
     public function index()
     {
@@ -348,21 +349,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['kartu'] = array();
         $eksemplar = $this->eksemplarModel->find($id);
         $this->data['eksempalar']=$eksemplar;
-    
-        // 1. composer require mpdf/mpdf
-    
-        // $qrCode = new \Mpdf\QrCode\QrCode('Perpusnas RI');
-        // $output = new \Mpdf\QrCode\Output\Html();
-        // $html_qr = $output->output($qrCode, 100, [255, 255, 255], [10, 10, 10]);
-    
-        // 2. composer require mpdf/qrcode
-    
-        // 3. composer require picqer/php-barcode-generator
-    
-        // $barcode = new \Picqer\Barcode\BarcodeGeneratorHTML();
-        // $html_bar = $barcode->getBarcode('081231723897', $barcode::TYPE_CODE_39);
-        // echo $html_bar;
-    
+		$this->data['barcode']= get_barcode($eksemplar->NomorBarcode);
     
         //  $this->data['title'] = 'Import Anggota';
         //  $kartu = $this->anggotaModel->findAll();
