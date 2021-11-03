@@ -1,4 +1,4 @@
-<form id="frm" method="post" action="" onsubmit="return validateForm()">
+<form id="frm" method="post" action="">
 
     <div class="mb-3 card card-border">
         <div class="card-header-tab card-header">
@@ -48,7 +48,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name"><?=lang('anggota.field.Tempatlahir')?></label>
+                        <label for="name"><?=lang('anggota.field.Tempatlahir')?>*</label>
                         <div>
                             <input type="text" class="form-control" id="frm_create_PlaceOfBirth" name="PlaceOfBirth"
                                 placeholder="Tempat Lahir"
@@ -517,8 +517,11 @@
     </div>
 
     <div class="form-group mt-1">
-        <button type="submit" class="btn btn-lg btn-primary" name="submit"><i class="fa fa-save"></i>
-            <?=lang('Anggota.action.save')?></button>
-		<a href="<?=base_url('anggota/cetakKartu/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top" title="Cetak Kartu" class="btn btn-lg btn-primary" ><i class="fa fa-print"></i>Cetak Kartu Anggota</a>
+		<input type="hidden" name="is_anggota" value="<?=$is_anggota?>">
+        <button type="submit" class="btn btn-lg btn-primary" name="submit"><i class="fa fa-save"></i> <?=lang('Anggota.action.save')?></button>
+
+		<?php if(!$is_anggota):?>
+			<a href="<?=base_url('anggota/cetakKartu/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top" title="Cetak Kartu" class="btn btn-lg btn-primary" ><i class="fa fa-print"></i> Cetak Kartu Anggota</a>
+		<?php endif;?>
     </div>
 </form>

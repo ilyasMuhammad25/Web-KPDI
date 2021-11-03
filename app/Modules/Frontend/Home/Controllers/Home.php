@@ -139,7 +139,8 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		if (! $this->auth->attempt([$type => $login, 'password' => $password], $remember))
 		{
 			if (strpos($this->auth->error(), 'activated') !== false) {
-				return redirect()->back()->withInput()->with('error', 'Status Keanggotaan Anda belum aktif! <br>Untuk aktivasi Nomor Anggota hubungi Administrator.');
+				return redirect()->back()->withInput()->with('error', 'Akun Anda belum aktif! <br>Untuk aktivasi Akun hubungi Administrator.');
+				// return redirect()->back()->withInput()->with('error', 'Nomor Anggota Anda sudah tidak aktif! <br>Untuk aktivasi/perpanjangan Nomor Anggota hubungi Administrator.');
 			} else {
 				return redirect()->back()->withInput()->with('error', $this->auth->error() ?? lang('Auth.badAttempt'));
 			}

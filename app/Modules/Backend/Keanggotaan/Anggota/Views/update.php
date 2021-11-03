@@ -19,18 +19,26 @@ $member_id = $request->getVar('member_id') ?? 0;
                 <div class="page-title-icon">
                     <i class="pe-7s-id icon-gradient bg-strong-bliss"></i>
                 </div>
-                <div><?= lang('Anggota.action.update') ?> <?= lang('Anggota.module') ?>
+                <div>
+					<?php if(!$is_anggota):?>
+					<?= lang('Anggota.action.update') ?> <?= lang('Anggota.module') ?>
                     <div class="page-title-subheading"><?= lang('Anggota.form.complete_the_data') ?>.</div>
+					<?php else:?>
+					Profil <?= lang('Anggota.module') ?>
+					<div class="page-title-subheading"><?= lang('Anggota.form.complete_the_data') ?>.</div>
+					<?php endif;?>
                 </div>
             </div>
             <div class="page-title-actions">
-                <nav class="" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?=base_url('dashboard')?>"><i class="fa fa-home"></i> <?=lang('Anggota.label.home')?></a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url('anggota')?>"><?=lang('Anggota.module')?></a></li>
-                        <li class="active breadcrumb-item" aria-current="page"><?=lang('Anggota.action.update')?> <?=lang('Anggota.module')?></li>
-                    </ol>
-                </nav>
+				<?php if(!$is_anggota):?>
+					<nav class="" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="<?=base_url('dashboard')?>"><i class="fa fa-home"></i> <?=lang('Anggota.label.home')?></a></li>
+							<li class="breadcrumb-item"><a href="<?=base_url('anggota')?>"><?=lang('Anggota.module')?></a></li>
+							<li class="active breadcrumb-item" aria-current="page"><?=lang('Anggota.action.update')?> <?=lang('Anggota.module')?></li>
+						</ol>
+					</nav>
+				<?php endif;?>
             </div>
         </div>
     </div>
@@ -38,17 +46,17 @@ $member_id = $request->getVar('member_id') ?? 0;
 		<div class="card-header-tab card-header">
 			<div class="card-header-title">
 				<i class="header-icon lnr-layers icon-gradient bg-plum-plate"> </i>
-				Data Anggota
+				Informasi
 			</div>
-        
-			<ul class="nav">
-				
-				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=keanggotaan') ?>" class="nav-link show <?=($slug == 'keanggotaan')?'active':''?>">Keanggotaan</a></li>
-				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=pelanggaran') ?>" class="nav-link show <?=($slug == 'pelanggaran')?'active':''?>">Pelanggaran</a></li>
-				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=peminjaman') ?>" class="nav-link show <?=($slug == 'peminjaman')?'active':''?>">Peminjaman</a></li>
-				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=perpanjangan') ?>" class="nav-link show <?=($slug == 'perpanjangan')?'active':''?>">Perpanjangan</a></li>
-				<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=sumbangan') ?>" class="nav-link show <?=($slug == 'sumbangan')?'active':''?>">Sumbangan</a></li>
-			</ul>
+			<?php if(!$is_anggota):?>
+				<ul class="nav">
+					<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=keanggotaan') ?>" class="nav-link show <?=($slug == 'keanggotaan')?'active':''?>">Keanggotaan</a></li>
+					<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=pelanggaran') ?>" class="nav-link show <?=($slug == 'pelanggaran')?'active':''?>">Pelanggaran</a></li>
+					<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=peminjaman') ?>" class="nav-link show <?=($slug == 'peminjaman')?'active':''?>">Peminjaman</a></li>
+					<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=perpanjangan') ?>" class="nav-link show <?=($slug == 'perpanjangan')?'active':''?>">Perpanjangan</a></li>
+					<li class="nav-item"><a href="<?= base_url('anggota/edit/'.$anggota->id.'?slug=sumbangan') ?>" class="nav-link show <?=($slug == 'sumbangan')?'active':''?>">Sumbangan</a></li>
+				</ul>
+			<?php endif;?>
 		</div>
 		<div class="card-body">
 				<div id="infoMessage"><?=$message ?? '';?></div>
