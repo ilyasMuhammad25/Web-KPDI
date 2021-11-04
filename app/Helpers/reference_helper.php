@@ -109,6 +109,7 @@ if (!function_exists('get_dropdown')) {
 		$query = $baseModel->where('active',1);
 		$query->select("$code as code");
 		$query->select("$text as text");
+        // $query->select("$no_anggota as no_anggota");
 	
 	
         
@@ -140,7 +141,7 @@ if (!function_exists('get_dropdown2')) {
 }
 
 if (!function_exists('get_dropdown3')) {
-    function get_dropdown3($table, $where = null, $code = 'id', $text = 'name',$no_anggota='MemberNo')
+    function get_dropdown3($table, $where = null, $code = 'id', $text = 'name')
     {        
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable($table);

@@ -50,20 +50,17 @@ $request->uri->setSilent();
             <form id="frm_create" class="col-md-12 mx-auto" method="post"
                 action="<?= base_url('perpanjangan/create'); ?>">
                 <div class="form-row">
-                    <div class="col-md-9">
-                        <div class="position-relative form-group">
-                            <label for="name"><?= lang('Perpanjangan.field.name') ?>*</label>
-                            <div>
-                                <select class="form-control js-example-basic-multiple" name="t_anggota_id"
-                                    id="t_anggota_id" tabindex="-1" aria-hidden="true" style="width:100%">
-
-                                    <?php foreach(get_dropdown3('t_anggota') as $row):?>
-                                    <option value="<?=$row->code?>"><?=$row->text?>-<?=$row->no_anggota?></option>
-                                    <?php endforeach;?>
-                                </select>
-                            </div>
+                    <div class="input-group col-md-8">
+                        <select class="custom-select js-example-basic-multiple" id="inputGroupSelect04">
+                        <?php foreach(get_dropdown('t_anggota',null,'MemberNo','name') as $row):?>
+                            <option value="<?=$row->code?>"><?=$row->code?>-<?=$row->text?></option>
+                            <?php endforeach;?>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button"   style="background-color: #315644;" ><i class="fa fa-search"></i>Button</button>
                         </div>
                     </div>
+                    
 
                 </div>
 

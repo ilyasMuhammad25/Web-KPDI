@@ -12,11 +12,10 @@ class Perpanjangan extends Migration
 		$this->forge->dropTable('t_perpanjangan', true);
 		$this->forge->addField([
 			'id' 			=> ['type' => 'MEDIUMINT','constraint' => '11','unsigned' => true,'auto_increment' => true,],
-			'name' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
-			'slug' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
-			'sort' 			=> ['type' => 'MEDIUMINT','constraint' => '8','null' => true,],
+			't_anggota_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
+			'biaya' 			=> ['type' => 'DECIMAL' ,'null' => true,],
 			'description' 	=> ['type' => 'VARCHAR','constraint' => '255','null' => true,],
-			'active' 		=> ['type' => 'TINYINT','constraint' => '1','unsigned' => true,'default' => 1,],
+			'is_lunas' 		=> ['type' => 'TINYINT','constraint' => '1','unsigned' => true,'default' => 1,],
 			'created_by' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
 			'updated_by' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
 			'created_at' 	=> ['type' => 'DATETIME','null' => true,],

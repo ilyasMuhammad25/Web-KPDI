@@ -44,6 +44,12 @@ class Tag extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->route('login');
 		} 
 
+		helper('adminigniter');
+		helper('reference');
+		helper('anggota');
+		helper('tgl_indo');
+		helper('url');
+		helper('thumbnail');
 		helper('tag');
     }
     public function index()

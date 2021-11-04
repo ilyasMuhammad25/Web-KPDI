@@ -4,6 +4,14 @@
  * Auth Helper
  * ---------------
  */
+
+if (!function_exists('getClientIpAddress')) {
+    function getClientIpAddress()
+    {
+        
+        return ('127.0.0.1');
+    }
+}
 if (!function_exists('get_users')) {
     function get_users($group_id = null)
     {        
