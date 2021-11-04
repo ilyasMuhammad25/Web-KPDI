@@ -1,4 +1,13 @@
 <?php
+if (!function_exists('get_eksemplar')) {
+    function get_eksemplar($NomorBarcode)
+    {
+        $eksemplarModel = new \Eksemplar\Models\EksemplarModel();
+		$data = $eksemplarModel->where('NomorBarcode',$NomorBarcode)->get()->getRow();
+
+        return $data;
+    }
+}
 
 if (!function_exists('BarcodeNumber_helper')) {
     function BarcodeNumber_helper()

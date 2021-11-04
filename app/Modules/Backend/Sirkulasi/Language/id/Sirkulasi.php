@@ -48,7 +48,7 @@ return [
 
    'action.list'  => 'Daftar',
    'action.all'  => 'Semua',
-   'action.add'  => 'Tambah',
+   'action.add'  => 'Entri',
    'action.new'  => 'Baru',
    'action.save'  => 'Simpan',
    'action.edit'  => 'Edit',

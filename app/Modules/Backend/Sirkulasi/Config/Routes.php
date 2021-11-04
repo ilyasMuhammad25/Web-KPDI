@@ -6,6 +6,7 @@ $routes->group('sirkulasi', ['namespace' => 'Sirkulasi\Controllers'], function (
 	$subroutes->add('', 'Sirkulasi::index');
 	$subroutes->add('index', 'Sirkulasi::index');
 	$subroutes->add('detail/(:any)', 'Sirkulasi::detail/$1');
+	$subroutes->add('create', 'Sirkulasi::create');
 	$subroutes->add('create_peminjaman', 'Sirkulasi::create_peminjaman');
 	$subroutes->add('createpengembalian', 'Sirkulasi::createpengembalian');
 	$subroutes->add('perpanjangan', 'Sirkulasi::perpanjangan');
@@ -27,4 +28,6 @@ $routes->group('api/sirkulasi', ['namespace' => 'Sirkulasi\Controllers\Api'], fu
 	$subroutes->add('create', 'Sirkulasi::create');
 	$subroutes->add('edit/(:any)', 'Sirkulasi::edit/$1');
 	$subroutes->add('delete/(:any)', 'Sirkulasi::delete/$1');
+	$subroutes->add('eksemplar/(:any)', 'Sirkulasi::eksemplar/$1');
+	$subroutes->add('loan_items/(:any)', 'Sirkulasi::loan_items/$1');
 });
