@@ -40,6 +40,12 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
 			$this->session->set('redirect_url', current_url() );
 			return redirect()->route('login');
 		} 
+        helper('adminigniter');
+		helper('reference');
+		helper('anggota');
+		helper('tgl_indo');
+		helper('url');
+		helper('thumbnail');
     }
     public function index()
     {

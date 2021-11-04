@@ -110,6 +110,7 @@ if (!function_exists('get_dropdown')) {
 		$query->select("$code as code");
 		$query->select("$text as text");
 	
+	
         
 		if(!empty($where)){
 			$query->where($where);
@@ -129,6 +130,26 @@ if (!function_exists('get_dropdown2')) {
 		$query->select("$code as code");
 		
 		$query->select("$barcode as barcode");
+        
+		if(!empty($where)){
+			$query->where($where);
+		}
+
+        return $query->orderBy($code)->get()->getResult();
+    }
+}
+
+if (!function_exists('get_dropdown3')) {
+    function get_dropdown3($table, $where = null, $code = 'id', $text = 'name',$no_anggota='MemberNo')
+    {        
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table);
+
+		$query = $baseModel->where('active',1);
+		$query->select("$code as code");
+		$query->select("$text as text");
+		$query->select("$no_anggota as no_anggota");
+	
         
 		if(!empty($where)){
 			$query->where($where);
