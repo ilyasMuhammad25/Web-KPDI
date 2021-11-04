@@ -10,7 +10,8 @@ use CodeIgniter\Files\File;
 class Sirkulasi extends ResourceController
 {
 	use ResponseTrait;
-	protected $sirkulasiModel;
+	protected $eksemplarModel;
+	protected $eksemplarLoanItemModel;
 	protected $validation;
 	protected $session;
 	protected $modulePath;
@@ -19,7 +20,8 @@ class Sirkulasi extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->sirkulasiModel = new Sirkulasi\Models\SirkulasiModel();
+		$this->eksemplarModel = new \Eksemplar\Models\EksemplarModel();
+		$this->eksemplarLoanItemModel = new \Sirkulasi\Models\EksemplarLoanItemModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
 		$this->modulePath = ROOTPATH . 'public/uploads/sirkulasi/';
@@ -38,7 +40,7 @@ class Sirkulasi extends ResourceController
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->sirkulasiModel->findAll();
+		$data = $this->eksemplarModel->findAll();
 		return $this->respond($data, 200);
 	}
 
@@ -50,7 +52,7 @@ class Sirkulasi extends ResourceController
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->sirkulasiModel->find($id);
+		$data = $this->eksemplarModel->find($id);
 		if ($data) {
 			return $this->respond($data);
 		} else {
@@ -76,7 +78,7 @@ class Sirkulasi extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$newSirkulasiId = $this->sirkulasiModel->insert($save_data);
+			$newSirkulasiId = $this->eksemplarModel->insert($save_data);
 			if ($newSirkulasiId) {
 				$this->session->setFlashdata('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
 				$this->session->setFlashdata('toastr_type', 'success');
@@ -122,7 +124,7 @@ class Sirkulasi extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$sirkulasiUpdate = $this->sirkulasiModel->update($id, $update_data);
+			$sirkulasiUpdate = $this->eksemplarModel->update($id, $update_data);
 			if ($sirkulasiUpdate) {
 				add_log('Ubah Sirkulasi', 'sirkulasi', 'edit', 't_sirkulasi', $id);
 				$this->session->setFlashdata('toastr_msg', lang('Sirkulasi.info.successfully_updated'));
@@ -152,9 +154,9 @@ class Sirkulasi extends ResourceController
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->sirkulasiModel->find($id);
+		$data = $this->eksemplarModel->find($id);
 		if ($data) {
-			$this->sirkulasiModel->delete($id);
+			$this->eksemplarModel->delete($id);
 			add_log('Hapus Sirkulasi', 'sirkulasi', 'delete', 't_sirkulasi', $id);
 			$response = [
 				'status'   => 200,
@@ -166,6 +168,37 @@ class Sirkulasi extends ResourceController
 			return $this->respondDeleted($response);
 		} else {
 			return $this->failNotFound(lang('Sirkulasi.info.not_found').' ID:' . $id);
+		}
+	}
+
+	public function eksemplar($barcode)
+	{
+		$data = $this->eksemplarModel
+			->select('t_eksemplar.NomorBarcode, t_eksemplar.created_at as BookingDate, t_eksemplar.BookingExpiredDate')
+			->select('t_katalog.*')
+			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner')
+			->where('NomorBarcode',$barcode)->get()->getRow();
+
+		if ($data) {
+			return $this->respond($data);
+		} else {
+			return $this->failNotFound('No Data Found with Barcode ' . $barcode);
+		}
+	}
+
+	public function loan_items($loan_id)
+	{
+		$data = $this->eksemplarModel
+			->select('t_eksemplar.NomorBarcode, t_eksemplar.created_at as BookingDate, t_eksemplar.BookingExpiredDate')
+			->select('t_katalog.*')
+			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner')
+			->join('t_eksemplar_loan_item','t_eksemplar_loan_item.eksemplar_id = t_eksemplar.id','inner')
+			->where('t_eksemplar_loan_item.eksemplar_loan_id',$loan_id)->get()->getResult();
+
+		if ($data) {
+			return $this->respond($data);
+		} else {
+			return $this->failNotFound('No Data Found with Loan ID ' . $loan_id);
 		}
 	}
 }

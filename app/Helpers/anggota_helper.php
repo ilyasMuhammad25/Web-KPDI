@@ -1,8 +1,11 @@
 <?php
-if (!function_exists('create_user')) {
-    function create_user($username, $email)
-    {
-        return true;
+if (!function_exists('get_member')) {
+    function get_member($member_no = null)
+    {        
+		$model = new \Anggota\Models\AnggotaModel();
+
+		$data = $model->where('MemberNo',$member_no)->get()->getRow();
+        return $data;
     }
 }
 

@@ -251,8 +251,17 @@ if (!function_exists('get_first')) {
     }
 }
 
+if (!function_exists('get_pad_number')) {
+    function get_pad_number($counter, $prefix = 'TRX-', $zero_length = 4)
+    {        
+        $doc_number = strtoupper($prefix).str_pad($counter , $zero_length , "0" , STR_PAD_LEFT);
+
+        return $doc_number;
+    }
+}
+
 if (!function_exists('get_doc_number')) {
-    function get_doc_number($table_name, $field_name = 'id', $prefix = 'AJU-', $zero_length = 4)
+    function get_doc_number($table_name, $field_name = 'id', $prefix = 'TRX-', $zero_length = 4)
     {        
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable($table_name);
