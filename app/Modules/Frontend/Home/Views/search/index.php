@@ -127,7 +127,7 @@ $pager = $query->pager;
 													</tr>
 													<tr>
 														<th>Ketersediaan</th>
-														<td>1 dari 1 item</td>
+														<td><?=count(get_eksemplars($row->id))?></td>
 													</tr>
 											</tbody>
 										</table>

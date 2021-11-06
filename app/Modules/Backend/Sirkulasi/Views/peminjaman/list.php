@@ -18,28 +18,23 @@ $slug_title = ucwords(strtolower($slug));
                 <div class="page-title-icon">
                     <i class="pe-7s-refresh icon-gradient bg-strong-bliss"></i>
                 </div>
-                <div> <?=$slug_title?>
-                    <div class="page-title-subheading"><?= lang('Sirkulasi.info.list_all') ?>  <?=$slug_title?> </div>
+                <div><?= lang('Sirkulasi.module') ?> - <?=$slug_title?>
+                    <div class="page-title-subheading">Daftar  <?=$slug_title?> </div>
                 </div>
             </div>
             <div class="page-title-actions">
-                <nav class="" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url('sirkulasi') ?>"><i class="fa fa-home"></i> <?= lang('Sirkulasi.label.home') ?></a></li>
-                        <li class="breadcrumb-item" aria-current="page"><?= lang('Sirkulasi.module') ?> </li>
-                        <li class="breadcrumb-item" aria-current="page"><?=$slug_title?></li>
-                        <li class="active breadcrumb-item" aria-current="page">Daftar <?=$slug_title?></li>
-                    </ol>
-                </nav>
+				<?=view('Sirkulasi\Views\section\nav_bread', array('slug' => $slug, 'slug_title' => $slug_title, 'label' => 'Daftar'))?>
             </div>
         </div>
     </div>
 
+	<?=view('Sirkulasi\Views\section\nav_list', array('slug' => $slug))?>
+	
     <div class="main-card mb-3 card">
         <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Sirkulasi.label.table') ?> <?=$slug_title?>
             <div class="btn-actions-pane-right actions-icon-btn">
                 <?php if(is_allowed('sirkulasi/create')):?>
-                    <a href="<?= base_url('sirkulasi/create?slug=peminjaman') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Sirkulasi.action.add') ?> <?=$slug_title?></a>
+                    <a href="<?= base_url('sirkulasi/create?slug='.$slug) ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Sirkulasi.action.add') ?> <?=$slug_title?></a>
                 <?php endif;?>
             </div>
         </div>
@@ -138,7 +133,7 @@ $slug_title = ucwords(strtolower($slug));
 							<td width="100"><b>`+item.NomorBarcode+`</b></td>
 							<td>`+item.Title+`</td>
 							<td width="100">`+item.Publisher+`</td>
-							<td width="100">`+item.BookingDate+`</td>
+							<td width="150">`+item.BookingDate+`</td>
 							<td width="100">`+item.BookingExpiredDate+`</td>
 							<td width="90" class="text-left">
 								

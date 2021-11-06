@@ -59,7 +59,7 @@
     function setDataTable(dom, disableOrderCols = [4, 6, 7], defaultOrderCols = [0, 'asc'], autoNumber = false) {
         var t = $(dom).DataTable({
 			"dom": 
-				"<'row'<'col-md-6 col-sm-8 col-xs-12 text-left'fi><'col-md-6 col-sm-4 col-xs-12 d-none d-sm-block text-right'lp>>" +
+				"<'row'<'col-md-6 col-sm-8 col-xs-12 text-left'f><'col-md-6 col-sm-4 col-xs-12 d-none d-sm-block text-right'p>>" +
 				"<'row'<'col-md-12'tr>>" +
 				"<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12 text-right'i>>",
 			"pagingType": "full",

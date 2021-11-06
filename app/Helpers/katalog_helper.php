@@ -1,4 +1,15 @@
 <?php
+if (!function_exists('get_eksemplars')) {
+	function get_eksemplars($katalog_id)
+	{
+		$eksemplarModel = new \Eksemplar\Models\EksemplarModel();
+		$query = $eksemplarModel
+			->where('t_eksemplar.katalog_id', $katalog_id);
+
+		return $query->get()->getResult();
+	}
+}
+
 if (!function_exists('get_worksheet_summary')) {
 	function get_worksheet_summary()
 	{

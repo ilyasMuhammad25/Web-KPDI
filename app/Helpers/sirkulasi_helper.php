@@ -1,4 +1,23 @@
 <?php
+if (!function_exists('get_loan_item')) {
+    function get_loan_item($id)
+    {
+		$eksemplarLoanItemModel = new \Sirkulasi\Models\EksemplarLoanItemModel();
+		$query = $eksemplarLoanItemModel
+			->select('t_eksemplar_loan_item.*')
+			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
+			->select('t_katalog.Title, t_katalog.Publisher')
+
+			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
+			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
+			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner')
+			->where('t_eksemplar_loan_item.id', $id);
+
+		$data = $query->get()->getRow();
+		return $data;
+    }
+}
 
 if (!function_exists('NomorTransaksi_helper')) {
     function NomorTransaksi_helper()
@@ -20,6 +39,5 @@ if (!function_exists('NomorTransaksi_helper')) {
     }
     
 }
-
 ?>
 

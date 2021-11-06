@@ -25,6 +25,7 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		helper('reference');
 		helper('katalog');
 		helper('anggota');
+		helper('katalog');
 	}
 	public function index()
 	{
