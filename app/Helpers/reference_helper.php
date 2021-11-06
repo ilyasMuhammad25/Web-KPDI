@@ -122,7 +122,7 @@ if (!function_exists('get_dropdown')) {
 }
 
 if (!function_exists('get_dropdown2')) {
-    function get_dropdown2($table, $where = null, $code = 'id', $barcode='NomorBarcode')
+    function get_dropdown2($table, $where = null, $code = 'id',$currency='Description')
     {        
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable($table);
@@ -130,7 +130,7 @@ if (!function_exists('get_dropdown2')) {
 		$query = $baseModel->where('active',1);
 		$query->select("$code as code");
 		
-		$query->select("$barcode as barcode");
+		$query->select("$currency as currency");
         
 		if(!empty($where)){
 			$query->where($where);

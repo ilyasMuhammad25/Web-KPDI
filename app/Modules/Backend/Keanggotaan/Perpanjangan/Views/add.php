@@ -1,7 +1,17 @@
 <?php
+// $request = \Config\Services::request();
+// $request->uri->setSilent();
+// $slug = $request->getVar('slug') ?? 'peminjaman';
+// $member_no = $request->getVar('member_no') ?? user()->username;
+// $member = get_member($member_no);
+
 $request = \Config\Services::request();
 $request->uri->setSilent();
-
+$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+$baseModel->setTable('t_anggota');
+$anggotas = $baseModel
+    ->find_all('name', 'asc');
+    // dd($katalog);
 
 ?>
 
@@ -50,72 +60,44 @@ $request->uri->setSilent();
             <form id="frm_create" class="col-md-12 mx-auto" method="post"
                 action="<?= base_url('perpanjangan/create'); ?>">
                 <div class="form-row">
-                    <div class="input-group col-md-8">
-                        <select class="custom-select js-example-basic-multiple" id="inputGroupSelect04">
-                        <?php foreach(get_dropdown('t_anggota',null,'MemberNo','name') as $row):?>
-                            <option value="<?=$row->code?>"><?=$row->code?>-<?=$row->text?></option>
-                            <?php endforeach;?>
-                        </select>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button"   style="background-color: #315644;" ><i class="fa fa-search"></i>Button</button>
-                        </div>
-                    </div>
-                    
+
+
 
                 </div>
 
                 <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="position-relative form-group">
-                            <label for="name"><?= lang('Perpanjangan.field.name') ?>*</label>
-                            <div>
-                                <input type="text" class="form-control" id="frm_create_sort" name="sort"
-                                    placeholder="<?= lang('Perpanjangan.field.sort') ?> "
-                                    value="<?= set_value('sort') ?>" />
-                            </div>
-                        </div>
+                    <div class="col-md-4">
+                        <?=$this->include('Perpanjangan\Views\section\member_profile')?>
                     </div>
                     <div class="col-md-6">
-                        <div class="position-relative form-group">
-                            <label for="sort">Tanggal lahir</label>
-                            <div>
-                                <input type="number" class="form-control" id="frm_create_sort" name="sort"
-                                    placeholder="<?= lang('Perpanjangan.field.sort') ?> "
-                                    value="<?= set_value('sort') ?>" readonly />
-                                <small class="info help-block text-muted"><?= lang('Perpanjangan.field.sort') ?>
-                                    Perpanjangan</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <?=$this->include('Perpanjangan\Views\section\member_no')?>
+                        <label for="sort">Nama</label>
+                        <div class="input-group ">
 
-                <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="position-relative form-group">
-                            <label for="name">Jenis Anggota</label>
-                            <div>
-                                <input type="text" class="form-control" id="frm_create_sort" name="sort"
-                                    placeholder="<?= lang('Perpanjangan.field.sort') ?> "
-                                    value="<?= set_value('sort') ?>" />
+                            <select class="custom-select js-example-basic-multiple" id="btn_pilih" name="anggota_id" value="">
+                                <?php foreach($anggotas as $row):?>
+                                <option  value="<?=$row->id?>"><?=$row->MemberNo?>-<?=$row->name?></option>
+                                <?php endforeach;?>
+                            </select>
+                            <input type="hidden" name="anggota_id" id="anggota_id" value="">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-pilih" type="button"
+                                data-id= <?= _spec($row->id); ?> 
+                                 data-name= <?= _spec($row->name); ?>
+                                 data-MemberNo= <?= _spec($row->MemberNo); ?>
+                                    style="background-color: #315644;"><i class="fa fa-search"></i>Cari</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="position-relative form-group">
+                        
+                        <div>
                             <label for="sort">Masa berlaku saat ini</label>
                             <div>
                                 <input type="number" class="form-control" id="frm_create_sort" name="sort"
                                     value="<?= set_value('sort') ?>" />
-                                <small class="info help-block text-muted"><?= lang('Perpanjangan.field.sort') ?>
-                                    Perpanjangan</small>
+                              
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="position-relative form-group">
+                        <div>
                             <label for="name">Tanggal berahir</label>
                             <div>
                                 <input type="text" class="form-control" id="frm_create_sort" name="sort"
@@ -123,28 +105,25 @@ $request->uri->setSilent();
                                     value="<?= set_value('sort') ?>" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="position-relative form-group">
+
+                        <div>
                             <label for="sort">Biaya</label>
                             <div>
                                 <input type="number" class="form-control" id="frm_create_sort" name="sort"
                                     value="<?= set_value('sort') ?>" />
-                                <small class="info help-block text-muted"><?= lang('Perpanjangan.field.sort') ?>
-                                    Perpanjangan</small>
+                             
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-check form-group">
-                    <div>
-                        <input type="hidden" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="0">
-                        <input type="checkbox" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="1">
-                        <label class="  control-label">Sudah Lunas</label>
-                    </div>
-                </div>
 
-                <div class="form-group">
+                        <div class="form-check form-group mt-1">
+                            <div>
+                                <input type="hidden" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="0">
+                                <input type="checkbox" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="1">
+                                <label class="  control-label">Sudah Lunas</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                     <label for="description"><?= lang('Perpanjangan.field.description') ?> </label>
                     <div>
                         <textarea id="frm_create_description" name="description"
@@ -153,6 +132,17 @@ $request->uri->setSilent();
                             style="min-height: 38px;"><?= set_value('description') ?></textarea>
                     </div>
                 </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+            
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary"
@@ -171,5 +161,22 @@ $request->uri->setSilent();
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
 });
+
+
+$(".btn-pilih").click(function(){
+		var id = $(this).data('id');
+		var name = $(this).data('name');
+		var MemberNo = $(this).data('MemberNo');
+		// var judul = $(this).data('judul');
+		// var penanggungjawab = $(this).data('penanggungjawab');
+
+		// $('#frm_create_name').val(judul);
+		// $('#penanggungjawab').val(penanggungjawab);
+		$('#anggota_id').val(id);
+		$('#name').html(name);
+		$('#MemberNo').html(MemberNo);
+
+		$('#modal_create').modal('hide');
+	});
 </script>
 <?= $this->endSection('script'); ?>

@@ -124,45 +124,45 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->to('/dashboard');
 		}
 
-		$users = model(UserModel::class);
+		// $users = model(UserModel::class);
 
-		// Validate basics first since some password rules rely on these fields
-		$rules = [
-			'username' => 'required|max_length[30]|is_unique[users.username]',
-			'email'    => 'required|valid_email|is_unique[users.email]',
-		];
+		// // Validate basics first since some password rules rely on these fields
+		// $rules = [
+		// 	'username' => 'required|max_length[30]|is_unique[users.username]',
+		// 	'email'    => 'required|valid_email|is_unique[users.email]',
+		// ];
 
-		if (! $this->validate($rules))
-		{
-			return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-		}
+		// if (! $this->validate($rules))
+		// {
+		// 	return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+		// }
 
-		// Validate passwords since they can only be validated properly here
-		$rules = [
-			'password'     => 'required', //attemptSignup
-			'pass_confirm' => 'required|matches[password]',
-		];
+		// // Validate passwords since they can only be validated properly here
+		// $rules = [
+		// 	'password'     => 'required', //attemptSignup
+		// 	'pass_confirm' => 'required|matches[password]',
+		// ];
 
-		if (! $this->validate($rules))
-		{
-			return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-		}
+		// if (! $this->validate($rules))
+		// {
+		// 	return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+		// }
 
-		// Save the user
-		$allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
-		$user = new User($this->request->getPost($allowedPostFields));
+		// // Save the user
+		// $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
+		// $user = new User($this->request->getPost($allowedPostFields));
 
-		$this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
+		// $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
 
-		// Ensure default group gets assigned if set
-        if (! empty($this->config->defaultUserGroup)) {
-            $users = $users->withGroup($this->config->defaultUserGroup);
-        }
+		// // Ensure default group gets assigned if set
+        // if (! empty($this->config->defaultUserGroup)) {
+        //     $users = $users->withGroup($this->config->defaultUserGroup);
+        // }
 
-		if (! $users->save($user))
-		{
-			return redirect()->back()->withInput()->with('errors', $users->errors());
-		}
+		// if (! $users->save($user))
+		// {
+		// 	return redirect()->back()->withInput()->with('errors', $users->errors());
+		// }
 
 
 		// mengambil nama lokasi perpustakaan

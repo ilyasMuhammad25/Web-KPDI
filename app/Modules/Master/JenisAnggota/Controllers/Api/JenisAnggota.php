@@ -1,16 +1,16 @@
 <?php
 
-namespace Eksemplar\Controllers\Api;
+namespace JenisAnggota\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\EksemplarModel;
+use App\Models\JenisAnggotaModel;
 use CodeIgniter\Files\File;
 
-class Eksemplar extends ResourceController
+class JenisAnggota extends ResourceController
 {
 	use ResponseTrait;
-	protected $eksemplarModel;
+	protected $jenisanggotaModel;
 	protected $validation;
 	protected $session;
 	protected $modulePath;
@@ -19,39 +19,38 @@ class Eksemplar extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
-		$this->eksemplarModel = new \Eksemplar\Models\EksemplarModel();
+		$this->jenisanggotaModel = new JenisAnggota\Models\JenisAnggotaModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
-		$this->modulePath = ROOTPATH . 'public/uploads/eksemplar/';
+		$this->modulePath = ROOTPATH . 'public/uploads/jenisanggota/';
 		$this->uploadPath = WRITEPATH . 'uploads/';
 
 		if (!file_exists($this->modulePath)) {
 			mkdir($this->modulePath);
 		}
-		helper('reference');
 	}
 
 	public function index()
 	{
-		if (!is_allowed('eksemplar/access')) {
+		if (!is_allowed('jenisanggota/access')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->eksemplarModel->findAll();
+		$data = $this->jenisanggotaModel->findAll();
 		return $this->respond($data, 200);
 	}
 
 	public function detail($id = null)
 	{
-		if (!is_allowed('eksemplar/read')) {
+		if (!is_allowed('jenisanggota/read')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->eksemplarModel->find($id);
+		$data = $this->jenisanggotaModel->find($id);
 		if ($data) {
 			return $this->respond($data);
 		} else {
@@ -61,7 +60,7 @@ class Eksemplar extends ResourceController
 
 	public function create()
 	{
-		if (!is_allowed('eksemplar/create')) {
+		if (!is_allowed('jenisanggota/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
@@ -77,15 +76,15 @@ class Eksemplar extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$newEksemplarId = $this->eksemplarModel->insert($save_data);
-			if ($newEksemplarId) {
-				$this->session->setFlashdata('toastr_msg', lang('Eksemplar.info.successfully_saved'));
+			$newJenisAnggotaId = $this->jenisanggotaModel->insert($save_data);
+			if ($newJenisAnggotaId) {
+				$this->session->setFlashdata('toastr_msg', lang('JenisAnggota.info.successfully_saved'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
 					'status'   => 201,
 					'error'    => null,
 					'messages' => [
-						'success' => lang('Eksemplar.info.successfully_saved')
+						'success' => lang('JenisAnggota.info.successfully_saved')
 					]
 				];
 				return $this->respondCreated($response);
@@ -94,7 +93,7 @@ class Eksemplar extends ResourceController
 					'status'   => 400,
 					'error'    => null,
 					'messages' => [
-						'error' =>  lang('Eksemplar.info.failed_saved')
+						'error' =>  lang('JenisAnggota.info.failed_saved')
 					]
 				];
 				return $this->fail($response);
@@ -107,7 +106,7 @@ class Eksemplar extends ResourceController
 
 	public function edit($id = null)
 	{
-		if (!is_allowed('eksemplar/update')) {
+		if (!is_allowed('jenisanggota/update')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
@@ -123,21 +122,21 @@ class Eksemplar extends ResourceController
 				'description' => $this->request->getPost('description'),
 			);
 
-			$eksemplarUpdate = $this->eksemplarModel->update($id, $update_data);
-			if ($eksemplarUpdate) {
-				add_log('Ubah Eksemplar', 'eksemplar', 'edit', 't_eksemplar', $id);
-				$this->session->setFlashdata('toastr_msg', lang('Eksemplar.info.successfully_updated'));
+			$jenisanggotaUpdate = $this->jenisanggotaModel->update($id, $update_data);
+			if ($jenisanggotaUpdate) {
+				add_log('Ubah JenisAnggota', 'jenisanggota', 'edit', 't_jenisanggota', $id);
+				$this->session->setFlashdata('toastr_msg', lang('JenisAnggota.info.successfully_updated'));
 				$this->session->setFlashdata('toastr_type', 'success');
 				$response = [
 					'status'   => 201,
 					'error'    => null,
 					'messages' => [
-						'success' => lang('Eksemplar.info.successfully_updated')
+						'success' => lang('JenisAnggota.info.successfully_updated')
 					]
 				];
 				return $this->respond($response);
 			} else {
-				return $this->fail('<div class="alert alert-danger fade show" role="alert">'.lang('Eksemplar.info.failed_updated').'</div>', 400);
+				return $this->fail('<div class="alert alert-danger fade show" role="alert">'.lang('JenisAnggota.info.failed_updated').'</div>', 400);
 			}
 		} else {
 			$message = $this->validation->listErrors();
@@ -147,38 +146,26 @@ class Eksemplar extends ResourceController
 
 	public function delete($id = null)
 	{
-		if (!is_allowed('eksemplar/delete')) {
+		if (!is_allowed('jenisanggota/delete')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
 
-		$data = $this->eksemplarModel->find($id);
+		$data = $this->jenisanggotaModel->find($id);
 		if ($data) {
-			$this->eksemplarModel->delete($id);
-			add_log('Hapus Eksemplar', 'eksemplar', 'delete', 't_eksemplar', $id);
+			$this->jenisanggotaModel->delete($id);
+			add_log('Hapus JenisAnggota', 'jenisanggota', 'delete', 't_jenisanggota', $id);
 			$response = [
 				'status'   => 200,
 				'error'    => null,
 				'messages' => [
-					'success' => lang('Eksemplar.info.successfully_deleted')
+					'success' => lang('JenisAnggota.info.successfully_deleted')
 				]
 			];
 			return $this->respondDeleted($response);
 		} else {
-			return $this->failNotFound(lang('Eksemplar.info.not_found').' ID:' . $id);
+			return $this->failNotFound(lang('JenisAnggota.info.not_found').' ID:' . $id);
 		}
-	}
-
-	public function location()
-	{
-		$Lokasi_perpustakaan_id = $this->request->getVar('Lokasi_perpustakaan_id');
-		if(!empty($Lokasi_perpustakaan_id)){
-			$data = get_dropdown('m_lokasiruang','Lokasi_perpustakaan_id = '.$Lokasi_perpustakaan_id);
-		} else {
-			$data = get_dropdown('m_lokasiruang');
-		}
-
-		return $this->respond($data, 200);
 	}
 }

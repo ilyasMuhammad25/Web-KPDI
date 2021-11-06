@@ -1,7 +1,7 @@
 <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
-// $slug = $request->getVar('slug') ?? 'peminjaman';
+$slug = $request->getVar('slug') ?? 'peminjaman';
 $member_no = $request->getVar('member_no') ?? user()->username;
 $member = get_member($member_no);
 ?>
@@ -27,8 +27,8 @@ $member = get_member($member_no);
 					</div>
 				</div>
 				<div>
-					<h5 class="menu-header-title"><?=$member->name??''?></h5>
-					<h6 class="menu-header-subtitle"><?=$member->MemberNo??''?></p>
+					<h5 class="menu-header-title"><span id="name"></span></h5>
+					<h6 class="menu-header-subtitle"><span id="MemberNo"></span></p>
 				</div>
 				<div class="menu-header-btn-pane">
 

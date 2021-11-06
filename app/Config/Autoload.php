@@ -70,6 +70,7 @@ class Autoload extends AutoloadConfig
 		'Sumbangan'			=> APPPATH . 'Modules/Backend/Keanggotaan/Sumbangan',
         'UsulanKoleksi' => APPPATH . 'Modules/Backend/Keanggotaan/UsulanKoleksi',
         'PemesananKoleksi' => APPPATH . 'Modules/Backend/Keanggotaan/PemesananKoleksi',
+            'JenisAnggota' => APPPATH . 'Modules/Master/JenisAnggota',
 	];
 
 	/**

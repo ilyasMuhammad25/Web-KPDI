@@ -22,9 +22,11 @@ $routes->group('eksemplar', ['namespace' => 'Eksemplar\Controllers'], function (
 
 $routes->group('api/eksemplar', ['namespace' => 'Eksemplar\Controllers\Api'], function ($subroutes) {
 	/*** Route Update for Eksemplar ***/
+	$subroutes->add('', 'Eksemplar::index');
 	$subroutes->add('detail/(:any)', 'Eksemplar::detail/$1');
 	$subroutes->add('find/(:any)', 'Eksemplar::find/$1');
 	$subroutes->add('create', 'Eksemplar::create');
+	$subroutes->add('location', 'Eksemplar::location');
 	$subroutes->add('edit/(:any)', 'Eksemplar::edit/$1');
 	$subroutes->add('delete/(:any)', 'Eksemplar::delete/$1');
 });

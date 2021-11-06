@@ -48,11 +48,12 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
         <div class="card-header">
             <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form
             <?=lang('Eksemplar.action.add')?> <?=lang('Eksemplar.module')?>
-			<div class="btn-actions-pane-right actions-icon-btn">
-				<?php if (is_allowed('Eksemplar/create')): ?>
-					<a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class=" btn btn-success" title="Pilih katalog"><i class="fa fa-book"></i> Pilih Katalog</a>
-				<?php endif;?>
-			</div>
+            <div class="btn-actions-pane-right actions-icon-btn">
+                <?php if (is_allowed('Eksemplar/create')): ?>
+                <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class=" btn btn-success"
+                    title="Pilih katalog"><i class="fa fa-book"></i> Pilih Katalog</a>
+                <?php endif;?>
+            </div>
         </div>
         <div class="card-body">
             <div id="infoMessage"><?=$message ?? '';?></div>
@@ -82,10 +83,11 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                 <div class="position-relative form-group">
                                                     <label for="name"><?=lang('Eksemplar.field.JudulUtama')?>*</label>
                                                     <div>
-														<input type="hidden" name="catalog_id" id="catalog_id" value="">
+                                                        <input type="hidden" name="catalog_id" id="catalog_id" value="">
                                                         <input type="text" class="form-control" id="frm_create_name"
                                                             name="name"
-                                                            placeholder="<?=lang('Eksemplar.field.JudulUtama')?> " readonly/>
+                                                            placeholder="<?=lang('Eksemplar.field.JudulUtama')?> "
+                                                            readonly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,7 +102,8 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                     <div>
                                                         <input type="text" class="form-control" id="frm_create_name"
                                                             name="name"
-                                                            placeholder="<?=lang('Eksemplar.field.AnakJudul')?> " readonly/>
+                                                            placeholder="<?=lang('Eksemplar.field.AnakJudul')?> "
+                                                            readonly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,8 +112,8 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                     <label for="sort">Penanggung Jawab </label>
                                                     <div>
                                                         <input type="text" class="form-control" id="penanggungjawab"
-                                                            name="sort"
-                                                            placeholder="<?=lang('Eksemplar.field.sort')?> " readonly />
+                                                            name="sort" placeholder="<?=lang('Eksemplar.field.sort')?> "
+                                                            readonly />
 
                                                     </div>
                                                 </div>
@@ -158,8 +161,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="position-relative form-group">
-                                                    <label
-                                                        for="name"><?=lang('Eksemplar.field.Tanggalserial')?></label>
+                                                    <label for="name"><?=lang('Eksemplar.field.Tanggalserial')?></label>
                                                     <div>
                                                         <input type="text" class="form-control" id="frm_create_name"
                                                             name="name" value='<?=set_value('Tanggalserial', '')?>'
@@ -175,8 +177,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                         <div class="form-row">
                                             <div class="col-md-6">
                                                 <div class="position-relative form-group">
-                                                    <label
-                                                        for="name"><?=lang('Eksemplar.field.Bahansertaan')?></label>
+                                                    <label for="name"><?=lang('Eksemplar.field.Bahansertaan')?></label>
                                                     <div>
                                                         <input type="text" class="form-control" id="frm_create_name"
                                                             name="Bahan_Sertaan"
@@ -226,34 +227,38 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                 </div>
                                 <div data-parent="#accordion" id="collapse_madatory3" class="collapse" style="">
                                     <div class="card-body">
-										<div class="col-md-12">
-											<div class="form-row">
-												<div class="col-md-4">
-													<div class="input-group"><input type="number" name="jml_eksemplar" id="jml_eksemplar" class="form-control" placeholder="Jumlah Eksemplar">
-														<div class="input-group-append">
-															<button type="button" class="btn btn-primary btn-generate" data-tbody="eksemplar-tbody">Generate</button>
-														</div>
-													</div>
-												</div>
-											</div>
+                                        <div class="col-md-12">
+                                            <div class="form-row">
+                                                <div class="col-md-4">
+                                                    <div class="input-group"><input type="number" name="jml_eksemplar"
+                                                            id="jml_eksemplar" class="form-control"
+                                                            placeholder="Jumlah Eksemplar">
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-primary btn-generate"
+                                                                data-tbody="eksemplar-tbody">Generate</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-											<div class="main-card mt-3 mb-3 card car-border">
-												<div class="card-body">
-													<table style="width: 100%;" id="eksemplar-tbl" class="table table-hover table-striped table-bordered">
-														<thead>
-															<tr>
-																<th width="25%">Barcode</th>
-																<th width="25%">Nomor Induk</th>
-																<th width="25%">RFID</th>
-																<th width="25%">Nomor Panggil</th>
-															</tr>
-														</thead>
-														<tbody id="eksemplar-tbody">
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
+                                            <div class="main-card mt-3 mb-3 card car-border">
+                                                <div class="card-body">
+                                                    <table style="width: 100%;" id="eksemplar-tbl"
+                                                        class="table table-hover table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="25%">Barcode</th>
+                                                                <th width="25%">Nomor Induk</th>
+                                                                <th width="25%">RFID</th>
+                                                                <th width="25%">Nomor Panggil</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="eksemplar-tbody">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
                                         <!-- end -->
@@ -262,8 +267,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 
                                             <div class="col-md-4">
                                                 <div class="position-relative form-group">
-                                                    <label
-                                                        for="name"><?=lang('Eksemplar.field.Jenissumber')?>*</label>
+                                                    <label for="name"><?=lang('Eksemplar.field.Jenissumber')?>*</label>
                                                     <div>
                                                         <select class="form-control" name="ref_source" id="ref_source"
                                                             tabindex="-1" aria-hidden="true"
@@ -301,14 +305,12 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                 <div class="position-relative form-group">
                                                     <label for="name"><?=lang('Eksemplar.field.Bentukmedia')?></label>
                                                     <div>
-                                                        <select class="form-control" name="ref_media" id="ref_media"
-                                                            tabindex="-1" aria-hidden="true"
-                                                            placeholder="<?=lang('Eksemplar.field.Bentukmedia')?>">
-                                                            <option value="1" selected>
-                                                                <?=lang('Eksemplar.field.Bentukmedia')?></option>
-                                                            <?php foreach ($ref_media as $row): ?>
-                                                            <option value="<?=$row->id?>"><?=$row->name?>
-                                                            </option>
+                                                    <select class="form-control select_2" name="ref_media"
+                                                            id="Location_Library_id" tabindex="-1" aria-hidden="true"
+                                                            style="width:100%">
+                                                          
+                                                            <?php foreach(get_dropdown('m_media_eksemplar') as $row):?>
+                                                            <option value="<?=$row->code?>"><?=$row->text?></option>
                                                             <?php endforeach;?>
                                                         </select>
                                                     </div>
@@ -319,11 +321,56 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                 <div class="position-relative form-group">
                                                     <label for="name"><?=lang('Eksemplar.field.Akses')?></label>
                                                     <div>
-                                                        <select class="form-control" name="ref_status" id="ref_status"
+                                                        <select class="form-control" name="ref_akses" id="ref_akses"
                                                             tabindex="-1" aria-hidden="true"
                                                             placeholder="<?=lang('Eksemplar.field.Akses')?>">
                                                             <option value="1" selected>
                                                                 <?=lang('Eksemplar.field.Akses')?></option>
+                                                            <?php foreach ($ref_akses as $row): ?>
+                                                            <option value="<?=$row->id?>"><?=$row->name?>
+                                                            </option>
+                                                            <?php endforeach;?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="name"><?=lang('Anggota.field.provinsi')?></label>
+                                        <div>
+                                            <select class="form-control select2" name="Provincy" id="Provincy"
+                                                tabindex="-1" aria-hidden="true" style="width:100%">
+                                                <option value="">-Pilih-</option>
+                                                <?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
+                                                <option value="<?=$row->code?>"><?=$row->text?></option>
+                                                <?php endforeach;?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="name"><?=lang('Anggota.field.city')?></label>
+                                        <div>
+                                            <select class="form-control select2" name="City" id="City" tabindex="-1"
+                                                aria-hidden="true" style="width:100%"
+                                                data-url="<?=base_url('api/eksemplar/location')?>">
+                                                <option value="">-Pilih-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                            <div class="col-md-6">
+                                                <div class="position-relative form-group">
+                                                    <label for="name"><?=lang('Eksemplar.field.Ketersediaan')?></label>
+                                                    <div>
+                                                    <select class="form-control" name="ref_status" id="ref_status"
+                                                            tabindex="-1" aria-hidden="true"
+                                                            placeholder="<?=lang('Eksemplar.field.Ketersediaan')?>">
+                                                            <option value="1" selected>
+                                                                <?=lang('Eksemplar.field.Ketersediaan')?></option>
                                                             <?php foreach ($ref_status as $row): ?>
                                                             <option value="<?=$row->id?>"><?=$row->name?>
                                                             </option>
@@ -333,59 +380,16 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
-                                                <div class="position-relative form-group">
-                                                    <label
-                                                        for="name"><?=lang('Eksemplar.field.lokasiperpustakaan')?></label>
-                                                    <div>
-                                                        <input type="number" class="form-control" id="frm_create_name"
-                                                            name="Location_Library_id"
-                                                            placeholder="<?=lang('Eksemplar.field.lokasiperpustakaan')?> " />
-                                                        <!-- <small
-                                                            class="info help-block text-muted"><?=lang('Eksemplar.field.name')?></small> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="position-relative form-group">
-                                                    <label for="name"><?=lang('Eksemplar.field.lokasiruang')?></label>
-                                                    <div>
-                                                        <input type="number" class="form-control" id="frm_create_name"
-                                                            name="Location_id"
-                                                            placeholder="<?=lang('Eksemplar.field.lokasiruang')?> " />
-                                                        <!-- <small
-                                                            class="info help-block text-muted"><?=lang('Eksemplar.field.name')?></small> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="position-relative form-group">
-                                                    <label
-                                                        for="name"><?=lang('Eksemplar.field.Ketersediaan')?></label>
-                                                    <div>
-                                                        <input type="number" class="form-control" id="frm_create_name"
-                                                            name="ref_status"
-                                                            placeholder="<?=lang('Eksemplar.field.Ketersediaan')?> " />
-                                                        <!-- <small
-                                                            class="info help-block text-muted"><?=lang('Eksemplar.field.name')?></small> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                             <div class="col-md-6">
                                                 <div class="position-relative form-group">
                                                     <label for="name"><?=lang('Eksemplar.field.Currency')?></label>
-                                                    <select class="form-control" name="ref_currency" id="ref_currency"
+                                                    <select class="form-control select_3" name="ref_currency" id="ref_currency"
                                                         tabindex="-1" aria-hidden="true"
                                                         placeholder="<?=lang('Eksemplar.field.currency')?>">
-                                                        <option value="1" selected>
-                                                            <?=lang('Eksemplar.field.Currency')?></option>
-                                                        <?php foreach ($ref_currency as $row): ?>
-                                                        <option value="<?=$row->id?>"><?=$row->name?>
-                                                        </option>
-                                                        <?php endforeach;?>
+                                                        <option value="">-Pilih-</option>
+                                                            <?php foreach(get_dropdown('m_currency',null,'Description','Description') as $row):?>
+                                                            <option value="<?=$row->code?>"><?=$row->code?></option>
+                                                            <?php endforeach;?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -458,7 +462,8 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary" name="submit"><?=lang('Eksemplar.action.save')?></button>
+                    <button type="submit" class="btn btn-primary"
+                        name="submit"><?=lang('Eksemplar.action.save')?></button>
                 </div>
             </form>
         </div>
@@ -473,50 +478,75 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 <?=$this->section('script');?>
 
 <?=$this->include('Eksemplar\Views\pilihkatalog');?>
+
 <script>
-
-	$(".btn-pilih").click(function(){
-		var id = $(this).data('id');
-		var judul = $(this).data('judul');
-		var penanggungjawab = $(this).data('penanggungjawab');
-
-		$('#frm_create_name').val(judul);
-		$('#penanggungjawab').val(penanggungjawab);
-		$('#catalog_id').val(id);
-
-		$('#modal_create').modal('hide');
+		$( document ).ready(function() {
+		$('#Provincy').change(function() {
+			var Lokasi_perpustakaan_id = $(this).val();
+			var uriParam = '?Lokasi_perpustakaan_id='+Lokasi_perpustakaan_id;
+			getDropdown('City', uriParam, 'Pilih', false, false);
+		});
 	});
+</script>
 
-	$(".btn-generate").click(function() {
-		var exemplar = $('#jml_eksemplar').val();
-		var index = Date.now();
-		var tbody = $(this).data('tbody');
+<script>
+    //   $( document ).ready(function() {
+	// 	$('#Location_Library_id').change(function() {
+	// 		var Lokasi_perpustakaan_id = $(this).val();
+	// 		var uriParam = '?Lokasi_perpustakaan_id='+Lokasi_perpustakaan_id;
+	// 		getDropdown('m_lokasiruang', uriParam, 'Pilih', false, false);
+	// 	});
+	// });
+//  memanggil url combobox 
 
-		var prefix_no_barcode = "<?=get_parameter('prefix_no_barcode', 'BRCD')?>";
-		var prefix_rfid = "<?=get_parameter('prefix_rfid', 'RFID')?>";
 
-		var no_barcode = "<?=BarcodeNumber_helper()?>";
-		var no_induk = "<?=NoInduk_helper()?>";
-		var rfid = "<?=RFID_helper()?>";
-		var no_panggil = "";
+$('.select2').select2();
+$('.select_2').select2();
+$(".btn-pilih").click(function() {
+    var id = $(this).data('id');
+    var judul = $(this).data('judul');
+    var penanggungjawab = $(this).data('penanggungjawab');
 
-		$('#'+tbody).empty();
-		for (let i = 0; i < exemplar; i++) {
+    $('#frm_create_name').val(judul);
+    $('#penanggungjawab').val(penanggungjawab);
+    $('#catalog_id').val(id);
 
-			no_panggil = rfid;
-			$('#'+tbody).append(`
+    $('#modal_create').modal('hide');
+});
+
+$(".btn-generate").click(function() {
+    var exemplar = $('#jml_eksemplar').val();
+    var index = Date.now();
+    var tbody = $(this).data('tbody');
+
+    var prefix_no_barcode = "<?=get_parameter('prefix_no_barcode', 'BRCD')?>";
+    var prefix_rfid = "<?=get_parameter('prefix_rfid', 'RFID')?>";
+
+    var no_barcode = "<?=BarcodeNumber_helper()?>";
+    var no_induk = "<?=NoInduk_helper()?>";
+    var rfid = "<?=RFID_helper()?>";
+    var no_panggil = "";
+
+    $('#' + tbody).empty();
+    for (let i = 0; i < exemplar; i++) {
+
+        no_panggil = rfid;
+        $('#' + tbody).append(`
 				<tr>
-					<td><input name="no_barcode[`+i+`]" type="text" class="form-control barcode" value="`+prefix_no_barcode+''+pad(no_barcode,7)+`" readonly></td>
-					<td><input name="no_induk[`+i+`]" type="text" class="form-control barcode" value="`+no_induk+`" readonly></td>
-					<td><input name="rfid[`+i+`]" type="text" class="form-control barcode" value="`+prefix_rfid+''+pad(rfid,7)+`" readonly></td>
-					<td><input name="no_panggil[`+i+`]" type="text" class="form-control barcode" value="`+prefix_rfid+''+pad(no_panggil,7)+`"></td>
+					<td><input name="no_barcode[` + i + `]" type="text" class="form-control barcode" value="` + prefix_no_barcode +
+            '' + pad(no_barcode, 7) + `" readonly></td>
+					<td><input name="no_induk[` + i + `]" type="text" class="form-control barcode" value="` + no_induk + `" readonly></td>
+					<td><input name="rfid[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' + pad(rfid,
+                7) + `" readonly></td>
+					<td><input name="no_panggil[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' +
+            pad(no_panggil, 7) + `"></td>
 				</tr>
 			`);
 
-			no_barcode++;
-			no_induk++;
-			rfid++;
-		}
-	});
+        no_barcode++;
+        no_induk++;
+        rfid++;
+    }
+});
 </script>
 <?=$this->endSection('script');?>

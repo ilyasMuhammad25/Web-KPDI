@@ -80,14 +80,13 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
 
         $this->data['title'] = 'Tambah Perpanjangan';
 
-		$this->validation->setRule('name', 'Nama', 'required');
+		$this->validation->setRule('member_no', 'Nomor Anggota', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-            $slug = url_title($this->request->getPost('name'), '-', TRUE);
+			$member_no = $this->request->getPost('member_no');
+			$anggota = $this->anggotaModel->where('MemberNo',$member_no)->get()->getRow();
+
             $save_data = [
-				'name' => $this->request->getPost('name'),
-                'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
+				'anggota_id' => $anggota->id,
                 'created_by' => user_id(),
             ];
 

@@ -131,9 +131,10 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['ref_currency'] = get_ref('ref_currency');
         $this->data['ref_rules'] = get_ref('ref_rules');
         $this->data['ref_media'] = get_ref('media');
-        $this->data['ref_partner'] = get_ref('partner');
-        $this->data['ref_source'] = get_ref('source');
+        $this->data['ref_partner'] = get_ref('ref_partner');
+        $this->data['ref_source'] = get_ref('ref_source');
         $this->data['ref_status'] = get_ref('ref_status');
+        $this->data['ref_akses'] = get_ref('ref_akses');
         $BarcodeNumber =  BarcodeNumber_helper();
 		$NoInduk =NoInduk_helper();
 		$RFID =RFID_helper();
@@ -165,6 +166,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					'ref_partner' =>  $this->request->getPost('ref_partner'),
 					// 'Location_id' =>  $this->request->getPost['Location_id'],
 					'ref_rules' =>  $this->request->getPost('ref_rules'),
+					'ref_akses' =>  $this->request->getPost('ref_akses'),
 					// 'Category_id' =>  $this->request->getPost['Category_id'],
 					'ref_media' =>  $this->request->getPost('ref_media'),
 					'ref_source' =>  $this->request->getPost('ref_source'),
@@ -224,12 +226,13 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $this->data['title'] = 'Ubah Eksemplar';
-        $this->data['ref_currency'] = get_references('ref_currency');
-        $this->data['ref_rules'] = get_references('ref_rules');
-        $this->data['ref_media'] = get_references('media');
-        $this->data['ref_partner'] = get_references('nama_sumber');
-        $this->data['ref_source'] = get_references('jenis_sumber');
-        $this->data['ref_status'] = get_references('ref_status');
+        $this->data['ref_currency'] = get_ref('ref_currency');
+        $this->data['ref_rules'] = get_ref('ref_rules');
+        $this->data['ref_media'] = get_ref('media');
+        $this->data['ref_partner'] = get_ref('ref_partner');
+        $this->data['ref_source'] = get_ref('ref_source');
+        $this->data['ref_status'] = get_ref('ref_status');
+        // $this->data['ref_status1'] = get_ref('ref_status1');
         $BarcodeNumber =  BarcodeNumber_helper();
 		$NoInduk =NoInduk_helper();
 		$RFID =RFID_helper();
@@ -249,13 +252,15 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					// 'Branch_id' => 37,
 					'catalog_id' =>  $this->request->getPost('catalog_id'),
 					'ref_partner' =>  $this->request->getPost('ref_partner'),
-					// 'Location_id' =>  $this->request->getPost['Location_id'],
+					'Location_id' =>  $this->request->getPost['Location_id'],
 					'ref_rules' =>  $this->request->getPost('ref_rules'),
 					// 'Category_id' =>  $this->request->getPost['Category_id'],
 					'ref_media' =>  $this->request->getPost('ref_media'),
 					'ref_source' =>  $this->request->getPost('ref_source'),
+				
 					'ref_status' =>  $this->request->getPost('ref_status'),
-					// 'Location_Library_id' =>  $this->request->getPost['Location_Library_id'],
+					'ref_status1' =>  $this->request->getPost('ref_status1'),
+					'Location_Library_id' =>  $this->request->getPost['Location_Library_id'],
 					'Keterangan_Sumber' => null,
 					// 'CreateTerminal' => null,
 					// 'IsVerified' => '',
