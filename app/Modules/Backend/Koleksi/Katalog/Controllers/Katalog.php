@@ -52,20 +52,27 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
+		$quarantine = $this->request->getVar('quarantine');
+		$cart = $this->request->getVar('cart');
+		
         $query = $this->katalogModel
-            ->select('t_katalog.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_katalog.created_by','left')
-            ->join('users updated','updated.id = t_katalog.updated_by','left');
+            ->select('t_katalog.*');
             
-		$slug = $this->request->getVar('slug');
-		if(!empty($slug)){
-			$isRDA = (int) strtoupper($slug) == 'RDA';
-			$query->where('t_katalog.isRDA',$isRDA);
+		if(!empty($quarantine)){
+			$query->where('t_katalog.IsQuarantine', 1);
+		}
+
+		if(!empty($cart)){
+			$query->where('t_katalog.IsCart', 1);
+		}
+
+		$rda = $this->request->getVar('rda');
+		if(!empty($rda)){
+			$query->where('t_katalog.IsRDA',$rda);
 		}   
 
-        $katalogs = $query->findAll();
+		$katalogs = $query
+			->find_all('t_katalog.created_at','desc');
 
         $this->data['title'] = 'Katalog';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');

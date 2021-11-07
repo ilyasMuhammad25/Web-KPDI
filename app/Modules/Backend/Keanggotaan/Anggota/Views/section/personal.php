@@ -612,8 +612,8 @@
                                     <div class="position-relative form-group">
                                         <label for="file_image" class="">Foto
                                             Anggota</label>
-                                        <div id="dropzone_file_image" class="dropzone"></div>
-                                        <div id="dropzone_file_image_listed"></div>
+                                        <div id="file_image" class="dropzone"></div>
+                                        <div id="file_image_listed"></div>
                                         <div>
                                             <small class="info help-block text-muted">Format
                                                 (JPG|PNG).

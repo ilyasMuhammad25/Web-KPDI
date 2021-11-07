@@ -41,12 +41,14 @@
 			<table style="width: 100%;" id="tbl_katalogs" class="table table-hover table-striped table-bordered">
 				<thead>
 					<tr>
-						<th><?= lang('Katalog.field.no') ?> </th>
+						<th>No.</th>
 						<th>BIBID</th>
 						<th>Judul</th>
 						<th>Pengarang</th>
 						<th>Penerbitan</th>
-						<th><?= lang('Katalog.label.action') ?></th>
+						<th>Karantina</th>
+						<th>Keranjang</th>
+						<th>Aksi</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,15 +61,19 @@
 						<td><?= _spec($row->Title); ?></td>
 						<td width="250"><?= _spec($row->Author); ?></td>
 						<td width="250"><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
-						<td width="90">
-							<?php if(is_allowed('katalog/read')):?>
-							<!-- <a href="<?= base_url('katalog/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Katalog" class="btn btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
-							<?php endif;?>
+						<td width="50">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="IsQuarantine" data-id="<?=$row->id?>" <?= ($row->IsQuarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+						</td>
+						<td width="50">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="IsCart" data-id="<?=$row->id?>" <?= ($row->IsCart == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+						</td>
+						<td width="95">
 							<?php if(is_allowed('katalog/update')):?>
-							<a href="<?= base_url('katalog/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Katalog RDA" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
+								<a href="<?= base_url('katalog/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Katalog" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
 							<?php endif;?>
+
 							<?php if(is_allowed('katalog/delete')):?>
-							<a href="javascript:void(0);" data-href="<?= base_url('katalog/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus Katalog RDA" class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
+								<a href="javascript:void(0);" data-href="<?= base_url('katalog/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus Katalog" class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
 							<?php endif;?>
 						</td>
 					</tr>
@@ -80,7 +86,7 @@
 <?= $this->endSection('page'); ?>
 <?= $this->section('script'); ?>
 <script>
-	setDataTable('#tbl_katalogs', disableOrderCols = [0, 5], defaultOrderCols = [1, 'desc'], autoNumber = true);
+	setDataTable('#tbl_katalogs', disableOrderCols = [0, 7], defaultOrderCols = [1, 'desc'], autoNumber = true);
 	
 	$("body").on("click", ".remove-data", function() {
 	    var url = $(this).attr('data-href');
