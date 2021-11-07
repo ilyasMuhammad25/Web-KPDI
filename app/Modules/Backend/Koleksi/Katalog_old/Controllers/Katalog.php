@@ -95,10 +95,10 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             $Note = MultiArray($this->request->getPost('Radio-Note'), ';');
             $Languages = Implode($this->request->getPost('Languages')['lang'], ' ');
             $DeweyNo = Implode($this->request->getPost('DeweyNo'), ' ');
-            $IsOPAC = Implode($this->request->getPost('IsOPAC'), ' ');
-            $IsRDA = 0;
+            $is_opac = Implode($this->request->getPost('is_opac'), ' ');
+            $is_rda = 0;
             $CoverURL = Implode($this->request->getPost('CoverURL'), ' ');
-            $Worksheet_id = ($this->request->getPost('material-type'));
+            $worksheet_id = ($this->request->getPost('material-type'));
 
             $save_data = [
                 'ControlNumber' => $ControlNumber,
@@ -117,10 +117,10 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 'Note' => $Note,
                 'Languages' => $Languages,
                 'DeweyNo' => $DeweyNo,
-                'IsOPAC' => $IsOPAC,
-                'IsRDA' => $IsRDA,
+                'is_opac' => $is_opac,
+                'is_rda' => $is_rda,
                 'CoverURL' => $CoverURL,
-                'Worksheet_id' => $Worksheet_id,
+                'worksheet_id' => $worksheet_id,
                 'created_by' => user_id(),
                 'created_at' => $date,
                 'updated_by' => user_id(),
@@ -388,7 +388,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
             $slug = url_title($this->request->getPost('name'), '-', TRUE);
             $save_data = [
-                'Worksheet_id' => $this->request->getPost('matrial-type'),
+                'worksheet_id' => $this->request->getPost('matrial-type'),
                 'Title' => ArrImplode($this->request->getPost('title'), ' '),
                 'sort' => $this->request->getPost('sort'),
                 'description' => $this->request->getPost('description'),
@@ -472,7 +472,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                     'Languages'             => $language,
                     'DeweyNo'               => $deweyNo,
                     'PhysicalDescription'   => $physicalDescription,
-                    'Worksheet_id'          => $worksheet,
+                    'worksheet_id'          => $worksheet,
                     'created_by'            => user_id(),
                 ];
             $save = $this->katalogModel->insert($data);

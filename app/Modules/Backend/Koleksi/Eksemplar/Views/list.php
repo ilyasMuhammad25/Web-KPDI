@@ -76,10 +76,10 @@
 
                         </td>
 						<td width="50">
-							<input type="checkbox" class="apply-status" data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="IsQuarantine" data-id="<?=$row->id?>" <?= ($row->IsQuarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="is_quarantine" data-id="<?=$row->id?>" <?= ($row->is_quarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
 						</td>
 						<td width="50">
-							<input type="checkbox" class="apply-status" data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="IsCart" data-id="<?=$row->id?>" <?= ($row->IsCart == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="is_cart" data-id="<?=$row->id?>" <?= ($row->is_cart == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
 						</td>
                         <td width="110">
 							<a href="<?=base_url('eksemplar/cetakLabel/' . $row->id);?>" data-toggle="tooltip" data-placement="top" title="Cetak Label" class="btn btn-primary show-data"><i class="pe-7s-print font-weight-bold"></i></a>

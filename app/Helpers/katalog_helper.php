@@ -16,8 +16,8 @@ if (!function_exists('get_worksheet_summary')) {
 		$katalogModel = new \Katalog\Models\KatalogModel();
 		$query = $katalogModel
 			->select('t_worksheets.id, t_worksheets.name, count(*) as total')
-			->join('t_worksheets','t_worksheets.id = t_catalog.Worksheet_id','inner')
-    		->groupBy('t_catalog.Worksheet_id')
+			->join('t_worksheets','t_worksheets.id = t_catalog.worksheet_id','inner')
+    		->groupBy('t_catalog.worksheet_id')
 			->where('t_worksheets.active', 1);
 
 		return $query->get()->getResult();

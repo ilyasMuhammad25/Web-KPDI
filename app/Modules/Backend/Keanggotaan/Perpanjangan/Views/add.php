@@ -117,8 +117,8 @@ $anggotas = $baseModel
 
                         <div class="form-check form-group mt-1">
                             <div>
-                                <input type="hidden" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="0">
-                                <input type="checkbox" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="1">
+                                <input type="hidden" class="iCheck-square" name="is_opac" id="is_opac" value="0">
+                                <input type="checkbox" class="iCheck-square" name="is_opac" id="is_opac" value="1">
                                 <label class="  control-label">Sudah Lunas</label>
                             </div>
                         </div>

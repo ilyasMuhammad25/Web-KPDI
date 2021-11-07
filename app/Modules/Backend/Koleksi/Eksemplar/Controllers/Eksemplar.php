@@ -61,11 +61,11 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
             ->select('t_eksemplar.*');
             
 		if(!empty($quarantine)){
-			$query->where('t_eksemplar.IsQuarantine', 1);
+			$query->where('t_eksemplar.is_quarantine', 1);
 		}
 
 		if(!empty($cart)){
-			$query->where('t_eksemplar.IsCart', 1);
+			$query->where('t_eksemplar.is_cart', 1);
 		}
 
         $eksemplars = $query
@@ -127,7 +127,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					'ref_media' =>  $this->request->getPost('ref_media'),
 					'ref_source' =>  $this->request->getPost('ref_source'),
 					'ref_status' =>  $this->request->getPost('ref_status'),
-					'ISOPAC' =>  $this->request->getPost('IsOPAC'),
+					'ISOPAC' =>  $this->request->getPost('is_opac'),
 					'created_by' => user_id(),
 
 					// 'Branch_id' => 37,
@@ -225,7 +225,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
 					'Bahan_Sertaan' =>  $this->request->getPost('Bahan_Sertaan'),
 					'Keterangan_lain' =>  $this->request->getPost['Keterangan_lain'],
-					'ISOPAC' =>  $this->request->getPost('IsOPAC'),
+					'ISOPAC' =>  $this->request->getPost('is_opac'),
                     'updated_by' => user_id(),
                 ];
 

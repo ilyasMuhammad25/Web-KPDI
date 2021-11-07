@@ -59,16 +59,16 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             ->select('t_catalog.*');
             
 		if(!empty($quarantine)){
-			$query->where('t_catalog.IsQuarantine', 1);
+			$query->where('t_catalog.is_quarantine', 1);
 		}
 
 		if(!empty($cart)){
-			$query->where('t_catalog.IsCart', 1);
+			$query->where('t_catalog.is_cart', 1);
 		}
 
 		$rda = $this->request->getVar('rda');
 		if(!empty($rda)){
-			$query->where('t_catalog.IsRDA',$rda);
+			$query->where('t_catalog.is_rda',$rda);
 		}   
 
 		$katalogs = $query
@@ -125,7 +125,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 				'Languages'             => $language,
 				'DeweyNo'               => $deweyNo,
 				'PhysicalDescription'   => $physicalDescription,
-				'Worksheet_id'          => $worksheet,
+				'worksheet_id'          => $worksheet,
 				'created_by'            => user_id(),
 			];
 
@@ -303,7 +303,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 				'Languages'             => $language,
 				'DeweyNo'               => $deweyNo,
 				'PhysicalDescription'   => $physicalDescription,
-				'Worksheet_id'          => $worksheet,
+				'worksheet_id'          => $worksheet,
 				'created_by'            => user_id(),
             ];
 

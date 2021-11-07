@@ -62,10 +62,10 @@
 						<td width="250"><?= _spec($row->Author); ?></td>
 						<td width="250"><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
 						<td width="50">
-							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="IsQuarantine" data-id="<?=$row->id?>" <?= ($row->IsQuarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="is_quarantine" data-id="<?=$row->id?>" <?= ($row->is_quarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
 						</td>
 						<td width="50">
-							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="IsCart" data-id="<?=$row->id?>" <?= ($row->IsCart == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="is_cart" data-id="<?=$row->id?>" <?= ($row->is_cart == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
 						</td>
 						<td width="95">
 							<?php if(is_allowed('katalog/update')):?>

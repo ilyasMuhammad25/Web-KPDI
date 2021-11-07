@@ -21,7 +21,7 @@ if(!empty($keyword)){
 
 if(!empty($worksheet)){
     $query->groupStart();
-    $query->where('t_catalog.Worksheet_id', $worksheet);
+    $query->where('t_catalog.worksheet_id', $worksheet);
     $query->groupEnd();
     $count_items = $query->countAllResults(false);
 } 
@@ -106,7 +106,7 @@ $pager = $query->pager;
 															<a href="<?=base_url('home/search?slug=#')?>">
 																<p class="b_title"><?=$row->Title?></p>
 															</a> 
-															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($row->Worksheet_id)?></span>
+															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($row->worksheet_id)?></span>
 														</td>
 													</tr>
 													<tr>
