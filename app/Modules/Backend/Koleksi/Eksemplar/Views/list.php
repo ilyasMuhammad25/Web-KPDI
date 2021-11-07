@@ -9,7 +9,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-albums icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?= lang('Eksemplar.module') ?>
                     <div class="page-title-subheading"><?= lang('Eksemplar.info.list_all') ?>

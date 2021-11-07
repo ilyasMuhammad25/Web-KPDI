@@ -7,7 +7,7 @@ return [
 
    'field.no' => 'No',
    'field.id' => 'ID',
-   'field.katalog_id' => 'ID Katalog',
+   'field.catalog_id' => 'ID Katalog',
    'field.eksemplar_id' => 'ID Eksemplar',
    'field.created_by' => 'Dibuat oleh',
    'field.updated_by' => 'Diubah oleh',

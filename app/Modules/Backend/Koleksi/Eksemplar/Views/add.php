@@ -2,7 +2,7 @@
 $request = \Config\Services::request();
 $request->uri->setSilent();
 $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_katalog');
+$baseModel->setTable('t_catalog');
 $katalogs = $baseModel
     ->find_all('name', 'asc');
     // dd($katalog);
@@ -102,7 +102,7 @@ $(".btn-pilih").click(function() {
 
     $('#frm_create_name').val(judul);
     $('#penanggungjawab').val(penanggungjawab);
-    $('#katalog_id').val(id);
+    $('#catalog_id').val(id);
 
     $('#modal_create').modal('hide');
 });

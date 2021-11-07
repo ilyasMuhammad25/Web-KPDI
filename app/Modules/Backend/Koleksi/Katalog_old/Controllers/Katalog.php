@@ -50,11 +50,11 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $query = $this->katalogModel
-            ->select('t_katalog.*')
+            ->select('t_catalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created', 'created.id = t_katalog.created_by', 'left')
-            ->join('users updated', 'updated.id = t_katalog.updated_by', 'left');
+            ->join('users created', 'created.id = t_catalog.created_by', 'left')
+            ->join('users updated', 'updated.id = t_catalog.updated_by', 'left');
 
         $katalogs = $query->findAll();
 
@@ -131,7 +131,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             $this->data['save_data']= $save_data ;
 
             if ($newKatalogId) {
-                add_log('Tambah Katalog', 'katalog', 'create', 't_katalog', $newKatalogId);
+                add_log('Tambah Katalog', 'katalog', 'create', 't_catalog', $newKatalogId);
                 set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
                 set_message('toastr_type', 'success');
                 return redirect()->to('/katalog');
@@ -175,7 +175,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 $katalogUpdate = $this->katalogModel->update($id, $update_data);
 
                 if ($katalogUpdate) {
-                    add_log('Ubah Katalog', 'katalog', 'edit', 't_katalog', $id);
+                    add_log('Ubah Katalog', 'katalog', 'edit', 't_catalog', $id);
                     set_message('toastr_msg', 'Katalog berhasil diubah');
                     set_message('toastr_type', 'success');
                     return redirect()->to('/katalog');
@@ -208,7 +208,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
         $katalogDelete = $this->katalogModel->delete($id);
         if ($katalogDelete) {
-            add_log('Hapus Katalog', 'katalog', 'delete', 't_katalog', $id);
+            add_log('Hapus Katalog', 'katalog', 'delete', 't_catalog', $id);
             set_message('toastr_msg', lang('Katalog.info.successfully_deleted'));
             set_message('toastr_type', 'success');
             return redirect()->to('/katalog');
@@ -249,11 +249,11 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $query = $this->katalogModel
-            ->select('t_katalog.*')
+            ->select('t_catalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created', 'created.id = t_katalog.created_by', 'left')
-            ->join('users updated', 'updated.id = t_katalog.updated_by', 'left');
+            ->join('users created', 'created.id = t_catalog.created_by', 'left')
+            ->join('users updated', 'updated.id = t_catalog.updated_by', 'left');
 
         $katalogs = $query->findAll();
 
@@ -287,7 +287,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             $newKatalogId = $this->katalogModel->insert($save_data);
 
             if ($newKatalogId) {
-                add_log('Tambah Katalog', 'katalog', 'create', 't_katalog', $newKatalogId);
+                add_log('Tambah Katalog', 'katalog', 'create', 't_catalog', $newKatalogId);
                 set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
                 set_message('toastr_type', 'success');
                 return redirect()->to('/katalog');
@@ -329,7 +329,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 $katalogUpdate = $this->katalogModel->update($id, $update_data);
 
                 if ($katalogUpdate) {
-                    add_log('Ubah Katalog', 'katalog', 'edit', 't_katalog', $id);
+                    add_log('Ubah Katalog', 'katalog', 'edit', 't_catalog', $id);
                     set_message('toastr_msg', 'Katalog berhasil diubah');
                     set_message('toastr_type', 'success');
                     return redirect()->to('/katalog');
@@ -359,11 +359,11 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $query = $this->katalogModel
-            ->select('t_katalog.*')
+            ->select('t_catalog.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created', 'created.id = t_katalog.created_by', 'left')
-            ->join('users updated', 'updated.id = t_katalog.updated_by', 'left');
+            ->join('users created', 'created.id = t_catalog.created_by', 'left')
+            ->join('users updated', 'updated.id = t_catalog.updated_by', 'left');
 
         $katalogs = $query->findAll();
 
@@ -398,7 +398,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             $newKatalogId = $this->katalogModel->insert($save_data);
 
             if ($newKatalogId) {
-                add_log('Tambah Katalog', 'katalog', 'create', 't_katalog', $newKatalogId);
+                add_log('Tambah Katalog', 'katalog', 'create', 't_catalog', $newKatalogId);
                 set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
                 set_message('toastr_type', 'success');
                 return redirect()->to('/katalog');
@@ -485,7 +485,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 // die;
                 $this->catalog_ruas($post);
 
-                add_log('Tambah Katalog', 'katalog', 'create', 't_katalog', $save);
+                add_log('Tambah Katalog', 'katalog', 'create', 't_catalog', $save);
                 set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
                 set_message('toastr_type', 'success');
                 return redirect()->to('/katalog');
@@ -777,7 +777,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 $katalogUpdate = $this->katalogModel->update($id, $update_data);
 
                 if ($katalogUpdate) {
-                    add_log('Ubah Katalog', 'katalog', 'edit', 't_katalog', $id);
+                    add_log('Ubah Katalog', 'katalog', 'edit', 't_catalog', $id);
                     set_message('toastr_msg', 'Katalog berhasil diubah');
                     set_message('toastr_type', 'success');
                     return redirect()->to('/katalog');

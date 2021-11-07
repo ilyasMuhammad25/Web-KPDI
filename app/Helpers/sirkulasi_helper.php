@@ -7,11 +7,11 @@ if (!function_exists('get_loan_item')) {
 			->select('t_eksemplar_loan_item.*')
 			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_katalog.Title, t_katalog.Publisher')
+			->select('t_catalog.Title, t_catalog.Publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
-			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner')
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
 			->where('t_eksemplar_loan_item.id', $id);
 
 		$data = $query->get()->getRow();

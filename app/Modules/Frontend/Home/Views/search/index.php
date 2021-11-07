@@ -4,7 +4,7 @@ $request->uri->setSilent();
 
 $katalogModel = new \Katalog\Models\KatalogModel();
 $query = $katalogModel
-    ->where('t_katalog.active',1);
+    ->where('t_catalog.active',1);
 
 $keyword = $request->getVar('pDataItem');
 $type = $request->getVar('pType') ?? 'Title';
@@ -14,21 +14,21 @@ $count_items = $query->countAllResults(false);
 
 if(!empty($keyword)){
     $query->groupStart();
-    $query->like('t_katalog.'.$type, $keyword);
+    $query->like('t_catalog.'.$type, $keyword);
     $query->groupEnd();
     $count_items = $query->countAllResults(false);
 } 
 
 if(!empty($worksheet)){
     $query->groupStart();
-    $query->where('t_katalog.Worksheet_id', $worksheet);
+    $query->where('t_catalog.Worksheet_id', $worksheet);
     $query->groupEnd();
     $count_items = $query->countAllResults(false);
 } 
 
 $items = $query
-    ->select('t_katalog.*')
-    ->orderBy('t_katalog.created_at', 'desc')
+    ->select('t_catalog.*')
+    ->orderBy('t_catalog.created_at', 'desc')
     ->paginate(10, 'katalogs');
 
 $pager = $query->pager;

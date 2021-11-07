@@ -4,7 +4,7 @@ $request->uri->setSilent();
 
 $katalogModel = new \Katalog\Models\KatalogModel();
 $katalogs = $katalogModel
-  ->select('t_katalog.*')
+  ->select('t_catalog.*')
   ->where('active', 1)
   ->orderBy('created_at', 'asc')
   ->limit(4)

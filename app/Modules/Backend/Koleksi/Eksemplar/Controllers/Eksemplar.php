@@ -119,7 +119,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					'PriceType' =>  $this->request->getPost('PriceType'),
 					'TanggalPengadaan' =>  $this->request->getPost('TanggalPengadaan'),
 					'CallNumber' =>  $this->request->getPost('CallNumber'),
-					'katalog_id' =>  $this->request->getPost('katalog_id'),
+					'catalog_id' =>  $this->request->getPost('catalog_id'),
 					'ref_Branch' =>  $this->request->getPost('ref_branch'),
 					'ref_partner' =>  $this->request->getPost('ref_partner'),
 					'ref_rules' =>  $this->request->getPost('ref_rules'),
@@ -185,7 +185,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 		$NoInduk =NoInduk_helper();
 		$RFID =RFID_helper();
         $eksemplar = $this->eksemplarModel->find($id);
-        $katalog = $this->katalogModel->find($eksemplar->katalog_id);
+        $katalog = $this->katalogModel->find($eksemplar->catalog_id);
 
         $this->data['eksemplar'] = $eksemplar;
         $this->data['katalog'] = $katalog;

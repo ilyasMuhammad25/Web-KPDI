@@ -4,7 +4,7 @@ namespace Katalog\Models;
 
 class KatalogModel extends \hamkamannan\adminigniter\Models\BaseModel
 {
-    protected $table      = 't_katalog';
+    protected $table      = 't_catalog';
     protected $primaryKey = 'ID';
     protected $returnType     = 'object';
     protected $useSoftDeletes = false;

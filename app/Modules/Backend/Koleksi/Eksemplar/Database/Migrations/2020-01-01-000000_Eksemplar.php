@@ -21,7 +21,7 @@ class Eksemplar extends Migration
 			'Price' 	=> ['type' => 'DECIMAL','constraint' => 11,'null' => true,],
 			'PriceType' 	=> ['type' => 'VARCHAR','constraint' => '45','null' => true,],
 			'TanggalPengadaan' 	=> ['type' => 'DATETIME','null' => true,],
-			'katalog_id' 	=> ['type' => 'INT','constraint'=> 11,'null' => true,],
+			'catalog_id' 	=> ['type' => 'INT','constraint'=> 11,'null' => true,],
 			'ref_Branch' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
 			'ref_partner' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
 			'Location_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],

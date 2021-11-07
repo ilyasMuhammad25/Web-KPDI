@@ -107,11 +107,11 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 			->select('t_eksemplar_loan_item.*')
 			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_katalog.Title, t_katalog.Publisher')
+			->select('t_catalog.Title, t_catalog.Publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
-			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner');
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner');
             
         $sirkulasis = $query->findAll();
 
@@ -193,11 +193,11 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 			->select('t_eksemplar_loan_item.*')
 			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_katalog.Title, t_katalog.Publisher')
+			->select('t_catalog.Title, t_catalog.Publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
-			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner')
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
 			->where('t_anggota.MemberNo', $member_no);
 			
 		$sirkulasis = $query->findAll();
@@ -208,6 +208,8 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$member_no = $this->request->getPost('member_no');
 			$anggota = $this->anggotaModel->where('MemberNo',$member_no)->get()->getRow();
+			$max_loan_days = get_loan_days($anggota->id);
+			$due_date = get_due_date($max_loan_days);
 
             $save_data = [
 				'anggota_id' => $anggota->id,
@@ -218,20 +220,33 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             if($newEksemplarLoanID){
 				$barcode_arr = $this->request->getPost('barcodes');
 				if(!empty($barcode_arr)){
+
 					$save_data_item = array();
 					foreach ($barcode_arr as $index => $barcode){
+						
 						$save_data_item[] = [
 							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
 							'anggota_id' 			=> $anggota->id,
 							'eksemplar_id' 			=> get_eksemplar($barcode)->id,
 							'location_library_id' 	=> get_eksemplar($barcode)->Location_library_id,
 							'created_by'			=> user_id(),
-							// 'created_terminal'		=> '127.0.0.1',
+							'loan_date'				=> date('Y-m-d'),
+							'due_date'				=> $due_date,
+							'loan_status'			=> 'Loan', 
+						];
+
+						$update_data_item[] = [
+							'id' 					=> get_eksemplar($barcode)->id,
+							'ref_status'			=> 1, //ref_status
 						];
 					}
 
 					if(!empty($save_data_item)){
 						$this->eksemplarLoanItemModel->insertBatch($save_data_item);
+					}
+
+					if(!empty($update_data_item)){
+						$this->eksemplarLoanItemModel->updateBatch($update_data_item, 'id');
 					}
 				}
 
@@ -261,11 +276,11 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 			->select('t_eksemplar_loan_item.*')
 			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_katalog.Title, t_katalog.Publisher')
+			->select('t_catalog.Title, t_catalog.Publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
-			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner');
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner');
 			
 		$sirkulasis = $query->findAll();
 		$this->data['sirkulasis'] = $sirkulasis;
@@ -289,18 +304,28 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 				if(!empty($barcode_arr)){
 					$save_data_item = array();
 					foreach ($barcode_arr as $index => $barcode){
+						
 						$save_data_item[] = [
 							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
-							'anggota_id' 			=> $anggota->id,
-							'eksemplar_id' 			=> get_eksemplar($barcode)->id,
-							'location_library_id' 	=> get_eksemplar($barcode)->Location_library_id,
-							'created_by'			=> user_id(),
-							// 'created_terminal'		=> '127.0.0.1',
+							'updated_by'			=> user_id(),
+							'loan_status'			=> 'Return', 
+							'actual_return_date'	=> date('Y-m-d') // List Pengembalian
+
+							//Jenis Pelanggarn, Telat, 
+						];
+
+						$update_data_item[] = [
+							'id' 					=> get_eksemplar($barcode)->id,
+							'ref_status'			=> 2, //ref_status
 						];
 					}
 
 					if(!empty($save_data_item)){
 						$this->eksemplarLoanItemModel->insertBatch($save_data_item);
+					}
+
+					if(!empty($update_data_item)){
+						$this->eksemplarLoanItemModel->updateBatch($update_data_item, 'id');
 					}
 				}
 

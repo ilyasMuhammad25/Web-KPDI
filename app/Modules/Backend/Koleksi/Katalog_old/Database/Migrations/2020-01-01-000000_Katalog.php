@@ -8,8 +8,8 @@ class Katalog extends Migration
 {
 	public function up()
 	{
-		// t_katalog
-		$this->forge->dropTable('t_katalog', true);
+		// t_catalog
+		$this->forge->dropTable('t_catalog', true);
 		$this->forge->addField([
 			'ID' 					=> ['type' => 'DOUBLE', 'constraint' => '0', 'unsigned' => true, 'auto_increment' => true,],
 			'ControlNumber'			=> ['type' => 'VARCHAR', 'constraint' => '50', 'null' => true,],
@@ -48,7 +48,7 @@ class Katalog extends Migration
 			'deleted_at' 			=> ['type' => 'DATETIME', 'null' => true,],
 		]);
 		$this->forge->addKey('ID', true);
-		$this->forge->createTable('t_katalog');
+		$this->forge->createTable('t_catalog');
 		$this->katalogRuas_Migration();
 	}
 
@@ -56,13 +56,13 @@ class Katalog extends Migration
 
 	public function down()
 	{
-		$this->forge->dropTable('t_katalog', true);
-		$this->forge->dropTable('t_katalog_ruas', true);
+		$this->forge->dropTable('t_catalog', true);
+		$this->forge->dropTable('t_catalog_ruas', true);
 	}
 
 	public function katalogRuas_Migration()
 	{
-		$this->forge->dropTable('t_katalog_ruas', true);
+		$this->forge->dropTable('t_catalog_ruas', true);
 		$this->forge->addField([
 			'ID' 			=> ['type' => 'DOUBLE', 'constraint' => '0', 'unsigned' => true, 'auto_increment' => true],
 			'Tag'			=> ['type' => 'VARCHAR', 'constraint' => '3', 'null' => true],
@@ -72,6 +72,6 @@ class Katalog extends Migration
 			'Value'			=> ['type' => 'TEXT', 'null' => FALSE],
 		]);
 		$this->forge->addKey('ID', true);
-		$this->forge->createTable('t_katalog_ruas');
+		$this->forge->createTable('t_catalog_ruas');
 	}
 }

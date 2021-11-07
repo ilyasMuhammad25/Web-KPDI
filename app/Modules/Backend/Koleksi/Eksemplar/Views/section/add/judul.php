@@ -17,7 +17,7 @@
 								<div class="position-relative form-group">
 									<label for="name"><?=lang('Eksemplar.field.JudulUtama')?>*</label>
 									<div>
-										<input type="hidden" name="katalog_id" id="katalog_id" value="">
+										<input type="hidden" name="catalog_id" id="catalog_id" value="">
 										<input type="text" class="form-control" id="frm_create_name" name="name" placeholder="<?=lang('Eksemplar.field.JudulUtama')?> " readonly />
 									</div>
 								</div>

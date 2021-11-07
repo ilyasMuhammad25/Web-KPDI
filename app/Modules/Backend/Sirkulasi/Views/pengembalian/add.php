@@ -108,9 +108,13 @@ $member = get_member($member_no);
 													</th>
 													<th>No. Barcode</th>
 													<th>Judul</th>
-													<th>Penerbitan</th>
 													<th>Tanggal Peminjaman</th>
 													<th>Jatuh Tempo</th>
+													<th>Terlambat (Hari)</th>
+													<!-- <th>Pelanggaran</th> Popup
+													<th>Jenis Denda</th>
+													<th>Jumlah Denda</th>
+													<th>Jumlah Skorsing</th> -->
 													<th>Aksi</th>
 												</tr>
 											</thead>
@@ -124,11 +128,14 @@ $member = get_member($member_no);
 															<?= _spec($row->NomorBarcode); ?> <br>
 														</td>
 														<td width="400"><?= _spec($row->Title); ?></td>
-														<td><?= _spec($row->Publisher); ?></td>
 														<td width="100"><?= _spec($row->loan_date); ?></td>
 														<td width="100"><?= _spec($row->due_date); ?></td>
+														<td width="50"><?= _spec($row->late_days); ?></td>
 														<td width="35">
-																<a href="<?= base_url('sirkulasi/cart_insert/'.$row->id.'?slug=pengembalian&member_no='.$member_no) ?>" data-toggle="tooltip" data-placement="top" title="Tambah ke Keranjang" class="btn btn-primary show-data"><i class="fa fa-cart-plus"> </i></a>
+															<?php if(empty($row->late_days)):?>
+																<a href="<?= base_url('sirkulasi/cart_pinalthy/'.$row->id.'?slug=pengembalian&member_no='.$member_no) ?>" data-toggle="tooltip" data-placement="top" title="Proses Pelanggaran" class="btn btn-danger show-data"><i class="fa fa-exclamation-triangle"> </i></a>
+															<?php endif;?>
+															<a href="<?= base_url('sirkulasi/cart_insert/'.$row->id.'?slug=pengembalian&member_no='.$member_no) ?>" data-toggle="tooltip" data-placement="top" title="Tambah ke Keranjang" class="btn btn-primary show-data"><i class="fa fa-cart-plus"> </i></a>
 														</td>
 													</tr>
 												<?php endforeach; ?>
@@ -191,7 +198,7 @@ $member = get_member($member_no);
 <?= $this->section('script'); ?>
 <script>
 	$('.select2').select2({theme: "bootstrap4",});
-	setDataTable('#tbl_sirkulasis', disableOrderCols = [0, 6], defaultOrderCols = [1, 'desc'], autoNumber = false);
+	setDataTable('#tbl_sirkulasis', disableOrderCols = [0, 7], defaultOrderCols = [1, 'desc'], autoNumber = false);
 	setDataTable('#tbl_carts', disableOrderCols = [5], defaultOrderCols = [1, 'desc'], autoNumber = false);
 	checkAll();
 

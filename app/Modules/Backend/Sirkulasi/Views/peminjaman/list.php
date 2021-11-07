@@ -133,8 +133,8 @@ $slug_title = ucwords(strtolower($slug));
 							<td width="100"><b>`+item.NomorBarcode+`</b></td>
 							<td>`+item.Title+`</td>
 							<td width="100">`+item.Publisher+`</td>
-							<td width="150">`+item.BookingDate+`</td>
-							<td width="100">`+item.BookingExpiredDate+`</td>
+							<td width="150">`+item.loan_date+`</td>
+							<td width="100">`+item.due_date+`</td>
 							<td width="90" class="text-left">
 								
 							</td>

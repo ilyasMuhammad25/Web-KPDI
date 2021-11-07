@@ -1,4 +1,36 @@
 <?php
+if (!function_exists('get_due_date')) {
+    function get_due_date($days = 0, $from_date = null)
+    {        
+		if(empty($from_date)){
+			$from_date = date('Y-m-d');
+		}
+
+		$new_date = date('Y-m-d', strtotime($from_date. ' + '.$days.' days'));
+		return $new_date;
+    }
+}
+
+if (!function_exists('get_loan_days')) {
+    function get_loan_days($anggota_id)
+    {        
+		$max_loan_days = 0;
+
+		$modelAnggota = new \Anggota\Models\AnggotaModel();
+		$modelJenisAnggota = new \JenisAnggota\Models\JenisAnggotaModel();
+		$anggota = $modelAnggota->find($anggota_id);
+
+		if(!empty($anggota)){
+			$jenis_anggota = $modelJenisAnggota->find($anggota->ref_jenisanggota);			
+			if(!empty($jenis_anggota)){
+				$max_loan_days = $jenis_anggota->MaxLoanDays;
+			}
+		}
+
+		return $max_loan_days;
+    }
+}
+
 if (!function_exists('get_member')) {
     function get_member($member_no = null)
     {        

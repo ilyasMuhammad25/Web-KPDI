@@ -12,7 +12,7 @@ class PemesananKoleksi extends Migration
 		$this->forge->dropTable('t_pemesanankoleksi', true);
 		$this->forge->addField([
 			'id' 			=> ['type' => 'MEDIUMINT','constraint' => '11','unsigned' => true,'auto_increment' => true,],
-			'katalog_id' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
+			'catalog_id' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
 			'eksemplar_id' 	=> ['type' => 'INT','constraint' => 11,'null' => true,],
 			'description' 	=> ['type' => 'VARCHAR','constraint' => '255','null' => true,],
 			'slug' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
