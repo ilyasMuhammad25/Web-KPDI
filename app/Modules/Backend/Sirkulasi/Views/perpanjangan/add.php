@@ -85,7 +85,7 @@ $member = get_member($member_no);
 				<div class="mb-3 card">
 					<div class="card-header-tab card-header">
 						<div class="card-header-title">
-							<i class="header-icon lnr-exit icon-gradient bg-success"> </i>
+							<i class="header-icon lnr-calendar-full icon-gradient bg-success"> </i>
 							<?=$slug_title?>
 						</div>
 						<ul class="nav">

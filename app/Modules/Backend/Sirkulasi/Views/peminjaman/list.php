@@ -16,7 +16,7 @@ $slug_title = ucwords(strtolower($slug));
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-refresh icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-refresh-2 icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?= lang('Sirkulasi.module') ?> - <?=$slug_title?>
                     <div class="page-title-subheading">Daftar  <?=$slug_title?> </div>
