@@ -5,6 +5,8 @@ $routes->group('katalog', ['namespace' => 'Katalog\Controllers'], function ($sub
 	/*** Route Update for Katalog ***/
 	$subroutes->add('', 'Katalog::index');
 	$subroutes->add('index', 'Katalog::index');
+	$subroutes->add('karantina', 'Katalog::index_quarantine');
+	$subroutes->add('keranjang', 'Katalog::index_cart');
 	$subroutes->add('detail/(:any)', 'Katalog::detail/$1');
 	$subroutes->add('create', 'Katalog::create');
 	$subroutes->add('edit/(:any)', 'Katalog::edit/$1');

@@ -52,24 +52,18 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-		$is_quarantine = $this->request->getVar('is_quarantine');
-		$is_cart = $this->request->getVar('is_cart');
-		
-        $query = $this->katalogModel
-            ->select('t_catalog.*');
-            
-		if(!empty($is_quarantine)){
-			$query->where('t_catalog.is_quarantine', 1);
-		}
-
-		if(!empty($is_cart)){
-			$query->where('t_catalog.is_cart', 1);
-		}
+		$query = $this->katalogModel
+			->select('t_catalog.*');
 
 		$slug = $this->request->getVar('slug');
 		if(!empty($slug)){
 			$is_rda = strtoupper($slug) == 'RDA';
 			$query->where('t_catalog.is_rda',$is_rda);
+		}   
+
+		$view = $this->request->getVar('view');
+		if(!empty($view)){
+			$query->where('t_catalog.'.$view,1);
 		}   
 
 		$katalogs = $query
@@ -78,7 +72,12 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Katalog';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['katalogs'] = $katalogs;
-        echo view('Katalog\Views\list', $this->data);
+
+		if($view ){
+			echo view('Katalog\Views\list_view', $this->data);
+		} else {
+			echo view('Katalog\Views\list', $this->data);
+		}
     }
 
     public function create()
