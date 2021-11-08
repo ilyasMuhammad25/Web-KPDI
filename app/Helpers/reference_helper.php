@@ -1,82 +1,46 @@
 <?php
-if (!function_exists('get_ref')) {
-    function get_ref($controller)
+if (!function_exists('get_ref_id')) {
+    function get_ref_id($ref_value, $ref_field = 'name', $menu_value = null, $menu_field = 'controller')
     {        
-        return get_ref_by_controller($controller);
-    }
-}
-
-if (!function_exists('get_ref_by_controller')) {
-    function get_ref_by_controller($controller)
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable('c_references');
-        $references = $baseModel
-            ->select('c_references.*')
-            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.controller', $controller)
-            ->find_all('c_references.sort', 'asc');
-
-        return $references;
-    }
-}
-
-if (!function_exists('get_ref_by_slug')) {
-    function get_ref_by_slug($slug)
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable('c_references');
-        $references = $baseModel
-            ->select('c_references.*')
-            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.slug', $slug)
-            ->find_all('c_references.sort', 'asc');
-
-        return $references;
-    }
-}
-
-if (!function_exists('get_ref_by_controller_desc')) {
-    function get_ref_by_controller_desc($controller, $desc)
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+		$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable('c_references');
         $query = $baseModel
             ->select('c_references.*')
-            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('c_menus.controller', $controller);
+            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner');
 
-		if(!empty($desc)){
-			$query->like('c_references.description',$desc);
+		$query->where('UPPER(c_references.'.$ref_field.')', strtoupper($ref_value));
+		if(!empty($menu_value)){
+			$query->where('UPPER(c_menus.'.$menu_field.')', strtoupper($menu_value));
 		}
+            
+		$data = $query->get()->getRow();
 
-        $references = $query->find_all('c_references.sort', 'asc');
-
-        return $references;
+		return $data->id ?? 0;
     }
 }
 
-if (!function_exists('get_ref_by_name')) {
-    function get_ref_by_name($name)
+if (!function_exists('get_ref')) {
+    function get_ref($menu_value, $menu_field = 'controller')
     {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+		$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable('c_references');
-        $references = $baseModel
+        $query = $baseModel
             ->select('c_references.*')
-            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner')
-            ->where('UPPER(c_menus.name)', strtoupper($name))
-            ->find_all('c_references.sort', 'asc');
+            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner');
+			
+		$query->where('UPPER(c_menus.'.$menu_field.')', strtoupper($menu_value));
 
-        return $references;
+		$data = $query->find_all('c_references.sort', 'asc');
+		
+        return $data;
     }
 }
 
 if (!function_exists('get_ref_dropdown')) {
-    function get_ref_dropdown($controller, $selected_id = 0)
+    function get_ref_dropdown($menu_value, $menu_field = 'controller', $selected_id = 0)
     {        
         $html = '<select class="form-control" name="ref_type_id" tabindex="-1" aria-hidden="true">';
-        $references = get_ref_by_controller($controller);
-        foreach($references as $row){
+        foreach(get_ref($menu_value, $menu_field) as $row){
             $selected = ($row->id == $selected_id) ? 'selected': '';
             $html .= '<option value="'.$row->id.'" '.$selected.'>'.$row->name.'</option>';
         }
@@ -86,8 +50,8 @@ if (!function_exists('get_ref_dropdown')) {
     }
 }
 
-if (!function_exists('get_table_references')) {
-    function get_table_references($table, $fields = 'id', $where = null)
+if (!function_exists('get_ref_table')) {
+    function get_ref_table($table, $fields = 'id', $where = null)
     {        
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable($table);
@@ -109,48 +73,6 @@ if (!function_exists('get_dropdown')) {
 		$query = $baseModel->where('active',1);
 		$query->select("$code as code");
 		$query->select("$text as text");
-        // $query->select("$no_anggota as no_anggota");
-	
-	
-        
-		if(!empty($where)){
-			$query->where($where);
-		}
-
-        return $query->orderBy($code)->get()->getResult();
-    }
-}
-
-if (!function_exists('get_dropdown2')) {
-    function get_dropdown2($table, $where = null, $code = 'id',$currency='Description')
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable($table);
-
-		$query = $baseModel->where('active',1);
-		$query->select("$code as code");
-		
-		$query->select("$currency as currency");
-        
-		if(!empty($where)){
-			$query->where($where);
-		}
-
-        return $query->orderBy($code)->get()->getResult();
-    }
-}
-
-if (!function_exists('get_dropdown3')) {
-    function get_dropdown3($table, $where = null, $code = 'id', $text = 'name')
-    {        
-        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        $baseModel->setTable($table);
-
-		$query = $baseModel->where('active',1);
-		$query->select("$code as code");
-		$query->select("$text as text");
-		$query->select("$no_anggota as no_anggota");
-	
         
 		if(!empty($where)){
 			$query->where($where);

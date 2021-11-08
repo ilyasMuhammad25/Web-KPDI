@@ -17,6 +17,9 @@ $routes->group('sirkulasi', ['namespace' => 'Sirkulasi\Controllers'], function (
 	$subroutes->add('create_perpanjangan', 'Sirkulasi::create_perpanjangan');
 	$subroutes->add('create_pelanggaran', 'Sirkulasi::create_pelanggaran');
 
+	$subroutes->add('proses_pengembalian/(:any)', 'Sirkulasi::proses_pengembalian/$1');
+	$subroutes->add('proses_perpanjangan/(:any)', 'Sirkulasi::proses_perpanjangan/$1');
+	$subroutes->add('proses_pelanggaran/(:any)', 'Sirkulasi::proses_pelanggaran/$1');
 	$subroutes->add('cart_insert/(:any)', 'Sirkulasi::cart_insert/$1');
 	$subroutes->add('cart_remove/(:any)', 'Sirkulasi::cart_remove/$1');
 	$subroutes->add('cart_destroy', 'Sirkulasi::cart_destroy');

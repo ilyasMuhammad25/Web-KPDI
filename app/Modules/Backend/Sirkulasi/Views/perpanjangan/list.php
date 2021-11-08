@@ -19,7 +19,7 @@ $slug_title = ucwords(strtolower($slug));
                     <i class="pe-7s-refresh icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?= lang('Sirkulasi.module') ?> - <?=$slug_title?>
-                    <div class="page-title-subheading">Daftar <?=$slug_title?> </div>
+                    <div class="page-title-subheading">Daftar  <?=$slug_title?> </div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -99,6 +99,7 @@ $slug_title = ucwords(strtolower($slug));
 							<th>Penerbitan</th>
 							<th>Tanggal Peminjaman</th>
 							<th>Jatuh Tempo</th>
+							<th>Terlambat</th>
 							<th>Aksi</th>
 						</tr>
 					</thead>
@@ -133,8 +134,9 @@ $slug_title = ucwords(strtolower($slug));
 							<td width="100"><b>`+item.NomorBarcode+`</b></td>
 							<td>`+item.Title+`</td>
 							<td width="100">`+item.Publisher+`</td>
-							<td width="150">`+item.BookingDate+`</td>
-							<td width="100">`+item.BookingExpiredDate+`</td>
+							<td width="150">`+item.loan_date+`</td>
+							<td width="100">`+item.due_date+`</td>
+							<td width="100">`+item.late_days+`</td>
 							<td width="90" class="text-left">
 								
 							</td>

@@ -113,7 +113,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 				$save_data[] = [
 					'NomorBarcode' => $no_barcode,
 					'NoInduk' => $no_induk_arr[$index],
-                    'RFID' => 	$rfid_arr,
+                    'RFID' => 	$rfid_arr[$index],
 					'ref_currency' =>  $this->request->getPost('ref_currency'),
 					'Price' =>  $this->request->getPost('Price'),
 					'PriceType' =>  $this->request->getPost('PriceType'),
@@ -127,7 +127,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					'ref_media' =>  $this->request->getPost('ref_media'),
 					'ref_source' =>  $this->request->getPost('ref_source'),
 					'ref_status' =>  $this->request->getPost('ref_status'),
-					'ISOPAC' =>  $this->request->getPost('is_opac'),
+					'is_opac' =>  $this->request->getPost('is_opac'),
 					'created_by' => user_id(),
 
 					// 'Branch_id' => 37,

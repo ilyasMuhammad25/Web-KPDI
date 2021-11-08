@@ -1,7 +1,8 @@
 <?php
+// cart_destroy();
+
 $request = \Config\Services::request();
 $request->uri->setSilent();
-$slug = $request->getVar('slug') ?? 'peminjaman';
 $slug_title = ucwords(strtolower($slug));
 $member_no = $request->getVar('member_no') ?? user()->username;
 $member = get_member($member_no);
@@ -84,38 +85,71 @@ $member = get_member($member_no);
 				<div class="mb-3 card">
 					<div class="card-header-tab card-header">
 						<div class="card-header-title">
-							<i class="header-icon lnr-warning icon-gradient bg-success"> </i>
+							<i class="header-icon lnr-exit icon-gradient bg-success"> </i>
 							<?=$slug_title?>
 						</div>
 						<ul class="nav">
-							<li class="nav-item"><a data-toggle="tab" href="#tab1" class="nav-link active show">Keranjang peminjaman</a></li>
-							<li class="nav-item"><a data-toggle="tab" href="#tab2" class="nav-link show">Koleksi yang masih dipinjam</a></li>
+							<li class="nav-item"><a data-toggle="tab" href="#tab1" class="nav-link active show">Histori Peminjaman</a></li>
+							<li class="nav-item"><a data-toggle="tab" href="#tab2" class="nav-link show">Keranjang Pelanggaran</a></li>
 						</ul>
 					</div>
 					<div class="card-body">
 						<div class="tab-content">
 							<div class="tab-pane active show" id="tab1" role="tabpanel">
-								<form method="post" action="<?=base_url('sirkulasi/create_'.$slug)?>">
+								<form name="form_sirkulasis" id="form_sirkulasis" action="<?= base_url('sirkulasi/cart_insert/0?member_no='.$member_no.'&slug=pelanggaran') ?>">
 									<input type="hidden" name="member_no" value="<?=$member_no?>">
-									<input type="hidden" name="slug" value="<?=$slug?>">
-									<div class="row">
-										<div class="col-md-6">
-											<div class="input-group">
-												<select class="form-control select2" name="no_barcode" id="no_barcode" placeholder="Nomor Barcode">
-													<option value="">Nomor Barcode</option>
-													<?php foreach (get_dropdown('t_eksemplar',null,'NomorBarcode','NomorBarcode') as $row) : ?>
-														<option value="<?= $row->code ?>"><?= $row->code ?></option>
-													<?php endforeach; ?>
-												</select>
-												<div class="input-group-append">
-													<button type="button" class="btn btn-shadow btn bg-corporate-primary2 text-white cart-btn-add" data-tbody="cart-tbody" data-url="<?=base_url('api/sirkulasi/eksemplar/')?>" data-member_no="<?=$member_no?>"><i class="fa fa-plus"></i> Tambah</button>
-												</div>
-											</div> 
-										</div>
-									</div>
 
 									<div class="table-responsive mt-3">
-										<div id="infoMessage"><?=$message ?? ''?></div> <?=get_message('message')?>
+										<table style="width: 100%;" id="tbl_sirkulasis" class="table table-hover table-striped table-bordered">
+											<thead class="bg-corporate-primary2 text-white">
+												<tr>
+													<th class="text-center">
+														<input type="checkbox" class="check_all" name="check_all" title="Pilih Semua">
+													</th>
+													<th>No. Barcode</th>
+													<th>Judul</th>
+													<th>Tanggal Peminjaman</th>
+													<th>Jatuh Tempo</th>
+													<th>Terlambat (Hari)</th>
+													<!-- <th>Pelanggaran</th> Popup
+													<th>Jenis Denda</th>
+													<th>Jumlah Denda</th>
+													<th>Jumlah Skorsing</th> -->
+													<th>Aksi</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php foreach ($sirkulasis as $row) : ?>
+													<tr>
+														<td class="text-center" width="5">
+															<input type="checkbox" class="check" name="id[]" value="<?= $row->id; ?>">
+														</td>
+														<td width="100">
+															<?= _spec($row->NomorBarcode); ?> <br>
+														</td>
+														<td width="400"><?= _spec($row->Title); ?></td>
+														<td width="100"><?= _spec($row->loan_date); ?></td>
+														<td width="100"><?= _spec($row->due_date); ?></td>
+														<td width="50"><?=get_late_days($row->due_date)?></td>
+														<td width="35">
+															<a href="<?= base_url('sirkulasi/proses_pelanggaran/'.$row->id) ?>" data-toggle="tooltip" data-placement="top" title="Proses Pelanggaran" class="btn btn-primary show-data"><i class="fa fa-save"> </i></a>
+														</td>
+													</tr>
+												<?php endforeach; ?>
+											</tbody>
+										</table>
+									</div>
+
+									<div class="d-block pt-3">
+										<button type="button" id="add_to_cart" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Semua Koleksi yang terpilih"><i class="fa fa-cart-plus"> </i> Tambahkan ke Keranjang</button>
+									</div>
+								</form>
+							</div>
+							<div class="tab-pane show" id="tab2" role="tabpanel">
+								<form method="post" action="<?=base_url('sirkulasi/create_pelanggaran')?>">
+									<input type="hidden" name="member_no" value="<?=$member_no?>">
+									<input type="hidden" name="slug" value="pelanggaran">
+									<div class="table-responsive">
 										<table style="width: 100%;" id="tbl_carts" class="table table-hover table-striped table-bordered">
 											<thead class="bg-corporate-primary2 text-white">
 												<tr>
@@ -127,34 +161,31 @@ $member = get_member($member_no);
 													<th>Aksi</th>
 												</tr>
 											</thead>
-											<tbody id="cart-tbody">
+											<tbody>
+												<?php $cart_name = 'pelanggaran_'.$member_no; ?>
+												<?php foreach(get_carts($cart_name) as $row):?>
+													<tr>
+														<td width="100">
+															<input type="hidden" name="ids[]" value="<?=$row->id?>">
+															<?= _spec($row->options->NomorBarcode); ?> <br>
+														</td>
+														<td width="400"><?= _spec($row->options->Title); ?></td>
+														<td><?= _spec($row->options->Publisher); ?></td>
+														<td width="100"><?= _spec($row->options->loan_date); ?></td>
+														<td width="100"><?= _spec($row->options->due_date); ?></td>
+														<td width="35">
+																<a href="<?= base_url('sirkulasi/cart_remove/'.$row->id) ?>" data-toggle="tooltip" data-placement="top" title="Hapus dari Keranjang" class="btn btn-danger show-data"><i class="fa fa-trash"> </i></a>
+														</td>
+													</tr>
+												<?php endforeach;?>
 											</tbody>
 										</table>
 									</div>
 
-									<div class="d-block">
-										<button type="submit" class="btn-wide btn-shadow btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+									<div class="d-block pt-3">
+										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Pelanggaran</button>
 									</div>
 								</form>
-							</div>
-							<div class="tab-pane show" id="tab2" role="tabpanel">
-
-								<div class="table-responsive">
-									<?=get_message('message');?>
-									<table style="width: 100%;" id="tbl_koleksis" class="table table-hover table-striped table-bordered">
-										<thead class="bg-corporate-primary2 text-white">
-											<tr>
-												<th>No.</th>
-												<th>No. Barcode</th>
-												<th>Tanggal Pengadaan</th>
-												<th>No.Induk</th>
-												<th>Data Bibliografis</th>
-												<th>Aksi</th>
-											</tr>
-										</thead>
-
-									</table>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -168,44 +199,35 @@ $member = get_member($member_no);
 
 <?= $this->section('script'); ?>
 <script>
-	$('.select2').select2(
-		{
-			theme: "bootstrap4",
-		}
-	);
+	$('.select2').select2({theme: "bootstrap4",});
+	setDataTable('#tbl_sirkulasis', disableOrderCols = [0, 6], defaultOrderCols = [1, 'desc'], autoNumber = false);
+	setDataTable('#tbl_carts', disableOrderCols = [5], defaultOrderCols = [1, 'desc'], autoNumber = false);
+	checkAll();
 
-	$(document).on('click', '.cart-btn-remove', function() {
-		var url = $(this).data('href');
-		var row = $(this).closest('tr');
+	$('#add_to_cart').click(function() {
+		var form = $('#form_sirkulasis');
+		var serialize_bulk = form.serialize();
+		var url = form.attr('action')+ '&' +serialize_bulk;
+		console.log(serialize_bulk);
+		console.log(url);
 
-		row.remove(); return false;
-	});
-	
-	$(".cart-btn-add").click(function() {
-		var index = Date.now();
-		var tbody = $(this).data('tbody');
+		window.location.href = url;
 
-		var no_barcode = $('#no_barcode').val();
-		var member_no = $(this).data('member_no');
-		var url = $(this).data('url') + '/' + no_barcode;
-
-		makeAjaxCall(url, "GET").then(function(respJson){
-			$('#'+tbody).append(`
-				<tr class="rm-row">
-					<td>`+no_barcode+`</td>
-					<td>`+respJson.Title+`</td>
-					<td>`+respJson.Publisher+`</td>
-					<td>`+respJson.BookingDate+`</td>
-					<td>`+respJson.BookingExpiredDate+`</td>
-					<td class="text-left">
-						<input type="hidden" name="barcodes[]" value="`+no_barcode+`">
-						<button type="button" class="btn btn-danger cart-btn-remove" data-href=""><i class="fa fa-trash"></i></button>
-					</td>
-				</tr>
-			`);
-		}, function(reason){
-			console.log("Error in processing your request", reason);
-		});
+		// Swal.fire({
+        //     title: 'Anda yakin?',
+        //     text: "Semua Koleksi yang terpilih akan ditambahkan ke Keranjang Pelanggaran!",
+        //     type: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#dd6b55',
+        //     confirmButtonText: '<?= lang('App.btn.yes') ?>',
+        //     cancelButtonText: '<?= lang('App.btn.no') ?>'
+        // }).then((result) => {
+        //     if (result.value) {
+        //         window.location.href = url;
+        //     }
+        // });
+        return false;
 	});
 </script>
 <?= $this->endSection('script'); ?>

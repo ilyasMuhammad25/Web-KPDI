@@ -95,16 +95,16 @@ $member = get_member($member_no);
 					<div class="card-body">
 						<div class="tab-content">
 							<div class="tab-pane active show" id="tab1" role="tabpanel">
-								<form method="post" action="<?=base_url('sirkulasi/create_'.$slug)?>">
+								<form method="post" action="<?=base_url('sirkulasi/create_peminjaman')?>">
 									<input type="hidden" name="member_no" value="<?=$member_no?>">
-									<input type="hidden" name="slug" value="<?=$slug?>">
+									<input type="hidden" name="slug" value="peminjaman">
 									<div class="row">
 										<div class="col-md-6">
 											<div class="input-group">
 												<select class="form-control select2" name="no_barcode" id="no_barcode" placeholder="Nomor Barcode">
 													<option value="">Nomor Barcode</option>
-													<?php foreach (get_dropdown('t_eksemplar',null,'NomorBarcode','NomorBarcode') as $row) : ?>
-														<option value="<?= $row->code ?>"><?= $row->code ?></option>
+													<?php foreach (get_available_eksemplars() as $row) : ?>
+														<option value="<?= $row->NomorBarcode ?>"><?= $row->NomorBarcode ?></option>
 													<?php endforeach; ?>
 												</select>
 												<div class="input-group-append">
@@ -130,7 +130,7 @@ $member = get_member($member_no);
 									</div>
 
 									<div class="d-block">
-										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Peminjaman</button>
 									</div>
 								</form>
 							</div>

@@ -36,9 +36,11 @@ if (!function_exists('cart_insert')) {
     function cart_insert($name, $id)
     {        
 		$options = array();
-		if (strpos($name, 'pengembalian') !== false) {
-			$options = get_loan_item($id);
-		}
+		$options = get_loan_item($id);
+
+		// if (strpos($name, 'pengembalian') !== false) {
+		// 	$options = get_loan_item($id);
+		// }
 
 		$cart = new \App\Libraries\Cart();
 		$cart->insert(array(

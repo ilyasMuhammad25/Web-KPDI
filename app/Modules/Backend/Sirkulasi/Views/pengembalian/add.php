@@ -130,12 +130,9 @@ $member = get_member($member_no);
 														<td width="400"><?= _spec($row->Title); ?></td>
 														<td width="100"><?= _spec($row->loan_date); ?></td>
 														<td width="100"><?= _spec($row->due_date); ?></td>
-														<td width="50"><?= _spec($row->late_days); ?></td>
+														<td width="50"><?=get_late_days($row->due_date)?></td>
 														<td width="35">
-															<?php if(empty($row->late_days)):?>
-																<a href="<?= base_url('sirkulasi/cart_pinalthy/'.$row->id.'?slug=pengembalian&member_no='.$member_no) ?>" data-toggle="tooltip" data-placement="top" title="Proses Pelanggaran" class="btn btn-danger show-data"><i class="fa fa-exclamation-triangle"> </i></a>
-															<?php endif;?>
-															<a href="<?= base_url('sirkulasi/cart_insert/'.$row->id.'?slug=pengembalian&member_no='.$member_no) ?>" data-toggle="tooltip" data-placement="top" title="Tambah ke Keranjang" class="btn btn-primary show-data"><i class="fa fa-cart-plus"> </i></a>
+															<a href="<?= base_url('sirkulasi/proses_pengembalian/'.$row->id) ?>" data-toggle="tooltip" data-placement="top" title="Proses Pengembalian" class="btn btn-primary show-data"><i class="fa fa-save"> </i></a>
 														</td>
 													</tr>
 												<?php endforeach; ?>
@@ -143,47 +140,52 @@ $member = get_member($member_no);
 										</table>
 									</div>
 
-									<div class="d-block">
+									<div class="d-block pt-3">
 										<button type="button" id="add_to_cart" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Semua Koleksi yang terpilih"><i class="fa fa-cart-plus"> </i> Tambahkan ke Keranjang</button>
 									</div>
 								</form>
 							</div>
 							<div class="tab-pane show" id="tab2" role="tabpanel">
-								<div class="table-responsive">
-									<table style="width: 100%;" id="tbl_carts" class="table table-hover table-striped table-bordered">
-										<thead class="bg-corporate-primary2 text-white">
-											<tr>
-												<th>No. Barcode</th>
-												<th>Judul</th>
-												<th>Penerbitan</th>
-												<th>Tanggal Peminjaman</th>
-												<th>Jatuh Tempo</th>
-												<th>Aksi</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php $cart_name = 'pengembalian_'.$member_no; ?>
-											<?php foreach(get_carts($cart_name) as $row):?>
+								<form method="post" action="<?=base_url('sirkulasi/create_pengembalian')?>">
+									<input type="hidden" name="member_no" value="<?=$member_no?>">
+									<input type="hidden" name="slug" value="pengembalian">
+									<div class="table-responsive">
+										<table style="width: 100%;" id="tbl_carts" class="table table-hover table-striped table-bordered">
+											<thead class="bg-corporate-primary2 text-white">
 												<tr>
-													<td width="100">
-														<?= _spec($row->options->NomorBarcode); ?> <br>
-													</td>
-													<td width="400"><?= _spec($row->options->Title); ?></td>
-													<td><?= _spec($row->options->Publisher); ?></td>
-													<td width="100"><?= _spec($row->options->loan_date); ?></td>
-													<td width="100"><?= _spec($row->options->due_date); ?></td>
-													<td width="35">
-															<a href="<?= base_url('sirkulasi/cart_remove/'.$row->id) ?>" data-toggle="tooltip" data-placement="top" title="Hapus dari Keranjang" class="btn btn-danger show-data"><i class="fa fa-trash"> </i></a>
-													</td>
+													<th>No. Barcode</th>
+													<th>Judul</th>
+													<th>Penerbitan</th>
+													<th>Tanggal Peminjaman</th>
+													<th>Jatuh Tempo</th>
+													<th>Aksi</th>
 												</tr>
-											<?php endforeach;?>
-										</tbody>
-									</table>
-								</div>
+											</thead>
+											<tbody>
+												<?php $cart_name = 'pengembalian_'.$member_no; ?>
+												<?php foreach(get_carts($cart_name) as $row):?>
+													<tr>
+														<td width="100">
+															<input type="hidden" name="ids[]" value="<?=$row->id?>">
+															<?= _spec($row->options->NomorBarcode); ?> <br>
+														</td>
+														<td width="400"><?= _spec($row->options->Title); ?></td>
+														<td><?= _spec($row->options->Publisher); ?></td>
+														<td width="100"><?= _spec($row->options->loan_date); ?></td>
+														<td width="100"><?= _spec($row->options->due_date); ?></td>
+														<td width="35">
+																<a href="<?= base_url('sirkulasi/cart_remove/'.$row->id) ?>" data-toggle="tooltip" data-placement="top" title="Hapus dari Keranjang" class="btn btn-danger show-data"><i class="fa fa-trash"> </i></a>
+														</td>
+													</tr>
+												<?php endforeach;?>
+											</tbody>
+										</table>
+									</div>
 
-								<div class="d-block">
-									<button type="submit" class="btn-wide btn-shadow btn btn-primary"><i class="fa fa-save"></i> Kembalikan</button>
-								</div>
+									<div class="d-block pt-3">
+										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Pengembalian</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -198,7 +200,7 @@ $member = get_member($member_no);
 <?= $this->section('script'); ?>
 <script>
 	$('.select2').select2({theme: "bootstrap4",});
-	setDataTable('#tbl_sirkulasis', disableOrderCols = [0, 7], defaultOrderCols = [1, 'desc'], autoNumber = false);
+	setDataTable('#tbl_sirkulasis', disableOrderCols = [0, 6], defaultOrderCols = [1, 'desc'], autoNumber = false);
 	setDataTable('#tbl_carts', disableOrderCols = [5], defaultOrderCols = [1, 'desc'], autoNumber = false);
 	checkAll();
 
@@ -209,20 +211,22 @@ $member = get_member($member_no);
 		console.log(serialize_bulk);
 		console.log(url);
 
-		Swal.fire({
-            title: 'Anda yakin?',
-            text: "Semua Koleksi yang terpilih akan dikembalikan!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#dd6b55',
-            confirmButtonText: '<?= lang('App.btn.yes') ?>',
-            cancelButtonText: '<?= lang('App.btn.no') ?>'
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = url;
-            }
-        });
+		window.location.href = url;
+
+		// Swal.fire({
+        //     title: 'Anda yakin?',
+        //     text: "Semua Koleksi yang terpilih akan ditambahkan ke Keranjang Pengembalian!",
+        //     type: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#dd6b55',
+        //     confirmButtonText: '<?= lang('App.btn.yes') ?>',
+        //     cancelButtonText: '<?= lang('App.btn.no') ?>'
+        // }).then((result) => {
+        //     if (result.value) {
+        //         window.location.href = url;
+        //     }
+        // });
         return false;
 	});
 </script>

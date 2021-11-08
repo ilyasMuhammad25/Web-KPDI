@@ -24,6 +24,8 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->eksemplarModel = new \Eksemplar\Models\EksemplarModel();
         $this->eksemplarLoanModel = new \Sirkulasi\Models\EksemplarLoanModel();
         $this->eksemplarLoanItemModel = new \Sirkulasi\Models\EksemplarLoanItemModel();
+        $this->eksemplarLoanItemExtendModel = new \Sirkulasi\Models\EksemplarLoanItemExtendModel();
+        $this->eksemplarLoanItemPenaltyModel = new \Sirkulasi\Models\EksemplarLoanItemPenaltyModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/sirkulasi/';
         
@@ -198,6 +200,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
 			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
+			->where('t_eksemplar_loan_item.loan_status','Loan')
 			->where('t_anggota.MemberNo', $member_no);
 			
 		$sirkulasis = $query->findAll();
@@ -221,45 +224,47 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 				$barcode_arr = $this->request->getPost('barcodes');
 				if(!empty($barcode_arr)){
 
-					$save_data_item = array();
+					$save_data_eksemplar_loan_item = array();
+					$update_data_eksemplar = array();
 					foreach ($barcode_arr as $index => $barcode){
-						
-						$save_data_item[] = [
+						$eksemplar = get_eksemplar($barcode);
+						$save_data_eksemplar_loan_item[] = [
 							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
 							'anggota_id' 			=> $anggota->id,
-							'eksemplar_id' 			=> get_eksemplar($barcode)->id,
-							'location_library_id' 	=> get_eksemplar($barcode)->Location_library_id,
+							'eksemplar_id' 			=> $eksemplar->id,
+							'location_library_id' 	=> $eksemplar->Location_library_id,
 							'created_by'			=> user_id(),
 							'loan_date'				=> date('Y-m-d'),
 							'due_date'				=> $due_date,
-							'loan_status'			=> 'Loan', 
+							'loan_status'			=> 'Loan', //Flag di List Peminjaman
 						];
 
-						$update_data_item[] = [
-							'id' 					=> get_eksemplar($barcode)->id,
-							'ref_status'			=> 1, //ref_status
+						$update_data_eksemplar[] = [
+							'id' 					=> $eksemplar->id,
+							'ref_status'			=> get_ref_id('dipinjam','slug','ref_status'),
 						];
 					}
 
-					if(!empty($save_data_item)){
-						$this->eksemplarLoanItemModel->insertBatch($save_data_item);
+					if(!empty($save_data_eksemplar_loan_item)){
+						$this->eksemplarLoanItemModel->insertBatch($save_data_eksemplar_loan_item);
 					}
 
-					if(!empty($update_data_item)){
-						$this->eksemplarLoanItemModel->updateBatch($update_data_item, 'id');
+					if(!empty($update_data_eksemplar)){
+						$this->eksemplarModel->updateBatch($update_data_eksemplar, 'id');
 					}
 				}
 
 				add_log('Entri Peminjaman', 'sirkulasi', 'create', 't_sirkulasi', $newEksemplarLoanID);
-				set_message('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
+				set_message('toastr_msg', 'Sirkulasi peminjaman berhasil diproses');
 				set_message('toastr_type', 'success');
-				return redirect()->to('/sirkulasi?slug=peminjaman');
+
+				return redirect()->back();
 			} else {
 				set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
                 echo view('Sirkulasi\Views\peminjaman\add', $this->data);
 			}
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create');
+			$this->data['redirect'] = base_url('sirkulasi/create?slug=peminjaman');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
 			echo view('Sirkulasi\Views\peminjaman\add', $this->data);
 		}
@@ -272,6 +277,8 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
+		$member_no = $this->request->getVar('member_no');
+
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
 			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
@@ -280,7 +287,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
-			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner');
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
+			->where('t_eksemplar_loan_item.loan_status','Loan')
+			->where('t_anggota.MemberNo', $member_no);
 			
 		$sirkulasis = $query->findAll();
 		$this->data['sirkulasis'] = $sirkulasis;
@@ -292,53 +301,45 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$member_no = $this->request->getPost('member_no');
 			$anggota = $this->anggotaModel->where('MemberNo',$member_no)->get()->getRow();
+			$max_loan_days = get_loan_days($anggota->id);
+			$due_date = get_due_date($max_loan_days);
 
-            $save_data = [
-				'anggota_id' => $anggota->id,
-                'created_by' => user_id(),
-            ];
+			$id_arr = $this->request->getPost('ids');
+			if(!empty($id_arr)){
+				$update_data_eksemplar_loan_item = array();
+				$update_data_eksemplar = array();
+				foreach ($id_arr as $index => $id){
+					$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);
+					$update_data_eksemplar_loan_item[] = [
+						'id' 					=> $id,
+						'updated_by'			=> user_id(),
+						'actual_return_date'	=> date('Y-m-d'), 
+						'loan_status'			=> 'Return', //Flag di List Pengembalian
+					];
 
-            $newEksemplarLoanID = $this->eksemplarLoanModel->protect(false)->insert($save_data);
-            if($newEksemplarLoanID){
-				$barcode_arr = $this->request->getPost('barcodes');
-				if(!empty($barcode_arr)){
-					$save_data_item = array();
-					foreach ($barcode_arr as $index => $barcode){
-						
-						$save_data_item[] = [
-							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
-							'updated_by'			=> user_id(),
-							'loan_status'			=> 'Return', 
-							'actual_return_date'	=> date('Y-m-d') // List Pengembalian
-
-							//Jenis Pelanggarn, Telat, 
-						];
-
-						$update_data_item[] = [
-							'id' 					=> get_eksemplar($barcode)->id,
-							'ref_status'			=> 2, //ref_status
-						];
-					}
-
-					if(!empty($save_data_item)){
-						$this->eksemplarLoanItemModel->insertBatch($save_data_item);
-					}
-
-					if(!empty($update_data_item)){
-						$this->eksemplarLoanItemModel->updateBatch($update_data_item, 'id');
-					}
+					$update_data_eksemplar[] = [
+						'id' 					=> $eksemplar_loan_item->eksemplar_id,
+						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+					];
 				}
 
-				add_log('Entri Peminjaman', 'sirkulasi', 'create', 't_sirkulasi', $newEksemplarLoanID);
-				set_message('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
-				set_message('toastr_type', 'success');
-				return redirect()->to('/sirkulasi?slug=pengembalian');
-			} else {
-				set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
-                echo view('Sirkulasi\Views\pengembalian\add', $this->data);
+				if(!empty($update_data_eksemplar_loan_item)){
+					$this->eksemplarLoanItemModel->updateBatch($update_data_eksemplar_loan_item, 'id');
+				}
+
+				if(!empty($update_data_eksemplar)){
+					$this->eksemplarModel->updateBatch($update_data_eksemplar, 'id');
+				}
 			}
+
+			set_message('toastr_msg', 'Sirkulasi pengembalian berhasil diproses');
+			set_message('toastr_type', 'success');
+
+			cart_destroy();
+
+			return redirect()->back();
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create');
+			$this->data['redirect'] = base_url('sirkulasi/create?slug=pengembalian');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
 			echo view('Sirkulasi\Views\pengembalian\add', $this->data);
 		}
@@ -351,48 +352,85 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-        $this->data['title'] = 'Entri Pengembalian';
+		$member_no = $this->request->getVar('member_no');
+
+		$query = $this->eksemplarLoanItemModel
+			->select('t_eksemplar_loan_item.*')
+			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
+			->select('t_catalog.Title, t_catalog.Publisher')
+
+			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
+			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
+			->where('t_eksemplar_loan_item.loan_status','Loan')
+			->where('t_anggota.MemberNo', $member_no);
+			
+		$sirkulasis = $query->findAll();
+		$this->data['sirkulasis'] = $sirkulasis;
+		$this->data['slug'] = 'perpanjangan';
+
+
+        $this->data['title'] = 'Entri Perpanjangan';
 		$this->validation->setRule('member_no', 'Nomor Anggota', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$member_no = $this->request->getPost('member_no');
 			$anggota = $this->anggotaModel->where('MemberNo',$member_no)->get()->getRow();
+			$max_loan_days = get_loan_days($anggota->id);
+			$due_date = get_due_date($max_loan_days);
 
-            $save_data = [
-				'anggota_id' => $anggota->id,
-                'created_by' => user_id(),
-            ];
+			$id_arr = $this->request->getPost('ids');
+			if(!empty($id_arr)){
+				$update_data_eksemplar_loan_item = array();
+				$update_data_eksemplar = array();
+				foreach ($id_arr as $index => $id){
+					$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);			
+					$update_data_eksemplar_loan_item[] = [
+						'id' 					=> $id,
+						'updated_by'			=> user_id(),
+						'due_date'				=> get_due_date($max_loan_days, $eksemplar_loan_item->due_date),
+						'loan_status'			=> 'Loan', 
+					];
 
-            $newEksemplarLoanID = $this->eksemplarLoanModel->protect(false)->insert($save_data);
-            if($newEksemplarLoanID){
-				$barcode_arr = $this->request->getPost('barcodes');
-				if(!empty($barcode_arr)){
-					$save_data_item = array();
-					foreach ($barcode_arr as $index => $barcode){
-						$save_data_item[] = [
-							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
-							'anggota_id' 			=> $anggota->id,
-							'eksemplar_id' 			=> get_eksemplar($barcode)->id,
-							'location_library_id' 	=> get_eksemplar($barcode)->Location_library_id,
-							'created_by'			=> user_id(),
-							// 'created_terminal'		=> '127.0.0.1',
-						];
-					}
+					$update_data_eksemplar[] = [
+						'id' 					=> $eksemplar_loan_item->eksemplar_id,
+						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+					];
 
-					if(!empty($save_data_item)){
-						$this->eksemplarLoanItemModel->insertBatch($save_data_item);
-					}
+					$save_data_eksemplar_loan_item_extend[] = [
+						'eksemplar_loan_item_id'=> $eksemplar_loan_item->id,
+						'eksemplar_loan_id'		=> $eksemplar_loan_item->eksemplar_loan_id,
+						'eksemplar_id'			=> $eksemplar_loan_item->eksemplar_id,
+						'anggota_id'			=> $eksemplar_loan_item->anggota_id,
+						'due_date'				=> $eksemplar_loan_item->due_date,
+						'due_date_extend'		=> get_due_date($max_loan_days, $eksemplar_loan_item->due_date),
+						'created_by'			=> user_id(),
+					];
+		
+					
 				}
 
-				add_log('Entri Peminjaman', 'sirkulasi', 'create', 't_sirkulasi', $newEksemplarLoanID);
-				set_message('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
-				set_message('toastr_type', 'success');
-				return redirect()->to('/sirkulasi?slug=perpanjangan');
-			} else {
-				set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
-                echo view('Sirkulasi\Views\perpanjangan\add', $this->data);
+				if(!empty($update_data_eksemplar_loan_item)){
+					$this->eksemplarLoanItemModel->updateBatch($update_data_eksemplar_loan_item, 'id');
+				}
+
+				if(!empty($update_data_eksemplar)){
+					$this->eksemplarModel->updateBatch($update_data_eksemplar, 'id');
+				}
+
+				if(!empty($save_data_eksemplar_loan_item_extend)){
+					$this->eksemplarLoanItemExtendModel->insertBatch($save_data_eksemplar_loan_item_extend);
+				}
 			}
+
+			set_message('toastr_msg', 'Sirkulasi perpanjangan berhasil diproses');
+			set_message('toastr_type', 'success');
+
+			cart_destroy();
+
+			return redirect()->back();
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create');
+			$this->data['redirect'] = base_url('sirkulasi/create?slug=perpanjangan');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
 			echo view('Sirkulasi\Views\perpanjangan\add', $this->data);
 		}
@@ -405,53 +443,203 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-        $this->data['title'] = 'Entri Pengembalian';
+		$member_no = $this->request->getVar('member_no');
+
+		$query = $this->eksemplarLoanItemModel
+			->select('t_eksemplar_loan_item.*')
+			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
+			->select('t_catalog.Title, t_catalog.Publisher')
+
+			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
+			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
+			->where('t_eksemplar_loan_item.loan_status','Loan')
+			->where('t_anggota.MemberNo', $member_no);
+			
+		$sirkulasis = $query->findAll();
+		$this->data['sirkulasis'] = $sirkulasis;
+		$this->data['slug'] = 'pelanggaran';
+
+
+        $this->data['title'] = 'Entri Pelanggaran';
 		$this->validation->setRule('member_no', 'Nomor Anggota', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$member_no = $this->request->getPost('member_no');
 			$anggota = $this->anggotaModel->where('MemberNo',$member_no)->get()->getRow();
 
-            $save_data = [
-				'anggota_id' => $anggota->id,
-                'created_by' => user_id(),
-            ];
+			$id_arr = $this->request->getPost('ids');
+			if(!empty($id_arr)){
+				$update_data_eksemplar_loan_item = array();
+				$update_data_eksemplar = array();
+				foreach ($id_arr as $index => $id){
+					$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);	
+					$member_type = get_member_type($eksemplar_loan_item->anggota_id);	
+					$late_days = get_late_days($eksemplar_loan_item->due_date);
+					$penalty_charge = $late_days * 1000;
 
-            $newEksemplarLoanID = $this->eksemplarLoanModel->protect(false)->insert($save_data);
-            if($newEksemplarLoanID){
-				$barcode_arr = $this->request->getPost('barcodes');
-				if(!empty($barcode_arr)){
-					$save_data_item = array();
-					foreach ($barcode_arr as $index => $barcode){
-						$save_data_item[] = [
-							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
-							'anggota_id' 			=> $anggota->id,
-							'eksemplar_id' 			=> get_eksemplar($barcode)->id,
-							'location_library_id' 	=> get_eksemplar($barcode)->Location_library_id,
-							'created_by'			=> user_id(),
-							// 'created_terminal'		=> '127.0.0.1',
-						];
-					}
+					$update_data_eksemplar_loan_item[] = [
+						'id' 					=> $id,
+						'updated_by'			=> user_id(),
+						'due_date'				=> get_due_date($member_type->max_loan_days, $eksemplar_loan_item->due_date),
+						'loan_status'			=> 'Loan', 
+					];
 
-					if(!empty($save_data_item)){
-						$this->eksemplarLoanItemModel->insertBatch($save_data_item);
-					}
+					$update_data_eksemplar[] = [
+						'id' 					=> $eksemplar_loan_item->eksemplar_id,
+						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+					];
+
+					$save_data_eksemplar_loan_item_penalty[] = [
+						'eksemplar_loan_item_id'=> $eksemplar_loan_item->id,
+						'eksemplar_loan_id'		=> $eksemplar_loan_item->eksemplar_loan_id,
+						'eksemplar_id'			=> $eksemplar_loan_item->eksemplar_id,
+						'anggota_id'			=> $eksemplar_loan_item->anggota_id,
+						'jenis_pelanggaran_id'	=> 1, //Telat //ToBeExplore
+						'jenis_denda_id'		=> 6, //Bayar Keterlambatan //ToBeExplore
+						'jumlah_denda'			=> $penalty_charge,
+						'jumlah_suspend'		=> $member_type->suspend_amount,
+						'created_by'			=> user_id(),
+					];		
 				}
 
-				add_log('Entri Peminjaman', 'sirkulasi', 'create', 't_sirkulasi', $newEksemplarLoanID);
-				set_message('toastr_msg', lang('Sirkulasi.info.successfully_saved'));
-				set_message('toastr_type', 'success');
-				return redirect()->to('/sirkulasi?slug=pelanggaran');
-			} else {
-				set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Sirkulasi.info.failed_saved'));
-                echo view('Sirkulasi\Views\pelanggaran\add', $this->data);
+				if(!empty($update_data_eksemplar_loan_item)){
+					$this->eksemplarLoanItemModel->updateBatch($update_data_eksemplar_loan_item, 'id');
+				}
+
+				if(!empty($update_data_eksemplar)){
+					$this->eksemplarModel->updateBatch($update_data_eksemplar, 'id');
+				}
+
+				if(!empty($save_data_eksemplar_loan_item_penalty)){
+					$this->eksemplarLoanItemPenaltyModel->insertBatch($save_data_eksemplar_loan_item_penalty);
+				}
 			}
+
+			set_message('toastr_msg', 'Sirkulasi pelanggaran berhasil diproses');
+			set_message('toastr_type', 'success');
+
+			cart_destroy();
+
+			return redirect()->back();
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create');
+			$this->data['redirect'] = base_url('sirkulasi/create?slug=pelanggaran');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
 			echo view('Sirkulasi\Views\pelanggaran\add', $this->data);
 		}
     }
 
+	public function proses_pengembalian($id = null)
+    {
+		$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);
+		$update_data_eksemplar_loan_item = [
+			'updated_by'			=> user_id(),
+			'actual_return_date'	=> date('Y-m-d'),
+			'loan_status'			=> 'Return', 
+		];
+
+		$sirkulasiUpdate = $this->eksemplarLoanItemModel->update($id, $update_data_eksemplar_loan_item);
+
+		if($sirkulasiUpdate){
+			$update_data_eksemplar = [
+				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+			];
+
+			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
+		}
+
+		set_message('toastr_msg', 'Sirkulasi pengembalian berhasil diproses');
+		set_message('toastr_type', 'success');
+		set_message('message', 'Sirkulasi pengembalian berhasil diproses');
+
+		return redirect()->back();
+    }
+
+	public function proses_perpanjangan($id = null)
+    {
+		$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);
+		$max_loan_days = get_loan_days($eksemplar_loan_item->anggota_id);
+
+		$update_data_eksemplar_loan_item = [
+			'updated_by'			=> user_id(),
+			'due_date'				=> get_due_date($max_loan_days, $eksemplar_loan_item->due_date),
+			'loan_status'			=> 'Loan', 
+		];
+
+		$sirkulasiUpdate = $this->eksemplarLoanItemModel->update($id, $update_data_eksemplar_loan_item);
+
+		if($sirkulasiUpdate){
+			$update_data_eksemplar = [
+				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+			];
+
+			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
+
+			$save_data_eksemplar_loan_item_extend = [
+				'eksemplar_loan_item_id'=> $eksemplar_loan_item->id,
+				'eksemplar_loan_id'		=> $eksemplar_loan_item->eksemplar_loan_id,
+				'eksemplar_id'			=> $eksemplar_loan_item->eksemplar_id,
+				'anggota_id'			=> $eksemplar_loan_item->anggota_id,
+				'due_date'				=> $eksemplar_loan_item->due_date,
+				'due_date_extend'		=> get_due_date($max_loan_days, $eksemplar_loan_item->due_date),
+				'created_by'			=> user_id(),
+			];
+
+			$sirkulasiNewID = $this->eksemplarLoanItemExtendModel->insert($save_data_eksemplar_loan_item_extend);
+		}
+
+		set_message('toastr_msg', 'Sirkulasi perpanjangan berhasil diproses');
+		set_message('toastr_type', 'success');
+		set_message('message', 'Sirkulasi perpanjangan berhasil diproses');
+
+		return redirect()->back();
+    }
+
+	public function proses_pelanggaran($id = null)
+    {
+		$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);
+		$member_type = get_member_type($eksemplar_loan_item->anggota_id);
+
+		$late_days = get_late_days($eksemplar_loan_item->due_date);
+		$penalty_charge = $late_days * 1000;
+
+
+		$update_data_eksemplar_loan_item = [
+			'updated_by'			=> user_id(),
+			'due_date'				=> get_due_date($member_type->max_loan_days, $eksemplar_loan_item->due_date),
+			'loan_status'			=> 'Return', 
+		];
+
+		$sirkulasiUpdate = $this->eksemplarLoanItemModel->update($id, $update_data_eksemplar_loan_item);
+
+		if($sirkulasiUpdate){
+			$update_data_eksemplar = [
+				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+			];
+
+			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
+
+			$save_data_eksemplar_loan_item_penalty = [
+				'eksemplar_loan_item_id'=> $eksemplar_loan_item->id,
+				'eksemplar_loan_id'		=> $eksemplar_loan_item->eksemplar_loan_id,
+				'eksemplar_id'			=> $eksemplar_loan_item->eksemplar_id,
+				'anggota_id'			=> $eksemplar_loan_item->anggota_id,
+				'jenis_pelanggaran_id'	=> 1, //Telat //ToBeExplore
+				'jenis_denda_id'		=> 6, //Bayar Keterlambatan //ToBeExplore
+				'jumlah_denda'			=> $penalty_charge,
+				'jumlah_suspend'		=> $member_type->suspend_amount,
+				'created_by'			=> user_id(),
+			];
+
+			$sirkulasiNewID = $this->eksemplarLoanItemPenaltyModel->insert($save_data_eksemplar_loan_item_penalty);
+		}
+
+		set_message('toastr_msg', 'Sirkulasi pelanggaran berhasil diproses');
+		set_message('toastr_type', 'success');
+		set_message('message', 'Sirkulasi pelanggaran berhasil diproses');
+
+		return redirect()->back();
+    }
 
 	public function cart_insert($id = null)
     {
