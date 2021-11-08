@@ -130,7 +130,7 @@ $member = get_member($member_no);
 									</div>
 
 									<div class="d-block">
-										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Peminjaman</button>
+										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Proses Peminjaman</button>
 									</div>
 								</form>
 							</div>

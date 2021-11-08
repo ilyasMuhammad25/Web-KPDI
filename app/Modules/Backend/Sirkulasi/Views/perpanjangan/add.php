@@ -183,7 +183,7 @@ $member = get_member($member_no);
 									</div>
 
 									<div class="d-block pt-3">
-										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Perpanjangan</button>
+										<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Proses Perpanjangan</button>
 									</div>
 								</form>
 							</div>
