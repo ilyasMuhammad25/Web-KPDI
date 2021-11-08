@@ -1,8 +1,18 @@
 <?php
 	$request = \Config\Services::request();
 	$request->uri->setSilent();
-	$slug = $request->getVar('slug') ?? 'rda';
+	$slug = $request->getVar('slug') ?? '';
 	$slug_title = strtoupper($slug);
+	$view = $request->getVar('view') ?? '';
+	$view_title = strtoupper($view);
+
+	if($view == 'is_cart'){
+		$view_title = 'Keranjang';
+	}
+
+	if($view == 'is_quarantine'){
+		$view_title = 'Karantina';
+	}
 ?>
 
 <?= $this->extend(config('Core')->layout_backend); ?>
@@ -30,14 +40,16 @@
 		</div>
 	</div>
 
-	<?=view('Katalog\Views\section\nav_list', array('slug' => $slug))?>
+	<?=view('Katalog\Views\section\nav_list', array('slug' => $slug, 'view' => $view))?>
 
 	<div class="main-card mb-3 card">
 		<div class="card-header">
 			<i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Katalog.label.table') ?> <?= lang('Katalog.module') ?> 
 			<div class="btn-actions-pane-right actions-icon-btn">
-				<?php if(is_allowed('katalog/create')):?>
-				<a href="<?= base_url('katalog/create?slug='.$slug) ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> <?=$slug_title?></a>
+				<?php if(!empty($slug)):?>
+					<?php if(is_allowed('katalog/create')):?>
+						<a href="<?= base_url('katalog/create?slug='.$slug) ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> <?=$slug_title?></a>
+					<?php endif;?>
 				<?php endif;?>
 			</div>
 		</div>

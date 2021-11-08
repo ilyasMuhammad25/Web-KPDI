@@ -1,6 +1,8 @@
 <?php
 	$request = \Config\Services::request();
 	$request->uri->setSilent();
+	$slug = $request->getVar('slug') ?? ' '; //double space
+	$slug_title = strtoupper($slug);
 	$view = $request->getVar('view') ?? 'is_cart';
 	$view_title = strtoupper($view);
 
@@ -43,6 +45,8 @@
 			</div>
 		</div>
 	</div>
+
+	<?=view('Katalog\Views\section\nav_list', array('slug' => $slug, 'view' => $view))?>
 
 	<div class="main-card mb-3 card">
 		<div class="card-header">
