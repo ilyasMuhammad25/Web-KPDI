@@ -1,8 +1,3 @@
-<?php
-	$request = \Config\Services::request();
-	$request->uri->setSilent();
-	$is_rda = $request->getVar('rda') == 1;
-	?>
 <div class="row">
 	<div class="col-md-12">
 		<div id="accordion1" class="accordion-wrapper mb-3">
@@ -74,7 +69,7 @@
 							<?php endif;  ?>
 						</div>
 
-						<?php if($is_rda):?>
+						<?php if($slug == 'rda'):?>
 							<div class="form-group">
 								<label for="recipient-name" class="col-form-label">Judul Seragam</label>
 								<input type="text" class="form-control" id="judul-seragam" name="judul-seragam" placeholder="Judul Seragam" value="">

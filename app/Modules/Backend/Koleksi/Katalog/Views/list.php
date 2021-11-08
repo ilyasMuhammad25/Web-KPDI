@@ -1,3 +1,10 @@
+<?php
+	$request = \Config\Services::request();
+	$request->uri->setSilent();
+	$slug = $request->getVar('slug') ?? 'rda';
+	$slug_title = strtoupper($slug);
+?>
+
 <?= $this->extend(config('Core')->layout_backend); ?>
 <?= $this->section('style'); ?>
 <style>
@@ -18,21 +25,19 @@
 				</div>
 			</div>
 			<div class="page-title-actions">
-				<nav class="" aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?= base_url('Katalog') ?>"><i class="fa fa-home"></i> <?= lang('Katalog.label.home') ?></a></li>
-						<li class="active breadcrumb-item" aria-current="page"><?= lang('Katalog.module') ?> </li>
-					</ol>
-				</nav>
+				<?=view('Katalog\Views\section\nav_bread', array('slug' => $slug, 'slug_title' => $slug_title, 'label' => 'Daftar'))?>
 			</div>
 		</div>
 	</div>
+
+	<?=view('Katalog\Views\section\nav_list', array('slug' => $slug))?>
+
 	<div class="main-card mb-3 card">
 		<div class="card-header">
 			<i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Katalog.label.table') ?> <?= lang('Katalog.module') ?> 
 			<div class="btn-actions-pane-right actions-icon-btn">
 				<?php if(is_allowed('katalog/create')):?>
-				<a href="<?= base_url('katalog/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> </a>
+				<a href="<?= base_url('katalog/create?slug='.$slug) ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> <?=$slug_title?></a>
 				<?php endif;?>
 			</div>
 		</div>
@@ -86,7 +91,7 @@
 <?= $this->endSection('page'); ?>
 <?= $this->section('script'); ?>
 <script>
-	setDataTable('#tbl_katalogs', disableOrderCols = [0, 7], defaultOrderCols = [1, 'desc'], autoNumber = true);
+	setDataTable('#tbl_katalogs', disableOrderCols = [0, 7], defaultOrderCols = [0, 'asc'], autoNumber = true);
 	
 	$("body").on("click", ".remove-data", function() {
 	    var url = $(this).attr('data-href');

@@ -66,9 +66,10 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 			$query->where('t_catalog.is_cart', 1);
 		}
 
-		$rda = $this->request->getVar('rda');
-		if(!empty($rda)){
-			$query->where('t_catalog.is_rda',$rda);
+		$slug = $this->request->getVar('slug');
+		if(!empty($slug)){
+			$is_rda = strtoupper($slug) == 'RDA';
+			$query->where('t_catalog.is_rda',$is_rda);
 		}   
 
 		$katalogs = $query
