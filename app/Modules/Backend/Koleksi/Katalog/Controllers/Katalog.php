@@ -52,17 +52,17 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-		$quarantine = $this->request->getVar('quarantine');
-		$cart = $this->request->getVar('cart');
+		$is_quarantine = $this->request->getVar('is_quarantine');
+		$is_cart = $this->request->getVar('is_cart');
 		
         $query = $this->katalogModel
             ->select('t_catalog.*');
             
-		if(!empty($quarantine)){
+		if(!empty($is_quarantine)){
 			$query->where('t_catalog.is_quarantine', 1);
 		}
 
-		if(!empty($cart)){
+		if(!empty($is_cart)){
 			$query->where('t_catalog.is_cart', 1);
 		}
 
