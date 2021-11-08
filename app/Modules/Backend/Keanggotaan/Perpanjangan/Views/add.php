@@ -10,7 +10,8 @@ $request->uri->setSilent();
 $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
 $baseModel->setTable('t_anggota');
 $anggotas = $baseModel
-    ->find_all('name', 'asc');
+    ->find_all('created_at','desc');
+  
     // dd($katalog);
 
 ?>
@@ -70,69 +71,79 @@ $anggotas = $baseModel
                         <?=$this->include('Perpanjangan\Views\section\member_profile')?>
                     </div>
                     <div class="col-md-6">
-                    <?=$this->include('Perpanjangan\Views\section\member_no')?>
-                        <label for="sort">Nama</label>
+                     
+                        <strong><label for="sort">Nama*</label></strong>
                         <div class="input-group ">
 
-                            <select class="custom-select js-example-basic-multiple" id="btn_pilih" name="anggota_id" value="">
+                            <select class="custom-select js-example-basic-multiple" id="package"
+                                onchange="myFunction();" name="t_anggota_id" value="">
                                 <?php foreach($anggotas as $row):?>
-                                <option  value="<?=$row->id?>"><?=$row->MemberNo?>-<?=$row->name?></option>
+                                    <option value=""  disabled selected>Pilih</option>
+                                <option data-no_anggota=<?= _spec($row->MemberNo); ?> data-name="<?= $row->name ?>"
+                                data-email=<?= _spec($row->Email); ?>
+                                data-address="<?= $row->Address ?>"
+                                data-date="<?= $row->EndDate ?>"
+                                data-id="<?= $row->id ?>"
+                                data-nomor="<?=$row->NoHp?>"
+                                value="<?=$row->id?>">
+                                    <?=$row->MemberNo?>-<?=$row->name?></option>
                                 <?php endforeach;?>
                             </select>
-                            <input type="hidden" name="anggota_id" id="anggota_id" value="">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-pilih" type="button"
-                                data-id= <?= _spec($row->id); ?> 
-                                 data-name= <?= _spec($row->name); ?>
-                                 data-MemberNo= <?= _spec($row->MemberNo); ?>
-                                    style="background-color: #315644;"><i class="fa fa-search"></i>Cari</button>
-                            </div>
+                            <input type="hidden" name="t_anggota_id" id="anggota_id" value="">
+                           
+                            
                         </div>
+
                         
                         <div>
-                            <label for="sort">Masa berlaku saat ini</label>
+                           <strong> <label for="name">Update Tanggal berahir</label></strong>
                             <div>
-                                <input type="number" class="form-control" id="frm_create_sort" name="sort"
-                                    value="<?= set_value('sort') ?>" />
-                              
-                            </div>
-                        </div>
-                        <div>
-                            <label for="name">Tanggal berahir</label>
-                            <div>
-                                <input type="text" class="form-control" id="frm_create_sort" name="sort"
-                                    placeholder="<?= lang('Perpanjangan.field.sort') ?> "
-                                    value="<?= set_value('sort') ?>" />
+                                <input type="date" class="form-control" id="frm_create_sort" name="EndDate"
+                                    placeholder="Tanggal Berahir "
+                                    value="<?= set_value('EndDate') ?>" />
                             </div>
                         </div>
 
                         <div>
-                            <label for="sort">Biaya</label>
+                           <strong> <label for="name">Update Jenis Anggota</label></strong>
+                           <select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota"
+                                                tabindex="-1" aria-hidden="true">
+                                                <option value="" disabled selected>
+                                                    <?=lang('Anggota.field.Jenisanggota')?>
+                                                </option>
+                                             
+                                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
+                                                <option value="<?=$row->code?>"><?=$row->text?></option>
+                                                <?php endforeach;?>
+                                            </select>
+                        </div>
+                       <div>
+                          <strong>  <label for="sort">Biaya</label></strong>
                             <div>
-                                <input type="number" class="form-control" id="frm_create_sort" name="sort"
-                                    value="<?= set_value('sort') ?>" />
-                             
+                                <input type="number" class="form-control" id="frm_create_sort" name="biaya"
+                                    value="<?= set_value('biaya') ?>" />
+
                             </div>
                         </div>
 
                         <div class="form-check form-group mt-1">
                             <div>
-                                <input type="hidden" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="0">
-                                <input type="checkbox" class="iCheck-square" name="IsOPAC" id="IsOPAC" value="1">
+                                <input type="hidden" class="iCheck-square" name="is_lunas" id="is_lunas" value="0">
+                                <input type="checkbox" class="iCheck-square" name="is_lunas" id="is_lunas" value="1">
                                 <label class="  control-label">Sudah Lunas</label>
                             </div>
                         </div>
 
                         <div class="form-group">
-                    <label for="description"><?= lang('Perpanjangan.field.description') ?> </label>
-                    <div>
-                        <textarea id="frm_create_description" name="description"
-                            placeholder="<?= lang('Perpanjangan.field.description') ?> " rows="2"
-                            class="form-control autosize-input"
-                            style="min-height: 38px;"><?= set_value('description') ?></textarea>
+                            <label for="description"><?= lang('Perpanjangan.field.description') ?> </label>
+                            <div>
+                                <textarea id="frm_create_description" name="description"
+                                    placeholder="<?= lang('Perpanjangan.field.description') ?> " rows="2"
+                                    class="form-control autosize-input"
+                                    style="min-height: 38px;"><?= set_value('description') ?></textarea>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                    </div>
 
 
 
@@ -142,7 +153,7 @@ $anggotas = $baseModel
 
 
 
-            
+
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary"
@@ -158,25 +169,55 @@ $anggotas = $baseModel
 
 <?= $this->section('script'); ?>
 <script>
+$('#package').on('change', function() {
+    // ambil data dari elemen option yang dipilih
+    const no_anggota = $('#package option:selected').data('no_anggota');
+    const name = $('#package option:selected').data('name');
+    // const NoHp = $('#package option:selected').data('NoHp');
+    const email = $('#package option:selected').data('email');
+    const address = $('#package option:selected').data('address');
+    const nomor = $('#package option:selected').data('nomor');
+    const date = $('#package option:selected').data('date');
+    const id = $('#package option:selected').data('id');
+    // alert(date);
+    
+
+
+
+
+    // tampilkan data ke element
+    $('[name=no_anggota]').html(no_anggota);
+    $('#anggota_id').val(id);
+    $('#name').html(name);
+    $('#date').html(date);
+    $('#nomor').html(nomor);
+    $('[name=email]').html(email);
+    $('[name=address]').html(address);
+    //   $('[name=discount]').val(totalDiscount);
+
+    //   $('#total').text(`Rp ${total}`);
+});
+</script>
+<script>
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
 });
 
 
-$(".btn-pilih").click(function(){
-		var id = $(this).data('id');
-		var name = $(this).data('name');
-		var MemberNo = $(this).data('MemberNo');
-		// var judul = $(this).data('judul');
-		// var penanggungjawab = $(this).data('penanggungjawab');
+$(".btn-pilih").click(function() {
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+    var MemberNo = $(this).data('MemberNo');
+    // var judul = $(this).data('judul');
+    // var penanggungjawab = $(this).data('penanggungjawab');
 
-		// $('#frm_create_name').val(judul);
-		// $('#penanggungjawab').val(penanggungjawab);
-		$('#anggota_id').val(id);
-		$('#name').html(name);
-		$('#MemberNo').html(MemberNo);
+    // $('#frm_create_name').val(judul);
+    // $('#penanggungjawab').val(penanggungjawab);
+    $('#anggota_id').val(id);
+    $('#name').html(name);
+    $('#MemberNo').html(MemberNo);
 
-		$('#modal_create').modal('hide');
-	});
+    $('#modal_create').modal('hide');
+});
 </script>
 <?= $this->endSection('script'); ?>

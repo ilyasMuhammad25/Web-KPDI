@@ -189,10 +189,9 @@
                                                 <option value="" disabled selected>
                                                     <?=lang('Anggota.field.Jenisanggota')?>
                                                 </option>
-                                                <?php foreach ($ref_jenisanggota as $row): ?>
-                                                <option value="<?=$row->id?>">
-                                                    <?=$row->name?>
-                                                </option>
+                                             
+                                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
+                                                <option value="<?=$row->code?>"><?=$row->text?></option>
                                                 <?php endforeach;?>
                                             </select>
                                         </div>
@@ -239,7 +238,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.Biayapendaftaran')?></label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_BiayaPendaftaran"
+                                            <input type="number" class="form-control" id="frm_create_BiayaPendaftaran"
                                                 name="BiayaPendaftaran"
                                                 placeholder=<?=lang('Anggota.field.Biayapendaftaran')?>
                                                 value="<?=set_value('BiayaPendaftaran');?>" />
@@ -293,7 +292,7 @@
                                         <div>
                                             <select class="form-control select2" name="Provincy" id="Provincy"
                                                 tabindex="-1" aria-hidden="true" style="width:100%">
-                                                <option value="">-Pilih-</option>
+                                                <option value=""  disabled selected>Pilih</option>
                                                 <?php foreach(get_dropdown('m_propinsi') as $row):?>
                                                 <option value="<?=$row->code?>"><?=$row->text?></option>
                                                 <?php endforeach;?>
@@ -308,7 +307,7 @@
                                             <select class="form-control select2" name="City" id="City" tabindex="-1"
                                                 aria-hidden="true" style="width:100%"
                                                 data-url="<?=base_url('api/anggota/cities')?>">
-                                                <option value="">-Pilih-</option>
+                                                <option value=""  disabled selected>Pilih</option>
                                             </select>
                                         </div>
                                     </div>
@@ -317,7 +316,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name">Kecamatan</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_kecamatan"
+                                            <input type="text" class="form-control" id="kecamatan"
                                                 name="kecamatan" placeholder="Kecamatan"
                                                 value="<?=set_value('Kecamatan');?>" />
                                         </div>
@@ -327,7 +326,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name">Kelurahan</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_kelurahan"
+                                            <input type="text" class="form-control" id="kelurahan"
                                                 name="kelurahan" placeholder="Kelurahan"
                                                 value="<?=set_value('Kelurahan');?>" />
                                         </div>
@@ -379,10 +378,13 @@
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
                                         <div>
-                                            <input type="text" class="form-control" id="ProvincyNow" name="ProvincyNow"
-                                                placeholder="<?=lang('Anggota.field.provinsi')?>"
-                                                value="<?=set_value('ProvincyNow');?>" />
-                                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
+                                        <select class="form-control select2" name="ProvincyNow" id="ProvincyNow"
+                                                tabindex="-1" aria-hidden="true" style="width:100%">
+                                                <option value=""  disabled selected>Pilih</option>
+                                                <?php foreach(get_dropdown('m_propinsi') as $row):?>
+                                                <option value="<?=$row->code?>"><?=$row->text?></option>
+                                                <?php endforeach;?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -390,9 +392,11 @@
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.city')?></label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_City" name="CityNow"
-                                                placeholder="<?=lang('Anggota.field.city')?>"
-                                                value="<?=set_value('CityNow');?>" />
+                                        <select class="form-control select2" name="CityNow" id="CityNow" tabindex="-1"
+                                                aria-hidden="true" style="width:100%"
+                                                data-url="<?=base_url('api/anggota/cities')?>">
+                                                <option value=""  disabled selected>Pilih</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -400,7 +404,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name">Kecamatan</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_kecamatan"
+                                            <input type="text" class="form-control" id="kecamatanNow"
                                                 name="kecamatanNow" placeholder="Kecamatan"
                                                 value="<?=set_value('KecamatanNow');?>" />
                                         </div>

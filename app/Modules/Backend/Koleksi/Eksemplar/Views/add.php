@@ -335,11 +335,11 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                     <div class="position-relative form-group">
-                                        <label for="name"><?=lang('Anggota.field.provinsi')?></label>
+                                        <label for="name"><?=lang('Eksemplar.field.lokasiperpustakaan')?></label>
                                         <div>
-                                            <select class="form-control select2" name="Provincy" id="Provincy"
+                                            <select class="form-control select2" name="Location_Library_id" id="Location_Library"
                                                 tabindex="-1" aria-hidden="true" style="width:100%">
                                                 <option value="">-Pilih-</option>
                                                 <?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
@@ -349,11 +349,11 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="position-relative form-group">
-                                        <label for="name"><?=lang('Anggota.field.city')?></label>
+                                        <label for="name"><?=lang('Eksemplar.field.lokasiruang')?></label>
                                         <div>
-                                            <select class="form-control select2" name="City" id="City" tabindex="-1"
+                                            <select class="form-control select2" name="Location_id" id="Location_id" tabindex="-1"
                                                 aria-hidden="true" style="width:100%"
                                                 data-url="<?=base_url('api/eksemplar/location')?>">
                                                 <option value="">-Pilih-</option>
@@ -481,10 +481,10 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 
 <script>
 		$( document ).ready(function() {
-		$('#Provincy').change(function() {
+		$('#Location_Library').change(function() {
 			var Lokasi_perpustakaan_id = $(this).val();
 			var uriParam = '?Lokasi_perpustakaan_id='+Lokasi_perpustakaan_id;
-			getDropdown('City', uriParam, 'Pilih', false, false);
+			getDropdown('Location_id', uriParam, 'Pilih', false, false);
 		});
 	});
 </script>

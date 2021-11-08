@@ -65,7 +65,7 @@ $request->uri->setSilent();
                                     aria-hidden="true" style="width:100%">
                                     <option value="">-No Anggota-</option>
                                     <?php foreach($anggota as $row):?>
-                                    <option value="<?=$row->id?>"><?=$row->MemberNo?></option>
+                                    <option value="<?=$row->id?>"><?=$row->MemberNo?>-<?=$row->name?></option>
                                     <?php endforeach;?>
 
                                 </select>

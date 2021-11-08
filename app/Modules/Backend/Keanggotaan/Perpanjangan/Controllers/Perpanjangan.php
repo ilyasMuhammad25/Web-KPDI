@@ -10,6 +10,7 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $authorize;
     // protected $anggotaModel;
     protected $anggotaModel;
+    protected $perpanjanganModel;
     protected $uploadPath;
     protected $modulePath;
     
@@ -18,7 +19,7 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
         
-        // $this->anggotaModel = new \Perpanjangan\Models\anggotaModel();
+        $this->perpanjanganModel = new \Perpanjangan\Models\PerpanjanganModel();
         $this->anggotaModel = new \Anggota\Models\AnggotaModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/perpanjangan/';
@@ -55,18 +56,21 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-        $query = $this->anggotaModel
-        ->select('t_anggota.*')
+        $query = $this->perpanjanganModel
+        ->select('t_perpanjangan.*')
         ->select('created.username as created_name')
         ->select('updated.username as updated_name')
-        ->join('users created','created.id = t_anggota.created_by','left')
-        ->join('users updated','updated.id = t_anggota.updated_by','left');
+        ->select('t_anggota_id.name as nama')
+        ->select('t_anggota_id.MemberNo as MembersNo')
+        ->join('users created','created.id = t_perpanjangan.created_by','left')
+        ->join('users updated','updated.id = t_perpanjangan.updated_by','left')
+        ->join('t_anggota t_anggota_id','t_anggota_id.id = t_perpanjangan.t_anggota_id','left');
         
-    $anggotas = $query->findAll();
+    $perpanjangans = $query->findAll();
     // $Nomember=$this->anggotaModel->MemberNo();
     $this->data['title'] = 'Daftar perpanjangan';
     $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-    $this->data['anggotas'] = $anggotas;
+    $this->data['perpanjangans'] = $perpanjangans;
         echo view('Perpanjangan\Views\list', $this->data);
     }
 
@@ -80,17 +84,26 @@ class Perpanjangan extends \hamkamannan\adminigniter\Controllers\BaseController
 
         $this->data['title'] = 'Tambah Perpanjangan';
 
-		$this->validation->setRule('member_no', 'Nomor Anggota', 'required');
+		$this->validation->setRule('t_anggota_id', 't_anggota_id', 'required');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-			$member_no = $this->request->getPost('member_no');
-			$anggota = $this->anggotaModel->where('MemberNo',$member_no)->get()->getRow();
-
-            $save_data = [
-				'anggota_id' => $anggota->id,
-                'created_by' => user_id(),
-            ];
-
-            $newPerpanjanganId = $this->anggotaModel->insert($save_data);
+		 $id_anggota= $this->request->getPost('t_anggota_id');
+                $save_data = [
+                    't_anggota_id' =>  $id_anggota,
+                    'biaya' => $this->request->getPost('biaya'),                  
+                    'description' => $this->request->getPost('description'),
+                    'updated_by' => user_id(),
+                ];
+            //  dd($save_data);
+            $newPerpanjanganId = $this->perpanjanganModel->insert($save_data);
+            // dd($newPerpanjanganId);
+            if($newPerpanjanganId){
+                 $data=[
+                    'EndDate' =>$this->request->getPost('EndDate'),
+                    'ref_jenisanggota' =>$this->request->getPost('ref_jenisanggota')
+                 ];
+                // $builder = $this->anggotaModel->where('id', $id);
+               $this->anggotaModel->update($id_anggota,$data);
+            }
 
             if ($newPerpanjanganId) {
                 add_log('Tambah Perpanjangan', 'perpanjangan', 'create', 't_anggota', $newPerpanjanganId);

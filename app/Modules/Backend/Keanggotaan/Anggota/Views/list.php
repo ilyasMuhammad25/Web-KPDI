@@ -88,9 +88,7 @@ $request->uri->setSilent();
                             <span class="badge badge-info"><?=_spec($row->updated_name ?? '-');?></span>
                         </td>
                         <td width="130">
-                            <?php if (is_allowed('anggota/detail')): ?>
-                            	<a href="<?=base_url('anggota/detail/' . $row->id)?>" data-toggle="tooltip" data-placement="top" title="Detail" class="btn btn-primary show-data" style="min-width:37px"><i class="pe-7s-note2 font-weight-bold"></i></a>
-                            <?php endif;?>
+                            
                             <?php if (is_allowed('anggota/edit')): ?>
                             	<a href="<?=base_url('anggota/edit/' . $row->id)?>" data-toggle="tooltip" data-placement="top" title="Ubah" class="btn btn-warning show-data" style="min-width:37px"><i class="pe-7s-note font-weight-bold"></i></a>
                             <?php endif;?>

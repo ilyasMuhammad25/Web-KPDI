@@ -6,6 +6,8 @@ use PHPExcel;
 use PHPExcel_IOFactory;
 use DataTables\DataTables;
 use Config\Services;
+use Myth\Auth\Entities\User;
+use Myth\Auth\Models\UserModel;
 class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 {
 	protected $auth;
@@ -148,7 +150,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		// 	return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
 		// }
 
-		// // Save the user
+		// Save the user
 		// $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
 		// $user = new User($this->request->getPost($allowedPostFields));
 
@@ -178,12 +180,13 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_unitkerja'] = get_ref('ref_unitkerja');
 		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
 		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
-		$this->data['ref_Statusanggota'] = get_ref('statanggota');
+		$this->data['ref_Statusanggota'] = get_ref('ref_Statusanggota');
 		$this->data[' MemberNo'] =  get_MemberNo();
 		// $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 		$this->data['title'] = 'Tambah Anggota';
 		$this->validation->setRule('name', 'Nama', 'required');
 		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
+		$this->validation->setRule('Email', 'Email', 'required');
 		if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$slug = url_title($this->request->getPost('name'), '-', TRUE);
 			// $tanggal_lahir 	= $this->request->getPost('DateOfBirth');
@@ -231,7 +234,8 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			'ref_Statusanggota'=>$this->request->getPost('ref_Statusanggota'),
 			'sort' => $this->request->getPost('sort'),
 			'description' => $this->request->getPost('description'),
-			'RegisterDate' => $this->request->getPost('RegisterDate'),
+			'RegisterDate' => date("Y-m-d H:i:s"),
+			'EndDate' => $this->request->getPost('EndDate'),
 			'created_by' => user_id(),
 			];
 			// Logic Upload
