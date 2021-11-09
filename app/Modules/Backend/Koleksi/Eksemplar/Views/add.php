@@ -80,25 +80,13 @@ $katalogs = $katalogModel->orderBy('title','asc')->get()->getResult();
 <?=$this->include('Eksemplar\Views\katalog_modal');?>
 
 <script>
-<<<<<<< HEAD
-		$( document ).ready(function() {
-		$('#Location_Library').change(function() {
-=======
 	$( document ).ready(function() {
-<<<<<<< HEAD
 		$(".btn-generate").click();
 
 		$('#location_library_id').change(function() {
 			var id = $(this).val();
 			var uriParam = '?Lokasi_perpustakaan_id='+id;
 			getDropdown('location_room_id', uriParam, '-Pilih-', false, false);
-=======
-		$('#Provincy').change(function() {
->>>>>>> 9aaf98bc4a79137eaf029ec78f87f05c45bb9dd4
-			var Lokasi_perpustakaan_id = $(this).val();
-			var uriParam = '?Lokasi_perpustakaan_id='+Lokasi_perpustakaan_id;
-			getDropdown('Location_id', uriParam, 'Pilih', false, false);
->>>>>>> 4e816188edb277cbd06a0c227da92d514b6ccc3f
 		});
 	});
 </script>
