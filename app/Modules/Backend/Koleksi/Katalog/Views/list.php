@@ -73,11 +73,11 @@
 					<tr>
 						<td width="35"></td>
 						<td width="150">
-							<?= _spec($row->BIBID); ?> <br>
+							<?= _spec($row->bibid); ?> <br>
 						</td>
-						<td><?= _spec($row->Title); ?></td>
-						<td width="250"><?= _spec($row->Author); ?></td>
-						<td width="250"><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
+						<td><?= _spec($row->title); ?></td>
+						<td width="250"><?= _spec($row->author); ?></td>
+						<td width="250"><?= _spec($row->publish_location); ?> : <?= _spec($row->publisher); ?>, <?= _spec($row->publish_year); ?></td>
 						<td width="50">
 							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="is_quarantine" data-id="<?=$row->id?>" <?= ($row->is_quarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
 						</td>

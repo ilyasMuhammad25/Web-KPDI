@@ -59,7 +59,7 @@
                         <td width="35"><?= $i++; ?></td>
                         <td><input type="checkbox" name="checkItem[]" id="checkItem" value="<?= $row->id ?>"></td>
                         <td width="200">
-                            <?= _spec($row->NomorBarcode); ?> <br>
+                            <?= _spec($row->barcode_no); ?> <br>
                         </td>
                         <td width="200">
                             <?= _spec($row->TanggalPengadaan); ?> <br>

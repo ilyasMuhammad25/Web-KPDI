@@ -1,11 +1,8 @@
 <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
-$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_catalog');
-$katalogs = $baseModel
-    ->find_all('name', 'asc');
-    // dd($katalog);
+$katalogModel = new \Katalog\Models\KatalogModel();
+$katalogs = $katalogModel->orderBy('title','asc')->get()->getResult();
 ?>
 
 <div class="modal fade" id="modal_create" tabindex="-1" role="dialog" aria-hidden="true">
@@ -32,26 +29,18 @@ $katalogs = $baseModel
                         <th width="45">Aksi</th>
                     </tr>
                 </thead>
-                <!-- <tbody>
-					<tr>
-						<td>1</td>
-						<td colspan="6">Judul 1</td>
-						<td><button type="button" data-id="1" data-judul="Judul 1" class="btn btn-primary btn-pilih">Pilih</button></td>
-					</tr>
-                </tbody> -->
-
                 <tbody>
                     <?php foreach ($katalogs as $row) : ?>
                         <tr>
                             <td width="35"></td>
 							<td width="100">
-								<?= _spec($row->BIBID); ?> <br>
+								<?= _spec($row->bibid); ?> <br>
 							</td>
-							<td><?= _spec($row->Title); ?></td>
-							<td><?= _spec($row->Author); ?></td>
-							<td><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
+							<td><?= _spec($row->title); ?></td>
+							<td><?= _spec($row->author); ?></td>
+							<td><?= _spec($row->publication); ?> </td>
                             <td width="45">
-                            	<button type="button" data-id= <?= _spec($row->id); ?> data-judul= "<?= _spec($row->Title); ?>" data-penanggungjawab="<?= _spec($row->description); ?>" class="btn btn-primary btn-pilih">Pilih</button></td>
+                            	<button type="button" data-catalog_id= <?= _spec($row->id); ?> data-title="<?= _spec($row->title); ?>" class="btn btn-success select-data"><i class="fa fa-check-circle"></i> Pilih</button></td>
                             </td>
                         </tr>
                     <?php endforeach; ?>

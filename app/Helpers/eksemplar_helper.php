@@ -1,70 +1,70 @@
 <?php
 if (!function_exists('get_eksemplar')) {
-    function get_eksemplar($NomorBarcode)
+    function get_eksemplar($barcode_no)
     {
         $eksemplarModel = new \Eksemplar\Models\EksemplarModel();
-		$data = $eksemplarModel->where('NomorBarcode',$NomorBarcode)->get()->getRow();
+		$data = $eksemplarModel->where('barcode_no',$barcode_no)->get()->getRow();
 
         return $data;
     }
 }
 
-if (!function_exists('BarcodeNumber_helper')) {
-    function BarcodeNumber_helper()
+if (!function_exists('get_barcode_no')) {
+    function get_barcode_no()
     {
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable('t_eksemplar');
         $kode = $baseModel
-        ->select ('RIGHT(NomorBarcode,4) as NomorBarcode', false)
-        ->orderBy('NomorBarcode','DESC')
+        ->select ('RIGHT(barcode_no,4) as barcode_no', false)
+        ->orderBy('barcode_no','DESC')
         ->limit(1)->get()->getRowArray();
 
-        if (empty($kode['NomorBarcode'])){
+        if (empty($kode['barcode_no'])){
             $no=1;
         }else{
-            $no=intval($kode['NomorBarcode']) + 1; }
+            $no=intval($kode['barcode_no']) + 1; }
         $batas = str_pad($no, 7, "0", STR_PAD_LEFT);
-        $NomorBarcode = $batas;
-        return $NomorBarcode;
+        $barcode_no = $batas;
+        return $barcode_no;
     }
     
 }
 
-if (!function_exists('RFID_helper')) {
-    function RFID_helper()
+if (!function_exists('get_rfid')) {
+    function get_rfid()
     {
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable('t_eksemplar');
         $kode = $baseModel
-        ->select ('RIGHT(RFID,4) as RFID', false)
-        ->orderBy('RFID','DESC')
+        ->select ('RIGHT(rfid,4) as rfid', false)
+        ->orderBy('rfid','DESC')
         ->limit(1)->get()->getRowArray();
 
-        if (empty($kode['RFID'])){
+        if (empty($kode['rfid'])){
             $no=1;
         }else{
-            $no=intval($kode['RFID']) + 1; }
+            $no=intval($kode['rfid']) + 1; }
         $batas = str_pad($no, 7, "0", STR_PAD_LEFT);
-        $NomorBarcode = $batas;
-        return $NomorBarcode;
+        $barcode_no = $batas;
+        return $barcode_no;
     }
     
 }
 
-if (!function_exists('NoInduk_helper')) {
-    function NoInduk_helper()
+if (!function_exists('get_register_no')) {
+    function get_register_no()
     {
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable('t_eksemplar');
         $kode = $baseModel
-        ->select ('RIGHT(NoInduk,7) as RFID', false)
-        ->orderBy('NoInduk','DESC')
+        ->select ('RIGHT(register_no,7) as register_no', false)
+        ->orderBy('register_no','DESC')
         ->limit(1)->get()->getRowArray();
 
-        if (empty($kode['NoInduk'])){
+        if (empty($kode['register_no'])){
             $no=1;
         }else{
-            $no=intval($kode['NoInduk']) + 1; }
+            $no=intval($kode['register_no']) + 1; }
         $year= date('Y');
         $batas = str_pad($no, 7, "0", STR_PAD_LEFT);
         $NomorInduk = $year.$batas;
@@ -72,29 +72,6 @@ if (!function_exists('NoInduk_helper')) {
     }
     
 }
-
-
-// if (!function_exists('RFID_helper')) {
-//     function RFID_helper()
-//     {
-//         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-//         $baseModel->setTable('t_eksemplar');
-//         $kode = $baseModel
-//         ->select('MAX(RFID) AS MaxRFID')
-//         ->Where('RFID LIKE "RFID0%"');
-//         //get last control number
-//         // $query2 = $conn->query('SELECT MAX(NomorBarcode) AS MaxNomorBarcode FROM collections WHERE NomorBarcode LIKE "BRCD0%"');
-//         $row = $kode->getRow()->MaxRFID;
-    
-//         if ($row >= 0) {
-//             $RFIDNumber = (int)preg_replace('/[^0-9]/', '', $row);
-//         }
-//         $newRFIDNumber =  'BRCD' . str_pad((int)$RFIDNumber + 1, 11, '0', STR_PAD_LEFT);
-    
-//         return $newRFIDNumber;
-//     }
-    
-// }
 
 
 ?>

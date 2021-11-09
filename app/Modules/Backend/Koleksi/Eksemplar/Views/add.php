@@ -1,11 +1,8 @@
 <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
-$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_catalog');
-$katalogs = $baseModel
-    ->find_all('name', 'asc');
-    // dd($katalog);
+$katalogModel = new \Katalog\Models\KatalogModel();
+$katalogs = $katalogModel->orderBy('title','asc')->get()->getResult();
 ?>
 
 <?=$this->extend(config('Core')->layout_backend);?>
@@ -45,7 +42,7 @@ $katalogs = $baseModel
             <?=lang('Eksemplar.action.add')?> <?=lang('Eksemplar.module')?>
             <div class="btn-actions-pane-right actions-icon-btn">
                 <?php if (is_allowed('Eksemplar/create')): ?>
-                	<a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class=" btn btn-success" title="Pilih katalog"><i class="fa fa-book"></i> Pilih Katalog</a>
+                	<a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class=" btn btn-success" title="Pilih katalog"><i class="fa fa-th-list"></i> Pilih Katalog</a>
                 <?php endif;?>
             </div>
         </div>
@@ -66,8 +63,7 @@ $katalogs = $baseModel
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary"
-                        name="submit"><?=lang('Eksemplar.action.save')?></button>
+                    <button type="submit" class="btn btn-primary" name="submit"><?=lang('Eksemplar.action.save')?></button>
                 </div>
             </form>
         </div>
@@ -85,55 +81,59 @@ $katalogs = $baseModel
 
 <script>
 	$( document ).ready(function() {
-		$('#Provincy').change(function() {
-			var Lokasi_perpustakaan_id = $(this).val();
-			var uriParam = '?Lokasi_perpustakaan_id='+Lokasi_perpustakaan_id;
-			getDropdown('City', uriParam, 'Pilih', false, false);
+		$(".btn-generate").click();
+
+		$('#location_library_id').change(function() {
+			var id = $(this).val();
+			var uriParam = '?Lokasi_perpustakaan_id='+id;
+			getDropdown('location_room_id', uriParam, '-Pilih-', false, false);
 		});
 	});
 </script>
 
 <script>
-$('.select2').select2();
-$(".btn-pilih").click(function() {
-    var id = $(this).data('id');
-    var judul = $(this).data('judul');
-    var penanggungjawab = $(this).data('penanggungjawab');
+$('.select2').select2({theme: "bootstrap4",});
 
-    $('#frm_create_name').val(judul);
-    $('#penanggungjawab').val(penanggungjawab);
-    $('#catalog_id').val(id);
+$("body").on("click", ".select-data", function() {
+	var catalog_id = $(this).data('catalog_id');
+    var title_arr = $(this).data('title').split(';');
 
-    $('#modal_create').modal('hide');
+	$('#catalog_id').val(catalog_id);
+	$('#title').val(title_arr[0]);
+	$('#title2').val(title_arr[1]);
+	$('#title3').val(title_arr[2]);
+
+	$('#modal_create').modal('hide');
+	return false;
 });
 
 $(".btn-generate").click(function() {
-    var exemplar = $('#jml_eksemplar').val();
+    var exemplar = $('#generate_no').val();
     var index = Date.now();
     var tbody = $(this).data('tbody');
 
-    var prefix_no_barcode = "<?=get_parameter('prefix_no_barcode', 'BRCD')?>";
+    var prefix_barcode_no = "<?=get_parameter('prefix_barcode_no', 'BRCD')?>";
     var prefix_rfid = "<?=get_parameter('prefix_rfid', 'RFID')?>";
 
-    var no_barcode = "<?=BarcodeNumber_helper()?>";
-    var no_induk = "<?=NoInduk_helper()?>";
-    var rfid = "<?=RFID_helper()?>";
-    var no_panggil = "";
+    var barcode_no = "<?=get_barcode_no()?>";
+    var register_no = "<?=get_register_no()?>";
+    var rfid = "<?=get_rfid()?>";
+    var call_no = "";
 
     $('#' + tbody).empty();
     for (let i = 0; i < exemplar; i++) {
-        no_panggil = rfid;
+        call_no = rfid;
         $('#' + tbody).append(`
 				<tr>
-					<td><input name="no_barcode[` + i + `]" type="text" class="form-control barcode" value="` + prefix_no_barcode + '' + pad(no_barcode, 7) + `" readonly></td>
-					<td><input name="no_induk[` + i + `]" type="text" class="form-control barcode" value="` + no_induk + `" readonly></td>
+					<td><input name="barcode_no[` + i + `]" type="text" class="form-control barcode" value="` + prefix_barcode_no + '' + pad(barcode_no, 7) + `" readonly></td>
+					<td><input name="register_no[` + i + `]" type="text" class="form-control barcode" value="` + register_no + `" readonly></td>
 					<td><input name="rfid[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' + pad(rfid,7) + `" readonly></td>
-					<td><input name="no_panggil[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' +pad(no_panggil, 7) + `"></td>
+					<td><input name="call_no[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' +pad(call_no, 7) + `"></td>
 				</tr>
 			`);
 
-        no_barcode++;
-        no_induk++;
+		barcode_no++;
+        register_no++;
         rfid++;
     }
 });

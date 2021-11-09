@@ -30,7 +30,7 @@
 		<tr>
 			<td>
 				<?=$barcode?> <br>
-				*<?=$eksempalar->NomorBarcode ?>*
+				*<?=$eksempalar->barcode_no ?>*
 			</td>
 			<td>
 				<?=$eksempalar->CallNumber ?>

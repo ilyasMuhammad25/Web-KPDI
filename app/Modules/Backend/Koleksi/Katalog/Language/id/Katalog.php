@@ -47,7 +47,7 @@ return [
    'action.add'  => 'Entri',
    'action.new'  => 'Baru',
    'action.save'  => 'Simpan',
-   'action.edit'  => 'Edit',
+   'action.edit'  => 'Ubah',
    'action.update'  => 'Ubah',
    'action.view'  => 'Lihat',
    'action.detail'  => 'Detil',

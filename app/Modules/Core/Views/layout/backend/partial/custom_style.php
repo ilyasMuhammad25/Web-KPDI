@@ -1,4 +1,15 @@
 <style>
+.select-wrapper > .select2-container--bootstrap4 {
+    width: auto;
+    flex: 1 1 auto;
+}
+
+.select-wrapper > .select2-container--bootstrap4 .select2-selection--single {
+    height: 100%;
+    line-height: inherit;
+    padding: 0.5rem 1rem;
+}
+
 div.dataTables_wrapper div.dataTables_filter {
   float: none;
   text-align: left;

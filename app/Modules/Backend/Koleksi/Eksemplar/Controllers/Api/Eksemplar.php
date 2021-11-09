@@ -172,9 +172,9 @@ class Eksemplar extends ResourceController
 
 	public function location()
 	{
-		$Lokasi_perpustakaan_id = $this->request->getVar('Lokasi_perpustakaan_id');
-		if(!empty($Lokasi_perpustakaan_id)){
-			$data = get_dropdown('m_lokasiruang','Lokasi_perpustakaan_id = '.$Lokasi_perpustakaan_id);
+		$id = $this->request->getVar('Lokasi_perpustakaan_id');
+		if(!empty($id)){
+			$data = get_dropdown('m_lokasiruang','Lokasi_perpustakaan_id = '.$id);
 		} else {
 			$data = get_dropdown('m_lokasiruang');
 		}

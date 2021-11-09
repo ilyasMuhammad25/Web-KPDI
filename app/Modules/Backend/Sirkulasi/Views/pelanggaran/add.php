@@ -125,9 +125,9 @@ $member = get_member($member_no);
 															<input type="checkbox" class="check" name="id[]" value="<?= $row->id; ?>">
 														</td>
 														<td width="100">
-															<?= _spec($row->NomorBarcode); ?> <br>
+															<?= _spec($row->barcode_no); ?> <br>
 														</td>
-														<td width="400"><?= _spec($row->Title); ?></td>
+														<td width="400"><?= _spec($row->catalog_title); ?></td>
 														<td width="100"><?= _spec($row->loan_date); ?></td>
 														<td width="100"><?= _spec($row->due_date); ?></td>
 														<td width="50"><?=get_late_days($row->due_date)?></td>
@@ -167,10 +167,10 @@ $member = get_member($member_no);
 													<tr>
 														<td width="100">
 															<input type="hidden" name="ids[]" value="<?=$row->id?>">
-															<?= _spec($row->options->NomorBarcode); ?> <br>
+															<?= _spec($row->options->barcode_no); ?> <br>
 														</td>
-														<td width="400"><?= _spec($row->options->Title); ?></td>
-														<td><?= _spec($row->options->Publisher); ?></td>
+														<td width="400"><?= _spec($row->options->catalog_title); ?></td>
+														<td><?= _spec($row->options->catalog_publisher); ?></td>
 														<td width="100"><?= _spec($row->options->loan_date); ?></td>
 														<td width="100"><?= _spec($row->options->due_date); ?></td>
 														<td width="35">

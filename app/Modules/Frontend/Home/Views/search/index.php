@@ -7,7 +7,7 @@ $query = $katalogModel
     ->where('t_catalog.active',1);
 
 $keyword = $request->getVar('pDataItem');
-$type = $request->getVar('pType') ?? 'Title';
+$type = $request->getVar('pType') ?? 'title';
 $worksheet = $request->getVar('pLembarkerja');
 
 $count_items = $query->countAllResults(false);
@@ -83,9 +83,9 @@ $pager = $query->pager;
 							<?php foreach($items as $row):?>
 							<?php 
 								$default = base_url('uploads/default/no_cover.jpg');
-								$image = base_url('uploads/katalog/' . $row->CoverURL);
-								$thumb = base_url('uploads/katalog/thumb_' . $row->CoverURL);
-								if (empty($row->CoverURL)) {
+								$image = base_url('uploads/katalog/' . $row->file_image);
+								$thumb = base_url('uploads/katalog/thumb_' . $row->file_image);
+								if (empty($row->file_image)) {
 									$image = $default;
 									$thumb = $default;
 								}
@@ -104,22 +104,22 @@ $pager = $query->pager;
 														</th>
 														<td>
 															<a href="<?=base_url('home/search?slug=#')?>">
-																<p class="b_title"><?=$row->Title?></p>
+																<p class="b_title"><?=$row->title?></p>
 															</a> 
 															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($row->worksheet_id)?></span>
 														</td>
 													</tr>
 													<tr>
 														<th>Kreator/Pengarang</th>
-														<td><?=$row->Author?></td>
+														<td><?=$row->author?></td>
 													</tr>
 													<tr>
 														<th>Penerbitan</th>
-														<td><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
+														<td><?= _spec($row->publication); ?></td>
 													</tr>
 													<tr>
 														<th>No. Panggil</th>
-														<td><?= _spec($row->CallNumber); ?></td>
+														<td><?= _spec($row->call_no); ?></td>
 													</tr>
 													<tr>
 														<th>Konten Digital</th>

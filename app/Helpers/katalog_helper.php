@@ -1,4 +1,354 @@
 <?php
+if (!function_exists('get_catalog_value')) {
+	function get_catalog_value($catalog_id, $tag, $start = '$a', $end = false)
+	{
+		$data = '';
+		$katalogRuasModel = new \Katalog\Models\KatalogRuasModel();
+		$query = $katalogRuasModel
+			->where('t_catalog_ruas.catalog_id', $catalog_id)
+			->where('t_catalog_ruas.tag', $tag);
+
+		$row = $query->get()->getRow();
+		if(!empty($row)){
+			if($end){
+				$data = get_string_between(trim($row->value), $start, $end);
+			} else {
+				$data = get_string_after(trim($row->value), $start);
+			}
+		}
+		return trim($data);
+	}
+}
+
+if (!function_exists('get_catalog_ruas')) {
+	function get_catalog_ruas($catalog_id, $tag)
+	{
+		$data = '';
+		$katalogRuasModel = new \Katalog\Models\KatalogRuasModel();
+		$query = $katalogRuasModel
+			->where('t_catalog_ruas.catalog_id', $catalog_id)
+			->where('t_catalog_ruas.tag', $tag);
+
+		$row = $query->get()->getRow();
+		return $row;
+	}
+}
+
+if (!function_exists('get_ruas')) {
+    function get_ruas($key, $value, $catalog_id = null)
+    {
+		$column = array();
+		switch ($key) {
+			case 'control_no':
+				$column = [
+					'tag'           => '001',
+					'indicator1'    => null,
+					'indicator2'    => null,
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> "\$a $value"
+				];
+				break;
+			case 'bibid':
+				$column = [
+					'tag'           => '035',
+					'indicator1'    => '#',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> "\$a $value"
+				];
+				break;
+			case '005':
+				$column = [
+					'tag'           => $key,
+					'indicator1'    => null,
+					'indicator2'    => null,
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> "$value"
+				];
+				break;
+			case 'isbn':
+				foreach ($value as $row) :
+					$column = [
+						'tag'           => '022',
+						'indicator1'    => '0',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $row"
+					];
+
+				endforeach;
+				break;
+			case 'class_ddc':
+				$column = [
+					'tag'           => '082',
+					'indicator1'    => null,
+					'indicator2'    => null,
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> "\$a $value"
+				];
+				break;
+			case 'call_no':
+				foreach ($value as $row) :
+					$column = [
+						'tag'           => '084',
+						'indicator1'    => '0',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $row"
+					];
+
+				endforeach;
+				break;
+			case 'author':
+				$column = [
+					'tag'           => '100',
+					'indicator1'    => '0',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> '$a ' . $value['100']
+				];
+				break;
+			case 'author_additional':
+				foreach ($value['input'] as $row) :
+					$column = [
+						'tag'           => '700',
+						'indicator1'    => '#',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $row"
+					];
+
+				endforeach;
+				break;
+			case 'title': 
+				$current_value = '';
+				foreach ($value as $i => $row) :
+					$current_value .= "\$$i $row ";
+				endforeach;
+				$column = [
+					'tag'           => '245',
+					'indicator1'    => '#',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> $current_value
+				];
+				break;
+			case 'title_varian':
+				$current_value = '';
+				foreach ($value as $i => $row) :
+					$current_value .= "\$$i $row ";
+				endforeach;
+				$column = [
+					'tag'           => '246',
+					'indicator1'    => '#',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> $current_value
+				];
+				break;
+			case 'title_original':
+				$current_value = '';
+				foreach ($value as $i => $row) :
+					$current_value .= "\$$i $row ";
+				endforeach;
+				$column = [
+					'tag'           => '740',
+					'indicator1'    => '#',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> $current_value
+				];
+				break;
+			case 'title_general':
+				$column = [
+					'tag'           => '830',
+					'indicator1'    => '#',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> '$a ' . $value
+				];
+				break;
+			case 'title_previous':
+				foreach ($value as $prev) :
+					$column = [
+						'tag'           => '247',
+						'indicator1'    => '#',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $prev"
+					];
+
+				endforeach;
+				break;
+			case 'publisher':
+				$current_value = '';
+				foreach ($value as $i => $row) :
+					$current_value .= "\$$i $row ";
+				endforeach;
+				$column = [
+					'tag'           => '260',
+					'indicator1'    => '#',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> rtrim($current_value)
+				];
+				break;
+			case 'description_physical':
+				$current_value = '';
+				foreach ($value as $i => $row) :
+					$current_value .= "\$$i $row ";
+				endforeach;
+				$column = [
+					'tag'           => '300',
+					'indicator1'    => '#',
+					'indicator2'    => '#',
+					'catalog_id' 	=> $catalog_id,
+					'value'        	=> rtrim($current_value)
+				];
+				break;
+			case 'frequency':
+				foreach ($value as $i => $row) :
+					$column = [
+						'tag'           => $i == 'current' ? '310' : '321',
+						'indicator1'    => '#',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $row"
+					];
+
+				endforeach;
+				break;
+			case 'notes':
+				foreach ($value['input'] as $i => $row) :
+					$column = [
+						'tag'           => '520',
+						'indicator1'    => '#',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $row"
+					];
+
+				endforeach;
+				break;
+			case 'subject':
+				foreach ($value['desc'] as $i => $row) :
+					$column = [
+						'tag'           => '600',
+						'indicator1'    => '#',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $row"
+					];
+
+				endforeach;
+				break;
+			case 'location':
+				foreach ($value as $i => $row) :
+					$column = [
+						'tag'           => '856',
+						'indicator1'    => '#',
+						'indicator2'    => '#',
+						'catalog_id' 	=> $catalog_id,
+						'value'        	=> "\$a $row"
+					];
+
+				endforeach;
+				break;
+			default:
+				'do nothing';
+				break;
+		}
+
+		return $column;
+    }
+}
+
+if (!function_exists('get_control_number')) {
+    function get_control_number($id = null)
+    {
+        if (!empty($id)) {
+            $row = db_get_data([
+                'table'     => 't_catalog_ruas',
+                'select'    => "Value` AS max",
+                'where'     => [
+                    ['field' => 'Catalogid', 'value' => $id],
+                    ['field' => 'Tag', 'value' => '001'],
+                ]
+            ])->getRowArray()['max'];
+
+            $newControlNumber =  substr($row, 3);
+        } else {
+            $row = db_get_data([
+                'table'     => 't_catalog',
+                'select'    => 'MAX(REPLACE(control_no,"INLIS", "")) AS max',
+                'like'      => ['control_no' => 'INLIS0']
+            ])->getRowArray()['max'];
+
+
+            if ($row >= 0) {
+                $controlNumber = (int)preg_replace('/[^0-9]/', '', $row);
+            }
+            $newControlNumber =  'INLIS' . str_pad((int)$controlNumber + 1, 15, '0', STR_PAD_LEFT);
+        }
+
+        return $newControlNumber;
+    }
+}
+
+if (!function_exists('get_bib_id')) {
+    function get_bib_id($id = null)
+    {
+        if (!empty($id)) {
+            $row = db_get_data([
+                'table'     => 't_catalog_ruas',
+                'select' => 'value AS max',
+                'where'  => [
+                    ['field' => 'catalog_id', 'value' => $id],
+                    ['field' => 'tag', 'value' => '035'],
+                ]
+            ])->getRowArray()['max'];
+
+            $newId =  substr($row, 3);
+        } else {
+            $yearMonth =  date('my');
+            $row = db_get_data([
+                'table'     => 't_catalog',
+                'select'    => "SUBSTR(MAX(BIBID),'0010-$yearMonth') AS max",
+                'like'      => ['BIBID' => "0010-$yearMonth"],
+                'where'     =>
+                [
+                    ['field' => 'LENGTH(BIBID)', 'value' => '15'],
+                ]
+            ])->getRowArray()['max'];
+
+            $maxId =  (int)$row + 1;
+            $newId =  '0010-' . $yearMonth . str_pad($maxId, 6, '0', STR_PAD_LEFT);
+        }
+        return $newId;
+    }
+}
+
+if (!function_exists('get_imploded_array')) {
+    function get_imploded_array($post, $param)
+    {
+        $fixdata = (is_array($post) ?  implode($param, $post) : $post);
+
+        return $fixdata;
+    }
+}
+
+if (!function_exists('get_imploded_penerbit')) {
+    function get_imploded_penerbit($post, $var = null)
+    {
+        $arrPenerbit = '';
+        foreach ($post as $key => $value) {
+            $arrPenerbit .=  (!empty($var) ?  $value[$var] . ';' : implode(" ", $value) . ';');
+        }
+
+        return $arrPenerbit;
+    }
+}
+
 if (!function_exists('get_eksemplars')) {
 	function get_eksemplars($catalog_id)
 	{
@@ -169,289 +519,4 @@ if (!function_exists('get_search_by_label2')) {
 		}
 		return $alias_name;
 	}
-}
-
-if (!function_exists('get_control_number')) {
-    function get_control_number($id = null)
-    {
-        if (!empty($id)) {
-            $row = db_get_data([
-                'table'     => 't_catalog_ruas',
-                'select'    => "Value` AS max",
-                'where'     => [
-                    ['field' => 'Catalogid', 'value' => $id],
-                    ['field' => 'Tag', 'value' => '001'],
-                ]
-            ])->getRowArray()['max'];
-
-            $newControlNumber =  substr($row, 3);
-        } else {
-            $row = db_get_data([
-                'table'     => 't_catalog',
-                'select'    => 'MAX(REPLACE(ControlNumber,"INLIS", "")) AS max',
-                'like'      => ['ControlNumber' => 'INLIS0']
-            ])->getRowArray()['max'];
-
-
-            if ($row >= 0) {
-                $controlNumber = (int)preg_replace('/[^0-9]/', '', $row);
-            }
-            $newControlNumber =  'INLIS' . str_pad((int)$controlNumber + 1, 15, '0', STR_PAD_LEFT);
-        }
-
-        return $newControlNumber;
-    }
-}
-
-if (!function_exists('get_ruas')) {
-    function get_ruas($key, $value, $catalog_id = null)
-    {
-		$column = array();
-		switch ($key) {
-			case 'ControlNumber':
-				$column = [
-					'tag'           => '001',
-					'indicator1'    => null,
-					'indicator2'    => null,
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> "\$a $value"
-				];
-				break;
-			case 'BIBID':
-				$column = [
-					'tag'           => '035',
-					'indicator1'    => '#',
-					'indicator2'    => '#',
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> "\$a $value"
-				];
-				break;
-			case '005':
-				$column = [
-					'tag'           => $key,
-					'indicator1'    => null,
-					'indicator2'    => null,
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> "$value"
-				];
-				break;
-			case 'issn':
-				foreach ($value as $issn) :
-					$column = [
-						'tag'           => '022',
-						'indicator1'    => '0',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $issn"
-					];
-
-				endforeach;
-				break;
-			case 'class-ddc':
-				$column = [
-					'tag'           => '082',
-					'indicator1'    => null,
-					'indicator2'    => null,
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> "\$a $value"
-				];
-				break;
-			case 'callnumber':
-				foreach ($value as $callno) :
-					$column = [
-						'tag'           => '084',
-						'indicator1'    => '0',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $callno"
-					];
-
-				endforeach;
-				break;
-			case 'author':
-				$column = [
-					'tag'           => '100',
-					'indicator1'    => '0',
-					'indicator2'    => '#',
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> '$a ' . $value['100']
-				];
-				break;
-			case 'additional-author':
-				foreach ($value['input'] as $additionalAuthor) :
-					$column = [
-						'tag'           => '700',
-						'indicator1'    => '#',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $additionalAuthor"
-					];
-
-				endforeach;
-				break;
-			case 'title':
-				$currentValue = '';
-				foreach ($value as $i => $title) :
-					$currentValue .= "\$$i $title ";
-				endforeach;
-				$column = [
-					'tag'           => '245',
-					'indicator1'    => '#',
-					'indicator2'    => '#',
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> $currentValue
-				];
-				break;
-			case 'previous-title':
-				foreach ($value as $prev) :
-					$column = [
-						'tag'           => '247',
-						'indicator1'    => '#',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $prev"
-					];
-
-				endforeach;
-				break;
-			case 'publisher':
-				$currentValue = '';
-				foreach ($value as $i => $pub) :
-					$currentValue .= "\$$i $pub ";
-				endforeach;
-				$column = [
-					'tag'           => '260',
-					'indicator1'    => '#',
-					'indicator2'    => '#',
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> rtrim($currentValue)
-				];
-				break;
-			case 'physical-description':
-				$currentValue = '';
-				foreach ($value as $i => $phy) :
-					$currentValue .= "\$$i $phy ";
-				endforeach;
-				$column = [
-					'tag'           => '300',
-					'indicator1'    => '#',
-					'indicator2'    => '#',
-					'catalog_id' 	=> $catalog_id,
-					'value'        	=> rtrim($currentValue)
-				];
-				break;
-	
-			case 'frequency':
-				foreach ($value as $i => $freq) :
-					$column = [
-						'tag'           => $i == 'current' ? '310' : '321',
-						'indicator1'    => '#',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $freq"
-					];
-
-				endforeach;
-				break;
-	
-			case 'notes':
-				foreach ($value['input'] as $i => $note) :
-					$column = [
-						'tag'           => '520',
-						'indicator1'    => '#',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $note"
-					];
-
-				endforeach;
-				break;
-	
-			case 'subject':
-				foreach ($value['desc'] as $i => $subject) :
-					$column = [
-						'tag'           => '600',
-						'indicator1'    => '#',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $subject"
-					];
-
-				endforeach;
-				break;
-	
-			case 'location':
-				foreach ($value as $i => $location) :
-					$column = [
-						'tag'           => '856',
-						'indicator1'    => '#',
-						'indicator2'    => '#',
-						'catalog_id' 	=> $catalog_id,
-						'value'        	=> "\$a $location"
-					];
-
-				endforeach;
-				break;
-	
-			default:
-				'do nothing';
-				break;
-		}
-
-		return $column;
-    }
-}
-
-if (!function_exists('get_bib_id')) {
-    function get_bib_id($id = null)
-    {
-        if (!empty($id)) {
-            $row = db_get_data([
-                'table'     => 't_catalog_ruas',
-                'select' => 'value AS max',
-                'where'  => [
-                    ['field' => 'catalog_id', 'value' => $id],
-                    ['field' => 'tag', 'value' => '035'],
-                ]
-            ])->getRowArray()['max'];
-
-            $newId =  substr($row, 3);
-        } else {
-            $yearMonth =  date('my');
-            $row = db_get_data([
-                'table'     => 't_catalog',
-                'select'    => "SUBSTR(MAX(BIBID),'0010-$yearMonth') AS max",
-                'like'      => ['BIBID' => "0010-$yearMonth"],
-                'where'     =>
-                [
-                    ['field' => 'LENGTH(BIBID)', 'value' => '15'],
-                ]
-            ])->getRowArray()['max'];
-
-            $maxId =  (int)$row + 1;
-            $newId =  '0010-' . $yearMonth . str_pad($maxId, 6, '0', STR_PAD_LEFT);
-        }
-        return $newId;
-    }
-}
-
-if (!function_exists('get_imploded_array')) {
-    function get_imploded_array($post, $param)
-    {
-        $fixdata = (is_array($post) ?  implode($param, $post) : $post);
-
-        return $fixdata;
-    }
-}
-
-if (!function_exists('get_imploded_penerbit')) {
-    function get_imploded_penerbit($post, $var = null)
-    {
-        $arrPenerbit = '';
-        foreach ($post as $key => $value) {
-            $arrPenerbit .=  (!empty($var) ?  $value[$var] . ';' : implode(" ", $value) . ';');
-        }
-
-        return $arrPenerbit;
-    }
 }

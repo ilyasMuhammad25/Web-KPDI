@@ -1,7 +1,12 @@
 <?php
 	$request = \Config\Services::request();
 	$request->uri->setSilent();
-	?>
+	$worksheet = $request->getVar('worksheet') ?? $catalog->worksheet_id;
+	$marc = $request->getVar('marc') ?? '0';
+	$slug = $request->getVar('slug') ?? 'rda';
+	$slug_title = strtoupper($slug);
+?>
+
 <?= $this->extend(config('Core')->layout_backend); ?>
 <?= $this->section('style'); ?>
 <?= $this->endSection('style'); ?>
@@ -14,57 +19,54 @@
 					<i class="pe-7s-notebook icon-gradient bg-strong-bliss"></i>
 				</div>
 				<div>
-					<?= lang('Katalog.action.update') ?> <?= lang('Katalog.module') ?>
+					<?= lang('Katalog.action.edit') ?> <?= lang('Katalog.module') ?> <?=$slug_title?>
 					<div class="page-title-subheading"><?= lang('Katalog.form.complete_the_data') ?>.</div>
 				</div>
 			</div>
 			<div class="page-title-actions">
-				<nav class="" aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i> <?= lang('Katalog.label.home') ?></a></li>
-						<li class="breadcrumb-item"><a href="<?= base_url('katalog') ?>"><?= lang('Katalog.module') ?></a></li>
-						<li class="active breadcrumb-item" aria-current="page"><?= lang('Katalog.action.update') ?> <?= lang('Katalog.module') ?></li>
-					</ol>
-				</nav>
+				<?=view('Katalog\Views\section\nav_bread', array('slug' => $slug, 'slug_title' => $slug_title, 'label' => 'Ubah'))?>
 			</div>
 		</div>
 	</div>
+
 	<div class="main-card mb-3 card">
 		<div class="card-header">
-			<i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form <?= lang('Katalog.action.update') ?> <?= lang('Katalog.module') ?>
+			<i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Form <?= lang('Katalog.action.edit') ?> <?= lang('Katalog.module') ?>
+			<div class="btn-actions-pane-right actions-icon-btn">
+				<div class="btn btn-group" style="padding-left:0">
+				</div>
+			</div>
 		</div>
 		<div class="card-body">
 			<div id="infoMessage"><?= $message ?? ''; ?></div>
 			<?= get_message('message'); ?>
-			<form id="frm" class="col-md-12 mx-auto" method="post" action="">
-				<div class="form-row">
-					<div class="col-md-9">
-						<div class="position-relative form-group">
-							<label for="name"><?= lang('Katalog.field.name') ?>*</label>
-							<div>
-								<input type="text" class="form-control" id="name" name="name" placeholder="<?= lang('Katalog.field.name') ?>" value="<?= set_value('name', $Katalog->name); ?>" />
-								<small class="info help-block text-muted"><?= lang('Katalog.field.name') ?></small>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="position-relative form-group">
-							<label for="sort"><?= lang('Katalog.field.sort') ?></label>
-							<div>
-								<input type="number" class="form-control" id="sort" name="sort" placeholder="<?= lang('Katalog.field.sort') ?>" value="<?= set_value('sort', $Katalog->sort) ?>" />
-								<small class="info help-block text-muted"><?= lang('Katalog.field.sort') ?></small>
-							</div>
-						</div>
-					</div>
+
+			<?=view('Katalog\Views\section\worksheet', array('worksheet'=> $worksheet, 'slug'=> $slug, 'marc'=> $marc, 'action' => base_url('katalog/edit/'.$catalog->id)))?>
+
+			<form id="form-app" method="post" action="<?= base_url('katalog/edit/'.$catalog->id); ?>">				
+				<input type="hidden" name="slug" value="<?=$slug?>">
+				<input type="hidden" name="worksheet" value="<?=$worksheet?>">
+				<input type="hidden" id="marc" name="marc" value="<?=$marc?>">
+				<input type="hidden" id="id" name="id">
+
+				<?=view('Katalog\Views\section\edit\judul', array('slug' => $slug))?>
+				<?=view('Katalog\Views\section\edit\tajuk_pengarang', array('slug' => $slug))?>
+				<?=view('Katalog\Views\section\edit\penerbitan_publikasi', array('slug' => $slug))?>
+				<?=view('Katalog\Views\section\edit\deskripsi_fisik', array('slug' => $slug))?>
+				<?=view('Katalog\Views\section\edit\subjek', array('slug' => $slug))?>
+				<?=view('Katalog\Views\section\edit\catatan', array('slug' => $slug))?>
+				<?=view('Katalog\Views\section\edit\rincian', array('slug' => $slug))?>
+				<?=view('Katalog\Views\section\edit\lokasi_daring', array('slug' => $slug))?>
+
+				<div>
+					<input type="hidden" class="iCheck-square" name="is_opac" id="is_opac" value="0">
+					<input type="checkbox" class="iCheck-square" name="is_opac" id="is_opac" value="1">
+					<label class="control-label">&nbsp; Tampil di OPAC</label>
 				</div>
+				<br>
+
 				<div class="form-group">
-					<label for="description"><?= lang('Katalog.field.description') ?></label>
-					<div>
-						<textarea id="description" name="description" placeholder="<?= lang('Katalog.field.description') ?>" rows="2" class="form-control autosize-input" style="min-height: 38px;"><?= set_value('description', $Katalog->description) ?></textarea>
-					</div>
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary" name="submit"><?= lang('Katalog.action.save') ?></button>
+					<button type="submit" class="btn btn-primary" name="submit"><i class="fa fa-save"></i> <?= lang('Katalog.action.save') ?></button>
 				</div>
 			</form>
 		</div>
@@ -72,4 +74,17 @@
 </div>
 <?= $this->endSection('page'); ?>
 <?= $this->section('script'); ?>
+<?= $this->include('Katalog\Views\section\edit\judul_script'); ?>
+<?= $this->include('Katalog\Views\section\edit\tajuk_pengarang_script'); ?>
+<?= $this->include('Katalog\Views\section\edit\subjek_script'); ?>
+<?= $this->include('Katalog\Views\section\edit\lokasi_daring_script'); ?>
+<?= $this->include('Katalog\Views\section\edit\catatan_script'); ?>
+<script>
+	$('.select2').select2({theme: "bootstrap4",});
+	$(".tags").select2({
+		allowClear: true,
+		tags: true,
+		tokenSeparators: [';']
+	});
+</script>
 <?= $this->endSection('script'); ?>

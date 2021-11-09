@@ -73,11 +73,11 @@
 					<tr>
 						<td width="35"></td>
 						<td width="150">
-							<?= _spec($row->BIBID); ?> <br>
+							<?= _spec($row->bibid); ?> <br>
 						</td>
-						<td><?= _spec($row->Title); ?></td>
-						<td width="250"><?= _spec($row->Author); ?></td>
-						<td width="250"><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
+						<td><?= _spec($row->title); ?></td>
+						<td width="250"><?= _spec($row->author); ?></td>
+						<td width="250"><?= _spec($row->publish_location); ?> : <?= _spec($row->publisher); ?>, <?= _spec($row->publish_year); ?></td>
 						<td width="95">
 							<?php if(is_allowed('katalog/update')):?>
 								<a href="<?= base_url('katalog/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Katalog" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>

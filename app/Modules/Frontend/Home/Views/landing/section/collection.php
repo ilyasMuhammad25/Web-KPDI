@@ -27,8 +27,8 @@ $katalogs = $katalogModel
 				<?php foreach ($katalogs as $row): ?>
 					<?php
 						$default = base_url('uploads/default/no_cover.jpg');
-						$image = base_url('uploads/katalog/thumb_' . $row->CoverURL);
-						if (empty($row->CoverURL)) {
+						$image = base_url('uploads/katalog/thumb_' . $row->file_image);
+						if (empty($row->file_image)) {
 						$image = $default;
 						}
 					?>
@@ -38,7 +38,7 @@ $katalogs = $katalogModel
 								<img alt="featured project" src="<?=$image?>" onerror="this.onerror=null;this.src='<?=$default?>';" class="w-100 rounded" style="opacity:0.95">
 							</div>
 							<div class="content text-left flip">
-								<p class="pt-3" style="font-size: 18px;line-height: 30px;color: #232361;font-weight: 400;"><?=character_limiter($row->Title, 80)?></p>
+								<p class="pt-3" style="font-size: 18px;line-height: 30px;color: #232361;font-weight: 400;"><?=character_limiter($row->title, 80)?></p>
 							</div>
 						</div>
 			

@@ -22,8 +22,8 @@ $katalogs = $katalogModel
 				<div class="doc_testimonial_slider">
 					<?php foreach ($katalogs as $row): ?>
 						<div class="item">
-							<h3><?=character_limiter($row->Title, 80)?></h3>
-							<div class="name"><?=character_limiter($row->Publisher, 80)?>, <span><?=character_limiter($row->Author)?></span></div>
+							<h3><?=character_limiter($row->title, 80)?></h3>
+							<div class="name"><?=character_limiter($row->publisher, 80)?>, <span><?=character_limiter($row->author)?></span></div>
 						</div>
 					<?php endforeach;?>
 					
@@ -34,8 +34,8 @@ $katalogs = $katalogModel
 					<?php foreach ($katalogs as $row): ?>
 						<?php
 							$default = base_url('uploads/default/no_cover.jpg');
-							$image = base_url('uploads/katalog/thumb_' . $row->CoverURL);
-							if (empty($row->CoverURL)) {
+							$image = base_url('uploads/katalog/thumb_' . $row->file_image);
+							if (empty($row->file_image)) {
 							$image = $default;
 							}
 						?>

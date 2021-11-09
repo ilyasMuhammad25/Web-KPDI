@@ -174,10 +174,10 @@ class Sirkulasi extends ResourceController
 	public function eksemplar($barcode)
 	{
 		$data = $this->eksemplarModel
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.created_at as BookingDate, t_eksemplar.BookingExpiredDate')
+			->select('t_eksemplar.barcode_no')
 			->select('t_catalog.*')
 			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
-			->where('NomorBarcode',$barcode)->get()->getRow();
+			->where('barcode_no',$barcode)->get()->getRow();
 
 		if ($data) {
 			return $this->respond($data);
@@ -189,7 +189,7 @@ class Sirkulasi extends ResourceController
 	public function loan_items($loan_id)
 	{
 		$data = $this->eksemplarModel
-			->select('t_eksemplar.NomorBarcode')
+			->select('t_eksemplar.barcode_no')
 			->select('t_catalog.*')
 			->select('t_eksemplar_loan_item.loan_date, t_eksemplar_loan_item.due_date, t_eksemplar_loan_item.late_days')
 			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')

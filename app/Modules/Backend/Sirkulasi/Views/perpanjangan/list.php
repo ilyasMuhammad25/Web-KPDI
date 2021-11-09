@@ -131,7 +131,7 @@ $slug_title = ucwords(strtolower($slug));
 				$.each(respJson, function(i, item) {
 					$('#'+tbody).append(`
 						<tr class="rm-row">
-							<td width="100"><b>`+item.NomorBarcode+`</b></td>
+							<td width="100"><b>`+item.barcode_no+`</b></td>
 							<td>`+item.Title+`</td>
 							<td width="100">`+item.Publisher+`</td>
 							<td width="150">`+item.loan_date+`</td>

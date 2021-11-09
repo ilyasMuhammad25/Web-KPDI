@@ -107,9 +107,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
     {
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.Title as catalog_title, t_catalog.Publisher as catalog_publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -193,9 +193,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.Title as catalog_title, t_catalog.Publisher as catalog_publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -232,7 +232,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
 							'anggota_id' 			=> $anggota->id,
 							'eksemplar_id' 			=> $eksemplar->id,
-							'location_library_id' 	=> $eksemplar->Location_library_id,
+							'location_library_id' 	=> $eksemplar->location_library_id,
 							'created_by'			=> user_id(),
 							'loan_date'				=> date('Y-m-d'),
 							'due_date'				=> $due_date,
@@ -241,7 +241,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 						$update_data_eksemplar[] = [
 							'id' 					=> $eksemplar->id,
-							'ref_status'			=> get_ref_id('dipinjam','slug','ref_status'),
+							'availability_id'		=> get_ref_id('dipinjam','slug','ref_status'),
 						];
 					}
 
@@ -281,9 +281,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.Title as catalog_title, t_catalog.Publisher as catalog_publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -319,7 +319,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 					$update_data_eksemplar[] = [
 						'id' 					=> $eksemplar_loan_item->eksemplar_id,
-						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+						'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 					];
 				}
 
@@ -356,9 +356,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.Title as catalog_title, t_catalog.Publisher as catalog_publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -394,7 +394,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 					$update_data_eksemplar[] = [
 						'id' 					=> $eksemplar_loan_item->eksemplar_id,
-						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+						'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 					];
 
 					$save_data_eksemplar_loan_item_extend[] = [
@@ -447,9 +447,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.Title as catalog_title, t_catalog.Publisher as catalog_publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -487,7 +487,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 					$update_data_eksemplar[] = [
 						'id' 					=> $eksemplar_loan_item->eksemplar_id,
-						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+						'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 					];
 
 					$save_data_eksemplar_loan_item_penalty[] = [
@@ -542,7 +542,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		if($sirkulasiUpdate){
 			$update_data_eksemplar = [
-				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+				'availability_id'	=> get_ref_id('tersedia','slug','ref_status'),
 			];
 
 			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
@@ -570,7 +570,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		if($sirkulasiUpdate){
 			$update_data_eksemplar = [
-				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+				'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 			];
 
 			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
@@ -614,7 +614,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		if($sirkulasiUpdate){
 			$update_data_eksemplar = [
-				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+				'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 			];
 
 			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
