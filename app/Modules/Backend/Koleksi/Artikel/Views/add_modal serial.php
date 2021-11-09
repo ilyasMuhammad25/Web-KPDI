@@ -4,24 +4,24 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i>
-                   Tambah Artikel Berkala
+                    Tambah Artikel Berkala
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="frm_create" method="post" action="">
+            <form id="frm_create2" method="post" action="">
                 <div class="modal-body">
                     <div id="frm_create_message"></div>
 
                     <div class="form-row">
                         <div class="col-md-12">
                             <div class="position-relative form-group">
-                                <label for="username">Pilih Katalog</label>
+                                <label for="Catalog_id">Pilih Katalog</label>
                                 <div>
-                                    <select class="form-control js-example-basic-multiple" name="ref_jenisanggota"
-                                        id="catalog" tabindex="-1" aria-hidden="true" style="width:100%;">
-                                      
+                                    <select class="form-control js-example-basic-multiple" name="Catalog_id"
+                                        id="Catalog_id" tabindex="-1" aria-hidden="true" style="width:100%;">
+
 
                                         <?php foreach(get_dropdown('t_catalog',null,'Title','Title') as $row):?>
                                         <option value="<?=$row->code?>"><?=$row->text?></option>
@@ -30,20 +30,22 @@
                                 </div>
                             </div>
                         </div>
-                      
+
                         <div class="col-md-12">
                             <div class="position-relative form-group">
                                 <label for="TItle">Judul*</label>
                                 <div>
-                                    <input type="email" class="form-control" id="Title" name="Title" placeholder="Judul"/>
+                                    <input type="text" class="form-control" id="Title" name="Title"
+                                        placeholder="Judul" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="position-relative form-group">
-                                <label for="TItle">Edisi Serial</label>
+                                <label for="EDISISERIAL">Edisi Serial</label>
                                 <div>
-                                    <input type="email" class="form-control" id="EDISISERIAL" name="EDISISERIAL" placeholder="Edisi Serial"/>
+                                    <input type="text" class="form-control" id="EDISISERIAL" name="EDISISERIAL"
+                                        placeholder="Edisi Serial" />
                                 </div>
                             </div>
                         </div>
@@ -52,28 +54,28 @@
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="password">Tanggal Terbit</label>
-                                <input type="text" class="form-control" id="password" name="password"
-                                    placeholder="Tanggal Terbit" />
-                               
+                                <label for="TANGGAL_TERBIT_EDISI_SERIAL">Tanggal Terbit</label>
+                                <input type="text" class="form-control" id="TANGGAL_TERBIT_EDISI_SERIAL"
+                                    name="TANGGAL_TERBIT_EDISI_SERIAL" placeholder="Tanggal Terbit" />
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="pass_confirm">Creator</label>
+                                <label for="Creator">Creator</label>
                                 <div>
-                                    <input type="password" class="form-control" id="Creator" name="Creator"
+                                    <input type="text" class="form-control" id="Creator" name="Creator"
                                         placeholder="Creator" />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    
+
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="password">Halaman Awal</label>
+                                <label for="Starpage">Halaman Awal</label>
                                 <input type="number" class="form-control" id="Starpage" name="Starpage"
                                     placeholder="Halaman Awal" />
                                 <small class="info help-block"><?= lang('User.info.create.password'); ?> </small>
@@ -81,7 +83,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="pass_confirm">Halaman</label>
+                                <label for="Pages">Halaman</label>
                                 <div>
                                     <input type="number" class="form-control" id="Pages" name="Pages"
                                         placeholder="Halaman" />
@@ -93,17 +95,17 @@
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="password">Subjek</label>
+                                <label for="Subject">Subjek</label>
                                 <input type="text" class="form-control" id="Subject" name="Subject"
                                     placeholder="Subjek" />
-                              
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="pass_confirm">Abstrak</label>
+                                <label for="Abstract">Abstrak</label>
                                 <div>
-                                    <input type="password" class="form-control" id="Abstract" name="Abstract"
+                                    <input type="text" class="form-control" id="Abstract" name="Abstract"
                                         placeholder="Abstrak" />
                                 </div>
                             </div>
@@ -121,7 +123,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
                         data-dismiss="modal"><?= lang('App.btn.close'); ?></button>
-                    <button type="submit" class="btn btn-primary" name="submit"><?= lang('App.btn.save'); ?></button>
+                    <button type="submit" class="btn btn-primary" name="submit"><?= lang('App.btn.save') ?></button>
                 </div>
             </form>
         </div>
@@ -129,60 +131,54 @@
 </div>
 
 <script>
-
-
 $('#catalog').select2({
-    dropdownParent: $('#modal_create'),
+    dropdownParent: $('#modal_create2'),
     width: '100%',
     tags: true,
 });
 
-$('#frm_create').submit(function(event) {
-    event.preventDefault();
-    var data_post = $(this).serializeArray();
+$('#frm_create2').submit(function(event) {
+    event.preventDefault()
+    var data_post = $(this).serializeArray()
 
-    $('.loading').show();
+    $('.loading').show()
 
     $.ajax({
-            url: '<?= base_url('api/user/create') ?>',
+            url: '<?= base_url('api/artikel/create') ?>',
             type: 'POST',
             dataType: 'json',
             data: data_post,
         })
         .done(function(res) {
             console.log(res)
+
             if (res.status === 201) {
-                Swal.fire({
-                    title: 'Success',
-                    text: '<?= lang('User.info.success.create') ?>',
-                    type: 'success',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+                if (res.error == null) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Kategori Menu berhasil ditambah',
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                }
 
                 setTimeout(function() {
-                    window.location.href = '<?= base_url('user') ?>';
-                }, 2000);
+                    window.location.href = '<?= base_url('artikel') ?>';
+                }, 2000)
             } else {
-                $('#frm_create_message').html(res.messages.error);
+                $('#frm_create_message').html(res.messages.error)
             }
         })
         .fail(function(res) {
-            console.log(res);
-            $('#frm_create_message').html(res.responseJSON.messages.error);
+            console.log(res)
+            $('#frm_create_message').html(res.responseJSON.messages.error)
         })
         .always(function() {
-            $('.loading').hide();
-            $('html, body').animate({
-                scrollTop: $(document).height()
-            }, 2000);
+            $('.loading').hide()
         });
 
     return false;
 });
-
-$('#modal_create').on('hidden.bs.modal', function() {
-    $(this).find('form').trigger('reset');
-    $('#frm_create_message').html('');
-});
+// ---------------------------------------
 </script>

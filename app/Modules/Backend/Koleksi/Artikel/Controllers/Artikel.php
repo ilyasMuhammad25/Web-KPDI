@@ -54,11 +54,11 @@ class Artikel extends \hamkamannan\adminigniter\Controllers\BaseController
         }
 
         $query = $this->artikelModel
-            ->select('t_artikel.*')
+            ->select('t_serial_artikel.*')
             ->select('created.username as created_name')
             ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_artikel.created_by','left')
-            ->join('users updated','updated.id = t_artikel.updated_by','left');
+            ->join('users created','created.id = t_serial_artikel.created_by','left')
+            ->join('users updated','updated.id = t_serial_artikel.updated_by','left');
             
         $artikels = $query->findAll();
 
@@ -69,6 +69,64 @@ class Artikel extends \hamkamannan\adminigniter\Controllers\BaseController
     }
 
     public function create()
+    {
+        if (!is_allowed('artikel/create')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+        $this->validation->setRule('Title', 'Title', 'required');
+        $this->data['title'] = 'Tambah Artikel';
+        $Title = $this->request->getPost('Title');
+		$Content = ucwords($this->request->getPost('Content'));
+		$Creator = ucwords($this->request->getPost('Creator'));
+		$Contributor = ucwords($this->request->getPost('Contributor'));
+        $StartPage = $this->request->getPost('StartPage');
+        $Pages = $this->request->getPost('Pages');
+        $Subject = $this->request->getPost('Subject');
+        $EDISISERAIL = $this->request->getPost('EDISISERIAL');
+        $ISOPAC = $this->request->getPost('ISOPAC');
+        $Abstract = $this->request->getPost('Abstract');
+        $Catalog_id = $this->request->getPost('Catalog_id');
+		
+		//Data prodi
+		$data = [ 
+			'Title' => $Title,
+			'Content' => $$Content,
+			'Creator' => $Creator,
+			'Contributor' => $Contributor,
+			'StartPage' => $StartPage,
+			'Pages' => $Pages,
+			'Subject' => $Subject,
+			'EDISISERIAL' => $EDISISERIAL,
+			'ISOPAC' => $ISOPAC,
+			'Abstract' => $Abstract,
+			'Catalog_id' => $Catalog_id,
+		];
+
+		//Cek Validasi Data prodi, Jika Data Tidak Valid 
+		if ($this->form_validation->run($data, 'Artikel') == FALSE) {
+			
+			$validasi = [
+				'error'   => true,
+			    'nama_artikel_error' => $this->form_validation->getErrors('nama_artikel')
+			];
+			echo json_encode($validasi);
+		}
+
+		//Data Valid
+		else {
+			//Simpan Data prodi
+			$this->artikelModel->insert($data);
+
+			$validasi = [
+				'success'   => true
+			];
+			echo json_encode($validasi);
+		}
+    }
+
+    public function createtes()
     {
         if (!is_allowed('artikel/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
@@ -92,7 +150,7 @@ class Artikel extends \hamkamannan\adminigniter\Controllers\BaseController
             $newArtikelId = $this->artikelModel->insert($save_data);
 
             if ($newArtikelId) {
-                add_log('Tambah Artikel', 'artikel', 'create', 't_artikel', $newArtikelId);
+                add_log('Tambah Artikel', 'artikel', 'create', 't_serial_artikel', $newArtikelId);
                 set_message('toastr_msg', lang('Artikel.info.successfully_saved'));
                 set_message('toastr_type', 'success');
                 return redirect()->to('/artikel');
@@ -134,7 +192,7 @@ class Artikel extends \hamkamannan\adminigniter\Controllers\BaseController
                 $artikelUpdate = $this->artikelModel->update($id, $update_data);
 
                 if ($artikelUpdate) {
-                    add_log('Ubah Artikel', 'artikel', 'edit', 't_artikel', $id);
+                    add_log('Ubah Artikel', 'artikel', 'edit', 't_serial_artikel', $id);
                     set_message('toastr_msg', 'Artikel berhasil diubah');
                     set_message('toastr_type', 'success');
                     return redirect()->to('/artikel');
@@ -167,7 +225,7 @@ class Artikel extends \hamkamannan\adminigniter\Controllers\BaseController
         }
         $artikelDelete = $this->artikelModel->delete($id);
         if ($artikelDelete) {
-            add_log('Hapus Artikel', 'artikel', 'delete', 't_artikel', $id);
+            add_log('Hapus Artikel', 'artikel', 'delete', 't_serial_artikel', $id);
             set_message('toastr_msg', lang('Artikel.info.successfully_deleted'));
             set_message('toastr_type', 'success');
             return redirect()->to('/artikel');

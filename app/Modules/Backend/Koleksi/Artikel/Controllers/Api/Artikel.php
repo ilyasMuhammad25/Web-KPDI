@@ -58,23 +58,77 @@ class Artikel extends ResourceController
 		}
 	}
 
+	public function category_create()
+	{
+		// $this->validation->setRule('Title', 'Title', 'required');		
+		if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
+			$form_slug = url_title($this->request->getPost('name'), '-', TRUE);
+			$save_data = array(
+				'Title' => $this->request->getPost('Title'),
+				'name' => $this->request->getPost('name'),
+				'slug' => $form_slug,
+				'Creator' => $this->request->getPost('Creator'),
+				// 'description' => $this->request->getPost('description'),
+			);
+
+			$newArtikelId = $this->artikelModel->insert($save_data);
+			if ($newArtikelId) {
+				$this->session->setFlashdata('toastr_msg', 'Kategori Menu berhasil disimpan');
+				$this->session->setFlashdata('toastr_type', 'success');
+				$response = [
+					'status'   => 201,
+					'error'    => null,
+					'messages' => [
+						'success' => 'Kategori Menu berhasil disimpan'
+					]
+				];
+				return $this->respondCreated($response);
+			} else {
+				$response = [
+					'status'   => 400,
+					'error'    => null,
+					'messages' => [
+						'error' => 'Kategori Menu gagal disimpan'
+					]
+				];
+				return $this->fail($response);
+			}
+		} else {
+			$message = $this->validation->listErrors();
+			return $this->fail($message, 400);
+		}
+	}
+
 	public function create()
 	{
+		$hallo="tes";
+		// dd($hallo);
 		if (!is_allowed('artikel/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
-
-		$this->validation->setRule('name', 'Nama', 'required');
+		// dd('tes');
+         
+		$this->validation->setRule('Title', 'Title', 'required');
 		if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-			$slug = url_title($this->request->getPost('name'), '-', TRUE);
+			// $slug = url_title($this->request->getPost('name'), '-', TRUE);
+			// dd('tes');
 			$save_data = array(
-				'name' => $this->request->getPost('name'),
-				'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
+				'Title' => $this->request->getPost('Title'),
+				'Content' => $this->request->getPost('Content'),
+				'Creator' => $this->request->getPost('Creator'),
+				'Contributor' => $this->request->getPost('Contributor'),
+				'StartPage' => $this->request->getPost('StartPage'),
+				'Pages' => $this->request->getPost('Pages'),
+				'Subject' => $this->request->getPost('Subject'),
+				'EDISISERIAL' => $this->request->getPost('EDISISERIAL'),
+				'ISOPAC' => $this->request->getPost('ISOPAC'),
+				'Abstract' => $this->request->getPost('Abstract'),
+				'Catalog_id' => $this->request->getPost('Catalog_id')
 			);
+			// print_r($save_data);
+			// die();
 
 			$newArtikelId = $this->artikelModel->insert($save_data);
 			if ($newArtikelId) {
@@ -167,5 +221,60 @@ class Artikel extends ResourceController
 		} else {
 			return $this->failNotFound(lang('Artikel.info.not_found').' ID:' . $id);
 		}
+	}
+
+	public function upload_file()
+	{
+		dd('tes');
+        $upload_id = $this->request->getPost('upload_id');
+        $upload_field = $this->request->getPost('upload_field');
+        $upload_title = $this->request->getPost('upload_title');
+
+        $update_data = [];
+        $files = (array) $this->request->getPost('file_pendukung');
+        if (count($files)) {
+            $listed_file = array();
+            foreach ($files as $uuid => $name) {
+                if (file_exists($this->uploadPath . $name)) {
+                    $file = new File($this->uploadPath . $name);
+                    $newFileName = $file->getRandomName();
+                    $file->move($this->modulePath, $newFileName);
+                    $listed_file[] = $newFileName;
+
+					if($upload_field == 'file_image'){
+						create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+					}
+                }
+            }
+            $update_data[$upload_field] = implode(',', $listed_file);
+        }
+
+        $page = $this->pageModel->find($upload_id);
+        $pageUpdate = $this->pageModel->update($upload_id,$update_data);
+        if ($pageUpdate) {
+			unlink_file($this->modulePath, $page->file_image);
+			unlink_file($this->modulePath, 'thumb_'.$page->file_image);
+			unlink_file($this->modulePath, $page->file_pdf);
+
+            $this->session->setFlashdata('toastr_msg', 'Upload file berhasil');
+            $this->session->setFlashdata('toastr_type', 'success');
+            $response = [
+                'status'   => 201,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'Upload file berhasil'
+                ]
+            ];
+            return $this->respondCreated($response);
+        } else {
+            $response = [
+                'status'   => 400,
+                'error'    => null,
+                'messages' => [
+                    'error' => 'Upload file gagal'
+                ]
+            ];
+            return $this->fail($response);
+        }
 	}
 }

@@ -47,8 +47,8 @@
 </div>
 
 <script>
-var defaultDropzoneUrl = "<?= base_url('page/do_upload') ?>";
-var defaultUrl = "<?= base_url('api/page/upload_file') ?>";
+var defaultDropzoneUrl = "<?= base_url('artikel/do_upload') ?>";
+var defaultUrl = "<?= base_url('api/artikel/upload_file') ?>";
 var defaultFormat = "application/pdf";
 var defaultFile = 1;
 var defaultRedirect = "<?= base_url('page') ?>";
@@ -125,7 +125,7 @@ $('.upload-data').click(function() {
     $('#upload_title').val(title);
     $('#upload_title_span').html(title);
 
-    setDropzone('file_pendukung', 'page', $('#upload_data_format').val(), $('#upload_data_file').val(), 10);
+    setDropzone('file_pendukung', 'artikel', $('#upload_data_format').val(), $('#upload_data_file').val(), 10);
 });
 
 $('#frm_upload').submit(function(event) {

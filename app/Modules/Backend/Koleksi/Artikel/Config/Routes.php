@@ -19,7 +19,11 @@ $routes->group('artikel', ['namespace' => 'Artikel\Controllers'], function ($sub
 $routes->group('api/artikel', ['namespace' => 'Artikel\Controllers\Api'], function ($subroutes) {
 	/*** Route Update for Artikel ***/
 	$subroutes->add('detail/(:any)', 'Artikel::detail/$1');
+	$subroutes->add('', 'Artikel::index');
 	$subroutes->add('create', 'Artikel::create');
+	// $subroutes->add('create', 'Artikel::create');
+	$subroutes->add('category_create', 'Artikel::category_create');
+	$subroutes->add('upload_file', 'Artikel::upload_file');
 	$subroutes->add('edit/(:any)', 'Artikel::edit/$1');
 	$subroutes->add('delete/(:any)', 'Artikel::delete/$1');
 });
