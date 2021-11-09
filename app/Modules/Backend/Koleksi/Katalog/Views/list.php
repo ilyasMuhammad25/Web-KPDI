@@ -1,3 +1,20 @@
+<?php
+	$request = \Config\Services::request();
+	$request->uri->setSilent();
+	$slug = $request->getVar('slug') ?? '';
+	$slug_title = strtoupper($slug);
+	$view = $request->getVar('view') ?? '';
+	$view_title = strtoupper($view);
+
+	if($view == 'is_cart'){
+		$view_title = 'Keranjang';
+	}
+
+	if($view == 'is_quarantine'){
+		$view_title = 'Karantina';
+	}
+?>
+
 <?= $this->extend(config('Core')->layout_backend); ?>
 <?= $this->section('style'); ?>
 <style>
@@ -18,21 +35,21 @@
 				</div>
 			</div>
 			<div class="page-title-actions">
-				<nav class="" aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?= base_url('Katalog') ?>"><i class="fa fa-home"></i> <?= lang('Katalog.label.home') ?></a></li>
-						<li class="active breadcrumb-item" aria-current="page"><?= lang('Katalog.module') ?> </li>
-					</ol>
-				</nav>
+				<?=view('Katalog\Views\section\nav_bread', array('slug' => $slug, 'slug_title' => $slug_title, 'label' => 'Daftar'))?>
 			</div>
 		</div>
 	</div>
+
+	<?=view('Katalog\Views\section\nav_list', array('slug' => $slug, 'view' => $view))?>
+
 	<div class="main-card mb-3 card">
 		<div class="card-header">
 			<i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Katalog.label.table') ?> <?= lang('Katalog.module') ?> 
 			<div class="btn-actions-pane-right actions-icon-btn">
-				<?php if(is_allowed('katalog/create')):?>
-				<a href="<?= base_url('katalog/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> </a>
+				<?php if(!empty($slug)):?>
+					<?php if(is_allowed('katalog/create')):?>
+						<a href="<?= base_url('katalog/create?slug='.$slug) ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Katalog.action.add') ?> <?= lang('Katalog.module') ?> <?=$slug_title?></a>
+					<?php endif;?>
 				<?php endif;?>
 			</div>
 		</div>
@@ -41,12 +58,14 @@
 			<table style="width: 100%;" id="tbl_katalogs" class="table table-hover table-striped table-bordered">
 				<thead>
 					<tr>
-						<th><?= lang('Katalog.field.no') ?> </th>
+						<th>No.</th>
 						<th>BIBID</th>
 						<th>Judul</th>
 						<th>Pengarang</th>
 						<th>Penerbitan</th>
-						<th><?= lang('Katalog.label.action') ?></th>
+						<th>Karantina</th>
+						<th>Keranjang</th>
+						<th>Aksi</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,15 +78,19 @@
 						<td><?= _spec($row->Title); ?></td>
 						<td width="250"><?= _spec($row->Author); ?></td>
 						<td width="250"><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
-						<td width="90">
-							<?php if(is_allowed('katalog/read')):?>
-							<!-- <a href="<?= base_url('katalog/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Katalog" class="btn btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
-							<?php endif;?>
+						<td width="50">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="is_quarantine" data-id="<?=$row->id?>" <?= ($row->is_quarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+						</td>
+						<td width="50">
+							<input type="checkbox" class="apply-status" data-href="<?= base_url('katalog/apply_status'); ?>" data-field="is_cart" data-id="<?=$row->id?>" <?= ($row->is_cart == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+						</td>
+						<td width="95">
 							<?php if(is_allowed('katalog/update')):?>
-							<a href="<?= base_url('katalog/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Katalog RDA" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
+								<a href="<?= base_url('katalog/edit/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Ubah Katalog" class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
 							<?php endif;?>
+
 							<?php if(is_allowed('katalog/delete')):?>
-							<a href="javascript:void(0);" data-href="<?= base_url('katalog/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus Katalog RDA" class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
+								<a href="javascript:void(0);" data-href="<?= base_url('katalog/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus Katalog" class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
 							<?php endif;?>
 						</td>
 					</tr>
@@ -80,7 +103,7 @@
 <?= $this->endSection('page'); ?>
 <?= $this->section('script'); ?>
 <script>
-	setDataTable('#tbl_katalogs', disableOrderCols = [0, 5], defaultOrderCols = [1, 'desc'], autoNumber = true);
+	setDataTable('#tbl_katalogs', disableOrderCols = [0, 7], defaultOrderCols = [0, 'asc'], autoNumber = true);
 	
 	$("body").on("click", ".remove-data", function() {
 	    var url = $(this).attr('data-href');

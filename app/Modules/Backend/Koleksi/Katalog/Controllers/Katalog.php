@@ -52,25 +52,32 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-        $query = $this->katalogModel
-            ->select('t_katalog.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_katalog.created_by','left')
-            ->join('users updated','updated.id = t_katalog.updated_by','left');
-            
+		$query = $this->katalogModel
+			->select('t_catalog.*');
+
 		$slug = $this->request->getVar('slug');
 		if(!empty($slug)){
-			$isRDA = (int) strtoupper($slug) == 'RDA';
-			$query->where('t_katalog.isRDA',$isRDA);
+			$is_rda = strtoupper($slug) == 'RDA';
+			$query->where('t_catalog.is_rda',$is_rda);
 		}   
 
-        $katalogs = $query->findAll();
+		$view = $this->request->getVar('view');
+		if(!empty($view)){
+			$query->where('t_catalog.'.$view,1);
+		}   
+
+		$katalogs = $query
+			->find_all('t_catalog.created_at','desc');
 
         $this->data['title'] = 'Katalog';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['katalogs'] = $katalogs;
-        echo view('Katalog\Views\list', $this->data);
+
+		if($view ){
+			echo view('Katalog\Views\list_view', $this->data);
+		} else {
+			echo view('Katalog\Views\list', $this->data);
+		}
     }
 
     public function create()
@@ -118,7 +125,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 				'Languages'             => $language,
 				'DeweyNo'               => $deweyNo,
 				'PhysicalDescription'   => $physicalDescription,
-				'Worksheet_id'          => $worksheet,
+				'worksheet_id'          => $worksheet,
 				'created_by'            => user_id(),
 			];
 
@@ -134,7 +141,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					'tag'           => '008',
 					'indicator1'    => null,
 					'indicator2'    => null,
-					'katalog_id' 	=> $newKatalogId,
+					'catalog_id' 	=> $newKatalogId,
 					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target-group'], 11, '#') . str_pad($post['paper-form'], 2, '#') . str_pad($post['opt-language'], 5, '#')
 				];
 				array_push($save_data_ruas, $tag008);
@@ -151,7 +158,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					$this->katalogRuasModel->insertBatch($save_data_ruas);
 				}
 
-				add_log('Tambah Katalog', 'Katalog', 'create', 't_katalog', $newKatalogId);
+				add_log('Tambah Katalog', 'Katalog', 'create', 't_catalog', $newKatalogId);
 				set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
 				set_message('toastr_type', 'success');
 
@@ -198,7 +205,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
                 $KatalogUpdate = $this->katalogModel->update($id, $update_data);
 
                 if ($KatalogUpdate) {
-                    add_log('Ubah Katalog', 'Katalog', 'edit', 't_katalog', $id);
+                    add_log('Ubah Katalog', 'Katalog', 'edit', 't_catalog', $id);
                     set_message('toastr_msg', 'Katalog berhasil diubah');
                     set_message('toastr_type', 'success');
                     return redirect()->to('/katalog');
@@ -231,7 +238,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
         }
         $KatalogDelete = $this->katalogModel->delete($id);
         if ($KatalogDelete) {
-            add_log('Hapus Katalog', 'Katalog', 'delete', 't_katalog', $id);
+            add_log('Hapus Katalog', 'Katalog', 'delete', 't_catalog', $id);
             set_message('toastr_msg', lang('Katalog.info.successfully_deleted'));
             set_message('toastr_type', 'success');
             return redirect()->to('/katalog');
@@ -296,7 +303,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 				'Languages'             => $language,
 				'DeweyNo'               => $deweyNo,
 				'PhysicalDescription'   => $physicalDescription,
-				'Worksheet_id'          => $worksheet,
+				'worksheet_id'          => $worksheet,
 				'created_by'            => user_id(),
             ];
 
@@ -331,7 +338,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 
 				return json_encode($save_data_ruas);
 
-                // add_log('Tambah Katalog', 'Katalog', 'create', 't_katalog', $newKatalogId);
+                // add_log('Tambah Katalog', 'Katalog', 'create', 't_catalog', $newKatalogId);
                 // set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
                 // set_message('toastr_type', 'success');
                 // return redirect()->to('/katalog');

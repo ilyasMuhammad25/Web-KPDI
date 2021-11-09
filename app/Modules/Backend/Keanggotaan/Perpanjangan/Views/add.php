@@ -71,60 +71,68 @@ $anggotas = $baseModel
                         <?=$this->include('Perpanjangan\Views\section\member_profile')?>
                     </div>
                     <div class="col-md-6">
-                     
+
                         <strong><label for="sort">Nama*</label></strong>
-                        <div class="input-group ">
+                        <div class="-group ">
 
                             <select class="custom-select js-example-basic-multiple" id="package"
                                 onchange="myFunction();" name="t_anggota_id" value="">
+                                <option value="" disabled selected>Pilih</option>
                                 <?php foreach($anggotas as $row):?>
-                                    <option value=""  disabled selected>Pilih</option>
+
                                 <option data-no_anggota=<?= _spec($row->MemberNo); ?> data-name="<?= $row->name ?>"
-                                data-email=<?= _spec($row->Email); ?>
-                                data-address="<?= $row->Address ?>"
-                                data-date="<?= $row->EndDate ?>"
-                                data-id="<?= $row->id ?>"
-                                data-nomor="<?=$row->NoHp?>"
-                                value="<?=$row->id?>">
+                                    data-email=<?= _spec($row->Email); ?> data-address="<?= $row->Address ?>"
+                                    data-date="<?= $row->EndDate ?>" data-id="<?= $row->id ?>"
+                                    data-nomor="<?=$row->NoHp?>"
+                                    data-jenis="<?=$row->ref_jenisanggota?>"
+                                     value="<?=$row->id?>">
                                     <?=$row->MemberNo?>-<?=$row->name?></option>
                                 <?php endforeach;?>
                             </select>
                             <input type="hidden" name="t_anggota_id" id="anggota_id" value="">
-                           
-                            
+
+
                         </div>
 
-                        
+
                         <div>
-                           <strong> <label for="name">Update Tanggal berahir</label></strong>
+                            <strong> <label for="name">Update Tanggal berahir</label></strong>
                             <div>
-                                <input type="date" class="form-control" id="frm_create_sort" name="EndDate"
-                                    placeholder="Tanggal Berahir "
-                                    value="<?= set_value('EndDate') ?>" />
+                                <input type="text" class="form-control datepicker" id="date2" name="EndDate"
+                                    placeholder="Tanggal Berahir " value="<?= set_value('EndDate') ?>" />
                             </div>
                         </div>
 
                         <div>
-                           <strong> <label for="name">Update Jenis Anggota</label></strong>
-                           <select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota"
-                                                tabindex="-1" aria-hidden="true">
-                                                <option value="" disabled selected>
-                                                    <?=lang('Anggota.field.Jenisanggota')?>
-                                                </option>
-                                             
-                                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
-                                                <option value="<?=$row->code?>"><?=$row->text?></option>
-                                                <?php endforeach;?>
-                                            </select>
+                            <strong> <label for="name">Update Jenis Anggota</label></strong>
+                            <select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1"
+                                aria-hidden="true">
+                                <option value="" disabled selected>
+                                    <?=lang('Anggota.field.Jenisanggota')?>
+                                </option>
+
+                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
+                                <option value="<?=$row->code?>"><?=$row->text?></option>
+                                <?php endforeach;?>
+                            </select>
                         </div>
-                       <div>
-                          <strong>  <label for="sort">Biaya</label></strong>
+                      
+                        <div>
+                            <strong> <label for="sort">Biaya</label></strong>
                             <div>
                                 <input type="number" class="form-control" id="frm_create_sort" name="biaya"
                                     value="<?= set_value('biaya') ?>" />
 
                             </div>
                         </div>
+
+                        <!-- <div>
+                          <strong>  <label for="sort">Tes</label></strong>
+                            <div>
+                            <input placeholder="masukkan tanggal Akhir" id="date2" type="text" class="form-control datepicker" name="tgl_akhir">
+
+                            </div>
+                        </div> -->
 
                         <div class="form-check form-group mt-1">
                             <div>
@@ -168,6 +176,16 @@ $anggotas = $baseModel
 <?= $this->endSection('page'); ?>
 
 <?= $this->section('script'); ?>
+
+<script type="text/javascript">
+$(function() {
+    $(".datepicker").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+    });
+});
+</script>
 <script>
 $('#package').on('change', function() {
     // ambil data dari elemen option yang dipilih
@@ -179,17 +197,21 @@ $('#package').on('change', function() {
     const nomor = $('#package option:selected').data('nomor');
     const date = $('#package option:selected').data('date');
     const id = $('#package option:selected').data('id');
+    const jenis = $('#package option:selected').data('jenis');
+
     // alert(date);
-    
 
+    //     var date = new Date($('#date2').val(date));
+    //   var day = date.getDate(date);
+    //   var month = date.getMonth(date) + 1;
+    //   var year = date.getFullYear(date);
 
-
-
-    // tampilkan data ke element
     $('[name=no_anggota]').html(no_anggota);
     $('#anggota_id').val(id);
     $('#name').html(name);
     $('#date').html(date);
+    $('#ref_jenisanggota').val(jenis);
+    $('#date2').val(date);
     $('#nomor').html(nomor);
     $('[name=email]').html(email);
     $('[name=address]').html(address);

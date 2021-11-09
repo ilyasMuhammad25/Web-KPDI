@@ -30,7 +30,8 @@
         <div class="card-header"><i class="header-icon lnr-list icon-gradient bg-plum-plate"> </i><?= lang('Artikel.label.table') ?> <?= lang('Artikel.module') ?> 
             <div class="btn-actions-pane-right actions-icon-btn">
                 <?php if(is_allowed('artikel/create')):?>
-                    <a href="<?= base_url('artikel/create') ?>" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Artikel.action.add') ?> <?= lang('Artikel.module') ?> </a>
+                    <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);"class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Artikel.action.add') ?> <?= lang('Artikel.module1') ?> </a>
+                    <a data-toggle="modal" data-target="#modal_create2" href="javascript:void(0);" class=" btn btn-success" title=""><i class="fa fa-plus"></i> <?= lang('Artikel.action.add') ?> <?= lang('Artikel.module2') ?> </a>
                 <?php endif;?>
             </div>
         </div>
@@ -90,8 +91,10 @@
 <?= $this->endSection('page'); ?>
 
 <?= $this->section('script'); ?>
-
+<?= $this->include('Artikel\Views\add_modal'); ?>
+<?= $this->include('Artikel\Views\add_modal serial'); ?>
 <script>
+ 
     setDataTable('#tbl_artikels', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
 
     $("body").on("click", ".remove-data", function() {

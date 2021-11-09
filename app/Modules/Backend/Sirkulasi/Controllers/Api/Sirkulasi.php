@@ -175,8 +175,8 @@ class Sirkulasi extends ResourceController
 	{
 		$data = $this->eksemplarModel
 			->select('t_eksemplar.NomorBarcode, t_eksemplar.created_at as BookingDate, t_eksemplar.BookingExpiredDate')
-			->select('t_katalog.*')
-			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner')
+			->select('t_catalog.*')
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
 			->where('NomorBarcode',$barcode)->get()->getRow();
 
 		if ($data) {
@@ -189,9 +189,10 @@ class Sirkulasi extends ResourceController
 	public function loan_items($loan_id)
 	{
 		$data = $this->eksemplarModel
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.created_at as BookingDate, t_eksemplar.BookingExpiredDate')
-			->select('t_katalog.*')
-			->join('t_katalog','t_katalog.id = t_eksemplar.katalog_id','inner')
+			->select('t_eksemplar.NomorBarcode')
+			->select('t_catalog.*')
+			->select('t_eksemplar_loan_item.loan_date, t_eksemplar_loan_item.due_date, t_eksemplar_loan_item.late_days')
+			->join('t_catalog','t_catalog.id = t_eksemplar.catalog_id','inner')
 			->join('t_eksemplar_loan_item','t_eksemplar_loan_item.eksemplar_id = t_eksemplar.id','inner')
 			->where('t_eksemplar_loan_item.eksemplar_loan_id',$loan_id)->get()->getResult();
 

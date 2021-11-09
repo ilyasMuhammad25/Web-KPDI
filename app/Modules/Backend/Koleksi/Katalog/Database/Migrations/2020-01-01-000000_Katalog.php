@@ -8,8 +8,8 @@ class Katalog extends Migration
 {
 	public function up()
 	{
-		// t_katalog
-		$this->forge->dropTable('t_katalog', true);
+		// t_catalog
+		$this->forge->dropTable('t_catalog', true);
 		$this->forge->addField([
 			'id' 			=> ['type' => 'MEDIUMINT','constraint' => '11','unsigned' => true,'auto_increment' => true,],
 			'name' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
@@ -24,13 +24,13 @@ class Katalog extends Migration
 			'deleted_at' 	=> ['type' => 'DATETIME','null' => true,],
 		]);
 		$this->forge->addKey('id', true);
-		$this->forge->createTable('t_katalog');
+		$this->forge->createTable('t_catalog');
 	}
 
 	//--------------------------------------------------------------------
 
 	public function down()
 	{
-		$this->forge->dropTable('t_katalog', true);
+		$this->forge->dropTable('t_catalog', true);
 	}
 }

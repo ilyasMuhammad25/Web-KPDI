@@ -1,12 +1,23 @@
 <?php
+if (!function_exists('get_eksemplars')) {
+	function get_eksemplars($catalog_id)
+	{
+		$eksemplarModel = new \Eksemplar\Models\EksemplarModel();
+		$query = $eksemplarModel
+			->where('t_eksemplar.catalog_id', $catalog_id);
+
+		return $query->get()->getResult();
+	}
+}
+
 if (!function_exists('get_worksheet_summary')) {
 	function get_worksheet_summary()
 	{
 		$katalogModel = new \Katalog\Models\KatalogModel();
 		$query = $katalogModel
 			->select('t_worksheets.id, t_worksheets.name, count(*) as total')
-			->join('t_worksheets','t_worksheets.id = t_katalog.Worksheet_id','inner')
-    		->groupBy('t_katalog.Worksheet_id')
+			->join('t_worksheets','t_worksheets.id = t_catalog.worksheet_id','inner')
+    		->groupBy('t_catalog.worksheet_id')
 			->where('t_worksheets.active', 1);
 
 		return $query->get()->getResult();
@@ -165,7 +176,7 @@ if (!function_exists('get_control_number')) {
     {
         if (!empty($id)) {
             $row = db_get_data([
-                'table'     => 't_katalog_ruas',
+                'table'     => 't_catalog_ruas',
                 'select'    => "Value` AS max",
                 'where'     => [
                     ['field' => 'Catalogid', 'value' => $id],
@@ -176,7 +187,7 @@ if (!function_exists('get_control_number')) {
             $newControlNumber =  substr($row, 3);
         } else {
             $row = db_get_data([
-                'table'     => 't_katalog',
+                'table'     => 't_catalog',
                 'select'    => 'MAX(REPLACE(ControlNumber,"INLIS", "")) AS max',
                 'like'      => ['ControlNumber' => 'INLIS0']
             ])->getRowArray()['max'];
@@ -193,7 +204,7 @@ if (!function_exists('get_control_number')) {
 }
 
 if (!function_exists('get_ruas')) {
-    function get_ruas($key, $value, $katalog_id = null)
+    function get_ruas($key, $value, $catalog_id = null)
     {
 		$column = array();
 		switch ($key) {
@@ -202,7 +213,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => '001',
 					'indicator1'    => null,
 					'indicator2'    => null,
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> "\$a $value"
 				];
 				break;
@@ -211,7 +222,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => '035',
 					'indicator1'    => '#',
 					'indicator2'    => '#',
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> "\$a $value"
 				];
 				break;
@@ -220,7 +231,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => $key,
 					'indicator1'    => null,
 					'indicator2'    => null,
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> "$value"
 				];
 				break;
@@ -230,7 +241,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => '022',
 						'indicator1'    => '0',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $issn"
 					];
 
@@ -241,7 +252,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => '082',
 					'indicator1'    => null,
 					'indicator2'    => null,
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> "\$a $value"
 				];
 				break;
@@ -251,7 +262,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => '084',
 						'indicator1'    => '0',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $callno"
 					];
 
@@ -262,7 +273,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => '100',
 					'indicator1'    => '0',
 					'indicator2'    => '#',
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> '$a ' . $value['100']
 				];
 				break;
@@ -272,7 +283,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => '700',
 						'indicator1'    => '#',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $additionalAuthor"
 					];
 
@@ -287,7 +298,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => '245',
 					'indicator1'    => '#',
 					'indicator2'    => '#',
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> $currentValue
 				];
 				break;
@@ -297,7 +308,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => '247',
 						'indicator1'    => '#',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $prev"
 					];
 
@@ -312,7 +323,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => '260',
 					'indicator1'    => '#',
 					'indicator2'    => '#',
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> rtrim($currentValue)
 				];
 				break;
@@ -325,7 +336,7 @@ if (!function_exists('get_ruas')) {
 					'tag'           => '300',
 					'indicator1'    => '#',
 					'indicator2'    => '#',
-					'katalog_id' 	=> $katalog_id,
+					'catalog_id' 	=> $catalog_id,
 					'value'        	=> rtrim($currentValue)
 				];
 				break;
@@ -336,7 +347,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => $i == 'current' ? '310' : '321',
 						'indicator1'    => '#',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $freq"
 					];
 
@@ -349,7 +360,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => '520',
 						'indicator1'    => '#',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $note"
 					];
 
@@ -362,7 +373,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => '600',
 						'indicator1'    => '#',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $subject"
 					];
 
@@ -375,7 +386,7 @@ if (!function_exists('get_ruas')) {
 						'tag'           => '856',
 						'indicator1'    => '#',
 						'indicator2'    => '#',
-						'katalog_id' 	=> $katalog_id,
+						'catalog_id' 	=> $catalog_id,
 						'value'        	=> "\$a $location"
 					];
 
@@ -396,10 +407,10 @@ if (!function_exists('get_bib_id')) {
     {
         if (!empty($id)) {
             $row = db_get_data([
-                'table'     => 't_katalog_ruas',
+                'table'     => 't_catalog_ruas',
                 'select' => 'value AS max',
                 'where'  => [
-                    ['field' => 'katalog_id', 'value' => $id],
+                    ['field' => 'catalog_id', 'value' => $id],
                     ['field' => 'tag', 'value' => '035'],
                 ]
             ])->getRowArray()['max'];
@@ -408,7 +419,7 @@ if (!function_exists('get_bib_id')) {
         } else {
             $yearMonth =  date('my');
             $row = db_get_data([
-                'table'     => 't_katalog',
+                'table'     => 't_catalog',
                 'select'    => "SUBSTR(MAX(BIBID),'0010-$yearMonth') AS max",
                 'like'      => ['BIBID' => "0010-$yearMonth"],
                 'where'     =>

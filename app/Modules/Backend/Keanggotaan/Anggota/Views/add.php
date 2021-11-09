@@ -80,7 +80,7 @@ $('.select2').select2();
 		}
 	});
 
-	var file_template = setDropzone('dropzone_file_image', 'anggota', '.jpg,.jpeg,.png', 1, 10);
+	var file_image = setDropzone('file_image', 'anggota', '.jpg,.jpeg,.png', 1, 10);
 </script>
 <script>
 		$( document ).ready(function() {

@@ -9,6 +9,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
     protected $auth;
     protected $authorize;
     protected $eksemplarModel;
+    protected $katalogModel;
     protected $uploadPath;
     protected $modulePath;
     
@@ -17,6 +18,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->language = \Config\Services::language();
 		$this->language->setLocale('id');
         
+        $this->katalogModel = new \Katalog\Models\KatalogModel();
         $this->eksemplarModel = new \Eksemplar\Models\EksemplarModel();
         $this->uploadPath = ROOTPATH . 'public/uploads/';
         $this->modulePath = ROOTPATH . 'public/uploads/eksemplar/';
@@ -52,71 +54,27 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
+		$quarantine = $this->request->getVar('quarantine');
+		$cart = $this->request->getVar('cart');
+
         $query = $this->eksemplarModel
-            ->select('t_eksemplar.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_eksemplar.created_by','left')
-            ->join('users updated','updated.id = t_eksemplar.updated_by','left');
+            ->select('t_eksemplar.*');
             
+		if(!empty($quarantine)){
+			$query->where('t_eksemplar.is_quarantine', 1);
+		}
+
+		if(!empty($cart)){
+			$query->where('t_eksemplar.is_cart', 1);
+		}
+
         $eksemplars = $query
-        ->Where('IsQUARANINE','1')
-        ->find_all('created_at','desc');
+        	->find_all('t_eksemplar.created_at','desc');
 
         $this->data['title'] = 'Eksemplar';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['eksemplars'] = $eksemplars;
         echo view('Eksemplar\Views\list', $this->data);
-    }
-
-    public function karantina_index()
-    {
-        if (!is_allowed('eksemplar/access')) {
-            set_message('toastr_msg', lang('App.permission.not.have'));
-            set_message('toastr_type', 'error');
-            return redirect()->to('/dashboard');
-        }
-
-        $query = $this->eksemplarModel
-            ->select('t_eksemplar.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_eksemplar.created_by','left')
-            ->join('users updated','updated.id = t_eksemplar.updated_by','left');
-            
-        $eksemplars = $query
-        ->Where('IsQUARANINE','0')
-        ->find_all('created_at','desc');
-
-        $this->data['title'] = 'Eksemplar - Karantina';
-        $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['eksemplars'] = $eksemplars;
-        echo view('Eksemplar\Views\karantina\list', $this->data);
-    }
-
-    public function keranjang_index()
-    {
-        if (!is_allowed('eksemplar/access')) {
-            set_message('toastr_msg', lang('App.permission.not.have'));
-            set_message('toastr_type', 'error');
-            return redirect()->to('/dashboard');
-        }
-
-        $query = $this->eksemplarModel
-            ->select('t_eksemplar.*')
-            ->select('created.username as created_name')
-            ->select('updated.username as updated_name')
-            ->join('users created','created.id = t_eksemplar.created_by','left')
-            ->join('users updated','updated.id = t_eksemplar.updated_by','left');
-            
-        $eksemplars = $query
-        ->Where('iskeranjang','0')
-        ->find_all('created_at','desc');
-
-        $this->data['title'] = 'Eksemplar - Keranjang';
-        $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
-        $this->data['eksemplars'] = $eksemplars;
-        echo view('Eksemplar\Views\keranjang\list', $this->data);
     }
 
     public function create()
@@ -155,61 +113,50 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 				$save_data[] = [
 					'NomorBarcode' => $no_barcode,
 					'NoInduk' => $no_induk_arr[$index],
-                    'RFID' => 	$rfid_arr,
+                    'RFID' => 	$rfid_arr[$index],
 					'ref_currency' =>  $this->request->getPost('ref_currency'),
 					'Price' =>  $this->request->getPost('Price'),
 					'PriceType' =>  $this->request->getPost('PriceType'),
 					'TanggalPengadaan' =>  $this->request->getPost('TanggalPengadaan'),
 					'CallNumber' =>  $this->request->getPost('CallNumber'),
-					// 'Branch_id' => 37,
 					'catalog_id' =>  $this->request->getPost('catalog_id'),
+					'ref_Branch' =>  $this->request->getPost('ref_branch'),
 					'ref_partner' =>  $this->request->getPost('ref_partner'),
-					// 'Location_id' =>  $this->request->getPost['Location_id'],
 					'ref_rules' =>  $this->request->getPost('ref_rules'),
 					'ref_akses' =>  $this->request->getPost('ref_akses'),
-					// 'Category_id' =>  $this->request->getPost['Category_id'],
 					'ref_media' =>  $this->request->getPost('ref_media'),
 					'ref_source' =>  $this->request->getPost('ref_source'),
 					'ref_status' =>  $this->request->getPost('ref_status'),
+					'is_opac' =>  $this->request->getPost('is_opac'),
+					'created_by' => user_id(),
+
+					// 'Branch_id' => 37,
+					// 'Location_id' =>  $this->request->getPost['Location_id'],
 					// 'Location_Library_id' =>  $this->request->getPost['Location_Library_id'],
-					'Keterangan_Sumber' => null,
+					// 'Keterangan_Sumber' => null,
 					// 'CreateTerminal' => null,
 					// 'IsVerified' => '',
 					// 'IsQUARANTINE' => null,
-					'QUARANTINEDBY' => user_id(),
+					// 'QUARANTINEDBY' => user_id(),
 					// 'QUARANTINEDDATE' => null,
 					// 'QUARANTINEDTERMINAL' => null,
 					// 'ISREFERENSI' => null,
 					// 'EDISISERIAL' => $edisi_serial,
-					'NOJILID' =>  $this->request->getPost('NOJILID'),
+					// 'NoJIlid' =>  $this->request->getPost('NoJIlid'),
 					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
-					'Bahan_Sertaan' =>  $this->request->getPost('Bahan_Sertaan'),
-					'KETERANGAN_LAIN' =>  $this->request->getPost['KETERANGAN_LAIN'],
-					'ISOPAC' =>  $this->request->getPost('IsOPAC'),
-					'created_by' => user_id(),
+					// 'Bahan_Sertaan' =>  $this->request->getPost('Bahan_Sertaan'),
+					// 'Keterangan_lain' =>  $this->request->getPost['Keterangan_lain'],
+
 				];
 			}
 
 			if(!empty($save_data)){
 				$this->eksemplarModel->insertBatch($save_data);
-
-				// $catalog = $this->catalogModel->update($catalog_id,array('judul'=>$judul));
 			}
 
-			// add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
 			set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
 			set_message('toastr_type', 'success');
 			return redirect()->to('/eksemplar');
-
-            // if ($newEksemplarId) {
-            //     add_log('Tambah Eksemplar', 'eksemplar', 'create', 't_eksemplar', $newEksemplarId);
-            //     set_message('toastr_msg', lang('Eksemplar.info.successfully_saved'));
-            //     set_message('toastr_type', 'success');
-            //     return redirect()->to('/eksemplar');
-            // } else {
-            //     set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Eksemplar.info.failed_saved'));
-            //     echo view('Eksemplar\Views\add', $this->data);
-            // }
         } else {
             $this->data['redirect'] = base_url('eksemplar/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
@@ -232,12 +179,16 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['ref_partner'] = get_ref('ref_partner');
         $this->data['ref_source'] = get_ref('ref_source');
         $this->data['ref_status'] = get_ref('ref_status');
+        $this->data['ref_akses'] = get_ref('ref_akses');
         // $this->data['ref_status1'] = get_ref('ref_status1');
         $BarcodeNumber =  BarcodeNumber_helper();
 		$NoInduk =NoInduk_helper();
 		$RFID =RFID_helper();
         $eksemplar = $this->eksemplarModel->find($id);
+        $katalog = $this->katalogModel->find($eksemplar->catalog_id);
+
         $this->data['eksemplar'] = $eksemplar;
+        $this->data['katalog'] = $katalog;
 
 		$this->validation->setRule('name', 'Nama', 'trim');
         if ($this->request->getPost()) {
@@ -270,11 +221,11 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
 					// 'QUARANTINEDTERMINAL' => null,
 					// 'ISREFERENSI' => null,
 					// 'EDISISERIAL' => $edisi_serial,
-					'NOJILID' =>  $this->request->getPost('NOJILID'),
+					// // 'NoJIlid' =>  $this->request->getPost('NoJIlid'),
 					// 'TANGGAL_TERBIT_EDISI_SERIAL' => $tgl_edisi_serial,
 					'Bahan_Sertaan' =>  $this->request->getPost('Bahan_Sertaan'),
-					'KETERANGAN_LAIN' =>  $this->request->getPost['KETERANGAN_LAIN'],
-					'ISOPAC' =>  $this->request->getPost('IsOPAC'),
+					'Keterangan_lain' =>  $this->request->getPost['Keterangan_lain'],
+					'ISOPAC' =>  $this->request->getPost('is_opac'),
                     'updated_by' => user_id(),
                 ];
 
@@ -326,7 +277,7 @@ class Eksemplar extends \hamkamannan\adminigniter\Controllers\BaseController
         }
     }
 
-    public function apply_status($id)
+	public function apply_status($id)
     {
         $field = $this->request->getVar('field');
         $value = $this->request->getVar('value');

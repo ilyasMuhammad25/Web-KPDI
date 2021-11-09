@@ -2,29 +2,24 @@
 $request = \Config\Services::request();
 $request->uri->setSilent();
 $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-$baseModel->setTable('t_katalog');
+$baseModel->setTable('t_catalog');
 $katalogs = $baseModel
     ->find_all('name', 'asc');
     // dd($katalog);
 ?>
 
-
-
-<?php $core = config('Core');
-$layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
-<?=$this->extend($layout);?>
+<?=$this->extend(config('Core')->layout_backend);?>
 <?=$this->section('style');?>
 <?=$this->endSection('style');?>
 
 <?=$this->section('page');?>
-
 
 <div class="app-main__inner">
     <div class="app-page-title">
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-photo icon-gradient bg-strong-bliss"></i>
+                    <i class="pe-7s-albums icon-gradient bg-strong-bliss"></i>
                 </div>
                 <div><?=lang('Eksemplar.action.add')?> <?=lang('Eksemplar.module')?>
                     <div class="page-title-subheading"><?=lang('Eksemplar.form.complete_the_data')?>.</div>
@@ -50,8 +45,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
             <?=lang('Eksemplar.action.add')?> <?=lang('Eksemplar.module')?>
             <div class="btn-actions-pane-right actions-icon-btn">
                 <?php if (is_allowed('Eksemplar/create')): ?>
-                <a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class=" btn btn-success"
-                    title="Pilih katalog"><i class="fa fa-book"></i> Pilih Katalog</a>
+                	<a data-toggle="modal" data-target="#modal_create" href="javascript:void(0);" class=" btn btn-success" title="Pilih katalog"><i class="fa fa-book"></i> Pilih Katalog</a>
                 <?php endif;?>
             </div>
         </div>
@@ -60,6 +54,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
             <?=get_message('message');?>
 
             <form id="frm_create" class="col-md-12" method="post" action="<?=base_url('eksemplar/create');?>">
+<<<<<<< HEAD
                 <!-- judul  -->
                 <div class="row">
                     <div class="col-md-12">
@@ -450,14 +445,16 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
                         </div>
                     </div>
                 </div>
+=======
+				<?= $this->include('Eksemplar\Views\section\add\judul'); ?>
+				<?= $this->include('Eksemplar\Views\section\add\koleksi'); ?>
+				<?= $this->include('Eksemplar\Views\section\add\pengadaan'); ?>
+>>>>>>> 9aaf98bc4a79137eaf029ec78f87f05c45bb9dd4
 
                 <div class="form-group">
                     <label for="description"><?=lang('Eksemplar.field.description')?> </label>
                     <div>
-                        <textarea id="frm_create_description" name="description"
-                            placeholder="<?=lang('Eksemplar.field.description')?> " rows="2"
-                            class="form-control autosize-input"
-                            style="min-height: 38px;"><?=set_value('description')?></textarea>
+                        <textarea id="frm_create_description" name="description" placeholder="<?=lang('Eksemplar.field.description')?> " rows="2" class="form-control autosize-input" style="min-height: 38px;"><?=set_value('description')?></textarea>
                     </div>
                 </div>
 
@@ -477,11 +474,16 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 
 <?=$this->section('script');?>
 
-<?=$this->include('Eksemplar\Views\pilihkatalog');?>
+<?=$this->include('Eksemplar\Views\katalog_modal');?>
 
 <script>
+<<<<<<< HEAD
 		$( document ).ready(function() {
 		$('#Location_Library').change(function() {
+=======
+	$( document ).ready(function() {
+		$('#Provincy').change(function() {
+>>>>>>> 9aaf98bc4a79137eaf029ec78f87f05c45bb9dd4
 			var Lokasi_perpustakaan_id = $(this).val();
 			var uriParam = '?Lokasi_perpustakaan_id='+Lokasi_perpustakaan_id;
 			getDropdown('Location_id', uriParam, 'Pilih', false, false);
@@ -490,18 +492,7 @@ $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan
 </script>
 
 <script>
-    //   $( document ).ready(function() {
-	// 	$('#Location_Library_id').change(function() {
-	// 		var Lokasi_perpustakaan_id = $(this).val();
-	// 		var uriParam = '?Lokasi_perpustakaan_id='+Lokasi_perpustakaan_id;
-	// 		getDropdown('m_lokasiruang', uriParam, 'Pilih', false, false);
-	// 	});
-	// });
-//  memanggil url combobox 
-
-
 $('.select2').select2();
-$('.select_2').select2();
 $(".btn-pilih").click(function() {
     var id = $(this).data('id');
     var judul = $(this).data('judul');
@@ -529,17 +520,13 @@ $(".btn-generate").click(function() {
 
     $('#' + tbody).empty();
     for (let i = 0; i < exemplar; i++) {
-
         no_panggil = rfid;
         $('#' + tbody).append(`
 				<tr>
-					<td><input name="no_barcode[` + i + `]" type="text" class="form-control barcode" value="` + prefix_no_barcode +
-            '' + pad(no_barcode, 7) + `" readonly></td>
+					<td><input name="no_barcode[` + i + `]" type="text" class="form-control barcode" value="` + prefix_no_barcode + '' + pad(no_barcode, 7) + `" readonly></td>
 					<td><input name="no_induk[` + i + `]" type="text" class="form-control barcode" value="` + no_induk + `" readonly></td>
-					<td><input name="rfid[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' + pad(rfid,
-                7) + `" readonly></td>
-					<td><input name="no_panggil[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' +
-            pad(no_panggil, 7) + `"></td>
+					<td><input name="rfid[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' + pad(rfid,7) + `" readonly></td>
+					<td><input name="no_panggil[` + i + `]" type="text" class="form-control barcode" value="` + prefix_rfid + '' +pad(no_panggil, 7) + `"></td>
 				</tr>
 			`);
 
