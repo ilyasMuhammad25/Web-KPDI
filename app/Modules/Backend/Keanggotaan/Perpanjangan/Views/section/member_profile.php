@@ -27,8 +27,8 @@ $member = get_member($member_no);
 					</div>
 				</div>
 				<div>
-					<h5 class="menu-header-title"><span id="name"></span></h5>
-					<h6 class="menu-header-subtitle"><span id="MemberNo"></span></p>
+					<h5 class="menu-header-title"><span id="name"></h5>
+					<h6 class="menu-header-subtitle"><span name="no_anggota"></span></p>
 				</div>
 				<div class="menu-header-btn-pane">
 
@@ -44,7 +44,7 @@ $member = get_member($member_no);
 						<i class="fa fa-phone"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">No Telepon</div>
+						<div class="widget-heading"><span id="nomor"></div>
 					</div>
 					<div class="widget-content-right">
 						<?=$member->Phone??''?>
@@ -59,8 +59,26 @@ $member = get_member($member_no);
 						<i class="fa fa-envelope"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">Email</div>
+						<div class="widget-heading"><span name="email"></div>
 					</div>
+					
+					<div class="widget-content-right">
+						
+					</div>
+				</div>
+			</div>
+		</li>
+
+		<li class="list-group-item">
+			<div class="widget-content p-0">
+				<div class="widget-content-wrapper">
+					<div class="widget-content-left mr-3">
+						<i class="fa fa-user"></i>
+					</div>
+					<div class="widget-content-left">
+						<div class="widget-heading"><span id="date"></span><span>(Masa aktif)</span></div>
+					</div>
+					
 					<div class="widget-content-right">
 						
 					</div>
@@ -77,7 +95,7 @@ $member = get_member($member_no);
 						<i class="fa fa-map-marker"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">Alamat</div>
+						<div class="widget-heading"><span name="address"></div>
 					</div>
 					<div class="widget-content-right">
 					</div>

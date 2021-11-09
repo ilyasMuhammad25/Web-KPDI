@@ -2,6 +2,8 @@
 
 return [
    'module' => 'Artikel',
+   'module1' => 'Artikel Lepas',
+   'module2' => 'Artikel Terbitan Berkala',
 
    'form.complete_the_data' => 'Mohon lengkapi data pada form berikut',
 

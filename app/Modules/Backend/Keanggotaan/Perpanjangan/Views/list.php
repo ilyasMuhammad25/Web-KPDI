@@ -37,65 +37,47 @@
         <div class="card-body">
             <?= get_message('message'); ?>
             <table style="width: 100%;" id="tbl_perpanjangans" class="table table-hover table-striped table-bordered">
-            <thead>
+                <thead>
                     <tr>
-                        <th><?= lang('Anggota.field.no') ?> </th>
-                        <th><?= lang('Banner.field.photo') ?> </th>
-                        <th><?= lang('Anggota.field.name') ?></th>
-                        <th><?= lang('Anggota.field.MemberNo') ?></th>
-                        <th><?= lang('Anggota.field.Email') ?></th>
-                        <th><?= lang('Anggota.field.active') ?></th>
-                        <th><?= lang('Anggota.field.created_by') ?></th>
-                        <th><?= lang('Anggota.field.updated_by') ?></th>
-                        <th><?= lang('Anggota.label.action') ?></th>
+                        <th><?= lang('Sumbangan.field.no') ?> </th>
+                        <th><?= lang('Sumbangan.field.name') ?></th>
+                        <th><?= lang('Sumbangan.field.MemberNo') ?></th>
+                        <th><?= lang('Sumbangan.field.description') ?></th>
+                        <th>Biaya</th>
+                        <th>Lunas</th>
+                        <th><?= lang('Sumbangan.label.action') ?></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($anggotas as $row) : ?>
-                    <tr>
-                       
-                        <td width="35"></td>
-                        <td width="100">
-                        <a href="<?= base_url('uploads/anggota/' . $row->file_image) ?>" class="image-link"><img width="100" class="rounded" src="<?= base_url('uploads/anggota/' . $row->file_image) ?>" alt=""></a>
-                        </td>
-                        <td width="200">
-                            <?= _spec($row->name); ?> <br>
-                        </td>
-                        <td><?= _spec($row->MemberNo); ?></td>
-                        <td><?= _spec($row->Email); ?></td>
-                        <!-- <td width="35"><?= _spec($row->sort); ?></td> -->
-                        <td width="50">
+                    <?php foreach ($perpanjangans as $row) : ?>
+                        <tr>
+                            <td width="35"></td>
+                            <td width="200">
+                                <?= _spec($row->nama); ?> <br>
+                            </td>
+                            <td width="200">
+                                <?= _spec($row->MembersNo); ?> <br>
+                            </td>
+                            <td width="200"><?= _spec($row->description); ?></td>
+                        
+                            <td width="100">
+                            <?= _spec($row->biaya); ?>
+                            </td>
+                          
+                            <td width="50">
                             <input type="checkbox" class="apply-status"
-                                data-href="<?= base_url('anggota/apply_status'); ?>" data-field="active"
-                                data-id="<?=$row->id?>" <?= ($row->active == 1) ? 'checked' : '' ?> data-toggle="toggle"
+                                data-href="<?=base_url('perpanjangan/apply_status');?>" data-field="is_lunas"
+                                data-id="<?=$row->id?>" <?=($row->is_lunas == 1) ? 'checked' : ''?> data-toggle="toggle"
                                 data-onstyle="success">
                         </td>
-                        <td width="100">
-                            <span class="badge badge-info"><?= _spec($row->created_at); ?></span><br>
-                            <span class="badge badge-info"><?= _spec($row->created_name); ?></span>
-                        </td>
-                        <td width="100">
-                            <span class="badge badge-info"><?= _spec($row->updated_at); ?></span><br>
-                            <span class="badge badge-info"><?= _spec($row->updated_name ?? '-'); ?></span>
-                        </td>
-                        <td width="35">
-                            <?php if(is_allowed('anggota/read')):?>
-                            <!-- <a href="<?= base_url('anggota/detail/' . $row->id) ?>" data-toggle="tooltip" data-placement="top" title="Detail Anggota" class="btn btn-xs btn-info show-data"><i class="pe-7s-note2 font-weight-bold"> </i></a> -->
-                            <?php endif;?>
-                            <?php if(is_allowed('anggota/update')):?>
-                            <a href="<?= base_url('anggota/edit/' . $row->id) ?>" data-toggle="tooltip"
-                                data-placement="top" title="Ubah Anggota"
-                                class="btn btn-xs btn-warning mb-1 show-data"><i class="pe-7s-note font-weight-bold">
-                                </i></a>
-                            <?php endif;?>
-                            <?php if(is_allowed('anggota/delete')):?>
-                            <a href="javascript:void(0);" data-href="<?= base_url('anggota/delete/' . $row->id); ?>"
-                                data-toggle="tooltip" data-placement="top" title="Hapus  rud"
-                                class="btn btn-xs btn-danger remove-data"><i class="pe-7s-trash font-weight-bold">
-                                </i></a>
-                            <?php endif;?>
-                        </td>
-                    </tr>
+                            </td>
+                            <td width="35">
+                                
+                                <?php if(is_allowed('perpanjangan/delete')):?>
+                                    <a href="javascript:void(0);" data-href="<?= base_url('perpanjangan/delete/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Hapus  rud" class="btn btn-xs btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
+                                <?php endif;?>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -107,7 +89,7 @@
 <?= $this->section('script'); ?>
 
 <script>
-    setDataTable('#tbl_perpanjangans', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
+    setDataTable('#tbl_perpanjangans', disableOrderCols = [0, 6], defaultOrderCols = [6, 'desc'], autoNumber = true);
 
     $("body").on("click", ".remove-data", function() {
         var url = $(this).attr('data-href');
