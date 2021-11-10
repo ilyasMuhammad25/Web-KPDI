@@ -25,7 +25,7 @@ if($slug == 'extend'){
 	$label = 'Perpanjangan';
 }
 
-$member_no = '202109140013';
+$member_no = user()->username;
 $anggota =  db_get_single('t_anggota', 'MemberNo=' . $member_no);
 $member = get_member($member_no);
 

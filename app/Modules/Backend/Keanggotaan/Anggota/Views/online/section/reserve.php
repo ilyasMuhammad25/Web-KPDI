@@ -3,7 +3,7 @@ $request = \Config\Services::request();
 $request->uri->setSilent();
 $slug = $request->getVar('slug') ?? 'profile';
 $slug_title = ucwords(strtolower($slug));
-$member_no = '202109130005';
+$member_no = user()->username;
 $anggota =  db_get_single('t_anggota', 'MemberNo=' . $member_no);
 $member = get_member($member_no);
 
