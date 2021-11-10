@@ -74,71 +74,71 @@ $row = $katalogModel->find($catalog_id);
 							<div class="media mb-3">
 								<img class="mr-3 img-thumbnail img-fluid" src="<?=$default?>" onerror="this.onerror=null;this.src='<?=$default?>';" style="max-width:200px" alt="Cover Koleksi">
 								<div class="media-body">
-									<table class="table table-bordered table-condensed mb-0">
+									<table class="table table-stripped mb-0">
 										<tbody>
 												<tr>
-													<th class="text-primary" width="150">Judul</th>
-													<td><?=$row->title?></td>
+													<th class="text-info" width="150">Judul</th>
+													<td>: <?=$row->title?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Judul Asli</th>
-													<td></td>
+													<th class="text-info">Judul Asli</th>
+													<td>: </td>
 												</tr>
 												<tr>
-													<th class="text-primary">Pengarang</th>
-													<td><?=$row->author?></td>
+													<th class="text-info">Pengarang</th>
+													<td>: <?=$row->author?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Penerbitan</th>
-													<td><?=$row->publication?></td>
+													<th class="text-info">Penerbitan</th>
+													<td>: <?=$row->publication?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Deskripsi Fisik</th>
-													<td><?=$row->description_physical?></td>
+													<th class="text-info">Deskripsi Fisik</th>
+													<td>: <?=$row->description_physical?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Jenis Isi</th>
-													<td></td>
+													<th class="text-info">Jenis Isi</th>
+													<td>: </td>
 												</tr>
 												<tr>
-													<th class="text-primary">Jenis Media</th>
-													<td></td>
+													<th class="text-info">Jenis Media</th>
+													<td>: </td>
 												</tr>
 												<tr>
-													<th class="text-primary">Jenis Wadah</th>
-													<td></td>
+													<th class="text-info">Jenis Wadah</th>
+													<td>: </td>
 												</tr>
 												<tr>
-													<th class="text-primary">ISBN</th>
-													<td><?=$row->isbn?></td>
+													<th class="text-info">ISBN</th>
+													<td>: <?=$row->isbn?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Subjek</th>
-													<td><?=$row->subject?></td>
+													<th class="text-info">Subjek</th>
+													<td>: <?=$row->subject?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Abstrak</th>
-													<td></td>
+													<th class="text-info">Abstrak</th>
+													<td>: </td>
 												</tr>
 												<tr>
-													<th class="text-primary">Catatan</th>
-													<td><?=$row->notes?></td>
+													<th class="text-info">Catatan</th>
+													<td>: <?=$row->notes?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Bahasa</th>
-													<td><?=$row->languages?></td>
+													<th class="text-info">Bahasa</th>
+													<td>: <?=$row->languages?></td>
 												</tr>
 												<tr>
-													<th class="text-primary">Bentuk Karya</th>
-													<td></td>
+													<th class="text-info">Bentuk Karya</th>
+													<td>: </td>
 												</tr>
 												<tr>
-													<th class="text-primary">Target pembaca</th>
-													<td></td>
+													<th class="text-info">Target pembaca</th>
+													<td>: </td>
 												</tr>
 												<tr>
-													<th class="text-primary">Konten Digital</th>
-													<td>Tidak tersedia</td>
+													<th class="text-info">Konten Digital</th>
+													<td>: Tidak tersedia</td>
 												</tr>
 										</tbody>
 									</table>

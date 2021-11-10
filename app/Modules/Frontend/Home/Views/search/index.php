@@ -94,10 +94,10 @@ $pager = $query->pager;
 							<div class="col-lg-12 col-sm-12 mb-3 pl-0">
 								<div class="blog_grid_post shadow-sm wow fadeInUp m-0">
 									<div class="grid_post_content p-0">
-										<table class="table table-bordered table-condensed mb-0">
+										<table class="table table-stripped mb-0">
 											<tbody>
 													<tr>
-														<th width="120">
+														<th class="text-info" width="120">
 															<a href="<?=$image?>" class="image-link">
 																<img width="120" class="rounded" src="<?=$default?>" onerror="this.onerror=null;this.src='<?=$default?>';" alt="">
 															</a>
@@ -110,24 +110,24 @@ $pager = $query->pager;
 														</td>
 													</tr>
 													<tr>
-														<th>Kreator/Pengarang</th>
-														<td><?=$row->author?></td>
+														<th class="text-info">Kreator/Pengarang</th>
+														<td>: <?=$row->author?></td>
 													</tr>
 													<tr>
-														<th>Penerbitan</th>
-														<td><?= _spec($row->publication); ?></td>
+														<th class="text-info">Penerbitan</th>
+														<td>: <?= _spec($row->publication); ?></td>
 													</tr>
 													<tr>
-														<th>No. Panggil</th>
-														<td><?= _spec($row->call_no); ?></td>
+														<th class="text-info">No. Panggil</th>
+														<td>: <?= _spec($row->call_no); ?></td>
 													</tr>
 													<tr>
-														<th>Konten Digital</th>
-														<td>Tidak tersedia</td>
+														<th class="text-info">Konten Digital</th>
+														<td>: Tidak tersedia</td>
 													</tr>
 													<tr>
-														<th>Ketersediaan</th>
-														<td><?=count(get_eksemplars($row->id))?></td>
+														<th class="text-info">Ketersediaan</th>
+														<td>: <?=count(get_eksemplars($row->id))?></td>
 													</tr>
 											</tbody>
 										</table>
