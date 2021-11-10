@@ -206,8 +206,8 @@ $member = get_member($member_no);
 			$('#'+tbody).append(`
 				<tr class="rm-row">
 					<td>`+no_barcode+`</td>
-					<td>`+respJson.Title+`</td>
-					<td>`+respJson.Publisher+`</td>
+					<td>`+respJson.title+`</td>
+					<td>`+respJson.publication+`</td>
 					<td class="text-left">
 						<input type="hidden" name="barcodes[]" value="`+no_barcode+`">
 						<button type="button" class="btn btn-danger cart-btn-remove" data-href=""><i class="fa fa-trash"></i></button>

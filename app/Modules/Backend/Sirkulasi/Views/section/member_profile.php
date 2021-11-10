@@ -36,10 +36,9 @@
 						<i class="fa fa-phone"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">No Telepon</div>
+						<div class="widget-heading"><?=$member->Phone??'-'?></div>
 					</div>
 					<div class="widget-content-right">
-						<?=$member->Phone??''?>
 					</div>
 				</div>
 			</div>
@@ -51,10 +50,70 @@
 						<i class="fa fa-envelope"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">Email</div>
+						<div class="widget-heading"><?=$member->Email??'-'?></div>
 					</div>
 					<div class="widget-content-right">
 						
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="widget-content p-0">
+				<div class="widget-content-wrapper">
+					<div class="widget-content-left mr-3">
+						<i class="fa fa-calendar"></i>
+					</div>
+					<div class="widget-content-left">
+						<div class="widget-heading"><?=substr($member->EndDate, 0,10)??'-'?></div>
+					</div>
+					<div class="widget-content-right">
+						<button class="btn btn-sm btn-warning">Perpanjang Anggota</button>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="widget-content p-0">
+				<div class="widget-content-wrapper">
+					<div class="widget-content-left mr-3">
+						<i class="fa fa-id-card"></i>
+					</div>
+					<div class="widget-content-left">
+						<div class="widget-heading">Umum</div>
+					</div>
+					<div class="widget-content-right">
+						<small class="text-muted">Jenis Anggota</small>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="widget-content p-0">
+				<div class="widget-content-wrapper">
+					<div class="widget-content-left mr-3">
+						<i class="fa fa-calendar-check"></i>
+					</div>
+					<div class="widget-content-left">
+						<div class="widget-heading">6 Hari</div>
+					</div>
+					<div class="widget-content-right">
+						<small class="text-muted">Lama Pinjam Maksimal</small>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="widget-content p-0">
+				<div class="widget-content-wrapper">
+					<div class="widget-content-left mr-3">
+						<i class="fa fa-credit-card"></i>
+					</div>
+					<div class="widget-content-left">
+						<div class="widget-heading">Rp. 1.000,-</div>
+					</div>
+					<div class="widget-content-right">
+						<small class="text-muted">Denda terlambat per Hari</small>
 					</div>
 				</div>
 			</div>
@@ -78,7 +137,7 @@
 					
 				</p>
 				<p class="mt-3">
-					<a href="https://maps.google.com/?q=" target="_blank" title="Lihat Google Maps" class="btn btn-sm btn-warning" style="min-width:35px"><i class="fa fa-map"> </i> Google Maps</a> 
+					<a href="https://maps.google.com/?q=" target="_blank" title="Lihat Google Maps" class="btn btn-sm btn-secondary" style="min-width:35px"><i class="fa fa-map"> </i> Google Maps</a> 
 				</p>
 			</div>
 		</div>
@@ -101,7 +160,7 @@
 					
 				</p>
 				<p class="mt-3">
-					<a href="https://maps.google.com/?q=" target="_blank" title="Lihat Google Maps" class="btn btn-sm btn-warning" style="min-width:35px"><i class="fa fa-map"> </i> Google Maps</a> 
+					<a href="https://maps.google.com/?q=" target="_blank" title="Lihat Google Maps" class="btn btn-sm btn-secondary" style="min-width:35px"><i class="fa fa-map"> </i> Google Maps</a> 
 				</p>
 			</div>
 		</div>

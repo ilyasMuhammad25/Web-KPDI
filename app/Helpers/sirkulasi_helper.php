@@ -5,8 +5,8 @@ if (!function_exists('get_available_eksemplars')) {
 		$ref_id = get_ref_id('tersedia','slug','ref_status');
 		$eksemplarModel = new \Eksemplar\Models\EksemplarModel();
 		$query = $eksemplarModel
-			->select('t_eksemplar.*')
-			->where('t_eksemplar.availability_id', $ref_id);
+			->select('t_eksemplar.*');
+			// ->where('t_eksemplar.availability_id', $ref_id);
 
 		$data = $query->get()->getResult();
 		return $data;
