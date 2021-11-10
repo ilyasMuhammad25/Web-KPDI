@@ -159,8 +159,8 @@ $member = get_member($member_no);
 													<td width="100">
 														<?= _spec($row->barcode_no); ?> <br>
 													</td>
-													<td width="400"><?= _spec($row->catalog_title); ?></td>
-													<td><?= _spec($row->catalog_publisher); ?></td>
+													<td width="400"><?= _spec($row->title); ?></td>
+													<td><?= _spec($row->publisher); ?></td>
 													<td width="100"><?= _spec($row->loan_date); ?></td>
 													<td width="100"><?= _spec($row->due_date); ?></td>
 													<td width="35">

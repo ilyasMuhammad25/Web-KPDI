@@ -2,9 +2,6 @@
 	$routes = \Config\Services::routes(true);
 }
 
-
-$routes->post('attempt_pengembalian', 'Sirkulasi::attempt_pengembalian', ['namespace' => 'Sirkulasi\Controllers']);
-
 $routes->group('sirkulasi', ['namespace' => 'Sirkulasi\Controllers'], function ($subroutes) {
 	/*** Route Update for Sirkulasi ***/
 	$subroutes->add('', 'Sirkulasi::index');
@@ -12,14 +9,14 @@ $routes->group('sirkulasi', ['namespace' => 'Sirkulasi\Controllers'], function (
 	$subroutes->add('detail/(:any)', 'Sirkulasi::detail/$1');
 	$subroutes->add('create', 'Sirkulasi::create');
 
-	$subroutes->add('create_peminjaman', 'Sirkulasi::create_peminjaman');
-	$subroutes->add('create_pengembalian', 'Sirkulasi::create_pengembalian');
-	$subroutes->add('create_perpanjangan', 'Sirkulasi::create_perpanjangan');
-	$subroutes->add('create_pelanggaran', 'Sirkulasi::create_pelanggaran');
+	$subroutes->add('create_loan', 'Sirkulasi::create_loan');
+	$subroutes->add('create_return', 'Sirkulasi::create_return');
+	$subroutes->add('create_extend', 'Sirkulasi::create_extend');
+	$subroutes->add('create_penalty', 'Sirkulasi::create_penalty');
 
-	$subroutes->add('proses_pengembalian/(:any)', 'Sirkulasi::proses_pengembalian/$1');
-	$subroutes->add('proses_perpanjangan/(:any)', 'Sirkulasi::proses_perpanjangan/$1');
-	$subroutes->add('proses_pelanggaran/(:any)', 'Sirkulasi::proses_pelanggaran/$1');
+	$subroutes->add('process_return/(:any)', 'Sirkulasi::process_return/$1');
+	$subroutes->add('process_extend/(:any)', 'Sirkulasi::process_extend/$1');
+	$subroutes->add('process_penalty/(:any)', 'Sirkulasi::process_penalty/$1');
 	$subroutes->add('cart_insert/(:any)', 'Sirkulasi::cart_insert/$1');
 	$subroutes->add('cart_remove/(:any)', 'Sirkulasi::cart_remove/$1');
 	$subroutes->add('cart_destroy', 'Sirkulasi::cart_destroy');

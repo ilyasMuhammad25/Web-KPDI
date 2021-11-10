@@ -48,6 +48,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		helper('tgl_indo');
 		helper('url');
 		helper('thumbnail');
+		helper('sirkulasi');
 	}
 	public function online() {
 		$this->data['title'] = 'Keanggotaan Online';

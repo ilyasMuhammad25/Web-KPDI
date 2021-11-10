@@ -1,3 +1,6 @@
+<?php 
+	$member_type = get_member_type($member->id);
+?>
 <div class="card-shadow-dark profile-responsive card-border mb-3 card">
 	<div class="dropdown-menu-header">
 		<div class="dropdown-menu-header-inner bg-corporate-primary2">
@@ -80,7 +83,7 @@
 						<i class="fa fa-id-card"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">Umum</div>
+						<div class="widget-heading"><?=$member_type->name??'-'?></div>
 					</div>
 					<div class="widget-content-right">
 						<small class="text-muted">Jenis Anggota</small>
@@ -95,10 +98,40 @@
 						<i class="fa fa-calendar-check"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">6 Hari</div>
+						<div class="widget-heading"><?=$member_type->max_loan_days??'-'?> Hari</div>
 					</div>
 					<div class="widget-content-right">
-						<small class="text-muted">Lama Pinjam Maksimal</small>
+						<small class="text-muted">Maks Lama Peminjaman</small>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="widget-content p-0">
+				<div class="widget-content-wrapper">
+					<div class="widget-content-left mr-3">
+						<i class="fa fa-calendar-check"></i>
+					</div>
+					<div class="widget-content-left">
+						<div class="widget-heading"><?=$member_type->max_loan_attempt??'-'?> Kali</div>
+					</div>
+					<div class="widget-content-right">
+						<small class="text-muted">Maks Jumlah Peminjaman</small>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="widget-content p-0">
+				<div class="widget-content-wrapper">
+					<div class="widget-content-left mr-3">
+						<i class="fa fa-calendar-check"></i>
+					</div>
+					<div class="widget-content-left">
+						<div class="widget-heading"><?=$member_type->extend_days??'-'?> Hari</div>
+					</div>
+					<div class="widget-content-right">
+						<small class="text-muted">Maks Perpanjangan</small>
 					</div>
 				</div>
 			</div>
@@ -110,10 +143,10 @@
 						<i class="fa fa-credit-card"></i>
 					</div>
 					<div class="widget-content-left">
-						<div class="widget-heading">Rp. 1.000,-</div>
+						<div class="widget-heading"><?=$member_type->charge_amount??'-'?> </div>
 					</div>
 					<div class="widget-content-right">
-						<small class="text-muted">Denda terlambat per Hari</small>
+						<small class="text-muted">Denda Terlambat / <?=$member_type->charge_unit??'-'?></small>
 					</div>
 				</div>
 			</div>

@@ -1,18 +1,13 @@
 <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
-$slug = $request->getVar('slug') ?? 'profile';
-$slug_title = ucwords(strtolower($slug));
-$member_no = user()->username;
-$anggota =  db_get_single('t_anggota', 'MemberNo=' . $member_no);
-$member = get_member($member_no);
 
 $eksemplarLoanItemModel = new \Sirkulasi\Models\EksemplarLoanItemModel();
 $query = $eksemplarLoanItemModel
 	->select('t_eksemplar_loan_item.*')
 	->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 	->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-	->select('t_catalog.Title as catalog_title, t_catalog.Publisher as catalog_publisher')
+	->select('t_catalog.title, t_catalog.publisher')
 
 	->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 	->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -33,7 +28,7 @@ $sirkulasis = $query->findAll();
 	</div>
 	<div class="card-body">
 		<div class="table-responsive">
-			<table style="width: 100%;" id="tbl_usulans" class="table table-hover table-striped table-bordered">
+			<table style="width: 100%;" id="tbl_requests" class="table table-hover table-striped table-bordered">
 				<thead class="bg-corporate-primary2 text-white">
 					<tr>
 						<th class="text-center">
@@ -56,8 +51,8 @@ $sirkulasis = $query->findAll();
 							<td width="100">
 								<?= _spec($row->barcode_no); ?> <br>
 							</td>
-							<td width="400"><?= _spec($row->catalog_title); ?></td>
-							<td><?= _spec($row->catalog_publisher); ?></td>
+							<td width="400"><?= _spec($row->title); ?></td>
+							<td><?= _spec($row->publisher); ?></td>
 							<td width="100"><?= _spec($row->loan_date); ?></td>
 							<td width="100"><?= _spec($row->due_date); ?></td>
 							<td width="35">

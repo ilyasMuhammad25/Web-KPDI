@@ -1,5 +1,5 @@
 <?php
-cart_destroy();
+// cart_destroy();
 
 $request = \Config\Services::request();
 $request->uri->setSilent();
@@ -123,7 +123,7 @@ $member = get_member($member_no);
 														<td width="100">
 															<?= _spec($row->barcode_no); ?> <br>
 														</td>
-														<td width="400"><?= _spec($row->catalog_title); ?></td>
+														<td width="400"><?= _spec($row->title); ?></td>
 														<td width="100"><?= _spec($row->loan_date); ?></td>
 														<td width="100"><?= _spec($row->due_date); ?></td>
 														<td width="50"><?=get_late_days($row->due_date)?></td>
@@ -165,8 +165,8 @@ $member = get_member($member_no);
 															<input type="hidden" name="ids[]" value="<?=$row->id?>">
 															<?= _spec($row->options->barcode_no); ?> <br>
 														</td>
-														<td width="400"><?= _spec($row->options->catalog_title); ?></td>
-														<td><?= _spec($row->options->catalog_publisher); ?></td>
+														<td width="400"><?= _spec($row->options->title); ?></td>
+														<td><?= _spec($row->options->publisher); ?></td>
 														<td width="100"><?= _spec($row->options->loan_date); ?></td>
 														<td width="100"><?= _spec($row->options->due_date); ?></td>
 														<td width="35">

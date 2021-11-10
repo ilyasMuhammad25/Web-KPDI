@@ -12,7 +12,7 @@ $query = $eksemplarLoanItemModel
 	->select('t_eksemplar_loan_item.*')
 	->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 	->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-	->select('t_catalog.Title as catalog_title, t_catalog.Publisher as catalog_publisher')
+	->select('t_catalog.title, t_catalog.publisher')
 
 	->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 	->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
