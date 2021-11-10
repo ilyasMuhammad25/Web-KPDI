@@ -3,7 +3,6 @@
 		var row = $(this).closest('.title_previous_wrapper');
 		row.remove(); return false;
 	});
-	
 
 	$(document).on('click', '.title_previous_btn_add', function() {
 		var index = Date.now();
@@ -27,7 +26,6 @@
 		row.remove(); return false;
 	});
 	
-
 	$(document).on('click', '.title_varian_btn_add', function() {
 		var index = Date.now();
 		var tbody = $(this).data('tbody');
@@ -50,7 +48,6 @@
 		row.remove(); return false;
 	});
 	
-
 	$(document).on('click', '.title_original_btn_add', function() {
 		var index = Date.now();
 		var tbody = $(this).data('tbody');

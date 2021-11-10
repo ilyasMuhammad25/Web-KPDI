@@ -9,6 +9,7 @@ $routes->group('anggota', ['namespace' => 'Anggota\Controllers'], function ($sub
 	/*** Route Update for Anggota ***/
 	$subroutes->add('', 'Anggota::index');
 	$subroutes->add('index', 'Anggota::index');
+	$subroutes->add('online', 'Anggota::online');
 	$subroutes->add('profile', 'Anggota::profile');
 	$subroutes->add('index_json', 'Anggota::index_json');
 	$subroutes->add('keranjang', 'Anggota::keranjang');
