@@ -65,11 +65,11 @@ $pager = $query->pager;
 		<div class="overlay_bg"></div>
 		<div class="container custom_container">
 			<div class="row">
-				<div class="col-lg-2 doc_mobile_menu display_none pr-0">
+				<div class="col-lg-3 doc_mobile_menu display_none pr-0">
 					<?= $this->include('Home\Views\search\section\sidebar_left'); ?>
 				</div>
 
-				<div class="col-lg-8 col-md-8 doc-middle-content" style="padding-left:5px; padding-right:30px;">
+				<div class="col-lg-7 col-md-8 doc-middle-content" style="padding-left:5px; padding-right:30px;">
 					<div class="shortcode_title">
 
 						<?php if(!empty($keyword)): ?>
