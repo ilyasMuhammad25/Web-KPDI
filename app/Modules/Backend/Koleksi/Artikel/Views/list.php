@@ -49,7 +49,7 @@
                 <thead>
                     <tr>
                         <th><?= lang('Page.field.no') ?> </th>
-                        <th>Foto Cover</th>
+                        <th>PDF</th>
                         <th>Judul Artikel</th>
                         <th>Kreator</th>
                         <th>Subjek</th>
@@ -63,26 +63,30 @@
                     <?php foreach ($artikels as $row) : ?>
                     <?php 
 							$default = base_url('uploads/default/no_cover.jpg');
-							$image = base_url('uploads/artikel/' . $row->file_pendukung);
-							$thumb = base_url('uploads/artikel/thumb_' . $row->file_pendukung);
-							if (empty($row->file_pdf)) {
+							$image = base_url('uploads/artikel/' . $row->file_image);
+							$thumb = base_url('uploads/artikel/thumb_' . $row->file_image);
+							if (empty($row->file_image)) {
 								$image = $default;
 								$thumb = $default;
 							}
 						?>
                     <tr>
                         <td width="35"></td>
+
                         <td width="100" style="vertical-align: bottom;">
-                            <a href="<?=$image?>" class="image-link">
-                                <img width="100" class="rounded" src="<?=$thumb?>"
-                                    onerror="this.onerror=null;this.src='<?=$default?>';" alt="">
+                            <?php if(!empty($row->file_pdf)):?>
+                            <a href="<?= base_url('flip?path=artikel&file=' . $row->file_pdf) ?>"
+                                class="ajax-popup-link">
+                                <img width="80" class="rounded" src="<?= base_url('uploads/default/pdf.png') ?>" alt="">
                             </a>
-                            <a href="javascript:void(0);" data-title="Foto Cover"
-                                data-format-title="Format (JPG|PNG). Max 10MB" data-format=".jpg,.jpeg,.png"
-                                data-dropzone-url="" data-url="" data-redirect="<?= base_url('artikel') ?>"
-                                data-id="<?=$row->id?>" data-field="file_image" data-title="" data-toggle="tooltip"
-                                data-placement="top" title="Upload "
-                                class="btn btn-sm btn-block btn-secondary upload-data mt-1"
+                            <?php else:?>
+                            -
+                            <?php endif;?>
+                            <a href="javascript:void(0);" data-title="Konten Digital"
+                                data-format-title="Format (PDF). Max 10MB" data-format=".pdf" data-dropzone-url=""
+                                data-url="" data-redirect="<?= base_url('artikel') ?>" data-id="<?=$row->id?>"
+                                data-field="file_pdf" data-title="" data-toggle="tooltip" data-placement="top"
+                                title="Upload " class="btn btn-sm btn-block btn-secondary upload-data mt-1"
                                 style="min-width:35px"><small><i class="fa fa-upload"> </i> Upload</small></a>
                         </td>
                         <td width="200">
@@ -103,13 +107,29 @@
                             <span class="badge badge-info"><?= _spec($row->updated_name ?? '-'); ?></span>
                         </td>
                         <td width="90">
-                            <?php if(is_allowed('page/update')):?>
-                            <a href="<?= base_url('page/edit/' . $row->id) ?>" data-toggle="tooltip"
-                                data-placement="top" title="Ubah Page" class="btn btn-warning show-data"><i
-                                    class="pe-7s-note font-weight-bold"> </i></a>
-                            <?php endif;?>
-                            <?php if(is_allowed('page/delete')):?>
-                            <a href="javascript:void(0);" data-href="<?= base_url('page/delete/' . $row->id); ?>"
+
+                            <!-- <a id="btn1" data-creator="<?=$row->Creator?>" data-Catalog_id="<?= _spec($row->id); ?>"
+                                data-href="<?= base_url('api/artikel/edit' . $row->id); ?>"
+                                data-title="<?=$row->Title?>" data-subject="<?=$row->Subject?>"
+                                data-startpage="<?=$row->StartPage?>"
+                                data-pages="<?=$row->Pages?>"
+                                data-abstract="<?=$row->Abstract?>"
+                                 data-toggle="modal" data-target="#modal_update"
+                                href="javascript:void(0);" data-placement="top" title="Ubah Page"
+                                class="btn btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
+                             -->
+                            <!-- <a data-toggle='tooltip' data-placement='top' class='btn-updateartikel' title='Update'
+                                value="<?= $row->id?>">
+                                <button type='button' class='btn btn-outline-success btn-xs' data-toggle='modal'
+                                    data-target='#modal_update'><i class='fa fa-edit'></i></button>
+                            </a> -->
+                            <?php if(is_allowed('artikel/update')):?>
+                                            <a href="javascript:void(0);" data-href="<?= base_url('api/artikel/detail/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Ubah Referensi" class="btn btn-xs btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
+                                        <?php endif;?>
+
+
+                            <?php if(is_allowed('artikel/delete')):?>
+                            <a href="javascript:void(0);" data-href="<?= base_url('artikel/delete/' . $row->id); ?>"
                                 data-toggle="tooltip" data-placement="top" title="Hapus Page"
                                 class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
                             <?php endif;?>
@@ -127,7 +147,33 @@
 <?= $this->include('Artikel\Views\add_modal'); ?>
 <?= $this->include('Artikel\Views\upload_modal'); ?>
 <?= $this->include('Artikel\Views\add_modal serial'); ?>
+<?= $this->include('Artikel\Views\update_modal'); ?>
 
+<script>
+    
+// mendapatkan data untuk edit
+$(document).ready(function() {
+    $("#btn1").click(function() {
+        const Catalog_id = $(this).data('Catalog_id');
+        const creator = $(this).data('creator');
+        const title = $(this).data('title');
+        const subject = $(this).data('subject');
+        const startpage = $(this).data('startpage');
+        const pages = $(this).data('pages');
+        const abstract = $(this).data('abstract');
+        console.log(creator);
+
+        $('#Catalog_id').val(Catalog_id);
+        $('#Title').val(title);
+        $('#Creator').val(creator);
+        $('#Subject').val(subject);
+        $('#StartPage').val(startpage);
+        $('#Pages').val(pages);
+        $('#Abstract').val(abstract);
+    });
+
+});
+</script>
 <script>
 Dropzone.autoDiscover = false;
 </script>

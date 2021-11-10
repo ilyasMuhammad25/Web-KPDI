@@ -19,6 +19,7 @@ class Artikel extends ResourceController
 	function __construct()
 	{
 		helper(['url', 'text', 'form', 'auth', 'app', 'html']);
+		helper('thumbnail');
 		$this->artikelModel = new \Artikel\Models\ArtikelModel();
 		$this->validation = \Config\Services::validation();
 		$this->session = session();
@@ -58,50 +59,11 @@ class Artikel extends ResourceController
 		}
 	}
 
-	public function category_create()
-	{
-		// $this->validation->setRule('Title', 'Title', 'required');		
-		if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-			$form_slug = url_title($this->request->getPost('name'), '-', TRUE);
-			$save_data = array(
-				'Title' => $this->request->getPost('Title'),
-				'name' => $this->request->getPost('name'),
-				'slug' => $form_slug,
-				'Creator' => $this->request->getPost('Creator'),
-				// 'description' => $this->request->getPost('description'),
-			);
-
-			$newArtikelId = $this->artikelModel->insert($save_data);
-			if ($newArtikelId) {
-				$this->session->setFlashdata('toastr_msg', 'Kategori Menu berhasil disimpan');
-				$this->session->setFlashdata('toastr_type', 'success');
-				$response = [
-					'status'   => 201,
-					'error'    => null,
-					'messages' => [
-						'success' => 'Kategori Menu berhasil disimpan'
-					]
-				];
-				return $this->respondCreated($response);
-			} else {
-				$response = [
-					'status'   => 400,
-					'error'    => null,
-					'messages' => [
-						'error' => 'Kategori Menu gagal disimpan'
-					]
-				];
-				return $this->fail($response);
-			}
-		} else {
-			$message = $this->validation->listErrors();
-			return $this->fail($message, 400);
-		}
-	}
+	
 
 	public function create()
 	{
-		$hallo="tes";
+	
 		// dd($hallo);
 		if (!is_allowed('artikel/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
@@ -157,26 +119,41 @@ class Artikel extends ResourceController
 			return $this->fail($message, 400);
 		}
 	}
-
+	public function ajaxedit($idartikel)
+	{
+		$data = $this->artikelModel->find($idartikel);
+		// dd($data);
+		echo json_encode($data);
+	}
 	public function edit($id = null)
 	{
+		
 		if (!is_allowed('artikel/update')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
 			return $this->respond(array('status' => 201, 'error' => lang('App.permission.not.have')));
         }
-
-		$this->validation->setRule('name', 'Nama', 'required');
+		$idartikel = $this->request->getPost('idartikel');
+		$this->validation->setRule('Title', 'Title', 'required');
 		if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-			$slug = url_title($this->request->getPost('name'), '-', TRUE);
+			// $slug = url_title($this->request->getPost('name'), '-', TRUE);
 			$update_data = array(
-				'name' => $this->request->getPost('name'),
-				'slug' => $slug,
-				'sort' => $this->request->getPost('sort'),
-				'description' => $this->request->getPost('description'),
+				'Title' => $this->request->getPost('Title'),
+				'Content' => $this->request->getPost('Content'),
+				'Creator' => $this->request->getPost('Creator'),
+				'Contributor' => $this->request->getPost('Contributor'),
+				'StartPage' => $this->request->getPost('StartPage'),
+				'Pages' => $this->request->getPost('Pages'),
+				'Subject' => $this->request->getPost('Subject'),
+				'EDISISERIAL' => $this->request->getPost('EDISISERIAL'),
+				'ISOPAC' => $this->request->getPost('ISOPAC'),
+				'Abstract' => $this->request->getPost('Abstract'),
+				'Catalog_id' => $this->request->getPost('Catalog_id')
 			);
+			// dd($update_data);
 
-			$artikelUpdate = $this->artikelModel->update($id, $update_data);
+			$artikelUpdate = $this->artikelModel->update($id,$update_data);
+			
 			if ($artikelUpdate) {
 				add_log('Ubah Artikel', 'artikel', 'edit', 't_artikel', $id);
 				$this->session->setFlashdata('toastr_msg', lang('Artikel.info.successfully_updated'));
@@ -223,9 +200,9 @@ class Artikel extends ResourceController
 		}
 	}
 
+	
 	public function upload_file()
 	{
-		dd('tes');
         $upload_id = $this->request->getPost('upload_id');
         $upload_field = $this->request->getPost('upload_field');
         $upload_title = $this->request->getPost('upload_title');
@@ -248,13 +225,11 @@ class Artikel extends ResourceController
             }
             $update_data[$upload_field] = implode(',', $listed_file);
         }
-
-        $page = $this->pageModel->find($upload_id);
-        $pageUpdate = $this->pageModel->update($upload_id,$update_data);
-        if ($pageUpdate) {
-			unlink_file($this->modulePath, $page->file_image);
-			unlink_file($this->modulePath, 'thumb_'.$page->file_image);
-			unlink_file($this->modulePath, $page->file_pdf);
+		$artikel = $this->artikelModel->find($upload_id);
+        $artikelUpdate = $this->artikelModel->update($upload_id,$update_data);
+        if ($artikelUpdate) {
+			unlink_file($this->modulePath, $artikel->file_image);
+			unlink_file($this->modulePath, 'thumb_'.$artikel->file_image);
 
             $this->session->setFlashdata('toastr_msg', 'Upload file berhasil');
             $this->session->setFlashdata('toastr_type', 'success');

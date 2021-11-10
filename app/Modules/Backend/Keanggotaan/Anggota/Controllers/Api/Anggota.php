@@ -30,6 +30,7 @@ class Anggota extends ResourceController
 		}
 
 		helper('reference');
+		helper('thumbnail');
 	}
 
 	public function index()
@@ -181,5 +182,57 @@ class Anggota extends ResourceController
 		}
 
 		return $this->respond($data, 200);
+	}
+
+	public function upload_file()
+	{
+        $upload_id = $this->request->getPost('upload_id');
+        $upload_field = $this->request->getPost('upload_field');
+        $upload_title = $this->request->getPost('upload_title');
+
+        $update_data = [];
+        $files = (array) $this->request->getPost('file_pendukung');
+        if (count($files)) {
+            $listed_file = array();
+            foreach ($files as $uuid => $name) {
+                if (file_exists($this->uploadPath . $name)) {
+                    $file = new File($this->uploadPath . $name);
+                    $newFileName = $file->getRandomName();
+                    $file->move($this->modulePath, $newFileName);
+                    $listed_file[] = $newFileName;
+
+					if($upload_field == 'file_image'){
+						create_thumbnail($this->modulePath, $newFileName, 'thumb_', 250);
+					}
+                }
+            }
+            $update_data[$upload_field] = implode(',', $listed_file);
+        }
+		$anggota = $this->anggotaModel->find($upload_id);
+        $anggotaUpdate = $this->anggotaModel->update($upload_id,$update_data);
+        if ($anggotaUpdate) {
+			unlink_file($this->modulePath, $anggota->file_image);
+			unlink_file($this->modulePath, 'thumb_'.$anggota->file_image);
+
+            $this->session->setFlashdata('toastr_msg', 'Upload file berhasil');
+            $this->session->setFlashdata('toastr_type', 'success');
+            $response = [
+                'status'   => 201,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'Upload file berhasil'
+                ]
+            ];
+            return $this->respondCreated($response);
+        } else {
+            $response = [
+                'status'   => 400,
+                'error'    => null,
+                'messages' => [
+                    'error' => 'Upload file gagal'
+                ]
+            ];
+            return $this->fail($response);
+        }
 	}
 }
