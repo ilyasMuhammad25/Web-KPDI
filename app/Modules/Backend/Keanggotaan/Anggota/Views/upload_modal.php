@@ -46,11 +46,11 @@
 </div>
 
 <script>
-	var defaultDropzoneUrl = "<?= base_url('artikel/do_upload') ?>";
-	var defaultUrl = "<?= base_url('api/artikel/upload_file') ?>";
+	var defaultDropzoneUrl = "<?= base_url('anggota/do_upload') ?>";
+	var defaultUrl = "<?= base_url('api/anggota/upload_file') ?>";
 	var defaultFormat = "application/pdf";
 	var defaultFile = 1;
-	var defaultRedirect = "<?= base_url('artikel') ?>";
+	var defaultRedirect = "<?= base_url('anggota') ?>";
 	var defaultFormatTitle = "Format (PDF). Max 10MB";
 
     $('.upload-data').click(function() {
@@ -124,7 +124,7 @@
         $('#upload_title').val(title);
         $('#upload_title_span').html(title);
         	
-		setDropzone('file_pendukung', 'artikel', $('#upload_data_format').val(), $('#upload_data_file').val(), 10);
+		setDropzone('file_pendukung', 'anggota', $('#upload_data_format').val(), $('#upload_data_file').val(), 10);
     });
 
     $('#frm_upload').submit(function(event) {
