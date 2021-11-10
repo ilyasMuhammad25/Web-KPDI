@@ -51,7 +51,7 @@ $pager = $query->pager;
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="<?=base_url()?>">Beranda</a></li>
 							<!-- <li class="breadcrumb-item"><a href="#">Docs</a></li> -->
-							<li class="breadcrumb-item active" aria-current="page">Hasil Pencarian &nbsp;  <b><i><?=$request->getVar('pDataItem')?></i></b></li>
+							<li class="breadcrumb-item active" aria-current="page">Pencarian Koleksi</li>
 						</ol>
 					</nav>
 				</div>
@@ -65,17 +65,17 @@ $pager = $query->pager;
 		<div class="overlay_bg"></div>
 		<div class="container custom_container">
 			<div class="row">
-				<div class="col-lg-3 doc_mobile_menu display_none pr-0">
+				<div class="col-lg-2 doc_mobile_menu display_none pr-0">
 					<?= $this->include('Home\Views\search\section\sidebar_left'); ?>
 				</div>
 
-				<div class="col-lg-7 col-md-8 doc-middle-content" style="padding-left:5px; padding-right:30px;">
+				<div class="col-lg-8 col-md-8 doc-middle-content" style="padding-left:5px; padding-right:30px;">
 					<div class="shortcode_title">
 
 						<?php if(!empty($keyword)): ?>
-							Pencarian <i><b><?=$request->getVar('pDataItem')?></b></i>, ditemukan <?=$count_items?> item.
+							Pencarian <i><b><?=$request->getVar('pDataItem')?></b></i>, ditemukan <?=$count_items?> koleksi.
 						<?php else:?>
-							Ditemukan <?=$count_items?> item.
+							Ditemukan <?=$count_items?> koleksi.
 						<?php endif;?>
 					</div>
 					<div class="container">
@@ -103,7 +103,7 @@ $pager = $query->pager;
 															</a>
 														</th>
 														<td>
-															<a href="<?=base_url('home/search?slug=#')?>">
+															<a href="<?=base_url('home/search?catalog_id='.$row->id)?>">
 																<p class="b_title"><?=$row->title?></p>
 															</a> 
 															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($row->worksheet_id)?></span>

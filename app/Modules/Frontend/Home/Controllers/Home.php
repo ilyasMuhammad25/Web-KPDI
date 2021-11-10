@@ -36,7 +36,13 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 	public function search()
 	{
 		$this->data['title'] = 'Search';
-		echo view('Home\Views\search\index', $this->data);
+
+		$catalog_id = $this->request->getVar('catalog_id');
+		if(!empty($catalog_id)){
+			echo view('Home\Views\search\detail', $this->data);
+		} else {
+			echo view('Home\Views\search\index', $this->data);
+		}
 	}
 
 	public function signup()
@@ -251,12 +257,6 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
 			echo view('Home\Views\anggota\index', $this->data);
 		}	
-	}
-
-	public function detail($id = null)
-	{
-		$this->data['title'] = 'Search';
-		echo view('Home\Views\search\detail', $this->data);
 	}
 
 	public function ip() {
