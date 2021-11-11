@@ -16,7 +16,6 @@
                             <input type="text" class="form-control" id="name" name="name"
                                 placeholder="<?= lang('Anggota.field.name') ?>"
                                 value="<?= set_value('name', $anggota->name); ?>" />
-                            <!-- <small class="info help-block text-muted"><?= lang('Anggota.field.name') ?></small> -->
                         </div>
                     </div>
                 </div>
@@ -42,7 +41,6 @@
                             <input type="text" class="form-control" id="frm_create_IdentityNo" name="IdentityNo"
                                 placeholder="Nomor identitas"
                                 value="<?= set_value('IdentityNo',$anggota->IdentityNo); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -53,7 +51,6 @@
                             <input type="text" class="form-control" id="frm_create_PlaceOfBirth" name="PlaceOfBirth"
                                 placeholder="Tempat Lahir"
                                 value="<?= set_value('PlaceOfBirth',$anggota->PlaceOfBirth); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -65,7 +62,6 @@
                             <input type="date" class="form-control" id="frm_create_DateOfBirth" name="DateOfBirth"
                                 placeholder="Tempat Lahir"
                                 value="<?= set_value('DateOfBirth',$anggota->DateOfBirth); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -158,7 +154,6 @@
                         <div>
                             <input type="text" class="form-control" id="frm_create_MemberNo" name="MemberNo"
                                 placeholder="NO anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -184,8 +179,7 @@
                         <div>
                             <input type="date" class="form-control" id="frm_create_RegisterDate" name="RegisterDate"
                                 placeholder="Tempat Lahir"
-                                value="<?= set_value('RegisterDate',$anggota->DateOfBirth); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
+                                value="<?= set_value('RegisterDate',$anggota->RegisterDate); ?>" />
                         </div>
                     </div>
                 </div>
@@ -193,10 +187,9 @@
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.Masaberlaku')?></label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_DateOfBirth" name="DateOfBirth"
+                            <input type="text" class="form-control" id="frm_create_EndDate" name="EndDate"
                                 placeholder=<?=lang('Anggota.field.Masaberlaku')?>
-                                value="<?= set_value('DateOfBirth'); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
+                                value="<?= set_value('EndDate', $anggota->EndDate); ?>" />
                         </div>
                     </div>
                 </div>
@@ -266,7 +259,6 @@
                         <div>
                             <input type="text" class="form-control" id="frm_create_Address" name="Address"
                                 placeholder="Alamat" value="<?= set_value('Address',$anggota->Address); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -365,7 +357,6 @@
                         <div>
                             <input type="text" class="form-control" id="frm_create_Address" name="AddressNow"
                                 placeholder="Alamat" value="<?= set_value('AddressNow',$anggota->AddressNow); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -382,7 +373,6 @@
                                     <?=$row->text?></option>
                                 <?php endforeach;?>
                             </select>
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>

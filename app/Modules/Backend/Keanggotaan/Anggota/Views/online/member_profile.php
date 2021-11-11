@@ -36,20 +36,6 @@
 			<div class="widget-content p-0">
 				<div class="widget-content-wrapper">
 					<div class="widget-content-left mr-3">
-						<i class="fa fa-phone"></i>
-					</div>
-					<div class="widget-content-left">
-						<div class="widget-heading"><?=$member->Phone??'-'?></div>
-					</div>
-					<div class="widget-content-right">
-					</div>
-				</div>
-			</div>
-		</li>
-		<li class="list-group-item">
-			<div class="widget-content p-0">
-				<div class="widget-content-wrapper">
-					<div class="widget-content-left mr-3">
 						<i class="fa fa-envelope"></i>
 					</div>
 					<div class="widget-content-left">
@@ -71,7 +57,7 @@
 						<div class="widget-heading"><?=substr($member->EndDate, 0,10)??'-'?></div>
 					</div>
 					<div class="widget-content-right">
-						<button class="btn btn-sm btn-warning">Perpanjang Anggota</button>
+						<a href="<?=base_url('anggota/extend/'.$member_no)?>" class="btn btn-sm btn-warning">Perpanjang Anggota</a>
 					</div>
 				</div>
 			</div>

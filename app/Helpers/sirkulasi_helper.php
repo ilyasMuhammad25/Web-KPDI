@@ -13,38 +13,6 @@ if (!function_exists('get_available_eksemplars')) {
     }
 }
 
-if (!function_exists('get_due_date')) {
-    function get_due_date($days = 0, $from_date = null)
-    {        
-		if(empty($from_date)){
-			$from_date = date('Y-m-d');
-		}
-
-		$new_date = date('Y-m-d', strtotime($from_date. ' + '.$days.' days'));
-		return $new_date;
-    }
-}
-
-if (!function_exists('get_late_days')) {
-    function get_late_days($loan_date, $return_date = null)
-    {        
-		$late_days = 0;
-		if(empty($return_date)){
-			$return_date = date('Y-m-d');
-		}
-
-		if(!empty($loan_date) and $return_date > $loan_date){
-			$from = strtotime($loan_date);
-			$to = strtotime($return_date);
-			$datediff = $to - $from;
-	
-			$late_days = round($datediff / (60 * 60 * 24));
-		}
-
-		return $late_days;
-    }
-}
-
 if (!function_exists('get_loan_days')) {
     function get_loan_days($anggota_id)
     {        

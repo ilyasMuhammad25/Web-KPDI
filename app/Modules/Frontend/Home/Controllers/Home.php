@@ -21,7 +21,8 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->session = service('session');
 		$this->config = config('Auth');
 
-		helper(['form', 'url', 'auth', 'app', 'adminigniter']);
+		helper(['form', 'url', 'auth', 'app']);
+		helper('adminigniter');
 		helper('reference');
 		helper('katalog');
 		helper('anggota');
@@ -91,28 +92,39 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
 
 		// Ensure default group gets assigned if set
-        if (! empty($this->config->defaultUserGroup)) {
-            $users = $users->withGroup($this->config->defaultUserGroup);
-        }
+		if (! empty($this->config->defaultUserGroup)) {
+			$users = $users->withGroup($this->config->defaultUserGroup);
+		}
 
 		if (! $users->save($user))
 		{
+			dd('error');
 			return redirect()->back()->withInput()->with('errors', $users->errors());
-		}
+		} 
 
-		// Save Anggota
-		$anggota = [
-			'name' => $this->request->getPost('name'),
-			'MemberNo' => $this->request->getPost('username'),
-			// 'ttl' => $this->request->getPost('ttl'),
-			// 'ttl' => $this->request->getPost('ttl'),
-			// 'ttl' => $this->request->getPost('ttl'),
+		$name = $this->request->getPost('name');
+		$username = $this->request->getPost('username');
+		$email = $this->request->getPost('email');
+		$jenis_anggota = db_get_single('m_jenis_anggota','UPPER(name) = "UMUM"');
+		$start_date = date('Y-m-d');
+		$end_date = date('Y-m-d', strtotime($start_date. ' + '.$jenis_anggota->expiry_days.' days'));
+
+		$save_anggota = [
+			'name' => $name,
+			'MemberNo' => $username,
+			'Email' => $email,
+			'ref_jenisanggota' => $jenis_anggota->id,
+			'RegisterDate' => $start_date,
+			'EndDate' => $end_date,
 		];
 
-		$newAnggotaId = $this->anggotaModel->protect(false)->insert($anggota);
+		$newAnggotaId = $this->anggotaModel->protect(false)->insert($save_anggota);
 
-		// Success!
-		return redirect()->route('signin')->with('message', lang('Auth.registerSuccess'));
+		if($newAnggotaId){
+			return redirect()->route('signin')->with('message', 'Selamat, Nomor Anggota <b>'.$username.'</b> berhasil dibuat dengan status <b>Belum Aktif</b>! <br>Untuk aktivasi Akun hubungi Administrator.');
+		} else {
+			return redirect()->back()->withInput()->with('errors', 'Oups, terjadi kesalahan pada sistem! <br>Silakan coba beberapa saat lagi dan hubungi Administrator.');
+		}
 	}
 
 	public function signin()
@@ -149,7 +161,7 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		if (! $this->auth->attempt([$type => $login, 'password' => $password], $remember))
 		{
 			if (strpos($this->auth->error(), 'activated') !== false) {
-				return redirect()->back()->withInput()->with('error', 'Akun Anda belum aktif! <br>Untuk aktivasi Akun hubungi Administrator.');
+				return redirect()->back()->withInput()->with('error', 'Nomor Anggota <b>'.$login.'</b>, status <b>Belum Aktif</b>! <br>Untuk aktivasi Akun hubungi Administrator.');
 				// return redirect()->back()->withInput()->with('error', 'Nomor Anggota Anda sudah tidak aktif! <br>Untuk aktivasi/perpanjangan Nomor Anggota hubungi Administrator.');
 			} else {
 				return redirect()->back()->withInput()->with('error', $this->auth->error() ?? lang('Auth.badAttempt'));
@@ -184,7 +196,7 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_Statusanggota'] = get_ref('statanggota');
 		
 		
-		$this->data[' MemberNo'] =  get_MemberNo();
+		$this->data[' MemberNo'] =  get_member_no();
 		$this->data['title'] = 'Tambah Anggota';
 	
 		$this->validation->setRule('name', 'Nama', 'required');
@@ -195,7 +207,7 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 			$save_data = [
 				'name' => $this->request->getPost('name'),
 				'slug' => $slug,
-				'MemberNo'=> get_MemberNo(),
+				'MemberNo'=> get_member_no(),
 
 				// 'MemberNo'=> $this->anggotaModel->MemberNo(),
 				'IdentityNo'=> $this->request->getPost('IdentityNo'),

@@ -14,22 +14,22 @@ if($slug == 'profile'){
 
 if($slug == 'loan'){
 	$label = 'Peminjaman';
-	$label_title = 'Histori Peminjaman';
+	$label_title = 'Daftar Peminjaman';
 }
 
 if($slug == 'reserve'){
 	$label = 'Pemesanan';
-	$label_title = 'Histori Pemesanan';
+	$label_title = 'Daftar Pemesanan';
 }
 
 if($slug == 'request'){
 	$label = 'Usulan';
-	$label_title = 'Histori Usulan';
+	$label_title = 'Daftar Usulan';
 }
 
 if($slug == 'extend'){
 	$label = 'Perpanjangan';
-	$label_title = 'Histori Perpanjangan';
+	$label_title = 'Daftar Perpanjangan';
 }
 
 $member_no = user()->username;

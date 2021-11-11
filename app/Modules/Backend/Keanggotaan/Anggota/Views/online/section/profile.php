@@ -150,7 +150,7 @@
 										<label for="name">Nomor Anggota</label>
 										<div>
 											<input type="text" class="form-control" id="frm_create_MemberNo" name="MemberNo"
-												placeholder="NO anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" />
+												placeholder="NO anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" readonly />
 										</div>
 									</div>
 								</div>
@@ -158,12 +158,11 @@
 									<div class="position-relative form-group">
 										<div>
 											<label><?=lang('Anggota.field.Jenisanggota')?></label>
-											<select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1" aria-hidden="true">
-												<option value="" disabled selected>
+											<select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1" aria-hidden="true" readonly>
 													<?=lang('Anggota.field.Jenisanggota')?></option>
-												<?php foreach (get_ref('ref_jenisanggota') as $row) : ?>
-												<option placeholder="<?= lang('Anggota.field.name') ?> " value="<?= $row->id ?>">
-													<?= $row->name ?> </option>
+												<?php foreach (get_dropdown('m_jenis_anggota') as $row) : ?>
+												<option placeholder="<?= lang('Anggota.field.name') ?> " value="<?= $row->code ?>" <?=($row->code == $anggota->ref_jenisanggota)?'selected':''?>>
+													<?= $row->text ?> </option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -173,7 +172,7 @@
 									<div class="position-relative form-group">
 										<label for="name"><?=lang('Anggota.field.Tanggalpendaftaran')?></label>
 										<div>
-											<input type="date" class="form-control" id="frm_create_RegisterDate" name="RegisterDate" placeholder="Tempat Lahir" value="<?= set_value('RegisterDate',$anggota->DateOfBirth); ?>" />
+											<input type="date" class="form-control" id="frm_create_RegisterDate" name="RegisterDate" placeholder="<?=lang('Anggota.field.Tanggalpendaftaran')?>" value="<?= set_value('RegisterDate',substr($anggota->RegisterDate, 0, 10)); ?>" readonly/>
 										</div>
 									</div>
 								</div>
@@ -181,7 +180,7 @@
 									<div class="position-relative form-group">
 										<label for="name"><?=lang('Anggota.field.Masaberlaku')?></label>
 										<div>
-											<input type="text" class="form-control" id="frm_create_DateOfBirth" name="DateOfBirth" placeholder=<?=lang('Anggota.field.Masaberlaku')?> value="<?= set_value('DateOfBirth'); ?>" />
+											<input type="date" class="form-control" id="frm_create_EndDate" name="EndDate" placeholder=<?=lang('Anggota.field.Masaberlaku')?> value="<?= set_value('EndDate', substr($anggota->EndDate, 0, 10)); ?>" readonly/>
 										</div>
 									</div>
 								</div>

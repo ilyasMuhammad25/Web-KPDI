@@ -60,7 +60,7 @@
                             <!-- <div class="col-lg-12 form-group">
                                 <div class="small_text">Nomor Anggota</div>
                             </div> -->
-							<input type="hidden" class="form-control" id="username" name="username" placeholder="Nomor Anggota" value="<?=get_MemberNo()?>" readonly style="font-weight:bold">
+							<input type="hidden" class="form-control" id="username" name="username" placeholder="Nomor Anggota" value="<?=get_member_no()?>" readonly style="font-weight:bold">
 
 							<div class="col-lg-12 form-group">
                                 <div class="small_text">Nama Anggota</div>

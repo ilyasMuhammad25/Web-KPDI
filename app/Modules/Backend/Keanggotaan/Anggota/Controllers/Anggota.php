@@ -55,6 +55,29 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
 		return view('Anggota\Views\online\index', $this->data);
 	}
+
+	public function extend($member_no = null) {
+		if(empty($member_no)){
+			$member_no = user()->username;
+		}
+		$member = get_member($member_no);
+
+		$jenis_anggota = db_get_single('m_jenis_anggota','id = '.$member->ref_jenisanggota);
+		$start_date = $member->EndDate;
+		$end_date = date('Y-m-d', strtotime($start_date. ' + '.$jenis_anggota->expiry_days.' days'));
+
+		$updateAnggota = $this->anggotaModel->protect(false)->update($member->id, array('EndDate' => $end_date));
+
+		if($updateAnggota){
+			set_message('toastr_msg', 'Perpanjangan Masa Berlaku Anggota berhasil');
+			set_message('toastr_type', 'success');
+		} else {
+			set_message('toastr_msg', 'Perpanjangan Masa Berlaku Anggota gagal');
+			set_message('toastr_type', 'error');
+		}
+		return redirect()->back();
+	}
+
 	public function index() {
 		if (!is_allowed('anggota/access')) {
 			set_message('toastr_msg', lang('App.permission.not.have'));
@@ -185,7 +208,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
 		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
 		$this->data['ref_Statusanggota'] = get_ref('ref_Statusanggota');
-		$this->data[' MemberNo'] =  get_MemberNo();
+		$this->data[' MemberNo'] =  get_member_no();
 		// $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 		$this->data['title'] = 'Tambah Anggota';
 		$this->validation->setRule('name', 'Nama', 'required');
@@ -197,7 +220,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			$save_data = [
 			'name' => $this->request->getPost('name'),
 			'slug' => $slug,
-			'MemberNo'=> get_MemberNo(),
+			'MemberNo'=> get_member_no(),
 			// 'MemberNo'=> $this->anggotaModel->MemberNo(),
 			'IdentityNo'=> $this->request->getPost('IdentityNo'),
 			'PlaceOfBirth'=> $this->request->getPost('PlaceOfBirth'),
