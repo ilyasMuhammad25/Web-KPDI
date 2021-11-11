@@ -165,11 +165,14 @@
                                 aria-hidden="true">
                                 <option value="" disabled selected>
                                     <?=lang('Anggota.field.Jenisanggota')?></option>
-                                <?php foreach ($ref_jenisanggota as $row) : ?>
-                                <option placeholder="<?= lang('Anggota.field.name') ?> " value="<?= $row->id ?>">
-                                    <?= $row->name ?> </option>
-                                <?php endforeach; ?>
+                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
+                                <option value="<?=$row->code?>"
+                                    <?=($row->code == $anggota->ref_jenisanggota) ? 'selected':''?>><?=$row->text?>
+                                </option>
+                                <?php endforeach;?>
+
                             </select>
+
                         </div>
                     </div>
                 </div>
@@ -179,7 +182,8 @@
                         <div>
                             <input type="date" class="form-control" id="frm_create_RegisterDate" name="RegisterDate"
                                 placeholder="Tempat Lahir"
-                                value="<?= set_value('RegisterDate',$anggota->RegisterDate); ?>" />
+                                value="<?= set_value('RegisterDate',$anggota->DateOfBirth); ?>" readonly />
+                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -213,7 +217,7 @@
                     <div class="position-relative form-group">
                         <label for="name"><?= lang('Anggota.field.Biayapendaftaran') ?></label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_BiayaPendaftaran"
+                            <input type="number" class="form-control" id="frm_create_BiayaPendaftaran"
                                 name="BiayaPendaftaran" placeholder=<?= lang('Anggota.field.Biayapendaftaran') ?>
                                 value="<?= set_value('BiayaPendaftaran',$anggota->BiayaPendaftaran); ?>" />
 
@@ -257,8 +261,9 @@
                     <div class="position-relative form-group">
                         <label for="name">Alamat</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_Address" name="Address"
-                                placeholder="Alamat" value="<?= set_value('Address',$anggota->Address); ?>" />
+                            <input type="text" class="form-control" id="Address" name="Address" placeholder="Alamat"
+                                value="<?= set_value('Address',$anggota->Address); ?>" />
+                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -301,7 +306,7 @@
                     <div class="position-relative form-group">
                         <label for="name">Kecamatan</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_kecamatan" name="kecamatan"
+                            <input type="text" class="form-control" id="Kecamatan" name="Kecamatan"
                                 placeholder="Kecamatan" value="<?= set_value('Kecamatan',$anggota->Kecamatan); ?>" />
 
                         </div>
@@ -311,7 +316,7 @@
                     <div class="position-relative form-group">
                         <label for="name">Kelurahan</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_kelurahan" name="kelurahan"
+                            <input type="text" class="form-control" id="Kelurahan" name="Kelurahan"
                                 placeholder="Kelurahan" value="<?= set_value('Kelurahan',$anggota->Kelurahan); ?>" />
 
                         </div>
@@ -321,7 +326,7 @@
                     <div class="position-relative form-group">
                         <label for="name">RT</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_RT" name="RT" placeholder="RT"
+                            <input type="text" class="form-control" id="RT" name="RT" placeholder="RT"
                                 value="<?= set_value('RT',$anggota->RT); ?>" />
 
                         </div>
@@ -331,7 +336,7 @@
                     <div class="position-relative form-group">
                         <label for="name">RW</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_RW" name="RW" placeholder="RW"
+                            <input type="text" class="form-control" id="RW" name="RW" placeholder="RW"
                                 value="<?= set_value('RW',$anggota->RW); ?>" />
 
                         </div>
@@ -348,14 +353,14 @@
             </div>
             <div class="form-row">
                 <div class="col-md-12">
-                    <input type="checkbox" class="" name="is_tnde" id="is_tnde" value="1">
-                    <label for="req_year">Centang jika alamat domisili sama dengan alamat identitas</label>
+                    <input type="checkbox" class="is_similar" name="is_similar" id="is_similar" value="">
+                    <label for="is_similar">Centang jika alamat domisili sama dengan alamat
                 </div>
                 <div class="col-md-12">
                     <div class="position-relative form-group">
                         <label for="name">Alamat</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_Address" name="AddressNow"
+                            <input type="text" class="form-control" id="AddressNow" name="AddressNow"
                                 placeholder="Alamat" value="<?= set_value('AddressNow',$anggota->AddressNow); ?>" />
                         </div>
                     </div>
@@ -381,12 +386,8 @@
                         <label for="name"><?= lang('Anggota.field.city') ?></label>
                         <div>
                             <select class="form-control select2" name="CityNow" id="CityNow" tabindex="-1"
-                                aria-hidden="true" style="width:100%">
+                                aria-hidden="true" style="width:100%" data-url="<?=base_url('api/anggota/cities')?>">
                                 <option value="" disabled selected>Pilih</option>
-                                <?php foreach(get_dropdown('m_kota') as $row):?>
-                                <option value="<?=$row->code?>" <?=($row->code == $anggota->CityNow) ? 'selected':''?>>
-                                    <?=$row->text?></option>
-                                <?php endforeach;?>
                             </select>
 
                         </div>
@@ -396,7 +397,7 @@
                     <div class="position-relative form-group">
                         <label for="name">Kecamatan</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_kecamatan" name="kecamatanNow"
+                            <input type="text" class="form-control" id="KecamatanNow" name="kecamatanNow"
                                 placeholder="KecamatanNow"
                                 value="<?= set_value('KecamatanNow',$anggota->KecamatanNow); ?>" />
 
@@ -407,7 +408,7 @@
                     <div class="position-relative form-group">
                         <label for="name">Kelurahan</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_kelurahan" name="kelurahanNow"
+                            <input type="text" class="form-control" id="KelurahanNow" name="kelurahanNow"
                                 placeholder="Kelurahan"
                                 value="<?= set_value('KelurahanNow',$anggota->KelurahanNow); ?>" />
 
@@ -418,7 +419,7 @@
                     <div class="position-relative form-group">
                         <label for="name">RT</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_RT" name="RTNow" placeholder="RT"
+                            <input type="text" class="form-control" id="RTNow" name="RTNow" placeholder="RT"
                                 value="<?= set_value('RTNow',$anggota->RTNow); ?>" />
 
                         </div>
@@ -428,7 +429,7 @@
                     <div class="position-relative form-group">
                         <label for="name">RW</label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_RW" name="RWNow" placeholder="RWNow"
+                            <input type="text" class="form-control" id="RWNow" name="RWNow" placeholder="RWNow"
                                 value="<?= set_value('RWNow',$anggota->RWNow); ?>" />
 
                         </div>

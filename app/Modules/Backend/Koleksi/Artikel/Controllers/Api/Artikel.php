@@ -64,7 +64,7 @@ class Artikel extends ResourceController
 	public function create()
 	{
 	
-		// dd($hallo);
+		// dd('hello');
 		if (!is_allowed('artikel/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
@@ -81,13 +81,14 @@ class Artikel extends ResourceController
 				'Content' => $this->request->getPost('Content'),
 				'Creator' => $this->request->getPost('Creator'),
 				'Contributor' => $this->request->getPost('Contributor'),
-				'Startartikel' => $this->request->getPost('Startartikel'),
-				'artikels' => $this->request->getPost('artikels'),
+				'StartPage' => $this->request->getPost('StartPage'),
+				'Pages' => $this->request->getPost('Pages'),
 				'Subject' => $this->request->getPost('Subject'),
 				'EDISISERIAL' => $this->request->getPost('EDISISERIAL'),
 				'ISOPAC' => $this->request->getPost('ISOPAC'),
 				'Abstract' => $this->request->getPost('Abstract'),
-				'Catalog_id' => $this->request->getPost('Catalog_id')
+				'Catalog_id' => $this->request->getPost('Catalog_id'),
+				'TANGGAL_TERBIT_EDISI_SERIAL' => $this->request->getPost('TANGGAL_TERBIT_EDISI_SERIAL')
 			);
 			// print_r($save_data);
 			// die();
@@ -148,7 +149,8 @@ class Artikel extends ResourceController
 				'EDISISERIAL' => $this->request->getPost('EDISISERIAL'),
 				'ISOPAC' => $this->request->getPost('ISOPAC'),
 				'Abstract' => $this->request->getPost('Abstract'),
-				'Catalog_id' => $this->request->getPost('Catalog_id')
+				'Catalog_id' => $this->request->getPost('Catalog_id'),
+				'TANGGAL_TERBIT_EDISI_SERIAL' => $this->request->getPost('TANGGAL_TERBIT_EDISI_SERIAL')
 			);
 			// dd($update_data);
 
@@ -203,10 +205,7 @@ class Artikel extends ResourceController
 	
 	public function upload_file()
 	{
-<<<<<<< HEAD
 		
-=======
->>>>>>> b4b2728545ee1def1b6160de342b1ada6b514313
         $upload_id = $this->request->getPost('upload_id');
         $upload_field = $this->request->getPost('upload_field');
         $upload_title = $this->request->getPost('upload_title');
@@ -230,20 +229,13 @@ class Artikel extends ResourceController
             }
             $update_data[$upload_field] = implode(',', $listed_file);
         }
-<<<<<<< HEAD
 
         $artikel = $this->artikelModel->find($upload_id);
-=======
-		$artikel = $this->artikelModel->find($upload_id);
->>>>>>> b4b2728545ee1def1b6160de342b1ada6b514313
         $artikelUpdate = $this->artikelModel->update($upload_id,$update_data);
         if ($artikelUpdate) {
 			unlink_file($this->modulePath, $artikel->file_image);
 			unlink_file($this->modulePath, 'thumb_'.$artikel->file_image);
-<<<<<<< HEAD
 			unlink_file($this->modulePath, $artikel->file_pdf);
-=======
->>>>>>> b4b2728545ee1def1b6160de342b1ada6b514313
 
             $this->session->setFlashdata('toastr_msg', 'Upload file berhasil');
             $this->session->setFlashdata('toastr_type', 'success');

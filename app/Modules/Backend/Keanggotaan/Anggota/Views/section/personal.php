@@ -286,6 +286,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
@@ -314,10 +315,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name">Kecamatan</label>
+                                        <label for="name">Alamat Kecamatan</label>
                                         <div>
-                                            <input type="text" class="form-control" id="kecamatan" name="kecamatan"
-                                                placeholder="Kecamatan" value="<?=set_value('Kecamatan');?>" />
+                                            <input type="text" class="form-control" id="Kecamatan" name="Kecamatan"
+                                                placeholder="Alamat" value="<?=set_value('Kecamatan');?>" />
+                                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                                         </div>
                                     </div>
                                 </div>
@@ -325,7 +327,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name">Kelurahan</label>
                                         <div>
-                                            <input type="text" class="form-control" id="kelurahan" name="kelurahan"
+                                            <input type="text" class="form-control" id="Kelurahan" name="Kelurahan"
                                                 placeholder="Kelurahan" value="<?=set_value('Kelurahan');?>" />
                                         </div>
                                     </div>
@@ -334,8 +336,8 @@
                                     <div class="position-relative form-group">
                                         <label for="name">RT</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_RT" name="RT"
-                                                placeholder="RT" value="<?=set_value('RT');?>" />
+                                            <input type="text" class="form-control" id="RT" name="RT" placeholder="RT"
+                                                value="<?=set_value('RT');?>" />
                                         </div>
                                     </div>
                                 </div>
@@ -343,8 +345,8 @@
                                     <div class="position-relative form-group">
                                         <label for="name">RW</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_RW" name="RW"
-                                                placeholder="RW" value="<?=set_value('RW');?>" />
+                                            <input type="text" class="form-control" id="RW" name="RW" placeholder="RW"
+                                                value="<?=set_value('RW');?>" />
                                         </div>
                                     </div>
                                 </div>
@@ -358,7 +360,8 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-12">
-                                    <input type="checkbox" class="" name="is_similar" id="is_similar" value="1">
+                                    <input type="checkbox" class="is_similar" name="is_similar" id="is_similar"
+                                        value="">
                                     <label for="is_similar">Centang jika alamat domisili sama dengan alamat
                                         identitas</label>
                                 </div>
@@ -372,6 +375,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
@@ -402,19 +406,21 @@
                                     <div class="position-relative form-group">
                                         <label for="name">Kecamatan</label>
                                         <div>
-                                            <input type="text" class="form-control" id="kecamatanNow"
-                                                name="kecamatanNow" placeholder="Kecamatan"
-                                                value="<?=set_value('KecamatanNow');?>" />
+                                            <input type="text" class="form-control" id="KecamatanNow"
+                                                name="KecamatanNow" placeholder="Alamat"
+                                                value="<?=set_value('Kecamatan');?>" />
+                                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name">Kelurahan</label>
+                                        <label for="name">Alamat Kelurahan2</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_kelurahan"
-                                                name="kelurahanNow" placeholder="Kelurahan"
-                                                value="<?=set_value('KelurahanNow');?>" />
+                                            <input type="text" class="form-control" id="KelurahanNow"
+                                                name="KelurahanNow" placeholder="Alamat"
+                                                value="<?=set_value('Kelurahan');?>" />
+                                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                                         </div>
                                     </div>
                                 </div>
@@ -422,7 +428,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name">RT</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_RT" name="RTNow"
+                                            <input type="text" class="form-control" id="RTNow" name="RTNow"
                                                 placeholder="RT" value="<?=set_value('RTNow');?>" />
                                         </div>
                                     </div>
@@ -431,7 +437,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name">RW</label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_RW" name="RWNow"
+                                            <input type="text" class="form-control" id="RWNow" name="RWNow"
                                                 placeholder="RW" value="<?=set_value('RWNow');?>" />
                                         </div>
                                     </div>

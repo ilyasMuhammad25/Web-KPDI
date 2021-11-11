@@ -345,6 +345,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 
 
 	public function edit(int $id = null, $is_anggota = false) {
+		
 		if (!is_allowed('anggota/update')) {
 			set_message('toastr_msg', lang('App.permission.not.have'));
 			set_message('toastr_type', 'error');
@@ -370,7 +371,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_unitkerja'] = get_ref('ref_unitkerja');
 		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
 		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
-		$this->data['ref_Statusanggota'] = get_ref('statanggota');
+		$this->data['ref_Statusanggota'] = get_ref('ref_Statusanggota');
 		$this->validation->setRule('name', 'Nama', 'required');
 		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
 		if ($this->request->getPost()) {

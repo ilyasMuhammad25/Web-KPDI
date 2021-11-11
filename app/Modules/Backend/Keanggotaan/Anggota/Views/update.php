@@ -81,11 +81,33 @@ $member_id = $request->getVar('member_id') ?? 0;
 
 <?=$this->section('script');?>
 <script>
+var checkboxes = $('#is_similar');
+
+checkboxes.on('ifChanged', function(event) {
+    if (checkboxes.filter(':checked').length == checkboxes.length) {
+        $('#AddressNow').val($('#Address').val());
+        $('#KecamatanNow').val($('#Kecamatan').val());
+        $('#KelurahanNow').val($('#Kelurahan').val());
+        $('#RTNow').val($('#RT').val());
+        $('#RWNow').val($('#RW').val());
+        $('#ProvincyNow').val($('#Provincy').val());
+        $('#CityNow').val($('#City').val());
+
+        // $('#KecamatanNow').val($('#Kecamatan').val());
+        // $('#ProvincyNow').val($('#Provincy').val());
+        // $('#KecamatanNow').val($('#Kecamatan').val());
+
+    } else {
+        alert('uncheck');
+    }
+});
+
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
 });
 
 $('.select2').select2();
+$('.select3').select2();
 </script>
 <script>
 setDataTable('#tbl_pelanggaran', disableOrderCols = [0], defaultOrderCols = [1, 'asc'], autoNumber = true);

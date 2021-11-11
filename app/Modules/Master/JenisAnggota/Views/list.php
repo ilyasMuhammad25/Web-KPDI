@@ -57,22 +57,22 @@
                         <tr>
                             <td width="35"></td>
                             <td width="200">
-                                <?= _spec($row->jenisanggota); ?> <br>
+                                <?= _spec($row->name); ?> 
                             </td>
                             <td width="200">
-                                <?= _spec($row->MasaBerlakuAnggota); ?> <br>
+                                <?= _spec($row->expiry_days); ?> hari
                             </td>
                             <td width="200">
-                                <?= _spec($row->BiayaPendaftaran); ?> <br>
+                                <?= _spec($row->register_charge); ?> 
                             </td>
                             <td width="200">
-                                <?= _spec($row->BiayaPerpanjangan); ?> <br>
+                                <?= _spec($row->extend_charge); ?> <br>
                             </td>
                             <td width="200">
-                                <?= _spec($row->MaxPinjamKoleksi); ?> <br>
+                                <?= _spec($row->max_loan_attempt); ?> kali
                             </td>
                             <td width="50">
-                                <input type="checkbox" class="apply-status" data-href="<?= base_url('jenisanggota/apply_status'); ?>" data-field="UploadDokumenKeanggotaanOnline" data-id="<?=$row->id?>" <?= ($row->UploadDokumenKeanggotaanOnline == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
+                                <input type="checkbox" class="apply-status" data-href="<?= base_url('jenisanggota/apply_status'); ?>" data-field="is_upload" data-id="<?=$row->id?>" <?= ($row->is_upload == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">
                             </td>
                             <td width="100">
                                 <span class="badge badge-info"><?= _spec($row->created_at); ?></span><br>
