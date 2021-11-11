@@ -8,7 +8,7 @@ $katalogs = $katalogModel
   ->where('active', 1)
   ->where('is_opac', 1)
   ->where('is_feature', 1)
-  ->orderBy('created_at', 'asc')
+  ->orderBy('created_at', 'desc')
   ->limit(4)
   ->get()
   ->getResult();
