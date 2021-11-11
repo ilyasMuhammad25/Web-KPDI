@@ -124,13 +124,15 @@
                                     data-target='#modal_update'><i class='fa fa-edit'></i></button>
                             </a> -->
                             <?php if(is_allowed('artikel/update')):?>
-                                            <a href="javascript:void(0);" data-href="<?= base_url('api/artikel/detail/' . $row->id); ?>" data-toggle="tooltip" data-placement="top" title="Ubah Referensi" class="btn btn-xs btn-warning show-data"><i class="pe-7s-note font-weight-bold"> </i></a>
-                                        <?php endif;?>
+                            <a href="javascript:void(0);" data-href="<?= base_url('api/artikel/detail/' . $row->id); ?>"
+                                data-toggle="tooltip" data-placement="top" title="Ubah Artikel"
+                                class="btn btn btn-warning update_modal"><i class="pe-7s-note font-weight-bold"></i></a>
+                            <?php endif;?>
 
 
                             <?php if(is_allowed('artikel/delete')):?>
                             <a href="javascript:void(0);" data-href="<?= base_url('artikel/delete/' . $row->id); ?>"
-                                data-toggle="tooltip" data-placement="top" title="Hapus Page"
+                                data-toggle="tooltip" data-placement="top" title="Hapus Artikel"
                                 class="btn btn-danger remove-data"><i class="pe-7s-trash font-weight-bold"> </i></a>
                             <?php endif;?>
                         </td>
@@ -150,7 +152,6 @@
 <?= $this->include('Artikel\Views\update_modal'); ?>
 
 <script>
-    
 // mendapatkan data untuk edit
 $(document).ready(function() {
     $("#btn1").click(function() {
