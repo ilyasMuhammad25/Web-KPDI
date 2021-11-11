@@ -1,4 +1,25 @@
 <?php
+if (!function_exists('get_string_after')) {
+	function get_string_after($string, $start)
+	{
+		$string_arr = explode($start, $string);
+		return $string_arr[1];
+	}
+}
+
+if (!function_exists('get_string_between')) {
+	function get_string_between($string, $start, $end)
+	{
+		$string = ' ' . $string;
+		$ini = strpos($string, $start);
+		if ($ini == 0)
+			return '';
+		$ini += strlen($start);
+		$len = strpos($string, $end, $ini) - $ini;
+		return substr($string, $ini, $len);
+	}
+}
+
 if (!function_exists('get_ref_id')) {
     function get_ref_id($ref_value, $ref_field = 'name', $menu_value = null, $menu_field = 'controller')
     {        
@@ -16,6 +37,26 @@ if (!function_exists('get_ref_id')) {
 		$data = $query->get()->getRow();
 
 		return $data->id ?? 0;
+    }
+}
+
+if (!function_exists('get_ref_value')) {
+    function get_ref_value($ref_id, $menu_value = null, $menu_field = 'controller')
+    {        
+		$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('c_references');
+        $query = $baseModel
+            ->select('c_references.*')
+            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner');
+
+		$query->where('c_references.id', $ref_id);
+		if(!empty($menu_value)){
+			$query->where('UPPER(c_menus.'.$menu_field.')', strtoupper($menu_value));
+		}
+            
+		$data = $query->get()->getRow();
+
+		return $data->name ?? '';
     }
 }
 

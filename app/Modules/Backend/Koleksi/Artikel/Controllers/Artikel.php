@@ -60,7 +60,7 @@ class Artikel extends \hamkamannan\adminigniter\Controllers\BaseController
             ->join('users created','created.id = t_serial_artikel.created_by','left')
             ->join('users updated','updated.id = t_serial_artikel.updated_by','left');
             
-        $artikels = $query->findAll();
+        $artikels = $query->find_all('created_at','desc');
 
         $this->data['title'] = 'Artikel';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');

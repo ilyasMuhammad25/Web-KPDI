@@ -9,6 +9,7 @@ $routes->group('katalog', ['namespace' => 'Katalog\Controllers'], function ($sub
 	$subroutes->add('keranjang', 'Katalog::index_cart');
 	$subroutes->add('detail/(:any)', 'Katalog::detail/$1');
 	$subroutes->add('create', 'Katalog::create');
+	$subroutes->add('create_marc', 'Katalog::create_marc');
 	$subroutes->add('edit/(:any)', 'Katalog::edit/$1');
 	$subroutes->add('delete/(:any)', 'Katalog::delete/$1');
 	$subroutes->add('apply_status/(:any)', 'Katalog::apply_status/$1');

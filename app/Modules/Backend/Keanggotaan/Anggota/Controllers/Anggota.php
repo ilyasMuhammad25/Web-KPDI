@@ -48,6 +48,12 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		helper('tgl_indo');
 		helper('url');
 		helper('thumbnail');
+		helper('sirkulasi');
+	}
+	public function online() {
+		$this->data['title'] = 'Keanggotaan Online';
+		$this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
+		return view('Anggota\Views\online\index', $this->data);
 	}
 	public function index() {
 		if (!is_allowed('anggota/access')) {

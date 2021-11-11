@@ -61,13 +61,24 @@ $request->uri->setSilent();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($anggotas as $row): ?>
-                    <tr>
-
-                        <td width="35"></td>
-                        <td width="100">
-                        <a href="<?=base_url('uploads/anggota/' . $row->file_image)?>" class="image-link"><img width="100" class="rounded" src="<?=base_url('uploads/anggota/' . $row->file_image)?>" alt=""></a>
-                        </td>
+                <?php foreach ($anggotas as $row) : ?>
+						<?php 
+							$default = base_url('uploads/default/no_cover.jpg');
+							$image = base_url('uploads/anggota/' . $row->file_image);
+							$thumb = base_url('uploads/anggota/thumb_' . $row->file_image);
+							if (empty($row->file_image)) {
+								$image = $default;
+								$thumb = $default;
+							}
+						?>
+                        <tr>
+                            <td width="35"></td>
+							<td width="100" style="vertical-align: bottom;">
+								<a href="<?=$image?>" class="image-link">
+									<img width="100" class="rounded" src="<?=$image?>" onerror="this.onerror=null;this.src='<?=$default?>';" alt="">
+								</a>
+								<a href="javascript:void(0);" data-title="Foto Cover" data-format-title="Format (JPG|PNG). Max 10MB" data-format=".jpg,.jpeg,.png" data-dropzone-url="" data-url="" data-redirect="<?= base_url('anggota') ?>" data-id="<?=$row->id?>" data-field="file_image" data-title="" data-toggle="tooltip" data-placement="top"  title="Upload " class="btn btn-sm btn-block btn-secondary upload-data mt-1" style="min-width:35px"><small><i class="fa fa-upload"> </i> Upload</small></a>
+                            </td>
                         <td width="200">
                             <?=_spec($row->name);?> <br>
                         </td>
@@ -108,6 +119,12 @@ $request->uri->setSilent();
 
 <?=$this->section('script');?>
 
+<?= $this->include('Anggota\Views\upload_modal'); ?>
+
+
+<script>
+Dropzone.autoDiscover = false;
+</script>
 <script>
     setDataTable('#tbl_anggotas', disableOrderCols = [0, 7], defaultOrderCols = [6, 'desc'], autoNumber = true);
 

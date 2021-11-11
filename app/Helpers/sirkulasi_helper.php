@@ -5,8 +5,8 @@ if (!function_exists('get_available_eksemplars')) {
 		$ref_id = get_ref_id('tersedia','slug','ref_status');
 		$eksemplarModel = new \Eksemplar\Models\EksemplarModel();
 		$query = $eksemplarModel
-			->select('t_eksemplar.*')
-			->where('t_eksemplar.ref_status', $ref_id);
+			->select('t_eksemplar.*');
+			// ->where('t_eksemplar.availability_id', $ref_id);
 
 		$data = $query->get()->getResult();
 		return $data;
@@ -91,9 +91,9 @@ if (!function_exists('get_loan_item')) {
 		$eksemplarLoanItemModel = new \Sirkulasi\Models\EksemplarLoanItemModel();
 		$query = $eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.title, t_catalog.publisher, t_catalog.publish_location, t_catalog.publish_year, t_catalog.publication')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -105,8 +105,8 @@ if (!function_exists('get_loan_item')) {
     }
 }
 
-if (!function_exists('NomorTransaksi_helper')) {
-    function NomorTransaksi_helper()
+if (!function_exists('get_transaction_no')) {
+    function get_transaction_no()
     {
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable('t_eksemplar_loan');

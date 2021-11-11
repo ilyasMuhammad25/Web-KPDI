@@ -88,52 +88,58 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
+		$slug = $this->request->getVar('slug');
+
         $this->data['title'] = 'Tambah Katalog';
 
-		$this->validation->setRule('name', 'Nama', 'trim');
+		$this->validation->setRule('title', 'Judul', 'trim');
         if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
-			$post           = $this->request->getPost();
-			$worksheet      = $post['worksheet'];
-			$controlNumber  = get_control_number();
-			$bibid          = get_bib_id();
-			$title          = get_imploded_array($post['title'], ';');
-			$author         = get_imploded_array(array_merge([$post['author']['100']], $post['additional-author']['input']), ';');
-			$place          = $post['publisher']['a'];
-			$name           = $post['publisher']['b'];
-			$year           = $post['publisher']['c'];
-			$publication    = "$place $name $year;";
-			$subject        = get_imploded_array($post['subject']['desc'], ';');
-			$isbn           = get_imploded_array($post['issn'], ';');
-			$deweyNo        = $post['class-ddc'];
-			$callNumber     = get_imploded_array($post['callnumber'], ';');
-			$physicalDescription = get_imploded_array($post['physical-description'], ';');
-			$language       = $post['opt-language'];
-			$notes          = get_imploded_array($post['notes']['input'], ';');
+			$post           		= $this->request->getPost();
+			$worksheet_id      		= $post['worksheet'];
+			$control_no  			= get_control_number();
+			$bibid          		= get_bib_id();
+			$title          		= get_imploded_array($post['title'], ';');
+			$author         		= get_imploded_array(array_merge([$post['author']['100']], $post['author_additional']['input']), ';');
+			$publish_location       = $post['publisher']['a'];
+			$publisher           	= $post['publisher']['b'];
+			$publish_year         	= $post['publisher']['c'];
+			$publication    		= "$publish_location $publisher $publish_year;";
+			$subject        		= get_imploded_array($post['subject']['desc'], ';');
+			$isbn           		= get_imploded_array($post['isbn'], ';');
+			$call_no     			= get_imploded_array($post['call_no'], ';');
+			$edition 				= '';
+			$description_physical 	= get_imploded_array($post['description_physical'], ';');
+			$languages       		= $post['languages'];
+			$class_ddc        		= $post['class_ddc'];
+			$notes          		= get_imploded_array($post['notes']['input'], ';');
+			$is_opac      			= $post['is_opac'];
 			$save_data = [
-				'ControlNumber'         => $controlNumber,
-				'BIBID'                 => $bibid,
-				'Title'                 => $title,
-				'Author'                => $author,
-				'PublishLocation'       => $place,
-				'Publisher'             => $name,
-				'PublishYear'           => $year,
-				'Publikasi'             => $publication,
-				'Subject'               => $subject,
-				'ISBN'                  => $isbn,
-				'CallNumber'            => $callNumber,
-				'Note'                  => $notes,
-				'Languages'             => $language,
-				'DeweyNo'               => $deweyNo,
-				'PhysicalDescription'   => $physicalDescription,
-				'worksheet_id'          => $worksheet,
+				'worksheet_id'          => $worksheet_id,
+				'control_no'         	=> $control_no,
+				'bibid'                 => $bibid,
+				'title'                 => $title,
+				'author'                => $author,
+				'publish_location'    	=> $publish_location,
+				'publisher'             => $publisher,
+				'publish_year'        	=> $publish_year,
+				'publication'           => $publication,
+				'subject'               => $subject,
+				'isbn'                  => $isbn,
+				'call_no'            	=> $call_no,
+				'edition'            	=> $edition,
+				'description_physical'  => $description_physical,
+				'languages'             => $languages,
+				'class_ddc'             => $class_ddc,
+				'notes'             	=> $notes,
+				'is_opac'             	=> $is_opac,
+				'is_rda'             	=> ($slug == 'rda') ? 1 : 0,
 				'created_by'            => user_id(),
 			];
 
-			// jd($save_data);
 			$newKatalogId = $this->katalogModel->insert($save_data);
 			if ($newKatalogId) {
-				$post['ControlNumber'] = $controlNumber;
-				$post['BIBID'] = $bibid;
+				$post['control_no'] = $control_no;
+				$post['bibid'] = $bibid;
 				$post['005'] = '$a ' . date('YmdHis');
 
 				$save_data_ruas = [];
@@ -142,7 +148,7 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					'indicator1'    => null,
 					'indicator2'    => null,
 					'catalog_id' 	=> $newKatalogId,
-					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target-group'], 11, '#') . str_pad($post['paper-form'], 2, '#') . str_pad($post['opt-language'], 5, '#')
+					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target_group'], 11, '#') . str_pad($post['paper_form'], 2, '#') . str_pad($post['languages'], 5, '#')
 				];
 				array_push($save_data_ruas, $tag008);
 
@@ -153,7 +159,6 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					}
 				endforeach;
 
-				// jd($save_data_ruas);
 				if(!empty($save_data_ruas)){
 					$this->katalogRuasModel->insertBatch($save_data_ruas);
 				}
@@ -162,19 +167,116 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 				set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
 				set_message('toastr_type', 'success');
 
-				$response = [
-					'status'   => 200,
-					'error'    => null,
-					'messages' => [
-						'success' =>  lang('Katalog.info.successfully_saved')
-					]
-				];
-				return json_encode($response);
+				if(!empty($slug)){
+					return redirect()->to('/katalog?slug='.$slug);
+				} else {
+					return redirect()->to('/katalog');
+				}
 			} 
         } else {
             $this->data['redirect'] = base_url('katalog/create');
             set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
             echo view('Katalog\Views\add', $this->data);
+        }
+    }
+
+	public function create_marc()
+    {
+        if (!is_allowed('katalog/create')) {
+            set_message('toastr_msg', lang('App.permission.not.have'));
+            set_message('toastr_type', 'error');
+            return redirect()->to('/dashboard');
+        }
+
+		$slug = $this->request->getVar('slug');
+
+        $this->data['title'] = 'Tambah Katalog';
+
+		$this->validation->setRule('title', 'Judul', 'trim');
+        if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
+			$post           		= $this->request->getPost();
+			$worksheet_id      		= $post['worksheet'];
+			$control_no  			= get_control_number();
+			$bibid          		= get_bib_id();
+			$title          		= get_imploded_array($post['title'], ';');
+			$author         		= get_imploded_array(array_merge([$post['author']['100']], $post['author_additional']['input']), ';');
+			$publish_location       = $post['publisher']['a'];
+			$publisher           	= $post['publisher']['b'];
+			$publish_year         	= $post['publisher']['c'];
+			$publication    		= "$publish_location $publisher $publish_year;";
+			$subject        		= get_imploded_array($post['subject']['desc'], ';');
+			$isbn           		= get_imploded_array($post['isbn'], ';');
+			$call_no     			= get_imploded_array($post['call_no'], ';');
+			$edition 				= '';
+			$description_physical 	= get_imploded_array($post['description_physical'], ';');
+			$languages       		= $post['languages'];
+			$class_ddc        		= $post['class_ddc'];
+			$notes          		= get_imploded_array($post['notes']['input'], ';');
+			$is_opac      			= $post['is_opac'];
+			$save_data = [
+				'worksheet_id'          => $worksheet_id,
+				'control_no'         	=> $control_no,
+				'bibid'                 => $bibid,
+				'title'                 => $title,
+				'author'                => $author,
+				'publish_location'    	=> $publish_location,
+				'publisher'             => $publisher,
+				'publish_year'        	=> $publish_year,
+				'publication'           => $publication,
+				'subject'               => $subject,
+				'isbn'                  => $isbn,
+				'call_no'            	=> $call_no,
+				'edition'            	=> $edition,
+				'description_physical'  => $description_physical,
+				'languages'             => $languages,
+				'class_ddc'             => $class_ddc,
+				'notes'             	=> $notes,
+				'is_opac'             	=> $is_opac,
+				'is_rda'             	=> ($slug == 'rda') ? 1 : 0,
+				'created_by'            => user_id(),
+			];
+
+			$newKatalogId = $this->katalogModel->insert($save_data);
+			if ($newKatalogId) {
+				$post['control_no'] = $control_no;
+				$post['bibid'] = $bibid;
+				$post['005'] = '$a ' . date('YmdHis');
+
+				$save_data_ruas = [];
+				$tag008 = [
+					'tag'           => '008',
+					'indicator1'    => null,
+					'indicator2'    => null,
+					'catalog_id' 	=> $newKatalogId,
+					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target_group'], 11, '#') . str_pad($post['paper_form'], 2, '#') . str_pad($post['languages'], 5, '#')
+				];
+				array_push($save_data_ruas, $tag008);
+
+				foreach ($post as $key => $value) :
+					$column = get_ruas($key,$value, $newKatalogId);
+					if(!empty($column)){
+						array_push($save_data_ruas, $column);
+					}
+				endforeach;
+
+				if(!empty($save_data_ruas)){
+					$this->katalogRuasModel->insertBatch($save_data_ruas);
+				}
+
+				add_log('Tambah Katalog', 'Katalog', 'create', 't_catalog', $newKatalogId);
+				set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
+				set_message('toastr_type', 'success');
+
+				if(!empty($slug)){
+					return redirect()->to('/katalog?slug='.$slug);
+				} else {
+					return redirect()->to('/katalog');
+				}
+			} 
+        } else {
+            $this->data['redirect'] = base_url('katalog/create');
+            set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
+            echo view('Katalog\Views\add_marc', $this->data);
         }
     }
 
@@ -186,37 +288,89 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
+        $catalog = $this->katalogModel->find($id);
+        $this->data['catalog'] = $catalog;
+		$slug = ($catalog->is_rda)?'rda':'aacr';
+
         $this->data['title'] = 'Ubah Katalog';
-        $Katalog = $this->katalogModel->find($id);
-        $this->data['Katalog'] = $Katalog;
 
-		$this->validation->setRule('name', 'Nama', 'required');
-        if ($this->request->getPost()) {
-            if ($this->validation->withRequest($this->request)->run()) {
-                $slug = url_title($this->request->getPost('name'), '-', TRUE);
-                $update_data = [
-                    'name' => $this->request->getPost('name'),
-                    'slug' => $slug,
-                    'sort' => $this->request->getPost('sort'),
-                    'description' => $this->request->getPost('description'),
-                    'updated_by' => user_id(),
-                ];
+		$this->validation->setRule('title', 'Judul', 'trim');
+        if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
+			$post           		= $this->request->getPost();
+			$worksheet_id      		= $post['worksheet'];
+			$control_no  			= get_control_number();
+			$bibid          		= get_bib_id();
+			$title          		= get_imploded_array($post['title'], ';');
+			$author         		= get_imploded_array(array_merge([$post['author']['100']], $post['author_additional']['input']), ';');
+			$publish_location       = $post['publisher']['a'];
+			$publisher           	= $post['publisher']['b'];
+			$publish_year         	= $post['publisher']['c'];
+			$publication    		= "$publish_location $publisher $publish_year;";
+			$subject        		= get_imploded_array($post['subject']['desc'], ';');
+			$isbn           		= get_imploded_array($post['isbn'], ';');
+			$call_no     			= get_imploded_array($post['call_no'], ';');
+			$edition 				= '';
+			$description_physical 	= get_imploded_array($post['description_physical'], ';');
+			$languages       		= $post['languages'];
+			$class_ddc        		= $post['class_ddc'];
+			$notes          		= get_imploded_array($post['notes']['input'], ';');
+			$is_opac      			= $post['is_opac'];
+			$update_data = [
+				'worksheet_id'          => $worksheet_id,
+				'control_no'         	=> $control_no,
+				'bibid'                 => $bibid,
+				'title'                 => $title,
+				'author'                => $author,
+				'publish_location'    	=> $publish_location,
+				'publisher'             => $publisher,
+				'publish_year'        	=> $publish_year,
+				'publication'           => $publication,
+				'subject'               => $subject,
+				'isbn'                  => $isbn,
+				'call_no'            	=> $call_no,
+				'edition'            	=> $edition,
+				'description_physical'  => $description_physical,
+				'languages'             => $languages,
+				'class_ddc'             => $class_ddc,
+				'notes'             	=> $notes,
+				'is_opac'             	=> $is_opac,
+				'updated_by'            => user_id(),
+			];
 
-                $KatalogUpdate = $this->katalogModel->update($id, $update_data);
+			$updateKatalog = $this->katalogModel->update($id, $update_data);
+			if ($updateKatalog) {
+				$post['control_no'] = $control_no;
+				$post['bibid'] = $bibid;
+				$post['005'] = '$a ' . date('YmdHis');
 
-                if ($KatalogUpdate) {
-                    add_log('Ubah Katalog', 'Katalog', 'edit', 't_catalog', $id);
-                    set_message('toastr_msg', 'Katalog berhasil diubah');
-                    set_message('toastr_type', 'success');
-                    return redirect()->to('/katalog');
-                } else {
-                    set_message('toastr_msg', 'Katalog gagal diubah');
-                    set_message('toastr_type', 'warning');
-                    set_message('message', 'Katalog gagal diubah');
-                    return redirect()->to('/katalog/edit/' . $id);
-                }
-            }
-        }
+				$update_data_ruas = [];
+				$tag008 = [
+					'tag'           => '008',
+					'indicator1'    => null,
+					'indicator2'    => null,
+					'catalog_id' 	=> $id,
+					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target_group'], 11, '#') . str_pad($post['paper_form'], 2, '#') . str_pad($post['languages'], 5, '#')
+				];
+				array_push($update_data_ruas, $tag008);
+
+				foreach ($post as $key => $value) :
+					$column = get_ruas($key,$value, $id);
+					if(!empty($column)){
+						array_push($update_data_ruas, $column);
+					}
+				endforeach;
+
+				if(!empty($update_data_ruas)){
+					$this->katalogRuasModel->updateBatch($update_data_ruas,'tag');
+				}
+
+				add_log('Ubah Katalog', 'Katalog', 'edit', 't_catalog', $id);
+				set_message('toastr_msg', lang('Katalog.info.successfully_saved'));
+				set_message('toastr_type', 'success');
+
+				return redirect()->to('/katalog?slug='.$slug);
+			} 
+        } 
 
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['redirect'] = base_url('katalog/edit/' . $id);
@@ -270,39 +424,40 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 	public function ajax_create()
     {
         if ($this->request->isAJAX()) :
-            $post           = $this->request->getPost();
-            $worksheet      = $post['worksheet'];
-            $controlNumber  = get_control_number();
-            $bibid          = get_bib_id();
-            $title          = get_imploded_array($post['title'], ';');
-            $author         = get_imploded_array(array_merge([$post['author']['100']], $post['additional-author']['input']), ';');
-            $place          = $post['publisher']['a'];
-            $name           = $post['publisher']['b'];
-            $year           = $post['publisher']['c'];
-            $publication    = "$place $name $year;";
-            $subject        = get_imploded_array($post['subject']['desc'], ';');
-            $isbn           = get_imploded_array($post['issn'], ';');
-            $deweyNo        = $post['class-ddc'];
-            $callNumber     = get_imploded_array($post['callnumber'], ';');
-            $physicalDescription = get_imploded_array($post['physical-description'], ';');
-            $language       = $post['opt-language'];
-            $notes          = get_imploded_array($post['notes']['input'], ';');
+            $post           		= $this->request->getPost();
+            $worksheet      		= $post['worksheet'];
+            $controlNumber  		= get_control_number();
+            $bibid          		= get_bib_id();
+            $title          		= get_imploded_array($post['title'], ';');
+            $author         		= get_imploded_array(array_merge([$post['author']['100']], $post['author_additional']['input']), ';');
+            $place          		= $post['publisher']['a'];
+            $name           		= $post['publisher']['b'];
+            $year           		= $post['publisher']['c'];
+            $publication    		= "$place $name $year;";
+            $subject        		= get_imploded_array($post['subject']['desc'], ';');
+            $isbn           		= get_imploded_array($post['isbn'], ';');
+            $dewey_no        		= $post['class-ddc'];
+            $callNumber     		= get_imploded_array($post['callnumber'], ';');
+            $description_physical 	= get_imploded_array($post['description_physical'], ';');
+            $languages       		= $post['languages'];
+            $description          	= get_imploded_array($post['description']['input'], ';');
+
             $save_data = [
-				'ControlNumber'         => $controlNumber,
-				'BIBID'                 => $bibid,
-				'Title'                 => $title,
-				'Author'                => $author,
-				'PublishLocation'       => $place,
-				'Publisher'             => $name,
-				'PublishYear'           => $year,
-				'Publikasi'             => $publication,
-				'Subject'               => $subject,
-				'ISBN'                  => $isbn,
-				'CallNumber'            => $callNumber,
-				'Note'                  => $notes,
-				'Languages'             => $language,
-				'DeweyNo'               => $deweyNo,
-				'PhysicalDescription'   => $physicalDescription,
+				'control_no'         	=> $controlNumber,
+				'bibid'                 => $bibid,
+				'title'                 => $title,
+				'author'                => $author,
+				'publisher_location'    => $place,
+				'publisher'             => $name,
+				'publisher_year'        => $year,
+				'publication'           => $publication,
+				'subject'               => $subject,
+				'isbn'                  => $isbn,
+				'call_no'            	=> $callNumber,
+				'description'           => $description,
+				'languages'             => $languages,
+				'dewey_no'              => $dewey_no,
+				'description_physical'  => $description_physical,
 				'worksheet_id'          => $worksheet,
 				'created_by'            => user_id(),
             ];
@@ -310,8 +465,8 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 			// jd($save_data);
             $newKatalogId = $this->katalogModel->insert($save_data);
             if ($newKatalogId) {
-                $post['ControlNumber'] = $controlNumber;
-                $post['BIBID'] = $bibid;
+                $post['control_no'] = $controlNumber;
+                $post['bibid'] = $bibid;
                 $post['005'] = '$a ' . date('YmdHis');
 
 				$save_data_ruas = [];
@@ -319,8 +474,8 @@ class Katalog extends \hamkamannan\adminigniter\Controllers\BaseController
 					'tag'           => '008',
 					'indicator1'    => null,
 					'indicator2'    => null,
-					'Katalog_id' 	=> $newKatalogId,
-					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target-group'], 11, '#') . str_pad($post['paper-form'], 2, '#') . str_pad($post['opt-language'], 5, '#')
+					'catalog_id' 	=> $newKatalogId,
+					'value'        	=> '$a ' . str_pad(date('ymd'), 22, '#') . str_pad($post['target_group'], 11, '#') . str_pad($post['paper_form'], 2, '#') . str_pad($post['languages'], 5, '#')
 				];
 				array_push($save_data_ruas, $tag008);
 

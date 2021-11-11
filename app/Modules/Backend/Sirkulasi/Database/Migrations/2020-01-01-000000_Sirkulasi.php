@@ -15,7 +15,7 @@ class Sirkulasi extends Migration
 			'NomorTransaksi' 			=> ['type' => 'VARCHAR','constraint' => '50','null' => true,],
 			't_anggota_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
 			// 't_eksemplar_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
-			'Location_library_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
+			'location_library_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
 			'sort' 			=> ['type' => 'MEDIUMINT','constraint' => '8','null' => true,],
 			'description' 	=> ['type' => 'VARCHAR','constraint' => '255','null' => true,],
 			'active' 		=> ['type' => 'TINYINT','constraint' => '1','unsigned' => true,'default' => 1,],

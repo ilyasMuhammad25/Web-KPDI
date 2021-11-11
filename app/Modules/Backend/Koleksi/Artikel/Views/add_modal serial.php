@@ -1,5 +1,5 @@
 <div class="modal fade" id="modal_create2" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
@@ -15,18 +15,19 @@
                     <div id="frm_create_message"></div>
 
                     <div class="form-row">
+                        
                         <div class="col-md-12">
                             <div class="position-relative form-group">
                                 <label for="Catalog_id">Pilih Katalog</label>
                                 <div>
-                                    <select class="form-control js-example-basic-multiple" name="Catalog_id"
-                                        id="Catalog_id" tabindex="-1" aria-hidden="true" style="width:100%;">
-
+                                <input list="items" class="form-control" id="Catalog_id" name="Catalog_id"
+                                        placeholder="Pilih Katalog" />
+                                 <datalist id="items">      
 
                                         <?php foreach(get_dropdown('t_catalog',null,'Title','Title') as $row):?>
                                         <option value="<?=$row->code?>"><?=$row->text?></option>
                                         <?php endforeach;?>
-                                    </select>
+                                        </datalist>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +56,7 @@
                         <div class="col-md-6">
                             <div class="position-relative form-group">
                                 <label for="TANGGAL_TERBIT_EDISI_SERIAL">Tanggal Terbit</label>
-                                <input type="text" class="form-control" id="TANGGAL_TERBIT_EDISI_SERIAL"
+                                <input type="date" class="form-control datepicker" id="TANGGAL_TERBIT_EDISI_SERIAL"
                                     name="TANGGAL_TERBIT_EDISI_SERIAL" placeholder="Tanggal Terbit" />
 
                             </div>
@@ -129,7 +130,15 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+$(function() {
+    $(".datepicker").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+    });
+});
+</script>
 <script>
 $('#catalog').select2({
     dropdownParent: $('#modal_create2'),
@@ -156,7 +165,7 @@ $('#frm_create2').submit(function(event) {
                 if (res.error == null) {
                     Swal.fire({
                         title: 'Success',
-                        text: 'Kategori Menu berhasil ditambah',
+                        text: 'Artikel berhasil ditambah',
                         type: 'success',
                         showConfirmButton: false,
                         timer: 3000

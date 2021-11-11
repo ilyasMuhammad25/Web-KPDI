@@ -7,7 +7,7 @@ $query = $katalogModel
     ->where('t_catalog.active',1);
 
 $keyword = $request->getVar('pDataItem');
-$type = $request->getVar('pType') ?? 'Title';
+$type = $request->getVar('pType') ?? 'title';
 $worksheet = $request->getVar('pLembarkerja');
 
 $count_items = $query->countAllResults(false);
@@ -51,7 +51,7 @@ $pager = $query->pager;
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="<?=base_url()?>">Beranda</a></li>
 							<!-- <li class="breadcrumb-item"><a href="#">Docs</a></li> -->
-							<li class="breadcrumb-item active" aria-current="page">Hasil Pencarian &nbsp;  <b><i><?=$request->getVar('pDataItem')?></i></b></li>
+							<li class="breadcrumb-item active" aria-current="page">Pencarian Koleksi</li>
 						</ol>
 					</nav>
 				</div>
@@ -73,9 +73,9 @@ $pager = $query->pager;
 					<div class="shortcode_title">
 
 						<?php if(!empty($keyword)): ?>
-							Pencarian <i><b><?=$request->getVar('pDataItem')?></b></i>, ditemukan <?=$count_items?> item.
+							Pencarian <i><b><?=$request->getVar('pDataItem')?></b></i>, ditemukan <?=$count_items?> koleksi.
 						<?php else:?>
-							Ditemukan <?=$count_items?> item.
+							Ditemukan <?=$count_items?> koleksi.
 						<?php endif;?>
 					</div>
 					<div class="container">
@@ -83,9 +83,9 @@ $pager = $query->pager;
 							<?php foreach($items as $row):?>
 							<?php 
 								$default = base_url('uploads/default/no_cover.jpg');
-								$image = base_url('uploads/katalog/' . $row->CoverURL);
-								$thumb = base_url('uploads/katalog/thumb_' . $row->CoverURL);
-								if (empty($row->CoverURL)) {
+								$image = base_url('uploads/katalog/' . $row->file_image);
+								$thumb = base_url('uploads/katalog/thumb_' . $row->file_image);
+								if (empty($row->file_image)) {
 									$image = $default;
 									$thumb = $default;
 								}
@@ -94,40 +94,40 @@ $pager = $query->pager;
 							<div class="col-lg-12 col-sm-12 mb-3 pl-0">
 								<div class="blog_grid_post shadow-sm wow fadeInUp m-0">
 									<div class="grid_post_content p-0">
-										<table class="table table-bordered table-condensed mb-0">
+										<table class="table table-stripped mb-0">
 											<tbody>
 													<tr>
-														<th width="120">
+														<th class="text-info" width="120">
 															<a href="<?=$image?>" class="image-link">
 																<img width="120" class="rounded" src="<?=$default?>" onerror="this.onerror=null;this.src='<?=$default?>';" alt="">
 															</a>
 														</th>
 														<td>
-															<a href="<?=base_url('home/search?slug=#')?>">
-																<p class="b_title"><?=$row->Title?></p>
+															<a href="<?=base_url('home/search?catalog_id='.$row->id)?>">
+																<p class="b_title"><?=$row->title?></p>
 															</a> 
 															<span class="badge badge-secondary" href="#"><?=get_worksheet_label($row->worksheet_id)?></span>
 														</td>
 													</tr>
 													<tr>
-														<th>Kreator/Pengarang</th>
-														<td><?=$row->Author?></td>
+														<th class="text-info">Kreator/Pengarang</th>
+														<td>: <?=$row->author?></td>
 													</tr>
 													<tr>
-														<th>Penerbitan</th>
-														<td><?= _spec($row->PublishLocation); ?> : <?= _spec($row->Publisher); ?>, <?= _spec($row->PublishYear); ?></td>
+														<th class="text-info">Penerbitan</th>
+														<td>: <?= _spec($row->publication); ?></td>
 													</tr>
 													<tr>
-														<th>No. Panggil</th>
-														<td><?= _spec($row->CallNumber); ?></td>
+														<th class="text-info">No. Panggil</th>
+														<td>: <?= _spec($row->call_no); ?></td>
 													</tr>
 													<tr>
-														<th>Konten Digital</th>
-														<td>Tidak tersedia</td>
+														<th class="text-info">Konten Digital</th>
+														<td>: Tidak tersedia</td>
 													</tr>
 													<tr>
-														<th>Ketersediaan</th>
-														<td><?=count(get_eksemplars($row->id))?></td>
+														<th class="text-info">Ketersediaan</th>
+														<td>: <?=count(get_eksemplars($row->id))?></td>
 													</tr>
 											</tbody>
 										</table>

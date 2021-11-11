@@ -13,7 +13,7 @@ class Eksemplar extends Migration
 		
 		$this->forge->addField([
 			'id' 			=> ['type' => 'MEDIUMINT','constraint' => '11','unsigned' => true,'auto_increment' => true,],
-			'NomorBarcode' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
+			'barcode_no' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
 			'NoInduk' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
 			'RFID' 			=> ['type' => 'VARCHAR','constraint' => '50','null' => true,],
 			'ref_currency' 	=> ['type' => 'VARCHAR','constraint' => '50','null' => true,],
@@ -30,7 +30,7 @@ class Eksemplar extends Migration
 			'ref_media' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
 			'ref_source' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
 			'ref_status' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
-			'Location_library_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
+			'location_library_id' 	=> ['type' => 'INT','constraint' =>11,'null' => true,],
 			'Keterangan_Sumber' 	=> ['type' => 'VARCHAR','constraint' => '255','null' => true,],
 			'slug' 			=> ['type' => 'VARCHAR','constraint' => '150','null' => true,],
 			'sort' 			=> ['type' => 'MEDIUMINT','constraint' => '8','null' => true,],

@@ -64,16 +64,18 @@
                     <tr>
                         <td width="35"><input type="checkbox" name="checkItem[]" id="checkItem" value="<?= $row->id ?>"></td>
                         <td width="200">
-                            <?= _spec($row->NomorBarcode); ?> <br>
+                            <?= _spec($row->barcode_no); ?> <br>
                         </td>
                         <td width="200">
-                            <?= _spec($row->TanggalPengadaan); ?> <br>
+                            <?= _spec($row->procurement_date); ?> <br>
                         </td>
                         <td width="200">
-                            <?= _spec($row->NoInduk); ?> <br>
+                            <?= _spec($row->register_no); ?> <br>
                         </td>
                         <td width="200">
-
+							<?= _spec($row->title); ?> <br>
+							<?= _spec($row->publication); ?> <br>
+							<b><?= _spec(get_worksheet_label($row->worksheet_id)); ?> </b>
                         </td>
 						<td width="50">
 							<input type="checkbox" class="apply-status" data-href="<?= base_url('eksemplar/apply_status'); ?>" data-field="is_quarantine" data-id="<?=$row->id?>" <?= ($row->is_quarantine == 1) ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="success">

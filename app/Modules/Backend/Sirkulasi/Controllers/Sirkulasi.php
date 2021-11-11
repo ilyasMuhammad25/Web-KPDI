@@ -65,26 +65,26 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
             return redirect()->to('/dashboard');
         }
 
-        $slug = $this->request->getVar('slug') ?? 'peminjaman';
+        $slug = $this->request->getVar('slug') ?? 'loan';
 
-		if($slug == 'peminjaman'){
-			$this->index_peminjaman();
+		if($slug == 'loan'){
+			$this->index_loan();
 		}
 
-		if($slug == 'pengembalian'){
-			$this->index_pengembalian();
+		if($slug == 'return'){
+			$this->index_return();
 		}
 
-		if($slug == 'perpanjangan'){
-			$this->index_perpanjangan();
+		if($slug == 'extend'){
+			$this->index_extend();
 		}
 
-		if($slug == 'pelanggaran'){
-			$this->index_pelanggaran();
+		if($slug == 'penalty'){
+			$this->index_penalty();
 		}
     }
 	
-    public function index_peminjaman()
+    public function index_loan()
     {
         $query = $this->eksemplarLoanModel
             ->select('t_eksemplar_loan.*')
@@ -100,16 +100,16 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Sirkulasi';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['sirkulasis'] = $sirkulasis;
-        echo view('Sirkulasi\Views\peminjaman\list', $this->data);
+        echo view('Sirkulasi\Views\list', $this->data);
     }
 
-	public function index_pengembalian()
+	public function index_return()
     {
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.title, t_catalog.publisher')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -120,10 +120,10 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Sirkulasi';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['sirkulasis'] = $sirkulasis;
-        echo view('Sirkulasi\Views\pengembalian\list', $this->data);
+		echo view('Sirkulasi\Views\list', $this->data);
     }
 
-    public function index_perpanjangan()
+    public function index_extend()
     {
         $query = $this->eksemplarLoanModel
             ->select('t_eksemplar_loan.*')
@@ -139,10 +139,10 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Sirkulasi';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['sirkulasis'] = $sirkulasis;
-        echo view('Sirkulasi\Views\perpanjangan\list', $this->data);
+		echo view('Sirkulasi\Views\list', $this->data);
     }
 
-	public function index_pelanggaran()
+	public function index_penalty()
     {
         $query = $this->eksemplarLoanModel
             ->select('t_eksemplar_loan.*')
@@ -158,31 +158,31 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
         $this->data['title'] = 'Sirkulasi';
         $this->data['message'] = $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message');
         $this->data['sirkulasis'] = $sirkulasis;
-        echo view('Sirkulasi\Views\pelanggaran\list', $this->data);
+        echo view('Sirkulasi\Views\list', $this->data);
     }
 
 	public function create()
     {
-		$slug = $this->request->getVar('slug') ?? 'peminjaman';
+		$slug = $this->request->getVar('slug') ?? 'loan';
 
-		if($slug == 'peminjaman'){
-			$this->create_peminjaman();
+		if($slug == 'loan'){
+			$this->create_loan();
 		}
 
-		if($slug == 'pengembalian'){
-			$this->create_pengembalian();
+		if($slug == 'return'){
+			$this->create_return();
 		}
 
-		if($slug == 'perpanjangan'){
-			$this->create_perpanjangan();
+		if($slug == 'extend'){
+			$this->create_extend();
 		}
 
-		if($slug == 'pelanggaran'){
-			$this->create_pelanggaran();
+		if($slug == 'penalty'){
+			$this->create_penalty();
 		}
 	}
 
-	public function create_peminjaman() {
+	public function create_loan() {
         if (!is_allowed('sirkulasi/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
@@ -193,9 +193,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.title, t_catalog.publication, t_catalog.publisher, t_catalog.publish_location, t_catalog.publish_year')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -232,7 +232,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 							'eksemplar_loan_id' 	=> $newEksemplarLoanID,
 							'anggota_id' 			=> $anggota->id,
 							'eksemplar_id' 			=> $eksemplar->id,
-							'location_library_id' 	=> $eksemplar->Location_library_id,
+							'location_library_id' 	=> $eksemplar->location_library_id,
 							'created_by'			=> user_id(),
 							'loan_date'				=> date('Y-m-d'),
 							'due_date'				=> $due_date,
@@ -241,7 +241,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 						$update_data_eksemplar[] = [
 							'id' 					=> $eksemplar->id,
-							'ref_status'			=> get_ref_id('dipinjam','slug','ref_status'),
+							'availability_id'		=> get_ref_id('dipinjam','slug','ref_status'),
 						];
 					}
 
@@ -264,13 +264,12 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
                 echo view('Sirkulasi\Views\peminjaman\add', $this->data);
 			}
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create?slug=peminjaman');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-			echo view('Sirkulasi\Views\peminjaman\add', $this->data);
+			echo view('Sirkulasi\Views\add', $this->data);
 		}
     }
 
-	public function create_pengembalian() {
+	public function create_return() {
         if (!is_allowed('sirkulasi/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
@@ -281,9 +280,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.title, t_catalog.publication, t_catalog.publisher, t_catalog.publish_location, t_catalog.publish_year')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -319,7 +318,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 					$update_data_eksemplar[] = [
 						'id' 					=> $eksemplar_loan_item->eksemplar_id,
-						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+						'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 					];
 				}
 
@@ -339,13 +338,12 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 			return redirect()->back();
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create?slug=pengembalian');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-			echo view('Sirkulasi\Views\pengembalian\add', $this->data);
+			echo view('Sirkulasi\Views\add', $this->data);
 		}
     }
 
-	public function create_perpanjangan() {
+	public function create_extend() {
         if (!is_allowed('sirkulasi/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
@@ -356,9 +354,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.title, t_catalog.publication, t_catalog.publisher, t_catalog.publish_location, t_catalog.publish_year')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -394,7 +392,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 					$update_data_eksemplar[] = [
 						'id' 					=> $eksemplar_loan_item->eksemplar_id,
-						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+						'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 					];
 
 					$save_data_eksemplar_loan_item_extend[] = [
@@ -430,13 +428,12 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 			return redirect()->back();
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create?slug=perpanjangan');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-			echo view('Sirkulasi\Views\perpanjangan\add', $this->data);
+			echo view('Sirkulasi\Views\add', $this->data);
 		}
     }
 
-	public function create_pelanggaran() {
+	public function create_penalty() {
         if (!is_allowed('sirkulasi/create')) {
             set_message('toastr_msg', lang('App.permission.not.have'));
             set_message('toastr_type', 'error');
@@ -447,9 +444,9 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$query = $this->eksemplarLoanItemModel
 			->select('t_eksemplar_loan_item.*')
-			->select('t_eksemplar.NomorBarcode, t_eksemplar.NoInduk, t_eksemplar.RFID, t_eksemplar.Price ')
+			->select('t_eksemplar.barcode_no, t_eksemplar.register_no, t_eksemplar.rfid, t_eksemplar.price ')
 			->select('t_anggota.name as member_name, t_anggota.MemberNo as member_no')
-			->select('t_catalog.Title, t_catalog.Publisher')
+			->select('t_catalog.title, t_catalog.publication, t_catalog.publisher, t_catalog.publish_location, t_catalog.publish_year')
 
 			->join('t_eksemplar','t_eksemplar.id = t_eksemplar_loan_item.eksemplar_id','inner')
 			->join('t_anggota','t_anggota.id = t_eksemplar_loan_item.anggota_id','inner')
@@ -487,7 +484,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 					$update_data_eksemplar[] = [
 						'id' 					=> $eksemplar_loan_item->eksemplar_id,
-						'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+						'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 					];
 
 					$save_data_eksemplar_loan_item_penalty[] = [
@@ -523,13 +520,12 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 			return redirect()->back();
 		} else { 
-			$this->data['redirect'] = base_url('sirkulasi/create?slug=pelanggaran');
 			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-			echo view('Sirkulasi\Views\pelanggaran\add', $this->data);
+			echo view('Sirkulasi\Views\add', $this->data);
 		}
     }
 
-	public function proses_pengembalian($id = null)
+	public function process_return($id = null)
     {
 		$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);
 		$update_data_eksemplar_loan_item = [
@@ -542,7 +538,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		if($sirkulasiUpdate){
 			$update_data_eksemplar = [
-				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+				'availability_id'	=> get_ref_id('tersedia','slug','ref_status'),
 			];
 
 			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
@@ -555,7 +551,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 		return redirect()->back();
     }
 
-	public function proses_perpanjangan($id = null)
+	public function process_extend($id = null)
     {
 		$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);
 		$max_loan_days = get_loan_days($eksemplar_loan_item->anggota_id);
@@ -570,7 +566,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		if($sirkulasiUpdate){
 			$update_data_eksemplar = [
-				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+				'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 			];
 
 			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);
@@ -595,7 +591,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 		return redirect()->back();
     }
 
-	public function proses_pelanggaran($id = null)
+	public function process_penalty($id = null)
     {
 		$eksemplar_loan_item = $this->eksemplarLoanItemModel->find($id);
 		$member_type = get_member_type($eksemplar_loan_item->anggota_id);
@@ -614,7 +610,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		if($sirkulasiUpdate){
 			$update_data_eksemplar = [
-				'ref_status'			=> get_ref_id('tersedia','slug','ref_status'),
+				'availability_id'		=> get_ref_id('tersedia','slug','ref_status'),
 			];
 
 			$this->eksemplarModel->update($eksemplar_loan_item->eksemplar_id, $update_data_eksemplar);

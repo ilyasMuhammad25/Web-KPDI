@@ -47,7 +47,7 @@
                         <div class="col-md-6">
                             <div class="position-relative form-group">
                                 <label for="TANGGAL_TERBIT_EDISI_SERIAL">Tanggal Terbit</label>
-                                <input type="text" class="form-control" id="TANGGAL_TERBIT_EDISI_SERIAL"
+                                <input type="date" class="form-control datepicker" id="TANGGAL_TERBIT_EDISI_SERIAL"
                                     name="TANGGAL_TERBIT_EDISI_SERIAL" placeholder="Tanggal Terbit" />
 
                             </div>
@@ -68,7 +68,7 @@
                         <div class="col-md-6">
                             <div class="position-relative form-group">
                                 <label for="Starpage">Halaman Awal</label>
-                                <input type="number" class="form-control" id="Starpage" name="Starpage"
+                                <input type="number" class="form-control" id="StartPage" name="StartPage"
                                     placeholder="Halaman Awal" />
                                 <small class="info help-block"><?= lang('User.info.create.password'); ?> </small>
                             </div>
@@ -121,8 +121,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+
+</script>
 
 <script>
+    $(function() {
+    $(".datepicker").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+    });
+});
 $('#catalog').select2({
     dropdownParent: $('#modal_create'),
     width: '100%',

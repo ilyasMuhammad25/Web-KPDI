@@ -1,6 +1,7 @@
 <?php
 $request = \Config\Services::request();
 $request->uri->setSilent();
+helper('menu');
 ?>
 <div class="app-sidebar <?= get_parameter('sidebar-cs-class'); ?>">
 	<div class="app-header__logo <?= get_parameter('sidebar-cs-class'); ?>">
@@ -43,7 +44,14 @@ $request->uri->setSilent();
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
                 <?php if (get_parameter('sidebar-mode') == 'auto') : ?>
-                    <?=display_menu_backend(0,1);?>
+					<?php 
+						$where = '';
+						if(is_admin()){
+							$admin_exclude_menus = get_parameter('admin-exclude-menus','122');
+							$where = "AND a.id NOT IN (".$admin_exclude_menus.")";
+						}
+					?>
+                    <?=display_menu_backend2(0,1, $where);?>
                 <?php else : echo $this->include('Core\layout\backend\partialnavigation');
                 endif; ?>
             </ul>

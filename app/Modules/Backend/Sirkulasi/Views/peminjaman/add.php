@@ -104,7 +104,7 @@ $member = get_member($member_no);
 												<select class="form-control select2" name="no_barcode" id="no_barcode" placeholder="Nomor Barcode">
 													<option value="">Nomor Barcode</option>
 													<?php foreach (get_available_eksemplars() as $row) : ?>
-														<option value="<?= $row->NomorBarcode ?>"><?= $row->NomorBarcode ?></option>
+														<option value="<?= $row->barcode_no ?>"><?= $row->barcode_no ?></option>
 													<?php endforeach; ?>
 												</select>
 												<div class="input-group-append">
@@ -157,10 +157,10 @@ $member = get_member($member_no);
 														
 													</td>
 													<td width="100">
-														<?= _spec($row->NomorBarcode); ?> <br>
+														<?= _spec($row->barcode_no); ?> <br>
 													</td>
-													<td width="400"><?= _spec($row->Title); ?></td>
-													<td><?= _spec($row->Publisher); ?></td>
+													<td width="400"><?= _spec($row->title); ?></td>
+													<td><?= _spec($row->publisher); ?></td>
 													<td width="100"><?= _spec($row->loan_date); ?></td>
 													<td width="100"><?= _spec($row->due_date); ?></td>
 													<td width="35">
@@ -206,8 +206,8 @@ $member = get_member($member_no);
 			$('#'+tbody).append(`
 				<tr class="rm-row">
 					<td>`+no_barcode+`</td>
-					<td>`+respJson.Title+`</td>
-					<td>`+respJson.Publisher+`</td>
+					<td>`+respJson.title+`</td>
+					<td>`+respJson.publication+`</td>
 					<td class="text-left">
 						<input type="hidden" name="barcodes[]" value="`+no_barcode+`">
 						<button type="button" class="btn btn-danger cart-btn-remove" data-href=""><i class="fa fa-trash"></i></button>
