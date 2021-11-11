@@ -167,9 +167,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		// }
 
 
-		// mengambil nama lokasi perpustakaan
-		$lokasiperpustakaans =  $this->lokasiperpustakaanModel->findAll();
-		$this->data['lokasiperpustakaans'] = $lokasiperpustakaans;
+	
 		$this->data['ref_identitas'] = get_ref('ref_identitas');
 		$this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
 		$this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
@@ -315,18 +313,21 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$anggota =  db_get_single('t_anggota', 'MemberNo=' . $member_no);
         $this->edit($anggota->id, true);
     }
+
+
 	public function edit(int $id = null, $is_anggota = false) {
-		// if (!is_allowed('anggota/update')) {
-		// 	set_message('toastr_msg', lang('App.permission.not.have'));
-		// 	set_message('toastr_type', 'error');
-		// 	return redirect()->to('/dashboard');
-		// }
-		$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-		$baseModel->setTable('m_propinsi');
-		$propinsi = $baseModel
-			->select('m_propinsi.*')
-			->find_all('name', 'asc');
-		$this->data['propinsi'] = $propinsi;
+		if (!is_allowed('anggota/update')) {
+			set_message('toastr_msg', lang('App.permission.not.have'));
+			set_message('toastr_type', 'error');
+			return redirect()->to('/dashboard');
+		}
+	
+			
+		// $this->data['hak_akses'] = $hak_akses;
+		
+		// $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        // $baseModel->setTable('t_akseslokasianggota');
+        // $hak_akses = $this->baseModel->find($id);
 		$anggota = $this->anggotaModel->find($id);
 		$this->data['title'] = 'Ubah Anggota';
 		$this->data['anggota'] = $anggota;
@@ -649,6 +650,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['kartu'] = array();
 		$anggota = $this->anggotaModel->find($id);
 		$this->data['anggota']=$anggota;
+		$this->data['barcode']= get_barcode($anggota->MemberNo);
 		// 1. composer require mpdf/mpdf
 		// $qrCode = new \Mpdf\QrCode\QrCode('Perpusnas RI');
 		// $output = new \Mpdf\QrCode\Output\Html();

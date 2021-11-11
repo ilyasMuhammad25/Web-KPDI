@@ -119,8 +119,8 @@ class Artikel extends ResourceController
 				'Content' => $this->request->getPost('Content'),
 				'Creator' => $this->request->getPost('Creator'),
 				'Contributor' => $this->request->getPost('Contributor'),
-				'StartPage' => $this->request->getPost('StartPage'),
-				'Pages' => $this->request->getPost('Pages'),
+				'Startartikel' => $this->request->getPost('Startartikel'),
+				'artikels' => $this->request->getPost('artikels'),
 				'Subject' => $this->request->getPost('Subject'),
 				'EDISISERIAL' => $this->request->getPost('EDISISERIAL'),
 				'ISOPAC' => $this->request->getPost('ISOPAC'),
@@ -225,13 +225,14 @@ class Artikel extends ResourceController
 
 	public function upload_file()
 	{
-		dd('tes');
+		
         $upload_id = $this->request->getPost('upload_id');
         $upload_field = $this->request->getPost('upload_field');
         $upload_title = $this->request->getPost('upload_title');
 
         $update_data = [];
         $files = (array) $this->request->getPost('file_pendukung');
+		dd($files);
         if (count($files)) {
             $listed_file = array();
             foreach ($files as $uuid => $name) {
@@ -249,12 +250,12 @@ class Artikel extends ResourceController
             $update_data[$upload_field] = implode(',', $listed_file);
         }
 
-        $page = $this->pageModel->find($upload_id);
-        $pageUpdate = $this->pageModel->update($upload_id,$update_data);
-        if ($pageUpdate) {
-			unlink_file($this->modulePath, $page->file_image);
-			unlink_file($this->modulePath, 'thumb_'.$page->file_image);
-			unlink_file($this->modulePath, $page->file_pdf);
+        $artikel = $this->artikelModel->find($upload_id);
+        $artikelUpdate = $this->artikelModel->update($upload_id,$update_data);
+        if ($artikelUpdate) {
+			unlink_file($this->modulePath, $artikel->file_image);
+			unlink_file($this->modulePath, 'thumb_'.$artikel->file_image);
+			unlink_file($this->modulePath, $artikel->file_pdf);
 
             $this->session->setFlashdata('toastr_msg', 'Upload file berhasil');
             $this->session->setFlashdata('toastr_type', 'success');

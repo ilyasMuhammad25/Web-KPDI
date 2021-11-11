@@ -28,11 +28,13 @@
         <tr bgcolor="#e7e7e7">
             <td width="150">Nama Lengkap</td>
             <td width="250"><?= set_value('name', $anggota->name); ?> :</td>
-            <td rowspan="4"><img src="FotoMu.jpg" width="200"></td>
+            <td rowspan="4"><img src="<?=base_url('uploads/anggota/' . $anggota->file_image)?>" width="200"></td>
         </tr>
         <tr bgcolor="#e7e7e7">
             <td>Nomor Anggota :</td>
-            <td><?= set_value('MemberNo', $anggota->MemberNo); ?></td>
+            <td>
+                <?=$barcode?> <br>
+                <?= set_value('MemberNo', $anggota->MemberNo); ?></td>
         </tr>
         <tr bgcolor="#e7e7e7">
             <td>Pekerjaan</td>

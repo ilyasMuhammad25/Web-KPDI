@@ -3,7 +3,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Upload File -Artikel
+                    <i class="header-icon lnr-plus-circle icon-gradient bg-plum-plate"> </i> Upload File - <span
+                        id="upload_title_span"></span>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -51,7 +52,7 @@ var defaultDropzoneUrl = "<?= base_url('artikel/do_upload') ?>";
 var defaultUrl = "<?= base_url('api/artikel/upload_file') ?>";
 var defaultFormat = "application/pdf";
 var defaultFile = 1;
-var defaultRedirect = "<?= base_url('page') ?>";
+var defaultRedirect = "<?= base_url('artikel') ?>";
 var defaultFormatTitle = "Format (PDF). Max 10MB";
 
 $('.upload-data').click(function() {
