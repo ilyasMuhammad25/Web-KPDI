@@ -44,5 +44,6 @@ $routes->group('api/anggota', ['namespace' => 'Anggota\Controllers\Api'], functi
 	$subroutes->add('edit/(:any)', 'Anggota::edit/$1');
 	$subroutes->add('delete/(:any)', 'Anggota::delete/$1');
 	$subroutes->add('cities', 'Anggota::cities');
+	$subroutes->add('get_date', 'Anggota::get_date');
 	$subroutes->add('upload_file', 'Anggota::upload_file');
 });

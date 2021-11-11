@@ -65,6 +65,26 @@ if (!function_exists('get_loan_days')) {
     }
 }
 
+if (!function_exists('get_EndDate_days')) {
+    function get_EndDate_days($anggota_id)
+    {        
+		$expiry_days = 0;
+
+		$modelAnggota = new \Anggota\Models\AnggotaModel();
+		$modelJenisAnggota = new \JenisAnggota\Models\JenisAnggotaModel();
+		$anggota = $modelAnggota->find($anggota_id);
+
+		if(!empty($anggota)){
+			$jenis_anggota = $modelJenisAnggota->find($anggota->ref_jenisanggota);			
+			if(!empty($jenis_anggota)){
+				$expiry_days = $jenis_anggota->expiry_days;
+			}
+		}
+
+		return $expiry_days;
+    }
+}
+
 if (!function_exists('get_member_type')) {
     function get_member_type($anggota_id)
     {        

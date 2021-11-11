@@ -183,7 +183,11 @@ class Anggota extends ResourceController
 
 		return $this->respond($data, 200);
 	}
-
+	
+	public function get_date(){
+		$date=date('Y-m-d');
+		return $this->respond($date, 200);
+	}
 	public function upload_file()
 	{
         $upload_id = $this->request->getPost('upload_id');
