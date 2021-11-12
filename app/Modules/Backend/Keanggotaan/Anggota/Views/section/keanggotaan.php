@@ -153,7 +153,7 @@
                         <label for="name">Nomor Anggota*</label>
                         <div>
                             <input type="text" class="form-control" id="frm_create_MemberNo" name="MemberNo"
-                                placeholder="NO anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" />
+                                placeholder="No. anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" />
                         </div>
                     </div>
                 </div>
