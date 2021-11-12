@@ -155,49 +155,13 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			set_message('toastr_type', 'error');
 			return redirect()->to('/dashboard');
 		}
-
-		// $users = model(UserModel::class);
-
-		// // Validate basics first since some password rules rely on these fields
-		// $rules = [
-		// 	'username' => 'required|max_length[30]|is_unique[users.username]',
-		// 	'email'    => 'required|valid_email|is_unique[users.email]',
-		// ];
-
-		// if (! $this->validate($rules))
-		// {
-		// 	return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-		// }
-
-		// // Validate passwords since they can only be validated properly here
-		// $rules = [
-		// 	'password'     => 'required', //attemptSignup
-		// 	'pass_confirm' => 'required|matches[password]',
-		// ];
-
-		// if (! $this->validate($rules))
-		// {
-		// 	return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-		// }
-
-		// Save the user
-		// $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
-		// $user = new User($this->request->getPost($allowedPostFields));
-
-		// $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
-
-		// // Ensure default group gets assigned if set
-        // if (! empty($this->config->defaultUserGroup)) {
-        //     $users = $users->withGroup($this->config->defaultUserGroup);
-        // }
-
-		// if (! $users->save($user))
-		// {
-		// 	return redirect()->back()->withInput()->with('errors', $users->errors());
-		// }
-
-
 	
+		$jenis_anggota = db_get_single('m_jenis_anggota','UPPER(name) = "UMUM"');
+		$start_date = date('Y-m-d');
+		$end_date = date('Y-m-d', strtotime($start_date. ' + '.$jenis_anggota->expiry_days.' days'));
+		
+		$this->data['date'] = $start_date;
+		$this->data['EndDate'] = $end_date;
 		$this->data['ref_identitas'] = get_ref('ref_identitas');
 		$this->data['ref_perkawinan'] = get_ref('ref_perkawinan');
 		$this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
@@ -209,27 +173,18 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
 		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
 		$this->data['ref_Statusanggota'] = get_ref('ref_Statusanggota');
-		$this->data[' MemberNo'] =  get_MemberNo();
-		// $expiry_days = get_EndDate_days($anggota->id);
-		// 	$EndDate = get_due_date($expiry_days);
-		$date= date('Y-m-d');
-		$EndDate=date('Y-m-d', strtotime($date. ' + 365 day'));
-		$this->data['EndDate'] = $EndDate;
-		$this->data['date'] = $date;
 			
-		// $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 		$this->data['title'] = 'Tambah Anggota';
 		$this->validation->setRule('name', 'Nama', 'required');
-		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
 		$this->validation->setRule('Email', 'Email', 'required');
+		$this->validation->setRule('MemberNo', 'Nomor Anggota', 'required');
+		$this->validation->setRule('ref_jenisanggota', 'Jenis Anggota', 'required');
 		if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$slug = url_title($this->request->getPost('name'), '-', TRUE);
-			// $tanggal_lahir 	= $this->request->getPost('DateOfBirth');
 			$save_data = [
 			'name' => $this->request->getPost('name'),
 			'slug' => $slug,
 			'MemberNo'=> get_member_no(),
-			// 'MemberNo'=> $this->anggotaModel->MemberNo(),
 			'IdentityNo'=> $this->request->getPost('IdentityNo'),
 			'PlaceOfBirth'=> $this->request->getPost('PlaceOfBirth'),
 			'DateOfBirth'=>  $this->request->getPost('DateOfBirth'),
@@ -302,19 +257,15 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 				for ($x = 0; $x < count($Locations); $x++){
 					$save_akses_lokasi_temp = [
 					't_anggota_id' => $newAnggotaId,
-					'Location_loan_id' =>$Locations[$x], //$this->request->getPost('Location_loan_id'),
-					//$this->request->getPost('LocationRuang_loan_id'),
+					'Location_loan_id' =>$Locations[$x], 
 					];
 					array_push($save_akses_lokasi,$save_akses_lokasi_temp);
 				}
-			}
-			if(!empty($save_akses_lokasi)){
-				$this->anggotahakaksesModel->insertBatch($save_akses_lokasi);
-			}
-			//   $tes=$this->$anggotahakaksesModel-findAll();
-			//   dd($tes);
-			// $newAnggotaId = $this->anggotaModel->insert($save_data);
-			if ($newAnggotaId) {
+
+				if(!empty($save_akses_lokasi)){
+					$this->anggotahakaksesModel->insertBatch($save_akses_lokasi);
+				}
+
 				add_log('Tambah Anggota', 'anggota', 'create', 't_anggota', $newAnggotaId);
 				set_message('toastr_msg', lang('Anggota.info.successfully_saved'));
 				set_message('toastr_type', 'success');
@@ -324,9 +275,9 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 				echo view('Anggota\Views\add', $this->data);
 			}
 		} else {
-		$this->data['redirect'] = base_url('anggota/create');
-		set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
-		echo view('Anggota\Views\add', $this->data);
+			$this->data['redirect'] = base_url('anggota/create');
+			set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : $this->session->getFlashdata('message'));
+			echo view('Anggota\Views\add', $this->data);
 		}
 	}
 	public function camera() {
@@ -360,12 +311,6 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			return redirect()->to('/dashboard');
 		}
 	
-			
-		// $this->data['hak_akses'] = $hak_akses;
-		
-		// $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
-        // $baseModel->setTable('t_akseslokasianggota');
-        // $hak_akses = $this->baseModel->find($id);
 		$anggota = $this->anggotaModel->find($id);
 		$this->data['title'] = 'Ubah Anggota';
 		$this->data['anggota'] = $anggota;
@@ -384,7 +329,6 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
 		if ($this->request->getPost()) {
 			if ($this->validation->withRequest($this->request)->run()) {
-				$is_anggota = $this->request->getPost('is_anggota');
 				$slug = url_title($this->request->getPost('name'), '-', TRUE);
 				$update_data = [
 					'name' => $this->request->getPost('name'),

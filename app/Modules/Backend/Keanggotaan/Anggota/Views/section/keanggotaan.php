@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name"><?=lang('anggota.field.Tempatlahir')?>*</label>
+                        <label for="name"><?=lang('anggota.field.Tempatlahir')?></label>
                         <div>
                             <input type="text" class="form-control" id="frm_create_PlaceOfBirth" name="PlaceOfBirth"
                                 placeholder="Tempat Lahir"
@@ -115,10 +115,10 @@
             <div class="form-row">
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name">No Handphone</label>
+                        <label for="name">No. Handphone</label>
                         <div>
                             <input type="text" class="form-control" id="frm_create_NoHp" name="NoHp"
-                                placeholder="Nomor Handphone" value="<?= set_value('NoHp',$anggota->NoHp); ?>" />
+                                placeholder="No. Handphone" value="<?= set_value('NoHp',$anggota->NoHp); ?>" />
 
                         </div>
                     </div>
@@ -150,7 +150,7 @@
             <div class="form-row">
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name">Nomor Anggota</label>
+                        <label for="name">Nomor Anggota*</label>
                         <div>
                             <input type="text" class="form-control" id="frm_create_MemberNo" name="MemberNo"
                                 placeholder="NO anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" />
@@ -160,12 +160,12 @@
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <div>
-                            <label><?=lang('Anggota.field.Jenisanggota')?></label>
+                            <label><?=lang('Anggota.field.Jenisanggota')?>*</label>
                             <select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1"
                                 aria-hidden="true">
                                 <option value="" disabled selected>
                                     <?=lang('Anggota.field.Jenisanggota')?></option>
-                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
+                                <?php foreach(get_dropdown('m_jenis_anggota',null,'name','name') as $row):?>
                                 <option value="<?=$row->code?>"
                                     <?=($row->code == $anggota->ref_jenisanggota) ? 'selected':''?>><?=$row->text?>
                                 </option>
@@ -182,7 +182,7 @@
                         <div>
                             <input type="date" class="form-control" id="frm_create_RegisterDate" name="RegisterDate"
                                 placeholder="Tempat Lahir"
-                                value="<?= set_value('RegisterDate',$anggota->DateOfBirth); ?>" readonly />
+                                value="<?= set_value('RegisterDate', substr($anggota->RegisterDate,0,10)); ?>" readonly />
                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
@@ -191,9 +191,9 @@
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.Masaberlaku')?></label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_EndDate" name="EndDate"
+                            <input type="date" class="form-control" id="frm_create_EndDate" name="EndDate"
                                 placeholder=<?=lang('Anggota.field.Masaberlaku')?>
-                                value="<?= set_value('EndDate', $anggota->EndDate); ?>" />
+                                value="<?= set_value('EndDate', substr($anggota->EndDate,0,10)); ?>" readonly/>
                         </div>
                     </div>
                 </div>
