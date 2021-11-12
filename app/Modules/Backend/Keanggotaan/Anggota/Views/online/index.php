@@ -76,7 +76,4 @@ $anggota = get_member($member_no);
 
 <?= $this->section('script'); ?>
 <?=view('Anggota\Views\online\section\\'.$slug.'_script', array('member'=> $member, 'slug' => $slug, 'slug_title' => $slug_title, 'label' => $label, 'label_title' => $label_title))?>
-<script>
-	$('.select2').select2({theme: "bootstrap4"});
-</script>
 <?= $this->endSection('script'); ?>

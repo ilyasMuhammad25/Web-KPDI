@@ -89,25 +89,14 @@ checkboxes.on('ifChanged', function(event) {
         $('#KelurahanNow').val($('#Kelurahan').val());
         $('#RTNow').val($('#RT').val());
         $('#RWNow').val($('#RW').val());
-        $('#ProvincyNow').val($('#Provincy').val());
-        $('#CityNow').val($('#City').val());
 
-        // $('#KecamatanNow').val($('#Kecamatan').val());
-        // $('#ProvincyNow').val($('#Provincy').val());
-        // $('#KecamatanNow').val($('#Kecamatan').val());
+		var provincy = $('#Provincy').val();
+		var city = $('#City').val();
 
-    } else {
-        alert('uncheck');
-    }
+		$("#ProvincyNow").val(provincy).trigger('change');
+		$("#CityNow").val(city).trigger('change');
+    } 
 });
-
-$('.select2').select2();
-$(".tags").select2({
-	allowClear: true,
-	tags: true,
-	tokenSeparators: [',']
-});
-
 </script>
 <script>
 $(document).ready(function() {

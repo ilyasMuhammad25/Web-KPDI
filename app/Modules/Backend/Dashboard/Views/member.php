@@ -28,11 +28,11 @@
                 <div class="card mb-3 widget-content bg-primary">
                     <div class="widget-content-wrapper text-white">
                         <div class="widget-content-left">
-                            <div class="widget-heading">Jumlah Koleksi</div>
+                            <div class="widget-heading">Peminjaman</div>
                             <div class="widget-subheading"></div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="widget-numbers text-white"><span><?=$countActiveUser ?? 0?></span></div>
+                            <div class="widget-numbers text-white"><span>0</span></div>
                         </div>
                     </div>
                 </div>
@@ -41,11 +41,11 @@
                 <div class="card mb-3 widget-content bg-primary">
                     <div class="widget-content-wrapper text-white">
                         <div class="widget-content-left">
-                            <div class="widget-heading">Jumlah ABC</div>
+                            <div class="widget-heading">Pemesanan</div>
                             <div class="widget-subheading"></div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="widget-numbers text-white"><span><?=$countInactiveUser ?? 0?></span></div>
+                            <div class="widget-numbers text-white"><span>0</span></div>
                         </div>
                     </div>
                 </div>
@@ -54,11 +54,11 @@
                 <div class="card mb-3 widget-content bg-primary">
                     <div class="widget-content-wrapper text-white">
                         <div class="widget-content-left">
-                            <div class="widget-heading">Jumlah CBD</div>
+                            <div class="widget-heading">Usulan</div>
                             <div class="widget-subheading"></div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="widget-numbers text-white"><span><?=$countGroup ?? 0?></span></div>
+                            <div class="widget-numbers text-white"><span>0</span></div>
                         </div>
                     </div>
                 </div>
