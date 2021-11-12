@@ -67,7 +67,7 @@ $anggota = get_member($member_no);
 			<?=view('Anggota\Views\online\member_profile', array('member' => $member))?>
 		</div>
 		<div class="col-lg-9">
-			<?=view('Anggota\Views\online\section\\'.$slug, array('member'=> $member, 'anggota'=> $anggota, 'member_no'=> $member_no, 'slug' => $slug, 'slug_title' => $slug_title, 'label' => $label, 'label_title' => $label_title))?>
+			<?=view('Anggota\Views\online\section\\'.$slug, array('anggota'=> $anggota, 'is_anggota' => true, 'member'=> $member, 'member_no'=> $member_no, 'slug' => $slug, 'slug_title' => $slug_title, 'label' => $label, 'label_title' => $label_title))?>
 		</div>
 	</div>
 </div>

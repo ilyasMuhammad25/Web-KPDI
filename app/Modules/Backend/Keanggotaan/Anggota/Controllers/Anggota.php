@@ -306,11 +306,11 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 
 	public function edit(int $id = null, $is_anggota = false) {
 		
-		if (!is_allowed('anggota/update')) {
-			set_message('toastr_msg', lang('App.permission.not.have'));
-			set_message('toastr_type', 'error');
-			return redirect()->to('/dashboard');
-		}
+		// if (!is_allowed('anggota/update')) {
+		// 	set_message('toastr_msg', lang('App.permission.not.have'));
+		// 	set_message('toastr_type', 'error');
+		// 	return redirect()->to('/dashboard');
+		// }
 	
 		$anggota = $this->anggotaModel->find($id);
 		$this->data['title'] = 'Ubah Anggota';

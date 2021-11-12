@@ -1,4 +1,4 @@
-<form id="frm" method="post" action="">
+<form id="frm" method="post" action="<?=base_url('anggota/edit/'.$anggota->id.'/'.$is_anggota)?>">
 
     <div class="mb-3 card card-border">
         <div class="card-header-tab card-header">
@@ -272,7 +272,7 @@
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
-                        <div>
+                        <div class="select-wrapper">
                             <select class="form-control select2" name="Provincy" id="Provincy" tabindex="-1"
                                 aria-hidden="true" style="width:100%">
                                 <option value="">-Pilih-</option>
@@ -289,7 +289,7 @@
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?= lang('Anggota.field.city') ?></label>
-                        <div>
+                        <div class="select-wrapper">
 							<select class="form-control select2" name="City" id="City" tabindex="-1"
                                 aria-hidden="true" style="width:100%" data-url="<?=base_url('api/anggota/cities')?>">
 								<option value="">-Pilih-</option>
@@ -369,7 +369,7 @@
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
-                        <div>
+                        <div class="select-wrapper">
                             <select class="form-control select2" name="ProvincyNow" id="ProvincyNow" tabindex="-1"
                                 aria-hidden="true" style="width:100%">
                                 <option value="">-Pilih-</option>
@@ -385,7 +385,7 @@
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?= lang('Anggota.field.city') ?></label>
-                        <div>
+                        <div class="select-wrapper">
                             <select class="form-control select2" name="CityNow" id="CityNow" tabindex="-1"
                                 aria-hidden="true" style="width:100%" data-url="<?=base_url('api/anggota/cities')?>">
 								<option value="">-Pilih-</option>

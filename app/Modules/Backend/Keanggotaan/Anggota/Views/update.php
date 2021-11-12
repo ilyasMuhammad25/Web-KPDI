@@ -1,12 +1,11 @@
 <?php
-$request = \Config\Services::request();
-$request->uri->setSilent();
-$slug = $request->getVar('slug') ?? 'keanggotaan';
-$member_id = $request->getVar('member_id') ?? 0;
+	$request = \Config\Services::request();
+	$request->uri->setSilent();
+	$slug = $request->getVar('slug') ?? 'keanggotaan';
+	$member_id = $request->getVar('member_id') ?? 0;
 ?>
 
-<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
-<?=$this->extend($layout);?>
+<?=$this->extend(config('Core')->layout_backend);?>
 <?=$this->section('style');?>
 <?=$this->endSection('style');?>
 
@@ -100,10 +99,6 @@ checkboxes.on('ifChanged', function(event) {
     } else {
         alert('uncheck');
     }
-});
-
-$(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
 });
 
 $('.select2').select2();
