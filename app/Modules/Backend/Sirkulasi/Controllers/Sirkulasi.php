@@ -213,6 +213,7 @@ class Sirkulasi extends \hamkamannan\adminigniter\Controllers\BaseController
 			$anggota = $this->anggotaModel->where('MemberNo',$member_no)->get()->getRow();
 			$max_loan_days = get_loan_days($anggota->id);
 			$due_date = get_due_date($max_loan_days);
+			dd($due_date);
 
             $save_data = [
 				'anggota_id' => $anggota->id,

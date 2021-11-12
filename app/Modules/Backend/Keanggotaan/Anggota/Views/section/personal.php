@@ -184,14 +184,17 @@
                                     <div class="position-relative form-group">
                                         <div>
                                             <label><?=lang('Anggota.field.Jenisanggota')?></label>
-                                            <select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota"
-                                                tabindex="-1" aria-hidden="true">
+                                            <select class="form-control" id="package" onchange="myFunction();"
+                                                name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1"
+                                                aria-hidden="true">
                                                 <option value="" disabled selected>
                                                     <?=lang('Anggota.field.Jenisanggota')?>
                                                 </option>
 
-                                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
-                                                <option value="<?=$row->code?>"><?=$row->text?></option>
+                                                <?php foreach(get_dropdown2('m_jenis_anggota') as $row):?>
+                                                <option data-date="<?= $row->expiry_days ?>"    data-url="<?=base_url('api/anggota/get_date')?>"
+                                                 value="<?=$row->code?>">
+                                                    <?=$row->text?></option>
                                                 <?php endforeach;?>
                                             </select>
                                         </div>
@@ -201,9 +204,9 @@
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.Tanggalpendaftaran')?></label>
                                         <div>
-                                            <input type="date" class="form-control" id="frm_create_RegisterDate"
-                                                name="RegisterDate" placeholder="Tempat Lahir"
-                                                value="<?=set_value('RegisterDate');?>" />
+                                            <input type="text" class="form-control" id="frm_create_RegisterDate"
+                                                name="RegisterDate" placeholder="Tanggal Daftar" value="<?=$date;?>"
+                                                readonly />
                                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                                         </div>
                                     </div>
@@ -212,9 +215,9 @@
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.Masaberlaku')?></label>
                                         <div>
-                                            <input type="date" class="form-control" id="frm_create_DateOfBirth"
+                                            <input type="text" class="form-control" id="EndDate"
                                                 name="EndDate" placeholder=<?=lang('Anggota.field.Masaberlaku')?>
-                                                value="<?=set_value('EndDate');?>" />
+                                                value="" readonly />
                                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                                         </div>
                                     </div>

@@ -49,6 +49,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		helper('url');
 		helper('thumbnail');
 		helper('sirkulasi');
+		
 	}
 	public function online() {
 		$this->data['title'] = 'Keanggotaan Online';
@@ -208,7 +209,14 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
 		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
 		$this->data['ref_Statusanggota'] = get_ref('ref_Statusanggota');
-		$this->data[' MemberNo'] =  get_member_no();
+		$this->data[' MemberNo'] =  get_MemberNo();
+		// $expiry_days = get_EndDate_days($anggota->id);
+		// 	$EndDate = get_due_date($expiry_days);
+		$date= date('Y-m-d');
+		$EndDate=date('Y-m-d', strtotime($date. ' + 365 day'));
+		$this->data['EndDate'] = $EndDate;
+		$this->data['date'] = $date;
+			
 		// $this->data['categoriesperkawinan'] = $categoriesperkawinan;
 		$this->data['title'] = 'Tambah Anggota';
 		$this->validation->setRule('name', 'Nama', 'required');

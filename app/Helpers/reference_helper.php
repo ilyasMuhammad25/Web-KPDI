@@ -111,9 +111,29 @@ if (!function_exists('get_dropdown')) {
         $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
         $baseModel->setTable($table);
 
-		$query = $baseModel->where('active',1);
+		$query = $baseModel;
 		$query->select("$code as code");
 		$query->select("$text as text");
+        
+		if(!empty($where)){
+			$query->where($where);
+		}
+
+        return $query->orderBy($code)->get()->getResult();
+    }
+}
+
+
+if (!function_exists('get_dropdown2')) {
+    function get_dropdown2($table, $where = null, $code = 'id', $text = 'name',$expiry_days='expiry_days')
+    {        
+        $baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable($table);
+
+		$query = $baseModel;
+		$query->select("$code as code");
+		$query->select("$text as text");
+		$query->select("$expiry_days as expiry_days");
         
 		if(!empty($where)){
 			$query->where($where);

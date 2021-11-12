@@ -92,6 +92,33 @@ checkboxes.on('ifChanged', function(event) {
 
 var file_image = setDropzone('file_image', 'anggota', '.jpg,.jpeg,.png', 1, 10);
 </script>
+
+<script>
+$('#package').on('change', function() {
+    // ambil data dari elemen option yang dipilih
+    const date= $('#package option:selected').data('date');
+    // const url= $('#package option:selected').data('url');
+    var today = moment().format('YYYY-MM-DD');
+    var startdate = '26-12-2020'
+
+    var newDate = moment().add(date, 'days').format('YYYY-MM-DD');
+
+
+
+   
+    const id = $('#package option:selected').data('id');
+    
+
+   
+
+   
+    $('#anggota_id').val(id);
+    $('#EndDate').val(newDate);
+    
+
+    //   $('#total').text(`Rp ${total}`);
+});
+</script>
 <script>
 $(document).ready(function() {
     $('#Provincy').change(function() {
