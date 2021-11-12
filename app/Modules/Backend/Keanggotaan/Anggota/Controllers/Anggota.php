@@ -329,12 +329,14 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		$this->validation->setRule('name', 'Nama', 'required');
 		$this->validation->setRule('Email', 'Email', 'required');
+		$this->validation->setRule('NoHp', 'No. Telepon/HP', 'required');
 		$this->validation->setRule('MemberNo', 'Nomor Anggota', 'required');
 		$this->validation->setRule('ref_jenisanggota', 'Jenis Anggota', 'required');
 		$this->validation->setRule('Location_loan_id', 'Lokasi Perpustakaan', 'required');
 		if ($this->request->getPost()) {
 			if ($this->validation->withRequest($this->request)->run()) {
 				$slug = url_title($this->request->getPost('name'), '-', TRUE);
+				$Location_loan_ids = implode(",",$this->request->getPost('Location_loan_id'));
 				$update_data = [
 					'name' => $this->request->getPost('name'),
 					'slug' => $slug,
@@ -342,8 +344,6 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 					'PlaceOfBirth'=> $this->request->getPost('PlaceOfBirth'),
 					'DateOfBirth'=> $this->request->getPost('DateOfBirth'),
 					'RegisterDate'=>$this->request->getPost('RegisterDate'),
-					'Address'=> $this->request->getPost('Address'),
-					'AddressNow'=> $this->request->getPost('AddressNow'),
 					'Phone'=> $this->request->getPost('Phone'),
 					'InstitutionName'=> $this->request->getPost('InstitutionName'),
 					'InstitutionAddress'=> $this->request->getPost('InstitutionAddress'),
@@ -351,18 +351,20 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 					'MotherName'=> $this->request->getPost('MotherName'),
 					'Email'=> $this->request->getPost('Email'),
 					'NoHp'=> $this->request->getPost('NoHp'),
+					'Address'=> $this->request->getPost('Address'),
 					'Provincy'=> $this->request->getPost('Provincy'),
-					'ProvincyNow'=> $this->request->getPost('ProvincyNow'),
 					'City'=> $this->request->getPost('City'),
-					'CityNow'=> $this->request->getPost('CityNow'),
 					'Kecamatan'=> $this->request->getPost('Kecamatan'),
-					'KecamatanNow'=> $this->request->getPost('KecamatanNow'),
 					'Kelurahan'=> $this->request->getPost('Kelurahan'),
-					'KelurahanNow'=> $this->request->getPost('KelurahanNow'),
 					'RT'=> $this->request->getPost('RT'),
+					'RW'=> $this->request->getPost('RW'),
+					'AddressNow'=> $this->request->getPost('AddressNow'),
+					'ProvincyNow'=> $this->request->getPost('ProvincyNow'),
+					'CityNow'=> $this->request->getPost('CityNow'),
+					'KecamatanNow'=> $this->request->getPost('KecamatanNow'),
+					'KelurahanNow'=> $this->request->getPost('KelurahanNow'),
 					'RTNow'=> $this->request->getPost('RTNow'),
 					'RWNow'=> $this->request->getPost('RWNow'),
-					'RW'=> $this->request->getPost('RW'),
 					'TahunAjaran'=> $this->request->getPost('TahunAjaran'),
 					'category_id' => $this->request->getPost('category_id'),
 					'ref_identitas' => $this->request->getPost('ref_identitas'),
@@ -379,8 +381,12 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 					'sort' => $this->request->getPost('sort'),
 					'description' => $this->request->getPost('description'),
 					'RegisterDate' => $this->request->getPost('RegisterDate'),
+					'EndDate' => $this->request->getPost('EndDate'),
+					'BiayaPendaftaran' => $this->request->getPost('BiayaPendaftaran'),
+					'Location_loan_ids' => $Location_loan_ids,
 					'updated_by' => user_id(),
 				];
+
 				// Logic Upload
 				$files = (array) $this->request->getPost('file_image');
 				if (count($files)) {
