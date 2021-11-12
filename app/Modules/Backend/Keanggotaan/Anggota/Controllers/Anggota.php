@@ -179,6 +179,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->validation->setRule('Email', 'Email', 'required');
 		$this->validation->setRule('MemberNo', 'Nomor Anggota', 'required');
 		$this->validation->setRule('ref_jenisanggota', 'Jenis Anggota', 'required');
+		$this->validation->setRule('Location_loan_id', 'Lokasi Perpustakaan', 'required');
 		if ($this->request->getPost() && $this->validation->withRequest($this->request)->run()) {
 			$slug = url_title($this->request->getPost('name'), '-', TRUE);
 			$save_data = [
@@ -325,8 +326,12 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_fakultas'] = get_ref('ref_fakultas');
 		$this->data['ref_jurusan'] = get_ref('ref_jurusan');
 		$this->data['ref_Statusanggota'] = get_ref('ref_Statusanggota');
+
 		$this->validation->setRule('name', 'Nama', 'required');
-		$this->validation->setRule('PlaceOfBirth', 'PlaceOfBirth', 'required');
+		$this->validation->setRule('Email', 'Email', 'required');
+		$this->validation->setRule('MemberNo', 'Nomor Anggota', 'required');
+		$this->validation->setRule('ref_jenisanggota', 'Jenis Anggota', 'required');
+		$this->validation->setRule('Location_loan_id', 'Lokasi Perpustakaan', 'required');
 		if ($this->request->getPost()) {
 			if ($this->validation->withRequest($this->request)->run()) {
 				$slug = url_title($this->request->getPost('name'), '-', TRUE);

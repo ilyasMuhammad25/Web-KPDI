@@ -115,20 +115,20 @@
             <div class="form-row">
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name">No. Handphone</label>
-                        <div>
-                            <input type="text" class="form-control" id="frm_create_NoHp" name="NoHp"
-                                placeholder="No. Handphone" value="<?= set_value('NoHp',$anggota->NoHp); ?>" />
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="position-relative form-group">
                         <label for="name">Email</label>
                         <div>
                             <input type="email" class="form-control" id="Email" name="Email" placeholder="Email"
                                 value="<?= set_value('Email',$anggota->Email); ?>" />
+
+                        </div>
+                    </div>
+                </div>
+				<div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="name">No. Telepon</label>
+                        <div>
+                            <input type="text" class="form-control" id="frm_create_NoHp" name="NoHp"
+                                placeholder="No. Telepon" value="<?= set_value('NoHp',$anggota->NoHp); ?>" />
 
                         </div>
                     </div>
