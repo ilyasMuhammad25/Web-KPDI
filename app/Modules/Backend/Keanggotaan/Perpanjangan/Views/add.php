@@ -199,12 +199,7 @@ $('#package').on('change', function() {
     const id = $('#package option:selected').data('id');
     const jenis = $('#package option:selected').data('jenis');
 
-    // alert(date);
-
-    //     var date = new Date($('#date2').val(date));
-    //   var day = date.getDate(date);
-    //   var month = date.getMonth(date) + 1;
-    //   var year = date.getFullYear(date);
+   
 
     $('[name=no_anggota]').html(no_anggota);
     $('#anggota_id').val(id);

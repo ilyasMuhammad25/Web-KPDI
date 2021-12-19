@@ -689,4 +689,25 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		// Output the generated PDF to Browser
 		$dompdf->stream();
 	}
+
+	public function bebaspustaka(int $id=null) {
+		if (!is_allowed('anggota/cetakKartu')) {
+			set_message('toastr_msg', lang('App.permission.not.have'));
+			set_message('toastr_type', 'error');
+			return redirect()->to('/dashboard');
+		}
+		$this->data['title'] = 'Bebas Pustaka';
+		$this->data['kartu'] = array();
+		$anggota = $this->anggotaModel->find($id);
+		$this->data['anggota']=$anggota;
+		$dompdf = new \Dompdf\Dompdf();
+		$html= view('Anggota\Views\bebas-pustaka',$this->data);
+		$dompdf->loadHtml($html);
+		// (Optional) Setup the paper size and orientation
+		$dompdf->setPaper('A4', 'portrait');
+		// Render the HTML as PDF
+		$dompdf->render();
+		// Output the generated PDF to Browser
+		$dompdf->stream();
+	}
 }

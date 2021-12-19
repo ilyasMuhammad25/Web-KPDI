@@ -34,7 +34,7 @@
         <section class="signup_area">
             <div class="row ml-0 mr-0">
                 <div class="sign_left signin_left">
-                    <h2 class="pt-5">Masuk - Keanggotaan Online</h2>
+                    <h2 class="pt-5">Masuk </h2>
                     <img class="position-absolute top" src="<?=base_url('themes/opac')?>/img/signup/top_ornamate.png" alt="top">
                     <img class="position-absolute bottom" src="<?=base_url('themes/opac')?>/img/signup/bottom_ornamate.png" alt="bottom">
                     <img class="position-absolute middle" src="<?=base_url('themes/opac')?>/img/signup/door.png" alt="bottom">

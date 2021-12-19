@@ -597,5 +597,9 @@
         <a href="<?=base_url('anggota/cetakKartu/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top"
             title="Cetak Kartu" class="btn btn-lg btn-primary"><i class="fa fa-print"></i> Cetak Kartu Anggota</a>
         <?php endif;?>
+        <?php if(!$is_anggota):?>
+        <a href="<?=base_url('anggota/bebaspustaka/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top"
+            title="Cetak Kartu" class="btn btn-lg btn-primary"><i class="fa fa-print"></i> Cetak Kartu Anggota</a>
+        <?php endif;?>
     </div>
 </form>
