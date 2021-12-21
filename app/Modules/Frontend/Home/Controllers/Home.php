@@ -65,7 +65,6 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		// Validate basics first since some password rules rely on these fields
 		$rules = [
-			'username' => 'required|max_length[30]|is_unique[users.username]',
 			'email'    => 'required|valid_email|is_unique[users.email]',
 		];
 
@@ -98,7 +97,6 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 
 		if (! $users->save($user))
 		{
-			dd('error');
 			return redirect()->back()->withInput()->with('errors', $users->errors());
 		} 
 
@@ -118,9 +116,27 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 			'EndDate' => $end_date,
 		];
 
+		// Config Register Form
+		$conf_phone= get_ref_data('phone','slug','conf-daftar-online');
+		$conf_address = get_ref_data('address','slug','conf-daftar-online');
+		$display_phone = strpos($conf_phone->description, 'display_1') !== false;
+		$display_address = strpos($conf_address->description, 'display_1') !== false;
+
+		if($display_phone){
+			$phone = $this->request->getPost('phone');
+			$save_anggota['NoHP'] = $phone;
+		}
+
+		if($display_address){
+			$address = $this->request->getPost('address');
+			$save_anggota['Address'] = $address;
+		}
+
 		$newAnggotaId = $this->anggotaModel->protect(false)->insert($save_anggota);
 
 		if($newAnggotaId){
+			$mailer = new \App\Libraries\Mailer();
+			$mailer->send_via_google($email,'Inlislite - Pendaftaran Online', $save_anggota);
 			return redirect()->route('signin')->with('message', 'Selamat, Nomor Anggota <b>'.$username.'</b> berhasil dibuat dengan status <b>Belum Aktif</b>! <br>Untuk aktivasi Akun hubungi Administrator.');
 		} else {
 			return redirect()->back()->withInput()->with('errors', 'Oups, terjadi kesalahan pada sistem! <br>Silakan coba beberapa saat lagi dan hubungi Administrator.');
@@ -271,41 +287,11 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		}	
 	}
 
-	public function ip() {
-		$ip = get_ip_address();
-		echo $ip;
-
-		$ip_info = get_ip_info($ip);
-		dd($ip_info);
-	}
-
-	public function json()
+	public function page()
 	{
-		$data = DataTables::use('c_parameters')
-			->make(true);
-
-		return $data;
-
-		// return DataTables::use('c_users')
-		// 	->join('c_groups', 'c_users.id = c_groups.id', 'INNER JOIN')
-		// 	->where(['c_users.active' => '1'])
-		// 	// ->hideColumns(['password'])
-		// 	->rawColumns(['address'])
-		// 	->select('c_users.username, c_users.first_name, c_users.last_name, c_users.phone, c_users.email, c_users.address, c_groups.name as group_name')
-		// 	// ->addColumn('action', function($data) {
-		// 	// 	return '<a href="/edit/'.$data->id.'">edit</a>';
-		// 	// })
-		// 	->make(true); //true = json, false = object
-	}
-
-	public function datatables()
-	{
-		$this->data['title'] = 'DataTables';
-		echo view('Home\Views\datatables', $this->data);
-	}
-	
-	public function param($name)
-	{
-		echo get_parameter($name);
+		$this->data['title'] = 'Inlislite';
+		
+		$slug = $this->request->getVar('slug');
+		echo view('Home\Views\page\detail', $this->data);
 	}
 }

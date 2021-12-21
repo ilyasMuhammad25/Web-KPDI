@@ -1,10 +1,24 @@
-<?php 
-	$conf_phone= get_ref_data('phone','slug','conf-daftar-online');
-	$conf_address = get_ref_data('address','slug','conf-daftar-online');
-	$display_phone = strpos($conf_phone->description, 'display_1') !== false;
-	$display_address = strpos($conf_address->description, 'display_1') !== false;
-	$required_phone = strpos($conf_phone->description, 'required_1') !== false;
-	$required_address = strpos($conf_address->description, 'required_1') !== false;
+<?php
+$request = \Config\Services::request();
+$request->uri->setSilent();
+
+$slug = $request->getVar('slug');
+$slug_title = ucwords(strtolower(str_replace('-',' ',$slug)));
+
+$pageModel = new \Page\Models\PageModel();
+$query = $pageModel
+    ->where('t_page.active',1)
+    ->where('t_page.slug',$slug);
+
+$row = $query
+    ->select('t_page.*')
+
+    ->select('created.username as created_name')
+    ->select('updated.username as updated_name')
+    ->join('users created','created.id = t_page.created_by','left')
+    ->join('users updated','updated.id = t_page.updated_by','left')
+
+    ->row();
 ?>
 
 <!doctype html>
@@ -26,9 +40,7 @@
     <link rel="stylesheet" href="<?=base_url('themes/opac')?>/css/style-main.css">
     <link rel="stylesheet" href="<?=base_url('themes/opac')?>/css/responsive.css">
 
-
-
-    <title>Daftar - Keanggotaan</title>
+    <title><?=$title?></title>
 </head>
 
 <body data-scroll-animation="true">
@@ -49,7 +61,7 @@
         <section class="signup_area">
             <div class="row ml-0 mr-0">
                 <div class="sign_left signin_left d-sm-none d-md-block">
-                    <h2 class="pt-5">Daftar - Keanggotaan Online</h2>
+                    <h2 class="pt-5"><?=$slug_title?></h2>
                     <img class="position-absolute top" src="<?=base_url('themes/opac')?>/img/signup/top_ornamate.png" alt="top">
                     <img class="position-absolute bottom" src="<?=base_url('themes/opac')?>/img/signup/bottom_ornamate.png" alt="bottom">
                     <img class="position-absolute middle" src="<?=base_url('themes/opac')?>/img/signup/door.png" alt="bottom">
@@ -57,74 +69,17 @@
                 </div>
                 <div class="sign_right signup_right">
                     <div class="signup_inner p-5 pr-5">
-                        <div class="text-center">
-							<?php if (get_parameter('show-logo-login') == 1) : ?>
-								<a href="<?= base_url() ?>"><img src="<?= base_url(get_parameter('logo')) ?>" width="250" class="mb-4" /></a>
-							<?php endif; ?>
-
-                            <h3>Keanggotaan Online</h3>
-                            <!-- <a href="#" class="btn-google"><img src="<?=base_url('themes/opac')?>/img/signup/gmail.png" alt=""><span class="btn-text">Sign in with Gmail</span></a> -->
-                        </div>
-
-						<div id="infoMessage" class="bg-corporate-secondary text-white">
-							<?= view('Myth\Auth\Views\_message_block') ?>
-						</div>
-
 						<div class="blog_comment_box" style="padding-top:30px">
-							<h2 class="c_head">Form Pendaftaran</h2>
-							<p>Mohon lengkapi data pada form berikut.</p>
-							<form class="get_quote_form login_form row" action="<?= route_to('signup') ?>" method="post">
-								<?= csrf_field() ?>
-								<input type="hidden" class="form-control" id="username" name="username" value="<?=get_member_no()?>" readonly style="font-weight:bold">
-
-								<div class="col-lg-12 form-group">
-									<input type="text" class="form-control" id="name" name="name" value="<?=set_value('name')?>" autocomplete="off" required="">
-									<div class="floating-label">Nama Anggota*</div>
-								</div>
-
-								<div class="col-lg-6 form-group">
-									<input type="text" class="form-control" id="email" name="email" value="<?=set_value('email')?>" autocomplete="off" required="">
-									<div class="floating-label">Email*</div>
-								</div>
-
-								<div class="col-lg-6 form-group" style="display:<?=($display_phone)?'block':'none'?>">
-									<input type="text" class="form-control" id="phone" name="phone" value="<?=set_value('phone')?>" autocomplete="off" <?=($required_phone)?'required=""':''?>>
-									<div class="floating-label">No. Telepon</div>
-								</div>
-
-								<div class="col-lg-12 form-group" style="display:<?=($display_address)?'block':'none'?>">
-									<textarea class="form-control message" id="address" name="address" rows="3" style="height:100px" <?=($required_address)?'required=""':''?>><?=set_value('address')?></textarea>
-									<div class="floating-label">Alamat</div>
-								</div>
-
-								<div class="col-lg-12"></div>
-
-								<div class="col-lg-6 form-group">
-									<div class="confirm_password">
-										<input type="password" id="password" name="password" class="form-control" autocomplete="off" required="">
-										<div class="floating-label">Kata Sandi*</div>
-									</div>
-								</div>
-
-								<div class="col-lg-6 form-group">
-									<div class="confirm_password">
-										<input type="password" id="pass_confirm" name="pass_confirm" class="form-control" autocomplete="off" required="">
-										<div class="floating-label">Ulangi Kata Sandi*</div>
-									</div>
-								</div>
-								
-								
-								<div class="col-md-12 form-group">
-									<button class="btn action_btn thm_btn" type="submit">Daftar</button>
-								</div>
-							</form>
+							<h2 class="c_head"><?=$row->name?></h2>
+							
+							<?=$row->content?>
 						</div>
 
 						<div class="divider">
 							<hr>
 						</div>
 						<div class="text-center">
-							<p>Sudah memiliki Nomor Anggota? <a href="<?=base_url('signin')?>">Masuk di sini</a></p>
+							<p>Kembali ke <a href="<?=base_url('')?>">Beranda</a></p>
 						</div>
                     </div>
                 </div>
