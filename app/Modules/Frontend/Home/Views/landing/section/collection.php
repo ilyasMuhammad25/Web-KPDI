@@ -11,8 +11,12 @@ $katalogs = $katalogModel
   ->limit(8)
   ->get()
   ->getResult();
+
+$conf_koleksi_terbaru = get_ref_data('koleksi-terbaru','slug','conf-opac');
+$display_koleksi_terbaru = strpos($conf_koleksi_terbaru->description, 'display_1') !== false;
 ?>
 
+<?php if($display_koleksi_terbaru):?>
 <section class="recommended_topic_area pt-0 pb-5">
 	<div class="container">
 		<div class="recommended_topic_inner pt-0">
@@ -49,4 +53,5 @@ $katalogs = $katalogModel
 		</div>
 	</div>
 </section>
+<?php endif;?>
 
