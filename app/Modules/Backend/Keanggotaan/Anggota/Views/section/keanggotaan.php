@@ -1,4 +1,4 @@
-<form id="frm" method="post" action="">
+<form id="myform" method="post" action="">
 
     <div class="mb-3 card card-border">
         <div class="card-header-tab card-header">
@@ -170,7 +170,7 @@
                                 aria-hidden="true">
                                 <option value="" disabled selected>
                                     <?=lang('Anggota.field.Jenisanggota')?></option>
-                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
+                                <?php foreach(get_dropdown('m_jenis_anggota',null,'name','name') as $row):?>
                                 <option value="<?=$row->code?>"
                                     <?=($row->code == $anggota->ref_jenisanggota) ? 'selected':''?>><?=$row->text?>
                                 </option>
@@ -185,9 +185,9 @@
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.Tanggalpendaftaran')?></label>
                         <div>
-                            <input type="date" class="form-control" id="frm_create_RegisterDate" name="RegisterDate"
+                            <input type="text" class="form-control datepicker" id="RegisterDate" name="RegisterDate"
                                 placeholder="Tempat Lahir"
-                                value="<?= set_value('RegisterDate',$anggota->DateOfBirth); ?>" readonly />
+                                value="<?= set_value('RegisterDate', tgl_indonesia($anggota->EndDate)); ?>" readonly />
                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
@@ -196,9 +196,9 @@
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.Masaberlaku')?></label>
                         <div>
-                            <input type="text" class="form-control" id="frm_create_DateOfBirth" name="DateOfBirth"
+                            <input type="text" class="form-control datepicker" id="frm_create_DateOfBirth" name="EndDate"
                                 placeholder=<?=lang('Anggota.field.Masaberlaku')?>
-                                value="<?= set_value('DateOfBirth'); ?>" />
+                                value="<?= set_value('DateOfBirth', tgl_indonesia($anggota->EndDate)); ?>" />
                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
@@ -594,12 +594,12 @@
             <?=lang('Anggota.action.save')?></button>
 
         <?php if(!$is_anggota):?>
-        <a href="<?=base_url('anggota/cetakKartu/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top"
-            title="Cetak Kartu" class="btn btn-lg btn-primary"><i class="fa fa-print"></i> Cetak Kartu Anggota</a>
+        <a  href="javascript:void(0);" data-href="<?=base_url('anggota/cetakKartu/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top"
+            title="Cetak Kartu" class="btn btn-lg btn-primary remove-data"><i class="fa fa-print"></i> Cetak Kartu Anggota</a>
         <?php endif;?>
         <?php if(!$is_anggota):?>
-        <a href="<?=base_url('anggota/bebaspustaka/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top"
-            title="Cetak Kartu" class="btn btn-lg btn-primary"><i class="fa fa-print"></i> Cetak Kartu Anggota</a>
+        <a  href="javascript:void(0);" data-href="<?=base_url('anggota/bebaspustaka/' . $anggota->id);?>" data-toggle="tooltip" data-placement="top"
+            title="Cetak Kartu" class="btn btn-lg btn-primary cetak-kartu"><i class="fa fa-print"></i> Cetak Bebas pustaka</a>
         <?php endif;?>
     </div>
 </form>

@@ -293,8 +293,8 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 			// $newAnggotaId = $this->anggotaModel->insert($save_data);
 			if ($newAnggotaId) {
 				add_log('Tambah Anggota', 'anggota', 'create', 't_anggota', $newAnggotaId);
-				set_message('toastr_msg', lang('Anggota.info.successfully_saved'));
-				set_message('toastr_type', 'success');
+				// set_message('toastr_msg', lang('Anggota.info.successfully_saved'));
+				// set_message('toastr_type', 'success');
 				return redirect()->to('/anggota');
 			} else {
 				set_message('message', $this->validation->getErrors() ? $this->validation->listErrors() : lang('Anggota.info.failed_saved'));
@@ -344,6 +344,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
         // $baseModel->setTable('t_akseslokasianggota');
         // $hak_akses = $this->baseModel->find($id);
 		$anggota = $this->anggotaModel->find($id);
+		// dd($anggota);
 		$this->data['title'] = 'Ubah Anggota';
 		$this->data['anggota'] = $anggota;
 		$this->data['ref_identitas'] = get_ref('ref_identitas');
@@ -351,7 +352,7 @@ class Anggota extends \hamkamannan\adminigniter\Controllers\BaseController
 		$this->data['ref_jeniskelamin'] = get_ref('ref_jeniskelamin');
 		$this->data['ref_pendidikan'] = get_ref('ref_pendidikan');
 		$this->data['ref_pekerjaan'] = get_ref('ref_perkerjaan');
-		$this->data['ref_jenisanggota'] = get_ref('ref_jenisanggota');
+		// $this->data['ref_jenisanggota'] = get_ref('ref_jenisanggota');
 		$this->data['ref_agama'] = get_ref('ref_agama');
 		$this->data['ref_unitkerja'] = get_ref('ref_unitkerja');
 		$this->data['ref_fakultas'] = get_ref('ref_fakultas');

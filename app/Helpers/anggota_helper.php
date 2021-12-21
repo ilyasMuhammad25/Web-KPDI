@@ -105,6 +105,77 @@ if (!function_exists('get_pelanggaran')) {
     }
 }
 
+if (!function_exists('tgl_indonesia')) {
+function tgl_indonesia($tgl){ 
+    $tanggal = substr($tgl,8,2);
+    $nama_bulan = array("Januari", "Februari", "Maret", "April", "Mei", 
+            "Juni", "Juli", "Agustus", "September", 
+            "Oktober", "November", "Desember");
+    $bulan = $nama_bulan[substr($tgl,5,2) - 1];
+    $tahun = substr($tgl,0,4);
+    return $tanggal.' '.$bulan.' '.$tahun;       
+}
+}
+
+if ( ! function_exists('date_indo'))
+{
+    function date_indo($tgl)
+    {
+        $ubah = gmdate($tgl, time()+60*60*8);
+        $pecah = explode("-",$ubah);
+        $tanggal = $pecah[2];
+        $bulan = bulan($pecah[1]);
+        $tahun = $pecah[0];
+        return $tanggal.' '.$bulan.' '.$tahun;
+    }
+}
+  
+if ( ! function_exists('bulan'))
+{
+    function bulan($bln)
+    {
+        switch ($bln)
+        {
+            case 1:
+                return "Januari";
+                break;
+            case 2:
+                return "Februari";
+                break;
+            case 3:
+                return "Maret";
+                break;
+            case 4:
+                return "April";
+                break;
+            case 5:
+                return "Mei";
+                break;
+            case 6:
+                return "Juni";
+                break;
+            case 7:
+                return "Juli";
+                break;
+            case 8:
+                return "Agustus";
+                break;
+            case 9:
+                return "September";
+                break;
+            case 10:
+                return "Oktober";
+                break;
+            case 11:
+                return "November";
+                break;
+            case 12:
+                return "Desember";
+                break;
+        }
+    }
+}
+
 
 
 ?>

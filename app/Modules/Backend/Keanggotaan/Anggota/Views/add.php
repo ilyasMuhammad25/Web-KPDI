@@ -60,6 +60,44 @@ $display='block';
 <?=$this->endSection('page');?>
 
 <?=$this->section('script');?>
+<script type="text/javascript">
+$(function() {
+    $(".datepicker").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+    });
+});
+</script>
+
+<script>
+$("body").on("submit", "#myform", function() {
+    // e.preventDefault();
+    let form = $(this).parents('form');
+    let submit=form.submit();
+        Swal.fire({
+            // title: '<?= lang('App.swal.are_you_sure') ?>',
+            // showConfirmButton: false,
+            text: "Anggota berhasil disimpan",
+            type: 'success',
+            // showCancelButton: true,
+            timer: 6000,
+            // confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#dd6b55',
+            // confirmButtonText: '<?= lang('App.btn.yes') ?>',
+            // cancelButtonText: '<?= lang('App.btn.no') ?>'
+        }).then((result) => {
+            if (result.value) {
+                submit;
+            }
+      
+
+        });
+        // return false;
+        
+    });
+</script>
+
 <script>
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
@@ -96,7 +134,7 @@ var file_image = setDropzone('file_image', 'anggota', '.jpg,.jpeg,.png', 1, 10);
 <script>
 $('#package').on('change', function() {
     // ambil data dari elemen option yang dipilih
-    const date= $('#package option:selected').data('date');
+    const date = $('#package option:selected').data('date');
     // const url= $('#package option:selected').data('url');
     var today = moment().format('YYYY-MM-DD');
     var startdate = '26-12-2020'
@@ -105,16 +143,16 @@ $('#package').on('change', function() {
 
 
 
-   
+
     const id = $('#package option:selected').data('id');
-    
 
-   
 
-   
+
+
+
     $('#anggota_id').val(id);
     $('#EndDate').val(newDate);
-    
+
 
     //   $('#total').text(`Rp ${total}`);
 });

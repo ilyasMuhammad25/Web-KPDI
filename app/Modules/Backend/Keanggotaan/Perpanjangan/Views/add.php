@@ -111,7 +111,7 @@ $anggotas = $baseModel
                                     <?=lang('Anggota.field.Jenisanggota')?>
                                 </option>
 
-                                <?php foreach(get_dropdown('m_jenis_anggota',null,'jenisanggota','jenisanggota') as $row):?>
+                                <?php foreach(get_dropdown('m_jenis_anggota',null,'name','name') as $row):?>
                                 <option value="<?=$row->code?>"><?=$row->text?></option>
                                 <?php endforeach;?>
                             </select>

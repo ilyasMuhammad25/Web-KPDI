@@ -1,12 +1,15 @@
 <?php
-$request = \Config\Services::request();
-$request->uri->setSilent();
-$slug = $request->getVar('slug') ?? 'keanggotaan';
-$member_id = $request->getVar('member_id') ?? 0;
+	$request = \Config\Services::request();
+	$request->uri->setSilent();
+   
+    // dd($tanggal);
+	$slug = $request->getVar('slug') ?? 'keanggotaan';
+	$member_id = $request->getVar('member_id') ?? 0;
 ?>
 
-<?php $core = config('Core'); $layout = (!empty($core->layout_backend)) ? $core->layout_backend : 'hamkamannan\adminigniter\Views\layout\backend\main';?>
-<?=$this->extend($layout);?>
+
+
+<?=$this->extend(config('Core')->layout_backend);?>
 <?=$this->section('style');?>
 <?=$this->endSection('style');?>
 
@@ -80,6 +83,15 @@ $member_id = $request->getVar('member_id') ?? 0;
 <?=$this->endSection('page');?>
 
 <?=$this->section('script');?>
+<script type="text/javascript">
+$(function() {
+    $(".datepicker").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+    });
+});
+</script>
 <script>
 var checkboxes = $('#is_similar');
 
@@ -90,24 +102,14 @@ checkboxes.on('ifChanged', function(event) {
         $('#KelurahanNow').val($('#Kelurahan').val());
         $('#RTNow').val($('#RT').val());
         $('#RWNow').val($('#RW').val());
-        $('#ProvincyNow').val($('#Provincy').val());
-        $('#CityNow').val($('#City').val());
 
-        // $('#KecamatanNow').val($('#Kecamatan').val());
-        // $('#ProvincyNow').val($('#Provincy').val());
-        // $('#KecamatanNow').val($('#Kecamatan').val());
+		var provincy = $('#Provincy').val();
+		var city = $('#City').val();
 
-    } else {
-        alert('uncheck');
-    }
+		$("#ProvincyNow").val(provincy).trigger('change');
+		$("#CityNow").val(city).trigger('change');
+    } 
 });
-
-$(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
-});
-
-$('.select2').select2();
-
 </script>
 <script>
 $(document).ready(function() {
@@ -132,5 +134,63 @@ setDataTable('#tbl_pelanggaran', disableOrderCols = [0], defaultOrderCols = [1, 
 setDataTable('#tbl_peminjaman', disableOrderCols = [0], defaultOrderCols = [1, 'asc'], autoNumber = true);
 setDataTable('#tbl_perpanjangan', disableOrderCols = [0], defaultOrderCols = [1, 'asc'], autoNumber = true);
 setDataTable('#tbl_sumbangan', disableOrderCols = [0], defaultOrderCols = [1, 'asc'], autoNumber = true);
+
+$("body").on("click", ".remove-data", function() {
+        var url = $(this).attr('data-href');
+        Swal.fire({
+           // showConfirmButton: false,
+           text: " berhasil cetak kartu anggota",
+            type: 'success',
+            // showCancelButton: true,
+            timer: 6000,
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = url;
+            }
+        });
+        // return false;
+    });
+
+    $("body").on("click", ".cetak-kartu", function() {
+        var url = $(this).attr('data-href');
+        Swal.fire({
+           // showConfirmButton: false,
+           text: " berhasil cetak bebas pustaka",
+            type: 'success',
+            // showCancelButton: true,
+            timer: 6000,
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = url;
+            }
+        });
+        // return false;
+    });
+
+    $("body").on("submit", "#myform", function() {
+    // e.preventDefault();
+    let form = $(this).parents('form');
+    let submit=form.submit();
+        Swal.fire({
+            // title: '<?= lang('App.swal.are_you_sure') ?>',
+            // showConfirmButton: false,
+            text: "Anggota berhasil diubah",
+            type: 'success',
+            // showCancelButton: true,
+            timer: 6000,
+            // confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#dd6b55',
+            // confirmButtonText: '<?= lang('App.btn.yes') ?>',
+            // cancelButtonText: '<?= lang('App.btn.no') ?>'
+        }).then((result) => {
+            if (result.value) {
+                submit;
+            }
+      
+
+        });
+        // return false;
+        
+    });
 </script>
 <?=$this->endSection('script');?>

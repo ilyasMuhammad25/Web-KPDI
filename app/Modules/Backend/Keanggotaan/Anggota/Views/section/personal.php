@@ -1,4 +1,4 @@
-<form id="frm_create" class="col-md-12 mx-auto" method="post" action="<?=base_url('anggota/create');?>">
+<form id="myform" class="col-md-12 mx-auto" method="post" action="<?=base_url('anggota/create');?>">
     <!-- info personal -->
     <div class="row">
         <div class="col-md-12">
@@ -204,7 +204,7 @@
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.Tanggalpendaftaran')?></label>
                                         <div>
-                                            <input type="text" class="form-control" id="frm_create_RegisterDate"
+                                            <input type="text" class="form-control datepicker" id="frm_create_RegisterDate"
                                                 name="RegisterDate" placeholder="Tanggal Daftar" value="<?=$date;?>"
                                                 readonly />
                                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
@@ -656,7 +656,29 @@
                 </div>
             </div>
             <div class="form-group mt-1">
-                <button type="submit" class="btn btn-lg btn-primary" name="submit"><i class="fa fa-save"></i>
+                <button  type="submit" class="btn btn-lg btn-primary"  id="btn-submit" name="submit"><i class="fa fa-save"></i>
                     <?=lang('Anggota.action.save')?></button>
             </div>
 </form>
+ <!-- <script>
+    $(document).on("click", "#btn-submit", function (e) {
+                e.preventDefault();
+                var $invoiceForm = $('#myform');
+                if (!$invoiceForm[0].checkValidity()) {
+                    $invoiceForm[0].reportValidity()
+                } else {
+                    swal.fire({
+                        title: "Are you sure?",
+                        text: "Did you check all the inputs and calculations?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, Submit!",
+                    }).then(function (result) {
+                        alert('123');
+                        $invoiceForm.submit();
+                    });
+                }
+            });
+
+    </script> -->
