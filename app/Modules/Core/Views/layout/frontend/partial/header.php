@@ -35,6 +35,17 @@ $request->uri->setSilent();
 				<li class="nav-item dropdown active">
 					<a href="<?=base_url()?>" class="nav-link dropdown-toggle">Beranda</a>
 				</li>
+				<li class="nav-item dropdown submenu">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Tautan
+					</a>
+					<i class="arrow_carrot-down_alt2 mobile_dropdown_icon" aria-hidden="false" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu">
+						<li class="nav-item"><a href="<?=base_url('home/page?slug=syarat')?>" class="nav-link">Syarat</a></li>
+						<li class="nav-item"><a href="<?=base_url('home/page?slug=tata-tertib')?>" class="nav-link">Tata Tertib</a></li>
+						<li class="nav-item"><a href="<?=base_url('home/page?slug=layanan')?>" class="nav-link">Layanan</a></li>
+					</ul>
+				</li>
 			</ul>
 			<div class="right-nav">
 				<ul class="navbar-nav menu ml-auto">

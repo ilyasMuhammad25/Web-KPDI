@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <form id="myform" method="post" action="">
+=======
+<form id="frm" method="post" action="<?=base_url('anggota/edit/'.$anggota->id.'/'.$is_anggota)?>">
+>>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
 
     <div class="mb-3 card card-border">
         <div class="card-header-tab card-header">
@@ -16,7 +20,6 @@
                             <input type="text" class="form-control" id="name" name="name"
                                 placeholder="<?= lang('Anggota.field.name') ?>"
                                 value="<?= set_value('name', $anggota->name); ?>" />
-                            <!-- <small class="info help-block text-muted"><?= lang('Anggota.field.name') ?></small> -->
                         </div>
                     </div>
                 </div>
@@ -25,9 +28,9 @@
                         <label><?= lang('Anggota.field.Jenisidentitas') ?></label>
                         <select class="form-control" name="ref_identitas" id="ref_identitas" tabindex="-1"
                             aria-hidden="true" placeholder="<?= lang('Anggota.field.Jenisidentitas') ?>">
-                            <option value="" disabled selected>
+                            <option value="">
                                 <?= lang('Anggota.field.Jenisidentitas') ?></option>
-                            <?php foreach ($ref_identitas as $row) : ?>
+                            <?php foreach (get_ref('ref_identitas') as $row) : ?>
                             <option value="<?= $row->id ?>" <?=($row->id == $anggota->ref_identitas) ? 'selected':''?>>
                                 <?= $row->name ?>
                             </option>
@@ -42,18 +45,16 @@
                             <input type="text" class="form-control" id="frm_create_IdentityNo" name="IdentityNo"
                                 placeholder="Nomor identitas"
                                 value="<?= set_value('IdentityNo',$anggota->IdentityNo); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name"><?=lang('anggota.field.Tempatlahir')?>*</label>
+                        <label for="name"><?=lang('anggota.field.Tempatlahir')?></label>
                         <div>
                             <input type="text" class="form-control" id="frm_create_PlaceOfBirth" name="PlaceOfBirth"
                                 placeholder="Tempat Lahir"
                                 value="<?= set_value('PlaceOfBirth',$anggota->PlaceOfBirth); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -65,7 +66,6 @@
                             <input type="date" class="form-control" id="frm_create_DateOfBirth" name="DateOfBirth"
                                 placeholder="Tempat Lahir"
                                 value="<?= set_value('DateOfBirth',$anggota->DateOfBirth); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,8 @@
                         <label><?=lang('Anggota.field.Statusperkawinan')?></label>
                         <select class="form-control" name="ref_perkawinan" id="ref_perkawinan" tabindex="-1"
                             aria-hidden="true">
-                            <?php foreach ($ref_perkawinan as $row) : ?>
+							<option value="">-Pilih-</option>
+                            <?php foreach (get_ref('ref_perkawinan') as $row) : ?>
                             <option value="<?= $row->id ?>" <?=($row->id == $anggota->ref_perkawinan) ? 'selected':''?>>
                                 <?= $row->name ?>
                             </option>
@@ -86,9 +87,8 @@
                     <div class="position-relative form-group">
                         <label><?=lang('Anggota.field.Agama')?></label>
                         <select class="form-control" name="ref_agama" id="ref_agama" tabindex="-1" aria-hidden="true">
-                            <option value="" disabled selected><?= lang('Anggota.field.Agama') ?>
-                            </option>
-                            <?php foreach ($ref_agama as $row) : ?>
+                            <option value="">-Pilih-</option>
+                            <?php foreach (get_ref('ref_agama') as $row) : ?>
                             <option value="<?= $row->id ?>" <?=($row->id == $anggota->ref_agama) ? 'selected':''?>>
                                 <?= $row->name ?></option>
                             <?php endforeach; ?>
@@ -101,7 +101,7 @@
                         <select class="form-control" name="ref_jeniskelamin" id="ref_jeniskelamin" tabindex="-1"
                             aria-hidden="true" placeholder="<?= lang('Anggota.field.Jeniskelamin') ?>">
 
-                            <?php foreach ($ref_jeniskelamin as $row) : ?>
+                            <?php foreach (get_ref('ref_jeniskelamin') as $row) : ?>
                             <option value="<?= $row->id ?>"
                                 <?=($row->id == $anggota->ref_jeniskelamin) ? 'selected':''?>>
                                 <?= $row->name ?>
@@ -112,24 +112,14 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-12">
+                <div class="col-md-12 pt-3">
                     <h5>Kontak</h5>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name">No Handphone</label>
-                        <div>
-                            <input type="text" class="form-control" id="frm_create_NoHp" name="NoHp"
-                                placeholder="Nomor Handphone" value="<?= set_value('NoHp',$anggota->NoHp); ?>" />
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="position-relative form-group">
-                        <label for="name">Email</label>
+                        <label for="name">Email*</label>
                         <div>
                             <input type="email" class="form-control" id="Email" name="Email" placeholder="Email"
                                 value="<?= set_value('Email',$anggota->Email); ?>" />
@@ -137,9 +127,17 @@
                         </div>
                     </div>
                 </div>
+				<div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="name">No. Telepon/HP*</label>
+                        <div>
+                            <input type="text" class="form-control" id="frm_create_NoHp" name="NoHp"
+                                placeholder="No. Telepon/HP" value="<?= set_value('NoHp',$anggota->NoHp); ?>" />
+
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
         </div>
     </div>
 
@@ -154,30 +152,32 @@
             <div class="form-row">
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="name">Nomor Anggota</label>
+                        <label for="name">Nomor Anggota*</label>
                         <div>
                             <input type="text" class="form-control" id="frm_create_MemberNo" name="MemberNo"
-                                placeholder="NO anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
+                                placeholder="No. anggota" value="<?= set_value('MemberNo', $anggota->MemberNo); ?>" />
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <div>
-                            <label><?=lang('Anggota.field.Jenisanggota')?></label>
+                            <label><?=lang('Anggota.field.Jenisanggota')?>*</label>
                             <select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1"
                                 aria-hidden="true">
+<<<<<<< HEAD
                                 <option value="" disabled selected>
                                     <?=lang('Anggota.field.Jenisanggota')?></option>
                                 <?php foreach(get_dropdown('m_jenis_anggota',null,'name','name') as $row):?>
+=======
+                                <option value="">-Pilih-</option>
+                                <?php foreach(get_dropdown('m_jenis_anggota',null) as $row):?>
+>>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
                                 <option value="<?=$row->code?>"
                                     <?=($row->code == $anggota->ref_jenisanggota) ? 'selected':''?>><?=$row->text?>
                                 </option>
                                 <?php endforeach;?>
-
                             </select>
-
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,11 @@
                         <div>
                             <input type="text" class="form-control datepicker" id="RegisterDate" name="RegisterDate"
                                 placeholder="Tempat Lahir"
+<<<<<<< HEAD
                                 value="<?= set_value('RegisterDate', tgl_indonesia($anggota->EndDate)); ?>" readonly />
+=======
+                                value="<?= set_value('RegisterDate', substr($anggota->RegisterDate,0,10)); ?>" />
+>>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
@@ -196,10 +200,16 @@
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.Masaberlaku')?></label>
                         <div>
+<<<<<<< HEAD
                             <input type="text" class="form-control datepicker" id="frm_create_DateOfBirth" name="EndDate"
                                 placeholder=<?=lang('Anggota.field.Masaberlaku')?>
                                 value="<?= set_value('DateOfBirth', tgl_indonesia($anggota->EndDate)); ?>" />
                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
+=======
+                            <input type="date" class="form-control" id="frm_create_EndDate" name="EndDate"
+                                placeholder=<?=lang('Anggota.field.Masaberlaku')?>
+                                value="<?= set_value('EndDate', substr($anggota->EndDate,0,10)); ?>"/>
+>>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
                         </div>
                     </div>
                 </div>
@@ -208,9 +218,8 @@
                         <label><?=lang('Anggota.field.Statusanggota')?></label>
                         <select class="form-control" name="ref_Statusanggota" id="ref_Statusanggota" tabindex="-1"
                             aria-hidden="true">
-                            <option value="" disabled selected>
-                                <?= lang('Anggota.field.Statusanggota') ?></option>
-                            <?php foreach ($ref_Statusanggota as $row) : ?>
+                            <option value="">-Pilih-</option>
+                            <?php foreach (get_ref('ref_Statusanggota') as $row) : ?>
                             <option value="<?= $row->id ?>"
                                 <?=($row->id == $anggota->ref_Statusanggota) ? 'selected':''?>>
                                 <?= $row->name ?>
@@ -219,7 +228,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?= lang('Anggota.field.Biayapendaftaran') ?></label>
                         <div>
@@ -230,21 +239,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="position-relative form-group">
-                        <label><?= lang('Anggota.field.Unitkerja') ?></label>
-                        <select class="form-control" name="ref_unitkerja" id="ref_unitkerja" tabindex="-1"
-                            aria-hidden="true">
-                            <!-- <option value="" disabled selected><?= lang('Anggota.field.Unitkerja') ?></option> -->
-                            <?php foreach ($ref_unitkerja as $row) : ?>
-                            <option value="<?= $row->id ?>" <?=($row->id == $anggota->ref_unitkerja) ? 'selected':''?>>
-                                <?= $row->name ?>
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+            </div>
+			<div class="form-row pt-3">
+                <div class="col-md-12">
+                    <h5>Hak Akses Perpustakaan</h5>
                 </div>
             </div>
+			<div class="form-row">
+				<div class="col-md-12">
+					<div class="position-relative form-group">
+						<label><?=lang('anggota.field.library')?>*</label>
+						<div>
+							<select class="form-control select2"
+								name="Location_loan_id[]" multiple="multiple" tabindex="-1"
+								aria-hidden="true" style="width:100%">
+								<option value="">-Pilih-</option>
+								<?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
+								<option value="<?=$row->code?>" <?=(in_array($row->code, explode(",",$anggota->Location_loan_ids)))?'selected':''?>><?=$row->text?></option>
+								<?php endforeach;?>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
     </div>
 
@@ -276,11 +293,10 @@
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
-                        <div>
-
+                        <div class="select-wrapper">
                             <select class="form-control select2" name="Provincy" id="Provincy" tabindex="-1"
                                 aria-hidden="true" style="width:100%">
-                                <option value="" disabled selected>Pilih</option>
+                                <option value="">-Pilih-</option>
                                 <?php foreach(get_dropdown('m_propinsi') as $row):?>
                                 <option value="<?=$row->code?>" <?=($row->code == $anggota->Provincy) ? 'selected':''?>>
                                     <?=$row->text?></option>
@@ -294,13 +310,13 @@
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?= lang('Anggota.field.city') ?></label>
-                        <div>
-
-                            <select class="form-control select2" name="City" id="City" tabindex="-1" aria-hidden="true"
-                                style="width:100%">
-                                <option value="" disabled selected>Pilih</option>
-                                <?php foreach(get_dropdown('m_kota') as $row):?>
-                                <option value="<?=$row->code?>" <?=($row->code == $anggota->City) ? 'selected':''?>>
+                        <div class="select-wrapper">
+							<select class="form-control select2" name="City" id="City" tabindex="-1"
+                                aria-hidden="true" style="width:100%" data-url="<?=base_url('api/anggota/cities')?>">
+								<option value="">-Pilih-</option>
+                                <?php foreach(get_dropdown('m_kota','propinsi_id = '.$anggota->Provincy) as $row):?>
+                                <option value="<?=$row->code?>"
+                                    <?=($row->code == $anggota->City) ? 'selected':''?>>
                                     <?=$row->text?></option>
                                 <?php endforeach;?>
                             </select>
@@ -368,34 +384,37 @@
                         <div>
                             <input type="text" class="form-control" id="AddressNow" name="AddressNow"
                                 placeholder="Alamat" value="<?= set_value('AddressNow',$anggota->AddressNow); ?>" />
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.provinsi')?></label>
-                        <div>
+                        <div class="select-wrapper">
                             <select class="form-control select2" name="ProvincyNow" id="ProvincyNow" tabindex="-1"
                                 aria-hidden="true" style="width:100%">
-                                <option value="" disabled selected>Pilih</option>
+                                <option value="">-Pilih-</option>
                                 <?php foreach(get_dropdown('m_propinsi') as $row):?>
                                 <option value="<?=$row->code?>"
                                     <?=($row->code == $anggota->ProvincyNow) ? 'selected':''?>>
                                     <?=$row->text?></option>
                                 <?php endforeach;?>
                             </select>
-                            <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="name"><?= lang('Anggota.field.city') ?></label>
-                        <div>
+                        <div class="select-wrapper">
                             <select class="form-control select2" name="CityNow" id="CityNow" tabindex="-1"
                                 aria-hidden="true" style="width:100%" data-url="<?=base_url('api/anggota/cities')?>">
-                                <option value="" disabled selected>Pilih</option>
+								<option value="">-Pilih-</option>
+                                <?php foreach(get_dropdown('m_kota','propinsi_id = '.$anggota->ProvincyNow) as $row):?>
+                                <option value="<?=$row->code?>"
+                                    <?=($row->code == $anggota->CityNow) ? 'selected':''?>>
+                                    <?=$row->text?></option>
+                                <?php endforeach;?>
                             </select>
 
                         </div>
@@ -405,8 +424,8 @@
                     <div class="position-relative form-group">
                         <label for="name">Kecamatan</label>
                         <div>
-                            <input type="text" class="form-control" id="KecamatanNow" name="kecamatanNow"
-                                placeholder="KecamatanNow"
+                            <input type="text" class="form-control" id="KecamatanNow" name="KecamatanNow"
+                                placeholder="Kecamatan"
                                 value="<?= set_value('KecamatanNow',$anggota->KecamatanNow); ?>" />
 
                         </div>
@@ -416,7 +435,7 @@
                     <div class="position-relative form-group">
                         <label for="name">Kelurahan</label>
                         <div>
-                            <input type="text" class="form-control" id="KelurahanNow" name="kelurahanNow"
+                            <input type="text" class="form-control" id="KelurahanNow" name="KelurahanNow"
                                 placeholder="Kelurahan"
                                 value="<?= set_value('KelurahanNow',$anggota->KelurahanNow); ?>" />
 
@@ -437,7 +456,7 @@
                     <div class="position-relative form-group">
                         <label for="name">RW</label>
                         <div>
-                            <input type="text" class="form-control" id="RWNow" name="RWNow" placeholder="RWNow"
+                            <input type="text" class="form-control" id="RWNow" name="RWNow" placeholder="RW"
                                 value="<?= set_value('RWNow',$anggota->RWNow); ?>" />
 
                         </div>
@@ -447,61 +466,6 @@
         </div>
     </div>
 
-    <!-- hak akses peminjaman -->
-    <div class="row">
-        <div class="col-md-12">
-            <div id="accordion" class="accordion-wrapper mb-3">
-                <div class="card">
-                    <div class="card-header-tab card-header">
-                        <button type="button" data-toggle="collapse" data-target="#collapse_madatory8"
-                            aria-expanded="true" aria-controls="collapse_madatory"
-                            class="text-left m-0 p-0 btn btn-link">
-                            <h5 class="m-0 p-0">
-                                <i class="header-icon lnr-layers icon-gradient bg-primary">
-                                </i>
-                                Hak Akses perpustakaan
-                            </h5>
-                        </button>
-                    </div>
-                    <div data-parent="#accordion" id="collapse_madatory8" class="collapse" style="">
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                </div>
-                            </div>
-
-
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <div class="position-relative form-group">
-                                        <strong> <label><?=lang('anggota.field.library')?></label></strong>
-                                        <div>
-
-                                            <select class="form-control js-example-basic-multiple"
-                                                name="Location_loan_id[]" multiple="multiple" tabindex="-1"
-                                                aria-hidden="true" style="width:100%">
-                                                <option value="">-Pilih-</option>
-                                                <?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
-                                                <option value="<?=$row->code?>"><?=$row->text?></option>
-                                                <?php endforeach;?>
-                                            </select>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end hak akses peminjaman -->
 
     <div class="mb-3 card card-border">
         <div class="card-header-tab card-header">
@@ -522,7 +486,7 @@
                         <label><?=lang('anggota.field.Unitkerja')?></label>
                         <select class="form-control" name="ref_unitkerja" id="ref_unitkerja" tabindex="-1"
                             aria-hidden="true">
-                            <?php foreach ($ref_unitkerja as $row) : ?>
+                            <?php foreach (get_ref('ref_unitkerja') as $row) : ?>
                             <option value="<?= $row->id ?>" <?=($row->id == $anggota->ref_unitkerja) ? 'selected':''?>>
                                 <?= $row->name ?>
                             </option>
@@ -575,7 +539,8 @@
                         <label><?= lang('Anggota.field.Pendidikan') ?></label>
                         <select class="form-control" name="ref_pendidikan" id="ref_pendidikan" tabindex="-1"
                             aria-hidden="true">
-                            <?php foreach ($ref_pendidikan as $row) : ?>
+							<option value="">-Pilih-</option>
+                            <?php foreach (get_ref('ref_pendidikan') as $row) : ?>
                             <option value="<?= $row->id ?>" <?=($row->id == $anggota->ref_pendidikan) ? 'selected':''?>>
                                 <?= $row->name ?>
                             </option>

@@ -20,7 +20,7 @@
                             <div class="form-row">
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name"><strong><?=lang('Anggota.field.name')?>*</strong></label>
+                                        <label for="name"><?=lang('Anggota.field.name')?>*</label>
                                         <div>
                                             <input type="text" class="form-control" id="name" name="name"
                                                 placeholder="<?=lang('Anggota.field.name')?>"
@@ -128,19 +128,19 @@
                             <div class="form-row">
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name">No Handphone</label>
-                                        <div>
-                                            <input type="text" class="form-control" id="frm_create_NoHp" name="NoHp"
-                                                placeholder="Nomor Handphone" value="<?=set_value('NoHp');?>" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="position-relative form-group">
-                                        <label for="name">Email</label>
+                                        <label for="name">Email*</label>
                                         <div>
                                             <input type="email" class="form-control" id="Email" name="Email"
                                                 placeholder="Email" value="<?=set_value('Email');?>" />
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="name">No. Telepon</label>
+                                        <div>
+                                            <input type="text" class="form-control" id="frm_create_NoHp" name="NoHp"
+                                                placeholder="No. Telepon" value="<?=set_value('NoHp');?>" />
                                         </div>
                                     </div>
                                 </div>
@@ -171,10 +171,10 @@
                             <div class="form-row">
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name">Nomor Anggota</label>
+                                        <label for="name">Nomor Anggota*</label>
                                         <div>
                                             <input type="text" class="form-control" id="frm_create_MemberNo"
-                                                name="MemberNo" placeholder="NO anggota"
+                                                name="MemberNo" placeholder="No. anggota"
                                                 value="<?=set_value('MemberNo');?>" />
                                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                                         </div>
@@ -183,16 +183,16 @@
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <div>
-                                            <label><?=lang('Anggota.field.Jenisanggota')?></label>
+                                            <label><?=lang('Anggota.field.Jenisanggota')?>*</label>
                                             <select class="form-control" id="package" onchange="myFunction();"
                                                 name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1"
                                                 aria-hidden="true">
-                                                <option value="" disabled selected>
+                                                <option value="">
                                                     <?=lang('Anggota.field.Jenisanggota')?>
                                                 </option>
 
                                                 <?php foreach(get_dropdown2('m_jenis_anggota') as $row):?>
-                                                <option data-date="<?= $row->expiry_days ?>"    data-url="<?=base_url('api/anggota/get_date')?>"
+                                                <option data-date="<?= $row->expiry_days ?>" data-url="<?=base_url('api/anggota/get_date')?>"
                                                  value="<?=$row->code?>">
                                                     <?=$row->text?></option>
                                                 <?php endforeach;?>
@@ -237,7 +237,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="name"><?=lang('Anggota.field.Biayapendaftaran')?></label>
                                         <div>
@@ -247,6 +247,21 @@
                                                 value="<?=set_value('BiayaPendaftaran');?>" />
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+									<div class="position-relative form-group">
+										<label><?=lang('anggota.field.library')?>*</label>
+										<div class="select-wrapper">
+											<select class="form-control select2"
+												name="Location_loan_id[]" multiple="multiple" tabindex="-1"
+												aria-hidden="true" style="width:100%">
+												<option value="">-Pilih-</option>
+												<?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
+												<option value="<?=$row->code?>"><?=$row->text?></option>
+												<?php endforeach;?>
+											</select>
+										</div>
+									</div>
                                 </div>
                             </div>
                         </div>
@@ -453,60 +468,6 @@
         </div>
     </div>
     <!-- end info almat -->
-    <!-- hak akses peminjaman -->
-    <div class="row">
-        <div class="col-md-12">
-            <div id="accordion" class="accordion-wrapper mb-3">
-                <div class="card">
-                    <div class="card-header-tab card-header">
-                        <button type="button" data-toggle="collapse" data-target="#collapse_madatory8"
-                            aria-expanded="true" aria-controls="collapse_madatory"
-                            class="text-left m-0 p-0 btn btn-link">
-                            <h5 class="m-0 p-0">
-                                <i class="header-icon lnr-layers icon-gradient bg-primary">
-                                </i>
-                                Hak Akses perpustakaan
-                            </h5>
-                        </button>
-                    </div>
-                    <div data-parent="#accordion" id="collapse_madatory8" class="collapse" style="">
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="col-md-12">
-                                </div>
-                            </div>
-
-
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <div class="position-relative form-group">
-                                        <strong> <label><?=lang('anggota.field.library')?></label></strong>
-                                        <div>
-                                            <select class="form-control js-example-basic-multiple"
-                                                name="Location_loan_id[]" multiple="multiple" tabindex="-1"
-                                                aria-hidden="true" style="width:100%">
-                                                <option value="">-Pilih-</option>
-                                                <?php foreach(get_dropdown('m_lokasiperpustakaan') as $row):?>
-                                                <option value="<?=$row->code?>"><?=$row->text?></option>
-                                                <?php endforeach;?>
-                                            </select>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end hak akses peminjaman -->
     <!-- info tambahan -->
     <div class="row">
         <div class="col-md-12">

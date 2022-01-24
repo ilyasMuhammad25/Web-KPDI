@@ -15,3 +15,4 @@
 <script src="<?=base_url('themes/opac')?>/assets/tooltipster/js/tooltipster.bundle.min.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
 <script src="<?=base_url('themes/opac')?>/js/main.js"></script>
+<script src="<?= base_url('assets/js'); ?>/sweetalert2@8.js"></script>

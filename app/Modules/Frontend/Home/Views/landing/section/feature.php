@@ -12,8 +12,12 @@ $katalogs = $katalogModel
   ->limit(4)
   ->get()
   ->getResult();
+
+$conf_koleksi_unggulan = get_ref_data('koleksi-unggulan','slug','conf-opac');
+$display_koleksi_unggulan = strpos($conf_koleksi_unggulan->description, 'display_1') !== false;
 ?>
 
+<?php if($display_koleksi_unggulan):?>
 <section class="doc_testimonial_area pt-5 pb-5">
 	<div class="container">
 		<div class="row">
@@ -53,3 +57,4 @@ $katalogs = $katalogModel
 		</div>
 	</div>
 </section>
+<?php endif;?>

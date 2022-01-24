@@ -1,4 +1,50 @@
 <?php
+use CodeIgniter\HTTP\Request;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+if (!function_exists('get_imploded_array')) {
+    function get_imploded_array($post, $param)
+    {
+        $fixdata = (is_array($post) ?  implode($param, $post) : $post);
+
+        return $fixdata;
+    }
+}
+
+if (!function_exists('get_due_date')) {
+    function get_due_date($days = 0, $from_date = null)
+    {        
+		if(empty($from_date)){
+			$from_date = date('Y-m-d');
+		}
+
+		$new_date = date('Y-m-d', strtotime($from_date. ' + '.$days.' days'));
+		return $new_date;
+    }
+}
+
+if (!function_exists('get_late_days')) {
+    function get_late_days($loan_date, $return_date = null)
+    {        
+		$late_days = 0;
+		if(empty($return_date)){
+			$return_date = date('Y-m-d');
+		}
+
+		if(!empty($loan_date) and $return_date > $loan_date){
+			$from = strtotime($loan_date);
+			$to = strtotime($return_date);
+			$datediff = $to - $from;
+	
+			$late_days = round($datediff / (60 * 60 * 24));
+		}
+
+		return $late_days;
+    }
+}
+
 /**
  * ---------------
  * Auth Helper
@@ -446,40 +492,32 @@ if (!function_exists('get_option')) {
 if (!function_exists('send_email')) {
     function send_email($to = '', $subject = '', $data = [])
     {
-        $mail = new PHPMailer(true);
-        $status = false;
-		$messages = '';
+        $mail = new \PHPMailer(true);
+        $is_sent = false;
         try {
             // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
             $mail->isSMTP();
             $mail->Host       = 'smtp.googlemail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'balisaauction.dev@gmail.com'; // silahkan ganti dengan alamat email Anda
-            $mail->Password   = 'password2021!!'; // silahkan ganti dengan password email Anda
+            $mail->Username   = 'inlislite.dev@gmail.com'; // silahkan ganti dengan alamat email Anda
+            $mail->Password   = 'Inlislite999!'; // silahkan ganti dengan password email Anda
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465;
 
-            $mail->setFrom('balisaauction.dev@gmail.com', 'P4TO'); // silahkan ganti dengan alamat email Anda
+            $mail->setFrom('inlislite.dev@gmail.com', 'Inlislite Dev'); // silahkan ganti dengan alamat email Anda
             $mail->addAddress($to);
-            $mail->addReplyTo('balisaauction.dev@gmail.com', 'P4TO'); // silahkan ganti dengan alamat email Anda
+            $mail->addReplyTo('inlislite.dev@gmail.com', 'Inlislite Dev'); // silahkan ganti dengan alamat email Anda
             // Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = $subject;
-            $mail->Body    = view('auth/notifEmail', $data);
+            $mail->Body    = view('Home\Views\signup_email', $data);
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-            $status = $mail->send();
-			$message = 'Email Sent';
+            $is_sent = $mail->send();
+            $status = true;
         } catch (Exception $e) {
             $messages =  "Send Email failed. Error: " . $mail->ErrorInfo;
             $status = false;
         }
-
-		$response = array(
-			'status'=> $status,
-			'message' => $message,
-		);
-
-		return $response;
     }
 }
 

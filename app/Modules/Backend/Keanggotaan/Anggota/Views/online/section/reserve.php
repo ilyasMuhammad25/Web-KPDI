@@ -23,7 +23,7 @@ $sirkulasis = $query->findAll();
 	<div class="card-header-tab card-header">
 		<div class="card-header-title">
 			<i class="header-icon lnr-cart icon-gradient bg-success"> </i>
-			Histori Pemesanan
+			Daftar Pemesanan
 		</div>
 	</div>
 	<div class="card-body">

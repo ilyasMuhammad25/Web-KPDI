@@ -187,17 +187,15 @@ $row = $katalogModel->find($catalog_id);
 
 													<br>
 													<?php if(logged_in()):?>
-														<a href="<?=base_url('eksemplar/request/' . $row->id);?>" class="btn btn-primary btn-sm">Pesan Koleksi</a>
+														<a href="javascript:void(0)" data-href="<?=base_url('eksemplar/request/' . $row->id);?>" class="btn btn-primary btn-sm process-data">Pesan Koleksi</a>
 													<?php else:?>
-															<a href="<?=base_url('signin');?>" class="btn btn-primary btn-sm">Masuk untuk Pesan</a>
+															<a href="javascript:void(0)" data-href="<?=base_url('signin');?>" class="btn btn-primary btn-sm">Masuk untuk Pesan</a>
 													<?php endif;?>
 												</td>
 											</tr>
 											<?php endforeach; ?>
 										</tbody>
 									</table>
-
-								
 								</div>
 							</div>
                         </div>
@@ -211,3 +209,30 @@ $row = $katalogModel->find($catalog_id);
 		</div>
 	</section>
 <?= $this->endSection('page'); ?>
+
+<?= $this->section('script'); ?>
+<script>
+	$("body").on("click", ".process-data", function() {
+        var url = $(this).attr('data-href');
+        Swal.fire({
+            title: '<?= lang('App.swal.are_you_sure') ?>',
+            text: "Pesan Koleksi",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#dd6b55',
+            confirmButtonText: '<?= lang('App.btn.yes') ?>',
+            cancelButtonText: '<?= lang('App.btn.no') ?>'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = url;
+            }
+        });
+        return false;
+    });
+</script>
+<?= $this->endSection('script'); ?>
+
+
+
+

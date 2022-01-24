@@ -20,6 +20,26 @@ if (!function_exists('get_string_between')) {
 	}
 }
 
+if (!function_exists('get_ref_data')) {
+    function get_ref_data($ref_value, $ref_field = 'name', $menu_value = null, $menu_field = 'controller')
+    {        
+		$baseModel = new \hamkamannan\adminigniter\Models\BaseModel();
+        $baseModel->setTable('c_references');
+        $query = $baseModel
+            ->select('c_references.*')
+            ->join('c_menus', 'c_menus.id = c_references.menu_id', 'inner');
+
+		$query->where('UPPER(c_references.'.$ref_field.')', strtoupper($ref_value));
+		if(!empty($menu_value)){
+			$query->where('UPPER(c_menus.'.$menu_field.')', strtoupper($menu_value));
+		}
+            
+		$data = $query->get()->getRow();
+
+		return $data;
+    }
+}
+
 if (!function_exists('get_ref_id')) {
     function get_ref_id($ref_value, $ref_field = 'name', $menu_value = null, $menu_field = 'controller')
     {        

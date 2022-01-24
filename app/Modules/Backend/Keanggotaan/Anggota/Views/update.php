@@ -1,14 +1,20 @@
 <?php
 	$request = \Config\Services::request();
 	$request->uri->setSilent();
+<<<<<<< HEAD
    
     // dd($tanggal);
+=======
+>>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
 	$slug = $request->getVar('slug') ?? 'keanggotaan';
 	$member_id = $request->getVar('member_id') ?? 0;
 ?>
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
 <?=$this->extend(config('Core')->layout_backend);?>
 <?=$this->section('style');?>
 <?=$this->endSection('style');?>

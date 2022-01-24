@@ -328,15 +328,6 @@ if (!function_exists('get_bib_id')) {
     }
 }
 
-if (!function_exists('get_imploded_array')) {
-    function get_imploded_array($post, $param)
-    {
-        $fixdata = (is_array($post) ?  implode($param, $post) : $post);
-
-        return $fixdata;
-    }
-}
-
 if (!function_exists('get_imploded_penerbit')) {
     function get_imploded_penerbit($post, $var = null)
     {

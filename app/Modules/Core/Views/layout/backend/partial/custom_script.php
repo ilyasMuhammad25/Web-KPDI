@@ -1,4 +1,11 @@
 <script>
+	$('.select2').select2({theme: "bootstrap4"});
+	$(".tags").select2({
+		allowClear: true,
+		tags: true,
+		tokenSeparators: [',']
+	});
+
     /* Sidebar */
     $('.close-sidebar-btn').click(function() {
         var classToSwitch = $(this).attr('data-class');

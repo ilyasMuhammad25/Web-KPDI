@@ -6,17 +6,17 @@
 	</li>
 	<li class="nav-item">
 		<a class="nav-link <?=($slug == 'loan')?'active':''?>" href="<?=base_url('anggota/online?slug=loan')?>">
-			<span><i class="header-icon lnr-enter"></i> Histori Peminjaman</span>
+			<span><i class="header-icon lnr-enter"></i> Daftar Peminjaman</span>
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link <?=($slug == 'reserve')?'active':''?>" href="<?=base_url('anggota/online?slug=reserve')?>">
-			<span><i class="header-icon lnr-cart"></i> Histori Pemesanan</span>
+			<span><i class="header-icon lnr-cart"></i> Daftar Pemesanan</span>
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link <?=($slug == 'request')?'active':''?>" href="<?=base_url('anggota/online?slug=request')?>">
-			<span><i class="header-icon lnr-bookmark"></i> Histori Usulan</span>
+			<span><i class="header-icon lnr-bookmark"></i> Daftar Usulan</span>
 		</a>
 	</li>
 

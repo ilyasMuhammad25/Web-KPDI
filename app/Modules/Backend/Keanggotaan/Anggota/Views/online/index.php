@@ -14,22 +14,22 @@ if($slug == 'profile'){
 
 if($slug == 'loan'){
 	$label = 'Peminjaman';
-	$label_title = 'Histori Peminjaman';
+	$label_title = 'Daftar Peminjaman';
 }
 
 if($slug == 'reserve'){
 	$label = 'Pemesanan';
-	$label_title = 'Histori Pemesanan';
+	$label_title = 'Daftar Pemesanan';
 }
 
 if($slug == 'request'){
 	$label = 'Usulan';
-	$label_title = 'Histori Usulan';
+	$label_title = 'Daftar Usulan';
 }
 
 if($slug == 'extend'){
 	$label = 'Perpanjangan';
-	$label_title = 'Histori Perpanjangan';
+	$label_title = 'Daftar Perpanjangan';
 }
 
 $member_no = user()->username;
@@ -67,7 +67,7 @@ $anggota = get_member($member_no);
 			<?=view('Anggota\Views\online\member_profile', array('member' => $member))?>
 		</div>
 		<div class="col-lg-9">
-			<?=view('Anggota\Views\online\section\\'.$slug, array('member'=> $member, 'anggota'=> $anggota, 'member_no'=> $member_no, 'slug' => $slug, 'slug_title' => $slug_title, 'label' => $label, 'label_title' => $label_title))?>
+			<?=view('Anggota\Views\online\section\\'.$slug, array('anggota'=> $anggota, 'is_anggota' => true, 'member'=> $member, 'member_no'=> $member_no, 'slug' => $slug, 'slug_title' => $slug_title, 'label' => $label, 'label_title' => $label_title))?>
 		</div>
 	</div>
 </div>
@@ -76,7 +76,4 @@ $anggota = get_member($member_no);
 
 <?= $this->section('script'); ?>
 <?=view('Anggota\Views\online\section\\'.$slug.'_script', array('member'=> $member, 'slug' => $slug, 'slug_title' => $slug_title, 'label' => $label, 'label_title' => $label_title))?>
-<script>
-	$('.select2').select2({theme: "bootstrap4"});
-</script>
 <?= $this->endSection('script'); ?>
