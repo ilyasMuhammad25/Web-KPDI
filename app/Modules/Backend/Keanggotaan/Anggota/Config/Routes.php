@@ -34,11 +34,7 @@ $routes->group('anggota', ['namespace' => 'Anggota\Controllers'], function ($sub
 	$subroutes->add('D_sumbangan', 'Anggota::D_sumbangan');
 	$subroutes->add('import', 'Anggota::import');
 	$subroutes->add('cetakKartu/(:any)', 'Anggota::cetakKartu/$1');
-<<<<<<< HEAD
 	$subroutes->add('bebaspustaka/(:any)', 'Anggota::bebaspustaka/$1');
-=======
-	$subroutes->add('extend/(:any)', 'Anggota::extend/$1');
->>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
 });
 
 $routes->group('api/anggota', ['namespace' => 'Anggota\Controllers\Api'], function ($subroutes) {
