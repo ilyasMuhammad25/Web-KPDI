@@ -40,6 +40,9 @@ $request->uri->setSilent();
                 <li class="nav-item dropdown active">
                     <a href="<?=base_url()?>" class="nav-link dropdown-toggle">Beranda</a>
                 </li>
+                <li class="nav-item dropdown ">
+                    <a href="<?=base_url()?>" class="nav-link dropdown-toggle">Buku Tamu</a>
+                </li>
                 <li class="nav-item dropdown submenu">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">

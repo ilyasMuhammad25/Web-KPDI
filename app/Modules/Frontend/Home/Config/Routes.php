@@ -18,5 +18,6 @@ $routes->group('home', ['namespace' => 'Home\Controllers'], function ($subroutes
 	$subroutes->add('anggota', 'Home::anggota');
 	$subroutes->add('detail/(:any)', 'Home::detail/param/$1');
 	$subroutes->add('page', 'Home::page');
+	$subroutes->add('guestbook', 'Home::guestbook');
 });
 

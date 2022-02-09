@@ -71,6 +71,7 @@ class Autoload extends AutoloadConfig
         'UsulanKoleksi' 	=> APPPATH . 'Modules/Backend/Keanggotaan/UsulanKoleksi',
         'PemesananKoleksi' 	=> APPPATH . 'Modules/Backend/Keanggotaan/PemesananKoleksi',
 		'JenisAnggota' 		=> APPPATH . 'Modules/Master/JenisAnggota',
+            'Bukutamu' => APPPATH . 'Modules/Backend/Bukutamu',
 	];
 
 	/**

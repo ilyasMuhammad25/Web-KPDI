@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-<form id="myform" method="post" action="">
-=======
 <form id="frm" method="post" action="<?=base_url('anggota/edit/'.$anggota->id.'/'.$is_anggota)?>">
->>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
 
     <div class="mb-3 card card-border">
         <div class="card-header-tab card-header">
@@ -165,14 +161,9 @@
                             <label><?=lang('Anggota.field.Jenisanggota')?>*</label>
                             <select class="form-control" name="ref_jenisanggota" id="ref_jenisanggota" tabindex="-1"
                                 aria-hidden="true">
-<<<<<<< HEAD
                                 <option value="" disabled selected>
                                     <?=lang('Anggota.field.Jenisanggota')?></option>
                                 <?php foreach(get_dropdown('m_jenis_anggota',null,'name','name') as $row):?>
-=======
-                                <option value="">-Pilih-</option>
-                                <?php foreach(get_dropdown('m_jenis_anggota',null) as $row):?>
->>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
                                 <option value="<?=$row->code?>"
                                     <?=($row->code == $anggota->ref_jenisanggota) ? 'selected':''?>><?=$row->text?>
                                 </option>
@@ -187,11 +178,7 @@
                         <div>
                             <input type="text" class="form-control datepicker" id="RegisterDate" name="RegisterDate"
                                 placeholder="Tempat Lahir"
-<<<<<<< HEAD
                                 value="<?= set_value('RegisterDate', tgl_indonesia($anggota->EndDate)); ?>" readonly />
-=======
-                                value="<?= set_value('RegisterDate', substr($anggota->RegisterDate,0,10)); ?>" />
->>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
                         </div>
                     </div>
@@ -200,16 +187,10 @@
                     <div class="position-relative form-group">
                         <label for="name"><?=lang('Anggota.field.Masaberlaku')?></label>
                         <div>
-<<<<<<< HEAD
                             <input type="text" class="form-control datepicker" id="frm_create_DateOfBirth" name="EndDate"
                                 placeholder=<?=lang('Anggota.field.Masaberlaku')?>
                                 value="<?= set_value('DateOfBirth', tgl_indonesia($anggota->EndDate)); ?>" />
                             <!-- <small class="info help-block text-muted">Judul Keangotaan</small> -->
-=======
-                            <input type="date" class="form-control" id="frm_create_EndDate" name="EndDate"
-                                placeholder=<?=lang('Anggota.field.Masaberlaku')?>
-                                value="<?= set_value('EndDate', substr($anggota->EndDate,0,10)); ?>"/>
->>>>>>> 375a1b24784fbe11f02dcea357af5456d21f9b0a
                         </div>
                     </div>
                 </div>

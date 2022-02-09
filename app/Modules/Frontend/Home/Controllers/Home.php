@@ -294,4 +294,12 @@ class Home extends \hamkamannan\adminigniter\Controllers\BaseController
 		$slug = $this->request->getVar('slug');
 		echo view('Home\Views\page\detail', $this->data);
 	}
+
+	public function guestbook()
+	{
+		$this->data['title'] = 'Buku Tamu';
+		
+		$slug = $this->request->getVar('slug');
+		return view('Home\Views\buku anggota\anggota', $this->data);
+	}
 }
